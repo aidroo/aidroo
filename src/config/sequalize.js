@@ -1,23 +1,37 @@
-// sequelize.js
-
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("aidroo_db", "aidroo_admin", "Aidroo@#_3", {
-  dialect: "mysql", // Change this according to your database type
-  dialectModule: require("mysql2"),
-  host: "38.45.71.124", // Database host
-  port: 3306, // Database port
-  logging: false,
-  define: {
-    timestamps: true, // Add timestamps (createdAt, updatedAt) to models
-  },
-});
+// // sequelize.js
+// const sequelize = new Sequelize(
+//   "mysql://mysql:43MLCNWGrtKyVsrOnMHswnTOKr6s3dfBJpVG6pu427ZwQVQVcaqDgI44qkWZ9du2@38.45.71.124:5432/aidroo_db"
+// );
+
+// export default sequelize;
+
 // import { Sequelize } from "sequelize";
 
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//   dialect: "mysql", // Change this according to your database type
-//   dialectModule: require("mysql2"),
-//   logging: false,
-// });
+const sequelize = new Sequelize(
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USER,
+  process.env.DATABASE_PASSWORD,
+  {
+    dialect: "mysql",
+    dialectModule: require("mysql2"),
+    host: process.env.HOST,
+    port: 3306,
+    logging: false,
+    define: {
+      timestamps: true,
+    },
+  }
+);
+// // import { Sequelize } from "sequelize";
+// //
+// // const sequelize = new Sequelize(process.env.DATABASE_URL, {
+// //   dialect: "mysql", // Change this according to your database type
+// //   dialectModule: require("mysql2"),
+// //   logging: false,
+// // });
 
 export default sequelize;
+
+// mysql://mysql:43MLCNWGrtKyVsrOnMHswnTOKr6s3dfBJpVG6pu427ZwQVQVcaqDgI44qkWZ9du2@38.45.71.124:5432/default

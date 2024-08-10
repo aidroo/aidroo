@@ -1,7 +1,0 @@
- 
-TOKEN_SECRET=srikanto
-TOKEN_SECRET_EXPIRE=1d
-
-DATABASE_URL=mysql://root:password@localhost:3306/db
-
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3000

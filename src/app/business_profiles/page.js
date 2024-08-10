@@ -26,6 +26,7 @@ import {
   verifiedIcon,
 } from "@/exportImage";
 import { shortenString } from "@/lib/utils";
+import Link from "next/link";
 
 import { FaRegPaperPlane } from "react-icons/fa6";
 
@@ -89,9 +90,12 @@ export default function Categories() {
                 />
                 <div className="flex flex-col space-y-1 ">
                   <div className="flex gap-2 items-center ">
-                    <h1 className={`text-gray-600  ${font16} font-semibold  `}>
+                    <Link
+                      href={`/business_profiles/${1}`}
+                      className={`text-gray-600  ${font16} font-semibold  `}
+                    >
                       Aidroo
-                    </h1>
+                    </Link>
 
                     <IconImage src={verifiedIcon} size={18} />
                   </div>
