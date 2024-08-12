@@ -1,4 +1,4 @@
-const paginationCalculator = (paginationOptions) => {
+export const paginationCalculator = (paginationOptions) => {
   const page = Number(paginationOptions.page) || 1;
   const limit = Number(paginationOptions.limit) || 8;
   const offset = (page - 1) * limit;
@@ -13,4 +13,3 @@ const paginationCalculator = (paginationOptions) => {
     sortOrder,
   };
 };
-module.exports = paginationCalculator;

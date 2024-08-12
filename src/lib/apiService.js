@@ -1,13 +1,13 @@
 import axiosInstance from "./axios";
 
 const apiService = {
-  getData: async (endpoint) => {
+  getData: async (endpoint, params) => {
     try {
-      const res = await axiosInstance.get(endpoint);
-
+      const res = await axiosInstance.get(endpoint, { params });
       return res;
     } catch (error) {
-      return error;
+      console.error("Error fetching data:", error);
+      throw error;
     }
   },
   addData: async (endpoint, data) => {

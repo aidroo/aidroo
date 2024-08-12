@@ -33,8 +33,6 @@ const QRCodeComponent = () => {
     document.body.removeChild(link);
   };
 
-  console.log(qrRef);
-
   return (
     <div>
       <div className="border flex  flex-col justify-center items-center rounded-lg py-4">

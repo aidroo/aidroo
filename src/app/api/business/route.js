@@ -1,6 +1,6 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
-import paginationCalculator from "@/utils/paginationCalculator";
+import { paginationCalculator } from "@/utils/paginationCalculator";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
 
@@ -10,11 +10,10 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
   // Extract query parameters
-  const businessName = searchParams.get("businessName");
+  const businessName = searchParams.get("searchTerm");
   const category = searchParams.get("category");
   const subcategory = searchParams.get("subcategory");
-  const minRating = searchParams.get("minRating");
-  const maxRating = searchParams.get("maxRating");
+  const rating = searchParams.get("rating");
   const verified = searchParams.get("verified");
   const claimed = searchParams.get("claimed");
   const guaranteed = searchParams.get("guaranteed");
@@ -35,10 +34,10 @@ export async function GET(req) {
   // Define filtering conditions
   const whereConditions = {
     ...(businessName && { businessName: { [Op.like]: `%${businessName}%` } }),
-    ...(category && { category }),
-    ...(subcategory && { subcategory }),
-    ...(minRating && { rating: { [Op.gte]: minRating } }),
-    ...(maxRating && { rating: { [Op.lte]: maxRating } }),
+    ...(category && { category: { [Op.like]: `%${category}%` } }),
+    ...(subcategory && { subcategory: { [Op.like]: `%${subcategory}%` } }),
+
+    ...(rating && { rating: { [Op.lte]: rating } }),
     ...(verified !== null && { verified: verified === "true" }),
     ...(claimed !== null && { claimed: claimed === "true" }),
     ...(guaranteed !== null && { guaranteed: guaranteed === "true" }),
@@ -46,8 +45,8 @@ export async function GET(req) {
 
   // Define address filtering conditions
   const addressConditions = {
-    ...(country && { country }),
-    ...(city && { city }),
+    ...(country && { country: { [Op.like]: `%${country}%` } }),
+    ...(city && { city: { [Op.like]: `%${city}%` } }),
   };
 
   try {
@@ -58,9 +57,9 @@ export async function GET(req) {
         include: [
           {
             model: db.Address,
-            as: "addresses ",
+            as: "addresses",
             where: addressConditions,
-            required: false,
+            required: true,
           },
         ],
         limit,
@@ -69,7 +68,7 @@ export async function GET(req) {
       });
 
     return NextResponse.json({
-      businessProfiles,
+      data: businessProfiles,
       totalRecords,
       totalPages: Math.ceil(totalRecords / limit),
       currentPage: parseInt(page, 10),

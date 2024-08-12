@@ -1,3 +1,4 @@
+"use client";
 import {
   Select,
   SelectContent,
@@ -6,10 +7,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
 
-export default function OptionSelect({ className, label = "", options = [] }) {
+export default function OptionSelect({
+  className,
+  label = "",
+  options = [],
+
+  onChange,
+}) {
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleValueChange = (value) => {
+    setSelectedValue(value);
+    if (onChange) {
+      onChange(value);
+    }
+  };
+
   return (
-    <Select className={` ${className}`}>
+    <Select
+      className={` ${className}`}
+      value={selectedValue}
+      onValueChange={handleValueChange}
+    >
       <SelectTrigger
         className={` min-w-32   dark:bg-gray-800 h-10   ${className}`}
       >
@@ -20,10 +41,10 @@ export default function OptionSelect({ className, label = "", options = [] }) {
           {options.map((option) => (
             <SelectItem
               key={option.value}
-              value={option.value}
+              value={option.name}
               className="text-sm"
             >
-              {option.label}
+              {option.name}
             </SelectItem>
           ))}
         </SelectGroup>

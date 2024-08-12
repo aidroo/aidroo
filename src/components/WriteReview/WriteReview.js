@@ -22,7 +22,7 @@ import PhoneCountry from "../PhoneNumberInput/PhoneCountry";
 export default function WriteReview() {
   const [isOpen, setIsOpen] = useState(false);
   const [phone, setPhone] = useState(false);
-  console.log(phone);
+
   const currentUser = {
     role: "admin",
   };
