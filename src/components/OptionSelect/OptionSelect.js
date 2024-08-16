@@ -40,7 +40,7 @@ export default function OptionSelect({
         <SelectGroup>
           {options.map((option) => (
             <SelectItem
-              key={option.value}
+              key={option.name}
               value={option.name}
               className="text-sm"
             >

@@ -2,20 +2,22 @@
 "use client";
 import Heading from "@/components/Heading";
 import CustomInput from "@/components/InputComponent/CustomInput";
+import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { countries } from "@/constant";
+import { countries, font14 } from "@/constant";
 import { useDebounce } from "@/hooks/useDebaunce";
 import apiService from "@/lib/apiService";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
 import { SlLock } from "react-icons/sl";
+import useSWR from "swr";
 
 export default function PersonalSignup() {
   const {
@@ -29,25 +31,22 @@ export default function PersonalSignup() {
   const [phone, setPhone] = useState("");
   const [apiError, setApierror] = useState("");
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const debouncedUsername = useDebounce(username, 1000);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchuser = async () => {
-      const user = await apiService.getData(
-        debouncedUsername ? `/api/user?username=${debouncedUsername}` : null
-      );
-      setUserData(user);
-    };
-    fetchuser();
-  }, [debouncedUsername]);
-
+  const fetcher = (url) => apiService.singeDataFetching(url);
+  const { data, error, isLoading } = useSWR(
+    debouncedUsername ? `/api/user?username=${debouncedUsername}` : null,
+    fetcher
+  );
+  console.log(country);
   const onSubmit = async (data) => {
     data.phoneNumber = phone;
     data.role = "personal";
     data.username = username;
+    data.country = country;
     setLoading(true);
     clearErrors();
     setApierror("");
@@ -106,7 +105,13 @@ export default function PersonalSignup() {
           required
           onChange={(e) => setUsername(e.target.value)}
         />
-        {username !== "" && !userData?.data?.user && (
+        {isLoading && (
+          <div
+            className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white pr-4 mr-4"
+            role="status"
+          ></div>
+        )}
+        {!isLoading && username !== "" && !data?.user && (
           <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
         )}
       </div>
@@ -141,15 +146,12 @@ export default function PersonalSignup() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <PhoneCountry setPhone={setPhone} />
-        <CustomInput
-          type="select"
-          name="country"
-          placeholder="Select your country"
-          control={control}
-          register={register}
+        <OptionSelect
+          label="Select a country"
           options={countries}
-          className="border"
-          label="Country"
+          className={`text-gray-600 ${font14} h-10`}
+          onChange={setCountry}
+          value={country}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -182,7 +184,9 @@ export default function PersonalSignup() {
         <p className="text-red-400">{errors.confirmPassword.message}</p>
       )}
       {apiError && (
-        <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
+        <p className="text-red-400 bg-red-100 p-2 rounded-md">
+          {apiError || error}
+        </p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

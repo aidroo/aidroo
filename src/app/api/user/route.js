@@ -3,10 +3,12 @@ import db from "@/config/model";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
+
 export async function POST(req) {
   await connectToDatabase();
-  const body = await req.json();
 
+  // Parse the request body
+  const body = await req.json();
   const {
     username,
     email,
@@ -28,9 +30,19 @@ export async function POST(req) {
     subcategory,
   } = body;
 
+  // Validate required fields
+  if (!username || !email || !password) {
+    return NextResponse.json(
+      { status: 400, message: "Username, email, and password are required." },
+      { status: 400 }
+    );
+  }
+
   try {
+    // Hash the password
     const hashPassword = await bcrypt.hash(password, 10);
 
+    // Check if the user already exists
     const existingUser = await db.User.findOne({
       where: {
         [Op.or]: [{ email }, { username }],
@@ -38,9 +50,13 @@ export async function POST(req) {
     });
 
     if (existingUser) {
-      return NextResponse.json({ status: 400, message: "User already exists" });
+      return NextResponse.json(
+        { status: 400, message: "User already exists." },
+        { status: 400 }
+      );
     }
 
+    // Create the new user
     const user = await db.User.create({
       username,
       email,
@@ -48,9 +64,9 @@ export async function POST(req) {
       role,
     });
 
-    // Send response to the client immediately after user registration
+    // Send the initial response to the client
     const response = NextResponse.json(
-      { status: 201, message: "User registered successfully" },
+      { status: 201, message: "User registered successfully." },
       { status: 201 }
     );
 
@@ -59,7 +75,7 @@ export async function POST(req) {
       try {
         if (role === "personal") {
           await db.PersonalProfile.create({
-            userId: user.id,
+            username: user.username,
             firstName,
             lastName,
             dob,
@@ -67,7 +83,7 @@ export async function POST(req) {
           });
         } else if (role === "business") {
           await db.BusinessProfile.create({
-            userId: user.id,
+            username: user.username,
             businessName,
             businessType,
             phoneNumber,
@@ -77,7 +93,7 @@ export async function POST(req) {
         }
 
         await db.Address.create({
-          profileId: user.id,
+          username: user.username,
           street,
           city,
           state,
@@ -93,7 +109,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("Error registering user:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { status: 500, message: "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -101,28 +117,39 @@ export async function POST(req) {
 
 export async function GET(req) {
   await connectToDatabase();
+
   const { searchParams } = new URL(req.url);
   const username = searchParams.get("username");
 
+  if (!username) {
+    return NextResponse.json(
+      { status: 400, message: "Username is required." },
+      { status: 400 }
+    );
+  }
+
   try {
-    const response = await db.User.findOne({
+    const user = await db.User.findOne({
       where: { username },
       attributes: ["email", "username"],
     });
 
-    if (!response) {
-      return NextResponse.json("User not found", 404);
+    if (!user) {
+      return NextResponse.json(
+        { status: 404, message: "User not found." },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({
-      user: response,
-      status: 200,
-      message: "User fetched successfully",
-    });
+    return NextResponse.json(
+      { status: 200, message: "User fetched successfully.", user },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({
-      error: error.message || "Internal Server Error",
-      status: error.status || 500,
-    });
+    console.error("Error fetching user:", error);
+    return NextResponse.json(
+      { status: 500, message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

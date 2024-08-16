@@ -7,29 +7,30 @@ const Address = sequelize.define(
   "Address",
   {
     // Define attributes
-    profileId: {
-      type: DataTypes.INTEGER,
+    username: {
+      type: DataTypes.STRING,
       references: {
-        model: "PersonalProfiles",
-        key: "id",
+        model: "Users",
+        key: "username",
       },
+      allowNull: false,
     },
 
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: null,
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: null,
     },
     zipCode: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: null,
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: null,
     },
   },
   {

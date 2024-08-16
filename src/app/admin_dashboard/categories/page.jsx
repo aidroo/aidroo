@@ -5,62 +5,46 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import apiService from "@/lib/apiService";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
+import useSWR from "swr";
 
 export default function Categories() {
   const [categoryText, setCategoryText] = useState("");
-  const [categoryData, setCategoryData] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
 
-  // Fetch categories with memoization to avoid unnecessary re-fetching
-  const fetchCategories = useCallback(async (page = 1) => {
-    try {
-      setLoading(true);
-      const response = await apiService.getData(
-        `/api/category?page=${page}&limit=${itemsPerPage}`
-      );
-      if (response?.data.status === 201) {
-        setCategoryData(response?.data?.data || []);
-        setTotalPages(response?.data?.totalPages || 1);
-        // setSuccess(response?.data?.message);
-      } else setError(response?.data?.message);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const fetcher = (url) => apiService.getData(url);
+  const {
+    data,
+    error: apiError,
+    mutate,
+    isLoading,
+  } = useSWR(
+    ["/api/category", { page: currentPage, limit: itemsPerPage }],
+    fetcher
+  );
 
-  // Handle category creation
   const handleCategorySubmit = async (e) => {
-    setError("");
+    setError(null);
     e.preventDefault();
     if (!categoryText) return;
 
     try {
-      const response = await apiService.addData(`/api/category`, {
+      const response = await apiService.addData("/api/category", {
         name: categoryText,
       });
-      if (response?.status === 201) {
-        setCategoryData((prev) => [...prev, response?.data]);
-        fetchCategories(currentPage);
-        setCategoryText("");
-      } else setError(response?.message);
 
-      setCategoryText(""); // Clear input after submission
+      if (response?.status === 201) {
+        setCategoryText("");
+        mutate();
+      } else {
+        setError(response.message);
+      }
     } catch (error) {
-      console.log(error);
       setError(error.message);
     }
   };
-
-  useEffect(() => {
-    fetchCategories(currentPage);
-  }, [currentPage]);
 
   return (
     <div className="space-y-10">
@@ -75,7 +59,7 @@ export default function Categories() {
             value={categoryText}
             onChange={(e) => setCategoryText(e.target.value)}
           />
-          {error && <h1 className="p-2 text-red-200">{error}</h1>}
+          {error && <h1 className="p-2 text-red-200">{error || apiError}</h1>}
           <Button variant="hover" size="lg" type="submit">
             Create
           </Button>
@@ -88,12 +72,12 @@ export default function Categories() {
           </div>
           <Table className="ms-2 space-y-4 overflow-x-hidden border">
             <TableBody>
-              {loading ? (
+              {isLoading ? (
                 <TableRow>
                   <TableCell>Loading...</TableCell>
                 </TableRow>
-              ) : categoryData?.length > 0 ? (
-                categoryData.map((item) => (
+              ) : data?.data?.length > 0 ? (
+                data?.data?.map((item) => (
                   <TableRow key={item?.id}>
                     <TableCell className="font-medium">{item?.name}</TableCell>
                   </TableRow>
@@ -109,13 +93,13 @@ export default function Categories() {
           <PaginationComponent
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
+            totalPages={data?.totalPages}
           />
         </div>
       </div>
 
       {/* Sub Category */}
-      <Subcategory categoryData={categoryData} />
+      <Subcategory mutateCategories={mutate} />
     </div>
   );
 }

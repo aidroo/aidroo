@@ -1,21 +1,24 @@
 "use client";
+import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
 import CustomInput from "@/components/InputComponent/CustomInput";
+import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { categories, countries } from "@/constant";
+import { countries, font14 } from "@/constant";
 import { category } from "@/exportImage";
 import { useDebounce } from "@/hooks/useDebaunce";
 import apiService from "@/lib/apiService";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
 import { SlLock } from "react-icons/sl";
+import useSWR from "swr";
 
 export default function BusinessPage() {
   const {
@@ -30,20 +33,36 @@ export default function BusinessPage() {
   const [phone, setPhone] = useState("");
   const [apiError, setApiError] = useState("");
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [country, setCountry] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const debouncedUsername = useDebounce(username, 500);
   const router = useRouter();
   // user checking with debounce
-  useEffect(() => {
-    const fetchuser = async () => {
-      const user = await apiService.getData(
-        debouncedUsername ? `/api/user?username=${debouncedUsername}` : null
-      );
-      setUserData(user?.data?.message);
-    };
-    fetchuser();
-  }, [debouncedUsername]);
+
+  // Assuming you have a debounce hook
+  const fetcher = (url) => apiService.singeDataFetching(url);
+  const { data, error, isLoading } = useSWR(
+    debouncedUsername ? `/api/user?username=${debouncedUsername}` : null,
+    fetcher
+  );
+
+  // fetching category list
+
+  const {
+    data: categoryData,
+    error: categoryError,
+
+    isLoading: categoryLoading,
+  } = useSWR("/api/category", (url) => apiService.getData(url));
+
+  const {
+    data: subcategoryData,
+    error: subcategoryError,
+
+    isLoading: subcategoryLoading,
+  } = useSWR("/api/subcategory", (url) => apiService.getData(url));
 
   const onSubmit = async (data) => {
     clearErrors();
@@ -52,6 +71,9 @@ export default function BusinessPage() {
     data.role = "business";
     data.username = username;
     data.businessType = "IT";
+    data.category = selectedCategory?.name;
+    data.subcategory = selectedSubcategory?.name;
+    data.country = country;
     // checking password and confirm password match
     const { confirmPassword, ...validData } = data;
     if (data.password !== confirmPassword) {
@@ -64,6 +86,7 @@ export default function BusinessPage() {
     }
 
     try {
+      setLoading(true);
       const response = await apiService.addData("/api/user", validData);
 
       if (response.status === 201) {
@@ -101,8 +124,14 @@ export default function BusinessPage() {
             required
             onChange={(e) => setUsername(e.target.value)}
           />
-          {username !== "" && !userData?.data?.user && (
-            <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
+          {isLoading && (
+            <div
+              className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white pr-4 mr-4"
+              role="status"
+            ></div>
+          )}
+          {!isLoading && username !== "" && !data?.user && (
+            <BsCheckCircleFill className="text-primary_color text-3xl mr-2" />
           )}
         </div>
         <CustomInput
@@ -120,30 +149,27 @@ export default function BusinessPage() {
           <div className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm flex items-center justify-center">
             <IconImage src={category} size={24} alt="icon" />
           </div>
-          <CustomInput
-            type="select"
-            name="category"
-            placeholder="Select your language"
-            control={control}
-            register={register}
-            options={categories}
-            className="border"
-            label="Category"
+          <Combobox
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            options={categoryData?.data}
+            isLoading={categoryLoading}
+            error={categoryError}
+            className="border-none"
+            placeholder="category"
           />
         </div>
         <div className="flex items-center border rounded-md ">
           <div className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm flex items-center justify-center">
             <IconImage src={category} size={24} alt="icon" />
           </div>
-          <CustomInput
-            type="select"
-            name="subcategory"
-            placeholder="Select your category"
-            control={control}
-            register={register}
-            options={categories}
-            className="border-none"
-            label=" Sub category"
+          <Combobox
+            selectedCategory={selectedSubcategory}
+            setSelectedCategory={setSelectedSubcategory}
+            options={subcategoryData?.data}
+            isLoading={subcategoryLoading}
+            error={subcategoryError}
+            placeholder="subcategory"
           />
         </div>
       </div>
@@ -170,14 +196,12 @@ export default function BusinessPage() {
 
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
         <PhoneCountry setPhone={setPhone} />
-        <CustomInput
-          type="select"
-          name="country"
-          placeholder="Select your language"
-          control={control}
-          register={register}
+        <OptionSelect
+          label="Select a country"
           options={countries}
-          label="Chose country"
+          className={`text-gray-600 ${font14} h-10`}
+          onChange={setCountry}
+          value={country}
         />
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -211,7 +235,9 @@ export default function BusinessPage() {
         <p className="text-red-400">{errors.confirmPassword.message}</p>
       )}
       {apiError && (
-        <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
+        <p className="text-red-400 bg-red-100 p-2 rounded-md">
+          {apiError || error}
+        </p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

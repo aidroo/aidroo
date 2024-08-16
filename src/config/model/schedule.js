@@ -1,24 +1,16 @@
-// models/schedule.js
 import { DataTypes } from "sequelize";
 import sequelize from "../sequalize";
 
 const Schedule = sequelize.define(
   "Schedule",
   {
-    // Define attributes
-    personalProfileId: {
-      type: DataTypes.INTEGER,
+    username: {
+      type: DataTypes.STRING,
       references: {
-        model: "PersonalProfiles",
-        key: "id",
+        model: "Users",
+        key: "username",
       },
-    },
-    businessProfileId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "BusinessProfiles",
-        key: "id",
-      },
+      allowNull: false,
     },
     day: {
       type: DataTypes.ENUM(
@@ -30,14 +22,19 @@ const Schedule = sequelize.define(
         "Saturday",
         "Sunday"
       ),
-      allowNull: false,
+      allowNull: false, // Make sure a day is always specified
     },
     openingTime: {
-      type: DataTypes.TIME,
-      allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     closingTime: {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    status: {
+      type: DataTypes.ENUM("open", "closed"),
+      defaultValue: "closed",
       allowNull: false,
     },
   },

@@ -1,57 +1,54 @@
-// models/business-profile.js
 import { DataTypes } from "sequelize";
 import sequelize from "../sequalize";
 
 const BusinessProfile = sequelize.define(
   "BusinessProfile",
   {
-    // Define attributes
-    userId: {
-      type: DataTypes.INTEGER,
+    username: {
+      type: DataTypes.STRING(255),
       references: {
         model: "Users",
-        key: "id",
+        key: "username",
       },
+
       allowNull: false,
     },
     businessName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
+    },
+
+    profileThumb: {
+      type: DataTypes.STRING(1000),
+      allowNull: true, // allowNull: true is more explicit than defaultValue: null
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     businessType: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      allowNull: true,
     },
     category: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     subcategory: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-
     status: {
-      type: DataTypes.ENUM(["approved", "pending", "deleted"]),
+      type: DataTypes.ENUM("approved", "pending", "deleted"), // Enum values as strings
       defaultValue: "pending",
     },
-
     rating: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
-      min: 0,
-      max: 5,
-      validate: {
-        isFloat: {
-          args: true,
-          msg: "Rating must be a floating-point number.",
-        },
-      },
     },
     verified: {
       type: DataTypes.BOOLEAN,

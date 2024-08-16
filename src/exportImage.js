@@ -8,6 +8,10 @@ import helpIcon from "@/asserts/mobile-icons/support.svg";
 import search from "@/asserts/search.svg";
 import bagIcon from "@/public/icons/bag.svg";
 import brifcaseIcon from "@/public/icons/businessbriefcase.svg";
+import ceoIcon from "@/public/icons/ceo.svg";
+import claimedIcon from "@/public/icons/claimed.svg";
+import claimWithBusiness from "@/public/icons/claimthisbusiness.svg";
+import dealonIcon from "@/public/icons/dealon.svg";
 import categories from "@/public/icons/jobposticons/categories.svg";
 import hashtag from "@/public/icons/jobposticons/hashtag.svg";
 import locationIcon from "@/public/icons/jobposticons/locationicon.svg";
@@ -17,11 +21,8 @@ import schedule from "@/public/icons/jobposticons/schedule.svg";
 import loginIcon from "@/public/icons/loginicon.svg";
 import logoutIcon from "@/public/icons/logouticon.svg";
 import messageIcon from "@/public/icons/messages.svg";
+import notFound from "@/public/icons/notfound.svg";
 import notificationIcon from "@/public/icons/notifications.svg";
-import addyourbusiness from "@/public/icons/profile/addyourbusiness.svg";
-import whitesearch from "@/public/icons/whitesearch.svg";
-
-import claimWithBusiness from "@/public/icons/claimthisbusiness.svg";
 import businessverified from "@/public/icons/pricising_plan/businessverified.svg";
 import clientsmanagement from "@/public/icons/pricising_plan/clientsmanagement.svg";
 import crossmark from "@/public/icons/pricising_plan/crossmark.svg";
@@ -30,6 +31,7 @@ import guaranteedbadge from "@/public/icons/pricising_plan/guaranteedbadge.svg";
 import plaimedbadge from "@/public/icons/pricising_plan/plaimedbadge.svg";
 import tikmark from "@/public/icons/pricising_plan/tikmark.svg";
 import topplacement from "@/public/icons/pricising_plan/topplacement.svg";
+import addyourbusiness from "@/public/icons/profile/addyourbusiness.svg";
 import myorder from "@/public/icons/profile/myorder.svg";
 import myprofile from "@/public/icons/profile/myprofile.svg";
 import myReview from "@/public/icons/profile/myreviews.svg";
@@ -44,24 +46,40 @@ import instagram from "@/public/icons/social/instagram.svg";
 import linkedin from "@/public/icons/social/linkedin.svg";
 import twitter from "@/public/icons/social/twitter.svg";
 import youtube from "@/public/icons/social/youtube.svg";
+import earningIcon from "@/public/icons/usd.svg";
 import user from "@/public/icons/user.svg";
 import verifiedIcon from "@/public/icons/verified.svg";
-import profilePic from "@/public/images/profile.jpg";
+import whitesearch from "@/public/icons/whitesearch.svg";
 
+import topplacementBadge from "@/public/icons/topplacement.svg";
+import workerIcon from "@/public/icons/worker.svg";
+import businessProfilePic from "@/public/images/business.svg";
+import google from "@/public/images/google.svg";
+import profileImage, {
+  default as profilePic,
+} from "@/public/images/profile.jpg";
+import srsoft from "@/public/images/srsoft.svg";
+import tesla from "@/public/images/tesla.svg";
 export {
   addyourbusiness,
   bagIcon,
   brifcaseIcon,
   businessIcon,
+  businessProfilePic,
   businessverified,
   categories,
   category,
+  ceoIcon,
+  claimedIcon,
   claimWithBusiness,
   clientsmanagement,
   crossmark,
+  dealonIcon,
+  earningIcon,
   facebook,
   featuredbadge,
   filter,
+  google,
   guaranteedbadge,
   hashtag,
   helpIcon,
@@ -74,14 +92,16 @@ export {
   logoutIcon,
   messageIcon,
   moneyBag,
-  myReview,
   myorder,
   myprofile,
+  myReview,
+  notFound,
   notificationIcon,
   pageIcon,
   photoadd,
   plaimedbadge,
   pricingPlan,
+  profileImage,
   profilePic,
   reportIcon,
   reviewIcon,
@@ -89,12 +109,16 @@ export {
   search,
   signout,
   singoutIcon,
+  srsoft,
+  tesla,
   tikmark,
   topplacement,
+  topplacementBadge,
   twitter,
   user,
   userdashboard,
   verifiedIcon,
   whitesearch,
+  workerIcon,
   youtube,
 };

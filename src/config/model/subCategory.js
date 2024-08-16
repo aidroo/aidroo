@@ -10,10 +10,11 @@ const SubCategory = sequelize.define(
         model: "Categories",
         key: "id",
       },
+      allowNull: false, // Ensure each subcategory is linked to a category
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING(255),
+      allowNull: false, // Ensure a name is provided
     },
   },
   {
@@ -21,4 +22,4 @@ const SubCategory = sequelize.define(
   }
 );
 
-module.exports = SubCategory;
+export default SubCategory;

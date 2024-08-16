@@ -2,40 +2,31 @@ import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
 import { NextResponse } from "next/server";
 
-// POST: Create a new subcategory
 export async function POST(req) {
-  try {
-    const body = await req.json();
-    const { name } = body;
+  const body = await req.json();
+  const { comment, title, username, rating } = body;
 
-    if (!name) {
-      return NextResponse.json({
-        status: 400,
-        message: "Name is required.",
-      });
-    }
-
-    await connectToDatabase();
-
-    // Check if the category already exists
-    const existingCategory = await db.Category.findOne({
-      where: { name },
+  if (!comment && !title && !username) {
+    return NextResponse.json({
+      status: 400,
+      message: "title,comment,  is required.",
     });
+  }
 
-    if (existingCategory) {
-      return NextResponse.json({
-        status: 409,
-        message: "Category name already exists.",
-      });
-    }
-
+  await connectToDatabase();
+  try {
     // Create the category
-    const newCategory = await db.Category.create({ name });
+    const newReview = await db.Review.create({
+      comment,
+      title,
+      rating,
+      username,
+    });
 
     return NextResponse.json({
       status: 201,
-      message: "Category created successfully.",
-      data: newCategory,
+      message: "Review  created successfully.",
+      data: newReview,
     });
   } catch (error) {
     console.error("Error creating category:", error);
@@ -46,7 +37,6 @@ export async function POST(req) {
   }
 }
 
-// GET: Fetch subcategories with pagination
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
@@ -73,13 +63,13 @@ export async function GET(req) {
     }
 
     const { rows: categories, count: totalRecords } =
-      await db.Category.findAndCountAll(queryOptions);
+      await db.Review.findAndCountAll(queryOptions);
 
     const totalPages = limit ? Math.ceil(totalRecords / limit) : 1;
 
     return NextResponse.json({
       status: 201,
-      message: "Categories fetched successfully.",
+      message: "Reviews fetched successfully.",
       totalRecords,
       totalPages,
       currentPage: page || 1,

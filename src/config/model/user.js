@@ -6,14 +6,11 @@ const User = sequelize.define(
   "User",
   {
     // Define attributes
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
       unique: true,
     },
     email: {

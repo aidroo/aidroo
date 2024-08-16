@@ -7,7 +7,7 @@ import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/hooks/useAuth";
-import axiosInstance from "@/lib/axios";
+import apiService from "@/lib/apiService";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,23 +23,21 @@ export default function Login() {
 
   const { setCurrentUser } = useAuth();
   const onSubmit = async (data) => {
-    // submit the form
-
     try {
       setLoading(true);
       setError("");
-      const response = await axiosInstance.post("/api/auth/login", data);
+      const response = await apiService.addData("/api/auth/login", data);
 
-      if (response?.data.status === 201 || response.data.status === 200) {
-        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+      if (response?.status === 201 || response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response?.user));
 
-        setCurrentUser(response?.data.user);
+        setCurrentUser(response?.user);
         router.push("/");
       } else {
-        setError(response.data.message);
+        setError(response.message);
       }
     } catch (error) {
-      setError(error.data?.message);
+      setError(error.message);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 import { font14, font16 } from "@/constant";
 import {
   brifcaseIcon,
+  businessProfilePic,
   categories,
   category,
   locationIcon,
@@ -38,45 +39,58 @@ let str = ` I had a seamless experience with Panacea.professionals do not unders
                                       eveniet provident deleniti mollitia
                                       adipisci quis! Similique asperiores
                                       quisquam deleniti neque cum?`;
-export default function BusinessProfileCard() {
+export default function BusinessProfileCard({ businessProfile, id }) {
+  const {
+    businessName = "",
+    rating = 5,
+    verified = false,
+    profileThumb = "",
+  } = businessProfile.businessProfile;
+  const { country = "", city = "" } = businessProfile.addresses;
   return (
-    <>
+    <div className="mb-4">
       <div className="flex gap-4 items-center  p-4  ">
-        <IconImage
-          src={profilePic}
-          alt="profile pic"
-          size={90}
-          className="rounded-sm"
-        />
+        <div className=" rounded-md ring-1">
+          <IconImage
+            src={profileThumb || businessProfilePic}
+            alt="profile pic"
+            size={90}
+            className="rounded-sm"
+          />
+        </div>
         <div className="flex flex-col space-y-1 ">
           <div className="flex gap-2 items-center ">
             <Link
-              href={`/business_profiles/${1}`}
+              href={`/business/${id}`}
               className={`text-gray-600  ${font16} font-semibold  `}
             >
-              Aidroo
+              {businessName}
             </Link>
 
-            <IconImage src={verifiedIcon} size={18} />
+            {verified && <IconImage src={verifiedIcon} size={18} />}
           </div>
           {/*rating */}
           <div className="md:flex gap-4  items-center  space-y-2 md:space-y-0 ">
             <div className="flex gap-1 ">
-              <Rating value={5} size={18} />
+              <Rating value={rating} size={18} />
             </div>
             <h1 className="text-gray-600 text-sm  ">
-              <span>4.5 | 102 Reviews</span>
+              <span>{rating} </span>
             </h1>
           </div>
           <div className="flex gap-2 items-center  text-gray-600">
             <FaRegPaperPlane className="text-[12px]" />
-            <h1 className="text-sm  ">Newyork , United States</h1>
+            <h1 className="text-sm  ">
+              {city} , {country}
+            </h1>
           </div>
           {/* 
       category
       */}
         </div>
       </div>
+
+      {/* job */}
       <div className="px-4 py-1 flex justify-between md:hidden">
         <div className="flex gap-1 items-center ">
           <IconImage src={category} size={15} alt="category" />
@@ -87,6 +101,10 @@ export default function BusinessProfileCard() {
           <h1 className="text-sm">Digital Agency</h1>
         </div>
       </div>
+
+      {/* 
+      review
+      */}
       <div className=" border-t px-4 py-2">
         <Accordion type="single" collapsible className="">
           <AccordionItem value="item-1" className="border-b-0">
@@ -306,6 +324,6 @@ export default function BusinessProfileCard() {
           </AccordionItem>
         </Accordion>
       </div>
-    </>
+    </div>
   );
 }

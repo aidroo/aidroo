@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-
+/* *************production ******************/
 const sequelize = new Sequelize(
   "default",
   "mysql",
@@ -16,14 +16,7 @@ const sequelize = new Sequelize(
   }
 );
 
-//
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//   dialect: "mysql", // Change this according to your database type
-//   dialectModule: require("mysql2"),
-//   logging: false,
-// });
-
-// development
+/* *************development ******************/
 
 // const sequelize = new Sequelize("db", "root", "password", {
 //   dialect: "mysql",

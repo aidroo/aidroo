@@ -1,6 +1,7 @@
 // app/api/auth/login/route.js
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
+import Address from "@/config/model/address";
 import BusinessProfile from "@/config/model/business-profile";
 import PersonalProfile from "@/config/model/personal-profile";
 import ApiError from "@/utils/ApiError";
@@ -31,6 +32,12 @@ export async function POST(req) {
         {
           model: PersonalProfile,
           as: "personalProfile",
+          required: false,
+        },
+        {
+          model: Address,
+
+          as: "addresses",
           required: false,
         },
       ],
@@ -65,10 +72,9 @@ export async function POST(req) {
     const userData = {
       userId: user.id,
       username: user.username,
-      name:
-        user.personalProfile?.firstName +
-          " " +
-          user.personalProfile?.lastName || user.businessProfile?.businessName,
+      businessProfile: user?.businessProfile,
+      personalProfile: user?.personalProfile,
+      addresses: user?.addresses,
     };
 
     // Create a response

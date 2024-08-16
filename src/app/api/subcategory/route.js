@@ -52,7 +52,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
 
     const page = parseInt(searchParams.get("page")) || 1;
-    const limit = parseInt(searchParams.get("limit")) || 10;
+    const limit = parseInt(searchParams.get("limit")) || 5;
     const offset = (page - 1) * limit;
 
     if (page < 1 || limit < 1) {
@@ -77,10 +77,10 @@ export async function GET(req) {
     return NextResponse.json({
       status: 201,
       message: "Subcategories fetched successfully.",
-      data: subcategories,
       totalRecords,
       totalPages,
       currentPage: page,
+      data: subcategories,
     });
   } catch (error) {
     console.error("Error fetching subcategories:", error);

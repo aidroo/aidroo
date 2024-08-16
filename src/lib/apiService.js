@@ -1,15 +1,38 @@
 import axiosInstance from "./axios";
 
 const apiService = {
-  getData: async (endpoint, params) => {
+  getData: async (request) => {
     try {
-      const res = await axiosInstance.get(endpoint, { params });
-      return res;
+      let endpoint;
+      let queryParams = {};
+
+      // Check if the request is an array (for paginated requests)
+      if (Array.isArray(request)) {
+        [endpoint, queryParams] = request;
+      } else {
+        // If request is a string (non-paginated)
+        endpoint = request;
+      }
+
+      const res = await axiosInstance.get(endpoint, { params: queryParams });
+
+      return res?.data;
     } catch (error) {
       console.error("Error fetching data:", error);
       throw error;
     }
   },
+  singeDataFetching: async (endpoint) => {
+    try {
+      const res = await axiosInstance.get(endpoint);
+
+      return res.data;
+    } catch (error) {
+      console.error("Error updating data:", error);
+      throw error;
+    }
+  },
+
   addData: async (endpoint, data) => {
     try {
       const res = await axiosInstance.post(endpoint, data);
@@ -19,6 +42,7 @@ const apiService = {
       throw error;
     }
   },
+
   updateData: async (endpoint, id, data) => {
     try {
       const res = await axiosInstance.put(`${endpoint}/${id}`, data);
@@ -28,6 +52,7 @@ const apiService = {
       throw error;
     }
   },
+
   deleteData: async (endpoint, id) => {
     try {
       const res = await axiosInstance.delete(`${endpoint}/${id}`);

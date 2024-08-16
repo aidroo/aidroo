@@ -35,7 +35,7 @@ const QRCodeComponent = () => {
 
   return (
     <div>
-      <div className="border flex  flex-col justify-center items-center rounded-lg py-4">
+      <div className="border flex  flex-col justify-center items-center rounded-lg py-[10px] mb-10">
         <div
           className="flex items-center gap-6 cursor-pointer"
           onClick={handleChange}

@@ -22,7 +22,9 @@ import { cn } from "@/lib/utils";
 export function Combobox({
   selectedCategory,
   setSelectedCategory,
-  categoryData,
+  options = [],
+  isLoading = false,
+  placeholder = "",
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -35,42 +37,49 @@ export function Combobox({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedCategory?.name || "Select category..."}
+          {selectedCategory?.name || `Select ${placeholder}`}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {categoryData.map((framework) => (
-                <CommandItem
-                  key={framework?.value}
-                  value={framework?.name}
-                  onSelect={() => {
-                    setSelectedCategory(
-                      selectedCategory?.name === framework?.name
-                        ? null
-                        : framework
-                    );
-                    setOpen(false);
-                  }}
-                >
-                  {framework?.name}
-                  <CheckIcon
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      selectedCategory?.name === framework?.name
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
+          <CommandInput
+            placeholder={`Search  ${placeholder}...`}
+            className="h-9"
+          />
+          {isLoading ? (
+            "Loading..."
+          ) : (
+            <CommandList>
+              <CommandEmpty>No {placeholder} found.</CommandEmpty>
+              <CommandGroup>
+                {options?.map((framework) => (
+                  <CommandItem
+                    key={framework?.id}
+                    value={framework?.name}
+                    onSelect={() => {
+                      setSelectedCategory(
+                        selectedCategory?.name === framework?.name
+                          ? null
+                          : framework
+                      );
+                      setOpen(false);
+                    }}
+                  >
+                    {framework?.name}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        selectedCategory?.name === framework?.name
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          )}
         </Command>
       </PopoverContent>
     </Popover>

@@ -3,9 +3,8 @@ import Rating from "@/components/Rating/Rating";
 
 import { Progress } from "@/components/ui/progress";
 
-import { font14, font16, options } from "@/constant";
+import { font14, font16 } from "@/constant";
 import topplacementBadge from "@/public/icons/topplacement.svg";
-import OptionSelect from "../OptionSelect/OptionSelect";
 import PaginationComponent from "../Pagination/PaginationComponent";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import WriteReview from "../WriteReview/WriteReview";
@@ -34,11 +33,7 @@ export default function PublicReview() {
           ))}
         </div>
       </div>
-      {/* filter */}
-      <div className="flex justify-between px-4 gap-8">
-        <OptionSelect label="country" options={options} />
-        <OptionSelect label="country" options={options} />
-      </div>
+
       {/* reviews card */}
       <ReviewCard />
       <PaginationComponent />

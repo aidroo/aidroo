@@ -2,8 +2,7 @@
 import { useState } from "react";
 import Star from "../Star/Star";
 
-const Rating = ({ isEditable = false, value, size }) => {
-  const [rating, setRating] = useState(0);
+const Rating = ({ isEditable = false, value, size, rating, setRating }) => {
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleRatingChange = (newRating) => {

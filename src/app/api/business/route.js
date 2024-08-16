@@ -34,10 +34,10 @@ export async function GET(req) {
   // Define filtering conditions
   const whereConditions = {
     ...(businessName && { businessName: { [Op.like]: `%${businessName}%` } }),
-    ...(category && { category: { [Op.like]: `%${category}%` } }),
-    ...(subcategory && { subcategory: { [Op.like]: `%${subcategory}%` } }),
+    ...(category && { category }),
+    ...(subcategory && { subcategory }),
 
-    ...(rating && { rating: { [Op.lte]: rating } }),
+    ...(rating && { rating: rating }),
     ...(verified !== null && { verified: verified === "true" }),
     ...(claimed !== null && { claimed: claimed === "true" }),
     ...(guaranteed !== null && { guaranteed: guaranteed === "true" }),
@@ -45,35 +45,41 @@ export async function GET(req) {
 
   // Define address filtering conditions
   const addressConditions = {
-    ...(country && { country: { [Op.like]: `%${country}%` } }),
+    ...(country && { country: country }),
     ...(city && { city: { [Op.like]: `%${city}%` } }),
   };
 
   try {
     // Fetch business profiles
-    const { rows: businessProfiles, count: totalRecords } =
-      await db.BusinessProfile.findAndCountAll({
-        where: whereConditions,
-        include: [
-          {
-            model: db.Address,
-            as: "addresses",
-            where: addressConditions,
-            required: true,
-          },
-        ],
-        limit,
-        offset,
-        order: [[sortBy, sortOrder]],
-      });
+    const { rows: users, count: totalRecords } = await db.User.findAndCountAll({
+      // Select only email and username from User
+      // attributes: ["id", "email", "username"],
+      include: [
+        {
+          model: db.BusinessProfile,
+          as: "businessProfile",
+          where: whereConditions, // Conditions for filtering BusinessProfile
+          required: true, // Inner join - only fetch users with BusinessProfiles
+        },
+        {
+          model: db.Address,
+          as: "addresses",
+          where: addressConditions, // Conditions for filtering Address
+          required: true, // Left join - fetch users with or without Addresses
+        },
+      ],
+      limit, // Limit the number of records
+      offset, // Offset for pagination
+      order: [[sortBy, sortOrder]], // Order by specific field and order
+    });
 
     return NextResponse.json({
-      data: businessProfiles,
       totalRecords,
       totalPages: Math.ceil(totalRecords / limit),
       currentPage: parseInt(page, 10),
       status: 200,
       message: "Business profiles fetched successfully",
+      data: users,
     });
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -1,42 +1,40 @@
-// models/personal-profile.js
 import { DataTypes } from "sequelize";
 import sequelize from "../sequalize";
 
 const PersonalProfile = sequelize.define(
   "PersonalProfile",
   {
-    // Define attributes
-    userId: {
-      type: DataTypes.INTEGER,
+    username: {
+      type: DataTypes.STRING(255), // Explicit length for the username
       references: {
-        model: "Users",
-        key: "id",
+        model: "Users", // Ensure this model name is correct
+        key: "username",
       },
       allowNull: false,
     },
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255), // Define length explicitly
       allowNull: false,
     },
     lastName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255), // Define length explicitly
       allowNull: false,
     },
+    profileThumb: {
+      type: DataTypes.STRING(1000), // Reduced length to 1000, still long enough for most URLs
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.TEXT, // Use TEXT for longer descriptions
+      allowNull: true,
+    },
     phoneNumber: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20), // Use STRING for phone numbers, with a max length
       allowNull: true,
     },
     rating: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
-      min: 0,
-      max: 5,
-      validate: {
-        isFloat: {
-          args: true,
-          msg: "Rating must be a floating-point number.",
-        },
-      },
     },
     verified: {
       type: DataTypes.BOOLEAN,
@@ -52,7 +50,7 @@ const PersonalProfile = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // Enables createdAt and updatedAt fields automatically
   }
 );
 

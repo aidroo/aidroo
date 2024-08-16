@@ -20,7 +20,11 @@ import { CiShare2 } from "react-icons/ci";
 import { FaReply } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 
-export default function ReviewCard() {
+export default function ReviewCard({ review }) {
+  const { title, comment, rating, love, like, createdAt, images } = review;
+  const date = new Date(createdAt);
+
+  const toLocalTimeString = date.toDateString();
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -54,34 +58,35 @@ export default function ReviewCard() {
         </div>
         <hr className=" w-full  " />
       </CardHeader>
-      <CardContent className="  mt-2">
-        <div className="flex justify-between gap-4  items-center -mt-10 text-sm">
-          <div className="flex gap-1 ms-4">
-            <Rating value={4} size={18} />
-          </div>
-          {/* <p className={`${font12}`}>August 12,2023</p> */}
+      <CardContent className="  mt-6 space-y-2">
+        <div className=" grid grid-cols-1 lg:grid-cols-2   gap-4  items-center -mt-10 text-sm">
+          <div className="flex  gap-4 items-center">
+            <div className="flex gap-1 ">
+              <Rating value={rating} size={18} />
+            </div>
 
-          <div className="w-24">
-            <IconImage
-              src={reviewVerifiedIcon}
-              alt="verified image"
-              size={70}
-            />
+            <div className="w-24 flex  items-center gap-2">
+              <IconImage
+                src={reviewVerifiedIcon}
+                alt="verified image"
+                size={24}
+              />
+              <span>verified</span>
+            </div>
           </div>
+
+          <p className={`${font14} mr-0 `}>{toLocalTimeString}</p>
         </div>
         <div className="space-y-1">
-          <h1 className={`${font18}`}>I would Highly recommended</h1>
-          <p className={`${font16} text-gray-500  `}>
-            I had a seamless experience with Panacea. Other companies denied me
-            credit due to not providing evidence of income. Other financial
-            institutions that are supposedly for medical professionals do not
-            understand our process.
-          </p>
+          <h1 className={`${font18}`}>{title}</h1>
+          <p className={`${font16} text-gray-500  `}>{comment}</p>
         </div>
-        <div className="flex gap-4 mt-3">
-          <IconImage src={profileImage} size={100} alt="review image" />
-          <IconImage src={profileImage} size={100} alt="review image" />
-        </div>
+        {images && (
+          <div className="flex gap-4 mt-3">
+            <IconImage src={profileImage} size={100} alt="review image" />
+            <IconImage src={profileImage} size={100} alt="review image" />
+          </div>
+        )}
         <hr className=" w-full  mt-4 " />
       </CardContent>
       <CardFooter>
@@ -89,11 +94,11 @@ export default function ReviewCard() {
           <div className="flex gap-2 md:gap-4  ">
             <div className="flex gap-1   items-center border py-[2px] px-1 rounded shadow">
               <AiFillLike />
-              <span>0</span>
+              <span>{like}</span>
             </div>
             <div className="flex gap-1 py-[2px] px-1 items-center border   rounded shadow">
               <FcLike />
-              <span>0</span>
+              <span>{love}</span>
             </div>
             <div className="flex gap-1   items-center border py-[2px] px-1 rounded shadow">
               <CiShare2 />
