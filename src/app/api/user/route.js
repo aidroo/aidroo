@@ -21,10 +21,8 @@ export async function POST(req) {
     businessName,
     businessType,
     phoneNumber,
-    street,
     city,
-    state,
-    zipCode,
+    address,
     country,
     category,
     subcategory,
@@ -94,11 +92,9 @@ export async function POST(req) {
 
         await db.Address.create({
           username: user.username,
-          street,
-          city,
-          state,
-          zipCode,
           country,
+          city,
+          address,
         });
       } catch (error) {
         console.error("Error registering user profiles or address:", error);
@@ -131,7 +127,24 @@ export async function GET(req) {
   try {
     const user = await db.User.findOne({
       where: { username },
-      attributes: ["email", "username"],
+      attributes: ["username", "email"],
+      include: [
+        {
+          model: db.BusinessProfile,
+          as: "businessProfile",
+          required: false, // Inner join - only fetch users with BusinessProfiles
+        },
+        {
+          model: db.PersonalProfile,
+          as: "personalProfile",
+          required: false, // Inner join - only fetch users with BusinessProfiles
+        },
+        {
+          model: db.Address,
+          as: "addresses",
+          required: true, // Left join - fetch users with or without Addresses
+        },
+      ],
     });
 
     if (!user) {
@@ -141,10 +154,11 @@ export async function GET(req) {
       );
     }
 
-    return NextResponse.json(
-      { status: 200, message: "User fetched successfully.", user },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      status: 201,
+      message: "User fetched successfully.",
+      data: user,
+    });
   } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(

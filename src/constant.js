@@ -276,6 +276,29 @@ export const businessSidebarOptions = [
     href: "/business_dashboard/business_plan",
   },
 ];
+export const personalSidebarOptions = [
+  {
+    name: "Personal info",
+    href: "/personal_dashboard/personal_info",
+  },
+
+  {
+    name: "Timeline",
+    href: "/personal_dashboard/schedule",
+  },
+  {
+    name: "Review",
+    href: "/personal_dashboard/review",
+  },
+  {
+    name: "Messages",
+    href: "/personal_dashboard/message",
+  },
+  {
+    name: "Notification",
+    href: "/personal_dashboard/notification",
+  },
+];
 export const adminDashboardSidebarLinks = [
   {
     name: "Categories",

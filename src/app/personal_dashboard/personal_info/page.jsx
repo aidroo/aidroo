@@ -1,6 +1,5 @@
 "use client";
 
-import { Combobox } from "@/components/Combobox";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import Notfound from "@/components/Notfound";
@@ -30,65 +29,44 @@ export default function BusinessInfo() {
   } = useSWR(`/api/user?username=${currentUser?.username}`, (url) =>
     apiService.singeDataFetching(url)
   );
-
+  console.log(userData);
   // Initialize state with empty strings or defaults
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
-  const [businessName, setBusinessName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
-  const [funds, setFunds] = useState("");
-  const [employees, setEmployees] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
 
   // When userData is loaded, update the state
   useEffect(() => {
     if (userData) {
-      setBusinessName(userData?.data?.businessProfile?.businessName || "");
       setAddress(userData?.data?.addresses?.address || "");
-      setPhone(userData?.data?.businessProfile?.phoneNumber || "");
+      setPhone(userData?.data?.personalProfile?.phoneNumber || "");
       setCountry(userData?.data?.addresses?.country || "");
       setCity(userData?.data?.addresses?.city || "");
-      setDescription(userData?.data?.businessProfile?.description || " ");
-      setFunds(userData?.data?.businessProfile?.funds || "");
-      setEmployees(userData?.data?.businessProfile?.employees || 0);
-      setSelectedCategory(userData?.data?.businessProfile?.category || null);
-      setSelectedSubcategory(
-        userData?.data?.businessProfile?.subcategory || null
-      );
+      setDescription(userData?.data?.personalProfile?.description || " ");
+      setFirstName(userData?.data?.personalProfile?.firstName || " ");
+      setLastName(userData?.data?.personalProfile?.lastName || " ");
+      setDescription(userData?.data?.personalProfile?.description || " ");
     }
   }, [userData]); // This will run whenever userData changes
 
-  // Fetch categories and subcategories
-  const {
-    data: categoryData,
-    error: categoryError,
-    isLoading: categoryLoading,
-  } = useSWR("/api/category", (url) => apiService.getData(url));
-
-  const {
-    data: subcategoryData,
-    error: subcategoryError,
-    isLoading: subcategoryLoading,
-  } = useSWR("/api/subcategory", (url) => apiService.getData(url));
-
   const updatedData = {
     username: currentUser?.username,
-    role: "business",
-    businessName: businessName,
-    category: selectedCategory?.name,
-    subcategory: selectedSubcategory?.name,
+    role: "personal",
+    firstName,
+    lastName,
     phoneNumber: phone,
     country,
     address,
     city,
     description,
-    employees,
-    funds,
   };
 
   const handleSubmit = async (event) => {
@@ -144,35 +122,23 @@ export default function BusinessInfo() {
       </div>
       <div>
         <form className="space-y-6" onSubmit={(e) => handleSubmit(e)}>
-          <div className=" w-full">
+          <div className=" w-full flex gap-4">
             <Input
               type="text"
-              placeholder="Business Name"
-              value={businessName}
+              placeholder="First Name"
+              value={firstName}
               className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
-              onChange={(e) => setBusinessName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
 
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Combobox
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              options={categoryData?.data}
-              isLoading={categoryLoading}
-              error={categoryError}
-              className="border-none"
-              placeholder="category"
-            />
-            <Combobox
-              selectedCategory={selectedSubcategory}
-              setSelectedCategory={setSelectedSubcategory}
-              options={subcategoryData?.data}
-              isLoading={subcategoryLoading}
-              error={subcategoryError}
-              placeholder="subcategory"
-            />
-          </div>
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
             <OptionSelect
               label="Select a country"
@@ -196,20 +162,6 @@ export default function BusinessInfo() {
               className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
               onChange={(e) => setAddress(e.target.value)}
             />{" "}
-            <Input
-              type="text"
-              placeholder="Total funds"
-              className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
-              onChange={(e) => setFunds(e.target.value)}
-              value={funds}
-            />
-            <Input
-              type="text"
-              placeholder="Total Employees"
-              className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
-              onChange={(e) => setEmployees(e.target.value)}
-              value={employees}
-            />
           </div>
           <div className="space-y-2">
             <h1 className={`text-center ${font18}`}>About my Business </h1>

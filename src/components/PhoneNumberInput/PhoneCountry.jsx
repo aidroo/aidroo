@@ -8,7 +8,7 @@ import { useState } from "react";
 import { countries, font14, font16 } from "@/constant";
 import { Input } from "../ui/input";
 
-const PhoneCountry = ({ setPhone }) => {
+const PhoneCountry = ({ setPhone, value }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries[1]);
@@ -39,6 +39,7 @@ const PhoneCountry = ({ setPhone }) => {
         <Input
           type="tel"
           name="phone"
+          value={value}
           placeholder="Phone Number"
           className="border-none focus-visible:ring-0 px-0"
           onChange={(e) => setPhone(e.target.value)}

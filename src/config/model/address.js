@@ -15,20 +15,16 @@ const Address = sequelize.define(
       },
       allowNull: false,
     },
-
+    country: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
     city: {
       type: DataTypes.STRING,
       defaultValue: null,
     },
-    state: {
-      type: DataTypes.STRING,
-      defaultValue: null,
-    },
-    zipCode: {
-      type: DataTypes.STRING,
-      defaultValue: null,
-    },
-    country: {
+
+    address: {
       type: DataTypes.STRING,
       defaultValue: null,
     },

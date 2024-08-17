@@ -180,7 +180,7 @@ export default function BusinessPage() {
           register={register}
           icon={SlLock}
           className={`mb-4 ${errors.confirmPassword ? " border-red-300" : ""}`}
-          placeholder="Create password"
+          placeholder="create password"
           name="password"
         />
         <CustomInput
@@ -189,7 +189,7 @@ export default function BusinessPage() {
           register={register}
           icon={SlLock}
           className={`mb-4 ${errors.confirmPassword ? " border-red-300" : ""}`}
-          placeholder="Confirm password"
+          placeholder="confirm password"
           name="confirmPassword"
         />
       </div>
@@ -197,7 +197,7 @@ export default function BusinessPage() {
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
         <PhoneCountry setPhone={setPhone} />
         <OptionSelect
-          label="Select a country"
+          label="  country"
           options={countries}
           className={`text-gray-600 ${font14} h-10`}
           onChange={setCountry}
@@ -210,7 +210,7 @@ export default function BusinessPage() {
           control={control}
           register={register}
           className="mb-4"
-          placeholder="City"
+          placeholder="city"
           name="city"
         />
         <CustomInput
@@ -218,18 +218,10 @@ export default function BusinessPage() {
           control={control}
           register={register}
           className="mb-4"
-          placeholder="State"
-          name="state"
+          placeholder="address"
+          name="address"
         />
       </div>
-      <CustomInput
-        type="text"
-        control={control}
-        register={register}
-        className="mb-4"
-        placeholder="State"
-        name="zipCode"
-      />
 
       {errors.confirmPassword && (
         <p className="text-red-400">{errors.confirmPassword.message}</p>

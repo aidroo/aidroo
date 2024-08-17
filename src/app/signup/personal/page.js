@@ -165,21 +165,14 @@ export default function PersonalSignup() {
         />
         <CustomInput
           type="text"
-          placeholder="State"
+          placeholder="address"
           className="mb-4"
-          name="state"
+          name="address"
           control={control}
           register={register}
         />
       </div>
-      <CustomInput
-        type="text"
-        placeholder="State"
-        className="mb-4"
-        name="zipCode"
-        control={control}
-        register={register}
-      />
+
       {errors.confirmPassword && (
         <p className="text-red-400">{errors.confirmPassword.message}</p>
       )}
