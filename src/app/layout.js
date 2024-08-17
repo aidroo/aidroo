@@ -1,6 +1,7 @@
+import { Toaster } from "@/components/ui/toaster";
+import { AuthContextProvider } from "@/context/AuthContext";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import { AuthContextProvider } from "@/context/AuthContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
         > */}
         <AuthContextProvider>
           <main className="w-full ">{children}</main>
+          <Toaster />
         </AuthContextProvider>
 
         {/* </ThemeProvider> */}

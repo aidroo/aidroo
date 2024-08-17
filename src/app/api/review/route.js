@@ -3,33 +3,37 @@ import db from "@/config/model";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const body = await req.json();
-  const { comment, title, username, rating } = body;
-
-  if (!comment && !title && !username) {
-    return NextResponse.json({
-      status: 400,
-      message: "title,comment,  is required.",
-    });
-  }
-
-  await connectToDatabase();
   try {
-    // Create the category
+    const body = await req.json();
+    const { comment, title, username, rating, profileId } = body;
+
+    // Validate required fields
+    if (!comment || !title || !username || !rating || !profileId) {
+      return NextResponse.json({
+        status: 400,
+        message:
+          "All fields (comment, title, username, rating, profileId) are required.",
+      });
+    }
+
+    await connectToDatabase();
+
+    // Create the review
     const newReview = await db.Review.create({
       comment,
       title,
       rating,
       username,
+      profileId,
     });
 
     return NextResponse.json({
       status: 201,
-      message: "Review  created successfully.",
+      message: "Review created successfully.",
       data: newReview,
     });
   } catch (error) {
-    console.error("Error creating category:", error);
+    console.error("Error creating review:", error);
     return NextResponse.json({
       status: 500,
       message: "Internal Server Error: " + error.message,
@@ -38,22 +42,53 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-
-  // Fetch and parse pagination parameters if provided
-  const page = parseInt(searchParams.get("page"));
-  const limit = parseInt(searchParams.get("limit"));
-
-  await connectToDatabase();
-
   try {
-    // Fetch all categories if no limit or page is provided
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 10;
+    const username = searchParams.get("username") || null;
+    const profileId = searchParams.get("profileId") || null;
+
+    await connectToDatabase();
+
+    // Set up query options with default values
     let queryOptions = {
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: db.User,
+          as: "user",
+          attributes: ["username", "email", "role"],
+          include: [
+            {
+              model: db.PersonalProfile,
+              as: "personalProfile",
+              attributes: ["firstName", "lastName", "profileThumb"],
+            },
+            {
+              model: db.BusinessProfile,
+              as: "businessProfile",
+              attributes: ["businessName", "profileThumb"],
+            },
+            {
+              model: db.Address,
+              as: "addresses",
+              attributes: ["city", "country"],
+            },
+          ],
+        },
+      ],
     };
 
-    // If page and limit are provided, apply pagination
-    if (!isNaN(page) && !isNaN(limit) && page > 0 && limit > 0) {
+    // Apply filtering for username and profileId if provided
+    if (username || profileId) {
+      queryOptions.where = {
+        profileId,
+      };
+    }
+
+    // Apply pagination if valid page and limit are provided
+    if (page > 0 && limit > 0) {
       const offset = (page - 1) * limit;
       queryOptions = {
         ...queryOptions,
@@ -62,21 +97,22 @@ export async function GET(req) {
       };
     }
 
-    const { rows: categories, count: totalRecords } =
+    // Fetch reviews with associated user, profile, and address details
+    const { rows: reviews, count: totalRecords } =
       await db.Review.findAndCountAll(queryOptions);
 
-    const totalPages = limit ? Math.ceil(totalRecords / limit) : 1;
+    const totalPages = Math.ceil(totalRecords / limit);
 
     return NextResponse.json({
-      status: 201,
+      status: 200,
       message: "Reviews fetched successfully.",
       totalRecords,
       totalPages,
-      currentPage: page || 1,
-      data: categories,
+      currentPage: page,
+      data: reviews,
     });
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error("Error fetching reviews:", error);
     return NextResponse.json({
       status: 500,
       message: "Internal Server Error: " + error.message,

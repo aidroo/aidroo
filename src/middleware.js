@@ -27,5 +27,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/admin_dashboard/:path*"], // Protect /admin_dashboard and all its sub-routes
+  matcher: ["/adm_dashboard/:path*"], // Protect /admin_dashboard and all its sub-routes
 };

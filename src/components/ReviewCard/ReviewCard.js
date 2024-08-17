@@ -22,6 +22,14 @@ import { FcLike } from "react-icons/fc";
 
 export default function ReviewCard({ review }) {
   const { title, comment, rating, love, like, createdAt, images } = review;
+
+  const city = review?.user?.addresses.city;
+  const country = review?.user?.addresses.country;
+  const fulName =
+    review?.user?.personalProfile?.firstName +
+    " " +
+    review?.user?.personalProfile?.lastName;
+
   const date = new Date(createdAt);
 
   const toLocalTimeString = date.toDateString();
@@ -39,11 +47,15 @@ export default function ReviewCard({ review }) {
           </div>
           <div className="">
             <div className="flex gap-6 items-center">
-              <h1 className={`${font18bold}`}>Jhon </h1>
+              <h1 className={`${font18bold}`}>
+                {review?.user?.businessProfile?.businessName || fulName}
+              </h1>
               <IconImage src={varifiedBadgePersional} size={16} />
             </div>
 
-            <p className={`${font14} text-gray-500`}>San Fransico, USA </p>
+            <p className={`${font14} text-gray-500`}>
+              {city}, {country}{" "}
+            </p>
             <span className="flex gap-4">
               <div className="flex gap-2 items-center text-[18px]">
                 <IconImage src={followerIcon} size={18} />{" "}

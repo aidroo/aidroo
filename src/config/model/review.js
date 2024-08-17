@@ -12,6 +12,14 @@ const Review = sequelize.define(
       },
       allowNull: false,
     },
+    profileId: {
+      type: DataTypes.STRING(255), // Explicitly set length for username
+      references: {
+        model: "Users",
+        key: "username",
+      },
+      allowNull: false,
+    },
     rating: {
       type: DataTypes.FLOAT, // More efficient for storing small integers (1-5)
       allowNull: false,

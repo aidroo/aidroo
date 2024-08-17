@@ -10,8 +10,9 @@ import { Progress } from "@/components/ui/progress";
 import WriteReview from "@/components/WriteReview/WriteReview";
 import { font14, font16 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
+import { useAuth } from "@/hooks/useAuth";
 import apiService from "@/lib/apiService";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -19,14 +20,22 @@ export default function Review() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const pathname = usePathname();
-  const { id } = useParams();
-  const dynamicId = id || pathname.split("/").filter(Boolean)[1];
+  const { currentUser } = useAuth();
 
-  const itemsPerPage = 5;
+  const username = pathname.split("/").filter(Boolean)[1];
+  const itemsPerPage = 2;
 
   const fetcher = (url) => apiService.getData(url);
   const { data, error, mutate, isLoading } = useSWR(
-    ["/api/review", { page: currentPage, limit: itemsPerPage }],
+    [
+      "/api/review",
+      {
+        page: currentPage,
+        limit: itemsPerPage,
+        username: currentUser?.username,
+        profileId: username,
+      },
+    ],
     fetcher
   );
 
@@ -48,7 +57,11 @@ export default function Review() {
   return (
     <div className="col-span-1 space-y-6">
       {/* write review  */}
-      <WriteReview mutate={mutate} username={dynamicId} />
+      <WriteReview
+        mutate={mutate}
+        username={currentUser?.username}
+        profileId={username}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-2 rounded-md p-4">
         <div className="flex flex-col justify-center items-center space-y-2">
           <IconImage src={topplacementBadge} size={70} alt="image" />

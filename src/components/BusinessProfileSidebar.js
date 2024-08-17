@@ -19,7 +19,8 @@ import Rating from "./Rating/Rating";
 import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
 
 export default function BusinessProfileSidebar({ data }) {
-  const { businessName, category } = data.businessProfile;
+  const { businessName, category, funds, employees, description } =
+    data.businessProfile;
   return (
     <div className="col-span-2 w-full  mb-8 ">
       <div className="w-full  space-y-4   ">
@@ -39,12 +40,7 @@ export default function BusinessProfileSidebar({ data }) {
             </div>
           </div>
 
-          <p className={`tracking-tight    pb-2 ${font14}`}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque sit
-            neque natus quidem aperiam iste, deleniti, voluptatem doloribus
-            totam quam quaerat molestiae vero sapiente dignissimos minima optio.
-            Repellendus, sunt tempora.
-          </p>
+          <p className={`tracking-tight    pb-2 ${font14}`}>{description}</p>
           <div className="border-2 rounded-md p-8 space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-14 ">
@@ -54,7 +50,9 @@ export default function BusinessProfileSidebar({ data }) {
                 <h1 className={` text-primary_color ${font16}`}>
                   Total Funding
                 </h1>
-                <p className={`text-gray-500 ${font14} `}>10B - 20B</p>
+                <p className={`text-gray-500 ${font14} `}>
+                  {funds} B - {10 + funds} B
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -62,8 +60,8 @@ export default function BusinessProfileSidebar({ data }) {
                 <ResponsiveImage src={workerIcon} />
               </div>
               <div className="">
-                <h1 className={` text-primary_color ${font16}`}>Worker</h1>
-                <p className={`text-gray-500 ${font14} `}>700+</p>
+                <h1 className={` text-primary_color ${font16}`}>Employees</h1>
+                <p className={`text-gray-500 ${font14} `}>{employees} +</p>
               </div>
             </div>
           </div>

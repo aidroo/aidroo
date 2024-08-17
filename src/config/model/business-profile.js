@@ -66,6 +66,22 @@ const BusinessProfile = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    funds: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    employees: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    spent: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+    },
+    workwith: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: true,

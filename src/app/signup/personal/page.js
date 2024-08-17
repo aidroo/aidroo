@@ -41,7 +41,7 @@ export default function PersonalSignup() {
     debouncedUsername ? `/api/user?username=${debouncedUsername}` : null,
     fetcher
   );
-  console.log(country);
+
   const onSubmit = async (data) => {
     data.phoneNumber = phone;
     data.role = "personal";
