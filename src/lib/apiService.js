@@ -24,9 +24,10 @@ const apiService = {
   },
   singeDataFetching: async (endpoint) => {
     try {
-      const res = await axiosInstance.get(endpoint);
-
-      return res.data;
+      if (endpoint) {
+        const res = await axiosInstance.get(endpoint);
+        return res.data;
+      }
     } catch (error) {
       console.error("Error updating data:", error);
       throw error;

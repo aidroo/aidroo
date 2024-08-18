@@ -12,7 +12,7 @@ export async function PUT(req) {
     const body = await req.json();
     const {
       username,
-
+      profileThumb,
       email,
       role,
       firstName,
@@ -30,7 +30,7 @@ export async function PUT(req) {
       category,
       subcategory,
     } = body;
-    console.log(username);
+
     // Validate required fields
     if (!username) {
       return NextResponse.json(
@@ -69,6 +69,7 @@ export async function PUT(req) {
         if (lastName) personalProfile.lastName = lastName;
         if (description) personalProfile.description = description;
         if (phoneNumber) personalProfile.phoneNumber = phoneNumber;
+        if (profileThumb) personalProfile.profileThumb = profileThumb;
         // if (dob) personalProfile.dob = dob;
         // if (gender) personalProfile.gender = gender;
         await personalProfile.save({ transaction });
@@ -88,6 +89,7 @@ export async function PUT(req) {
         if (description) businessProfile.description = description;
         if (category) businessProfile.category = category;
         if (subcategory) businessProfile.subcategory = subcategory;
+        if (profileThumb) businessProfile.profileThumb = profileThumb;
         await businessProfile.save({ transaction });
       }
     }

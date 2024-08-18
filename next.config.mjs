@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: "swiperjs.com",
       },
+      {
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

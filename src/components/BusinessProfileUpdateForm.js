@@ -1,25 +1,22 @@
 "use client";
-
-import { Combobox } from "@/components/Combobox";
-import Error from "@/components/Error";
-import Loading from "@/components/Loading";
-import Notfound from "@/components/Notfound";
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
-import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
-import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { countries, font14, font18 } from "@/constant";
-import { brifcaseIcon } from "@/exportImage";
+import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import apiService from "@/lib/apiService";
-import axiosInstance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { Combobox } from "./Combobox";
+import Error from "./Error";
+import Loading from "./Loading";
+import Notfound from "./Notfound";
+import OptionSelect from "./OptionSelect/OptionSelect";
+import PhoneCountry from "./PhoneNumberInput/PhoneCountry";
+import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
-export default function BusinessInfo() {
+export default function BusinessProfileUpdateForm() {
   const { currentUser } = useAuth();
 
   // Fetch user data
@@ -28,11 +25,8 @@ export default function BusinessInfo() {
     error,
     isLoading,
     mutate,
-  } = useSWR(
-    currentUser?.username
-      ? `/api/user?username=${currentUser?.username}`
-      : null,
-    (url) => apiService.singeDataFetching(url)
+  } = useSWR(`/api/user?username=${currentUser?.username}`, (url) =>
+    apiService.singeDataFetching(url)
   );
 
   // Initialize state with empty strings or defaults
@@ -48,8 +42,6 @@ export default function BusinessInfo() {
   const [employees, setEmployees] = useState("");
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadUrl, setUploadUrl] = useState("");
 
   // When userData is loaded, update the state
   useEffect(() => {
@@ -63,7 +55,6 @@ export default function BusinessInfo() {
       setFunds(userData?.data?.businessProfile?.funds || "");
       setEmployees(userData?.data?.businessProfile?.employees || 0);
       setSelectedCategory(userData?.data?.businessProfile?.category || null);
-      setUploadUrl(userData?.data?.businessProfile?.profileThumb);
       setSelectedSubcategory(
         userData?.data?.businessProfile?.subcategory || null
       );
@@ -83,63 +74,6 @@ export default function BusinessInfo() {
     isLoading: subcategoryLoading,
   } = useSWR("/api/subcategory", (url) => apiService.getData(url));
 
-  // image  upload
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-    }
-  };
-  const handleFileUpload = async (e) => {
-    e.preventDefault();
-    if (!selectedFile) {
-      setApiError("No file selected!");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      setLoading(true);
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      await apiService.updateData("/api/user", currentUser?.username, {
-        profileThumb: result?.data?.url,
-        username: currentUser?.username,
-        role: "business",
-      });
-      mutate();
-    } catch (error) {
-      console.error("Upload error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const filenameWithExtension = uploadUrl?.substring(
-    uploadUrl.lastIndexOf("/") + 1
-  );
-  // Remove the file extension to get the desired string
-  const avatarId = filenameWithExtension?.split(".")?.slice(0, -1)?.join(".");
-
-  const deleteUploadedFile = async () => {
-    try {
-      await axiosInstance.post(`/api/upload/${avatarId}`, {
-        username: currentUser?.username,
-        avatarId,
-        role: "business",
-      });
-      mutate();
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
-
   const updatedData = {
     username: currentUser?.username,
     role: "business",
@@ -151,7 +85,6 @@ export default function BusinessInfo() {
     address,
     city,
     description,
-
     employees,
     funds,
   };
@@ -160,11 +93,13 @@ export default function BusinessInfo() {
     event.preventDefault();
     try {
       setLoading(true);
-      await apiService.updateData(
-        "/api/user",
-        currentUser?.username,
-        updatedData
-      );
+      if (currentUser.username) {
+        await apiService.updateData(
+          "/api/user",
+          currentUser?.username,
+          updatedData
+        );
+      }
       mutate();
     } catch (error) {
       setApiError(error.message);
@@ -184,7 +119,7 @@ export default function BusinessInfo() {
   }
 
   // Handle not found state
-  if (!userData?.data && !isLoading) {
+  if (!userData?.data) {
     return <Notfound />;
   }
 
@@ -194,42 +129,18 @@ export default function BusinessInfo() {
 
   return (
     <div className="border  rounded-lg p-10 space-y-6">
-      {/* image uploaded */}
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-10 items-center h-fit">
         <div className=" ring-2 ring-primary_color ring-offset-8  dark:ring-offset-slate-700 rounded-full  w-20 md:w-24 shrink-0  overflow-hidden ">
           <ResponsiveImage
-            src={uploadUrl || brifcaseIcon}
+            src={profileImage}
             alt="profile image"
-            width={500}
-            height={300}
             className="rounded-lg"
           />
         </div>
         <div className="max-w-64 space-y-2">
-          <form className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Input
-              id="picture"
-              type="file"
-              className="border "
-              required
-              onChange={handleChange}
-            />
-            <Button
-              type="submit"
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
-              onClick={(e) => handleFileUpload(e)}
-              disabled={loading}
-            >
-              Upload File
-            </Button>
-          </form>
-          <Button variant="hover" onClick={deleteUploadedFile}>
-            Remove Photo
-          </Button>
+          <Button variant="hover">Remove Photo</Button>
         </div>
       </div>
-
-      {/* profile update */}
       <div>
         <form className="space-y-6" onSubmit={(e) => handleSubmit(e)}>
           <div className=" w-full">

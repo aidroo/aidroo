@@ -23,15 +23,21 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { font16 } from "@/constant";
+import { font16, font18 } from "@/constant";
 import {
   addyourbusiness,
   brifcaseIcon,
   claimWithBusiness,
   logo,
+  messageIcon,
+  myorder,
+  myprofile,
   myReview,
+  notificationIcon,
   pricingPlan,
+  singoutIcon,
   user,
+  userdashboard,
   verifiedIcon,
 } from "@/exportImage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -49,6 +55,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 export default function Header() {
   const [setSearchText] = useState("");
@@ -269,8 +276,8 @@ export default function Header() {
               </div>
 
               {/* searching bar */}
-              <div className="flex   items-center  col-span-2  text-lg text-gray-700  ">
-                <form className="flex gap-4">
+              <div className="flex   items-center  col-span-2  text-lg text-gray-700 ms-12  ">
+                <form className="flex gap-2">
                   <Input
                     type="text"
                     name="search"
@@ -280,9 +287,9 @@ export default function Header() {
                   />
 
                   <div className="relative">
-                    <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
+                    {/* <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
                       <Image src={filter} alt="Icon 1" className="w-6" />
-                    </div>
+                    </div> */}
                     {/* {isHovered2 && (
                     <div className="absolute  shadow rounded-md    top-[42px] pt-4 -right-6 ">
                       <div className=" file:selection: z-50  border-2 rounded   p-8 ">
@@ -392,100 +399,99 @@ export default function Header() {
                     Log in
                   </Link>
                 ) : (
-                  <button onClick={logout}>Logout</button>
-                  // <>
-                  //   <IconImage src={messageIcon} size={32} alt="message icon" />
-                  //   <IconImage
-                  //     src={notificationIcon}
-                  //     size={28}
-                  //     alt="message icon"
-                  //   />
-                  //   <Popover>
-                  //     <PopoverTrigger>
-                  //       <Avatar>
-                  //         <AvatarImage src={profilePic} alt="profile pic" />
-                  //         <AvatarFallback>
-                  //           <IconImage src={user} />
-                  //         </AvatarFallback>
-                  //       </Avatar>
-                  //     </PopoverTrigger>
-                  //     <PopoverContent className=" mt-3  ">
-                  //       <div className="bg-[#002A64] p-4 flex items-center gap-4 rounded-t-md ">
-                  //         <div className="text-white flex gap-4   ">
-                  //           <div>
-                  //             <h1 className={`${font18}`}>
-                  //               {currentUser.name}
-                  //             </h1>
-                  //             <p className="text-sm">
-                  //               @{currentUser?.username}
-                  //             </p>
-                  //           </div>
+                  <>
+                    <IconImage src={messageIcon} size={32} alt="message icon" />
+                    <IconImage
+                      src={notificationIcon}
+                      size={28}
+                      alt="message icon"
+                    />
+                    <Popover>
+                      <PopoverTrigger>
+                        <Avatar>
+                          <AvatarImage src={profilePic} alt="profile pic" />
+                          <AvatarFallback>
+                            <IconImage src={user} />
+                          </AvatarFallback>
+                        </Avatar>
+                      </PopoverTrigger>
+                      <PopoverContent className=" mt-3  ">
+                        <div className="bg-[#002A64] p-4 flex items-center gap-4 rounded-t-md ">
+                          <div className="text-white flex gap-4   ">
+                            <div>
+                              <h1 className={`${font18}`}>
+                                {currentUser.name}
+                              </h1>
+                              <p className="text-sm">
+                                @{currentUser?.username}
+                              </p>
+                            </div>
 
-                  //           <IconImage src={verifiedIcon} size={28} />
-                  //           {/* <IconImage src={ver} /> */}
-                  //         </div>
+                            <IconImage src={verifiedIcon} size={28} />
+                            {/* <IconImage src={ver} /> */}
+                          </div>
 
-                  //         {/* <Avatar>
-                  //           <AvatarImage src={profilePic} alt="@shadcn" />
-                  //           <AvatarFallback>
-                  //             <IconImage src={user} />
-                  //           </AvatarFallback>
-                  //         </Avatar> */}
-                  //       </div>
-                  //       <div className="flex flex-col     space-y-3 p-4">
-                  //         <span className="flex items-center gap-6  border-b pb-2 ">
-                  //           <IconImage
-                  //             src={myprofile}
-                  //             size={27}
-                  //             alt="notification icon"
-                  //           />
-                  //           <Link href={`/business/${currentUser?.userId}`}>
-                  //             <span className={`${font16} text-gray-700`}>
-                  //               My Profile
-                  //             </span>
-                  //           </Link>
-                  //         </span>
+                          {/* <Avatar>
+                            <AvatarImage src={profilePic} alt="@shadcn" />
+                            <AvatarFallback>
+                              <IconImage src={user} />
+                            </AvatarFallback>
+                          </Avatar> */}
+                        </div>
+                        <div className="flex flex-col     space-y-3 p-4">
+                          <span className="flex items-center gap-6  border-b pb-2 ">
+                            <IconImage
+                              src={myprofile}
+                              size={27}
+                              alt="notification icon"
+                            />
+                            <Link href={`/business/${currentUser?.userId}`}>
+                              <span className={`${font16} text-gray-700`}>
+                                My Profile
+                              </span>
+                            </Link>
+                          </span>
 
-                  //         <span className="flex items-center gap-6 border-b pb-2    ">
-                  //           <IconImage
-                  //             src={myorder}
-                  //             size={27}
-                  //             alt="notification icon"
-                  //           />
-                  //           <Link href="/business_dashboard/business_info">
-                  //             <span className={`${font16} text-gray-700`}>
-                  //               My Order
-                  //             </span>
-                  //           </Link>
-                  //         </span>
-                  //         <span className="flex items-center gap-6 border-b pb-2   ">
-                  //           <IconImage
-                  //             src={userdashboard}
-                  //             size={27}
-                  //             alt="notification icon"
-                  //           />
-                  //           <Link href="/business_dashboard/business_info">
-                  //             <span className={`${font16} text-gray-700`}>
-                  //               Dashboard
-                  //             </span>
-                  //           </Link>
-                  //         </span>
-                  //         <div onClick={logout}>
-                  //           <div className="flex items-center gap-6 cursor-pointer     ">
-                  //             <IconImage
-                  //               src={singoutIcon}
-                  //               size={27}
-                  //               alt="notification icon"
-                  //             />
-                  //             <span className={`${font16} text-gray-700`}>
-                  //               Logout
-                  //             </span>
-                  //           </div>
-                  //         </div>
-                  //       </div>
-                  //     </PopoverContent>
-                  //   </Popover>
-                  // </>
+                          <span className="flex items-center gap-6 border-b pb-2    ">
+                            <IconImage
+                              src={myorder}
+                              size={27}
+                              alt="notification icon"
+                            />
+                            <Link href="/business_dashboard/business_info">
+                              <span className={`${font16} text-gray-700`}>
+                                My Order
+                              </span>
+                            </Link>
+                          </span>
+                          <span className="flex items-center gap-6 border-b pb-2   ">
+                            <IconImage
+                              src={userdashboard}
+                              size={27}
+                              alt="notification icon"
+                            />
+                            <Link href="/business_dashboard/business_info">
+                              <span className={`${font16} text-gray-700`}>
+                                Dashboard
+                              </span>
+                            </Link>
+                          </span>
+                          <div onClick={logout}>
+                            <div className="flex items-center gap-6 cursor-pointer     ">
+                              <IconImage
+                                src={singoutIcon}
+                                size={27}
+                                alt="notification icon"
+                              />
+                              <span className={`${font16} text-gray-700`}>
+                                Logout
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </>
                 )}
               </div>
             </div>

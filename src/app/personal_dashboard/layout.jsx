@@ -1,13 +1,13 @@
 "use client";
 
 import SideBarLinks from "@/components/SidebarLinks/SidebarLinks";
-import { businessSidebarOptions } from "@/constant";
+import { personalSidebarOptions } from "@/constant";
 
 import useCurrentNavItem from "@/hooks/useCurrentNavItem";
 
 export default function BusinessDashboardLayout({ children }) {
   const updatedPatientSidebarOptions = useCurrentNavItem(
-    businessSidebarOptions
+    personalSidebarOptions
   );
 
   return (

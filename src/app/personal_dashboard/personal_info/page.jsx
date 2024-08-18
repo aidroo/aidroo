@@ -11,9 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { countries, font14, font18 } from "@/constant";
+import { profilePic } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import apiService from "@/lib/apiService";
-import profileImage from "@/public/images/profile.jpg";
+import axiosInstance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -26,10 +27,13 @@ export default function BusinessInfo() {
     error,
     isLoading,
     mutate,
-  } = useSWR(`/api/user?username=${currentUser?.username}`, (url) =>
-    apiService.singeDataFetching(url)
+  } = useSWR(
+    currentUser?.username
+      ? `/api/user?username=${currentUser?.username}`
+      : null,
+    (url) => apiService.singeDataFetching(url)
   );
-  console.log(userData);
+
   // Initialize state with empty strings or defaults
 
   const [phone, setPhone] = useState("");
@@ -42,7 +46,8 @@ export default function BusinessInfo() {
 
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadUrl, setUploadUrl] = useState("");
   // When userData is loaded, update the state
   useEffect(() => {
     if (userData) {
@@ -54,6 +59,7 @@ export default function BusinessInfo() {
       setFirstName(userData?.data?.personalProfile?.firstName || " ");
       setLastName(userData?.data?.personalProfile?.lastName || " ");
       setDescription(userData?.data?.personalProfile?.description || " ");
+      setUploadUrl(userData?.data?.personalProfile?.profileThumb || "");
     }
   }, [userData]); // This will run whenever userData changes
 
@@ -69,13 +75,72 @@ export default function BusinessInfo() {
     description,
   };
 
+  // image  upload
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+  const handleFileUpload = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      setApiError("No file selected!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      setLoading(true);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      await apiService.updateData("/api/user", currentUser?.username, {
+        profileThumb: result?.data?.url,
+        username: currentUser?.username,
+        role: "personal",
+      });
+      mutate();
+    } catch (error) {
+      console.error("Upload error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const filenameWithExtension = uploadUrl?.substring(
+    uploadUrl.lastIndexOf("/") + 1
+  );
+  // Remove the file extension to get the desired string
+  const avatarId = filenameWithExtension?.split(".")?.slice(0, -1)?.join(".");
+
+  const deleteUploadedFile = async () => {
+    try {
+      setLoading(true);
+      await axiosInstance.post(`/api/upload/${avatarId}`, {
+        username: currentUser?.username,
+        avatarId,
+        role: "personal",
+      });
+      mutate();
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
       await apiService.updateData(
         "/api/user",
-        currentUser.username,
+        currentUser?.username,
         updatedData
       );
       mutate();
@@ -107,17 +172,37 @@ export default function BusinessInfo() {
 
   return (
     <div className="border  rounded-lg p-10 space-y-6">
-      <div className="flex gap-10 items-center h-fit">
+      <div className="flex gap-4 items-center">
         <div className=" ring-2 ring-primary_color ring-offset-8  dark:ring-offset-slate-700 rounded-full  w-20 md:w-24 shrink-0  overflow-hidden ">
           <ResponsiveImage
-            src={profileImage}
+            src={uploadUrl || profilePic}
             alt="profile image"
+            width={500}
+            height={300}
             className="rounded-lg"
           />
         </div>
         <div className="max-w-64 space-y-2">
-          <Button variant="fillButton">Change Photo</Button>
-          <Button variant="hover">Remove Photo</Button>
+          <form className="grid w-full max-w-sm items-center gap-1.5 ">
+            <Input
+              id="picture"
+              type="file"
+              className="border "
+              required
+              onChange={handleChange}
+            />
+            <Button
+              type="submit"
+              className="mt-4 p-2 bg-blue-500 text-white rounded"
+              onClick={(e) => handleFileUpload(e)}
+              disabled={loading}
+            >
+              Upload File
+            </Button>
+          </form>
+          <Button variant="hover" onClick={deleteUploadedFile}>
+            Remove Photo
+          </Button>
         </div>
       </div>
       <div>
