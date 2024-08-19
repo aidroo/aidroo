@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { AuthContextProvider } from "@/context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 
@@ -23,10 +23,10 @@ export default function RootLayout({ children }) {
           themes={["light", "dark"]}
           disableTransitionOnChange
         > */}
-        <AuthContextProvider>
+        <AuthProvider>
           <main className="w-full ">{children}</main>
           <Toaster />
-        </AuthContextProvider>
+        </AuthProvider>
 
         {/* </ThemeProvider> */}
       </body>

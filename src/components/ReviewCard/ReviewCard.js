@@ -21,7 +21,7 @@ import { FaReply } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 
 export default function ReviewCard({ review }) {
-  const { title, comment, rating, love, like, createdAt, images } = review;
+  const { title, comment, rating, love, like, images } = review;
 
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
@@ -30,9 +30,9 @@ export default function ReviewCard({ review }) {
     " " +
     review?.user?.personalProfile?.lastName;
 
-  const date = new Date(createdAt);
+  // const date = new Date(createdAt);
 
-  const toLocalTimeString = date.toDateString();
+  // const toLocalTimeString = date.toDateString();
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -87,7 +87,7 @@ export default function ReviewCard({ review }) {
             </div>
           </div>
 
-          <p className={`${font14} mr-0 `}>{toLocalTimeString}</p>
+          {/* <p className={`${font14} mr-0 `}>{toLocalTimeString}</p> */}
         </div>
         <div className="space-y-1">
           <h1 className={`${font18}`}>{title}</h1>

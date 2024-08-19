@@ -14,10 +14,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Suspense } from "react";
-import { CiShare2 } from "react-icons/ci";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaRegStar } from "react-icons/fa6";
+import { HiOutlineShare } from "react-icons/hi";
+import { IoIosArrowDropright } from "react-icons/io";
 import { LiaSmsSolid } from "react-icons/lia";
-import { LuUser2 } from "react-icons/lu";
 import { VscBriefcase } from "react-icons/vsc";
 import useSWR from "swr";
 
@@ -49,8 +49,6 @@ export default function BusinessProfileLayout({ children }) {
     return <Error error={data.message} />;
   }
 
-  // Destructure business profile data
-
   return (
     <Layout>
       <div className="w-full space-y-6 pb-14">
@@ -65,7 +63,12 @@ export default function BusinessProfileLayout({ children }) {
                   <div className="flex gap-8 px-8 items-center justify-center">
                     <div className="w-24 md:w-32 shrink-0 overflow-hidden ring-1 rounded-md">
                       <ResponsiveImage
-                        src={businessProfilePic}
+                        src={
+                          data?.data?.businessProfile?.profileThumb ||
+                          businessProfilePic
+                        }
+                        width={500}
+                        height={300}
                         alt="profile image"
                         className="rounded-lg"
                       />
@@ -108,16 +111,16 @@ export default function BusinessProfileLayout({ children }) {
 
                   {/* Action buttons */}
                   <div className="lg:border-s border-primary items-center justify-center flex gap-2 lg:gap-4 px-8">
-                    <div className="bg-primary_color p-2 rounded-lg text-white flex items-center gap-2">
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
                       <LiaSmsSolid className="text-sm md:text-xl" />
                       <span className={font14}>Chat</span>
                     </div>
-                    <div className="bg-primary_color p-2 rounded-lg text-white flex items-center gap-2">
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
                       <FaPlus className="text-sm" />
                       <span className={font14}>Follow</span>
                     </div>
-                    <div className="bg-primary_color p-2 rounded-lg text-white flex items-center gap-2">
-                      <CiShare2 className="text-sm md:text-xl" />
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                      <HiOutlineShare className="text-sm md:text-xl" />
                       <span className={font14}>Share</span>
                     </div>
                   </div>
@@ -139,7 +142,7 @@ export default function BusinessProfileLayout({ children }) {
                         : ""
                     }`}
                   >
-                    <LuUser2 className="text-[22px]" />
+                    <FaRegStar className="text-[22px]" />
                     <span>Reviews</span>
                   </Link>
                   <Link
@@ -161,7 +164,7 @@ export default function BusinessProfileLayout({ children }) {
                         : ""
                     }`}
                   >
-                    <VscBriefcase className="text-2xl" />
+                    <IoIosArrowDropright className="text-2xl" />
                     <span>More</span>
                   </Link>
                 </div>

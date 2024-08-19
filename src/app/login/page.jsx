@@ -17,11 +17,11 @@ import { SlLock } from "react-icons/sl";
 
 export default function Login() {
   const { register, handleSubmit, control } = useForm();
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const { setCurrentUser } = useAuth();
+  const { fetchUser } = useAuth();
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -29,9 +29,7 @@ export default function Login() {
       const response = await apiService.addData("/api/auth/login", data);
 
       if (response?.status === 201 || response.status === 200) {
-        localStorage.setItem("user", JSON.stringify(response?.user));
-
-        setCurrentUser(response?.user);
+        fetchUser();
         router.push("/");
       } else {
         setError(response.message);

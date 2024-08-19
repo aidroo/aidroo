@@ -70,7 +70,7 @@ export default function Review() {
             <Rating value={4} size={18} />
           </div>
           <h1 className={`${font14}`}>
-            <span>200</span> Reviews
+            <span>{data?.totalRecords}</span> Reviews
           </h1>
         </div>
         <div className="space-y-4">

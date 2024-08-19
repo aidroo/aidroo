@@ -8,6 +8,9 @@ const nextConfig = {
       {
         hostname: "res.cloudinary.com",
       },
+      {
+        hostname: "cdn.builder.io",
+      },
     ],
   },
 };

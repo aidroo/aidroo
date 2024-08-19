@@ -1,11 +1,10 @@
-// app/api/auth/login/route.js
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
 import Address from "@/config/model/address";
 import BusinessProfile from "@/config/model/business-profile";
 import PersonalProfile from "@/config/model/personal-profile";
 import ApiError from "@/utils/ApiError";
-import { generateToken } from "@/utils/jwt";
+import { generateAccessToken, generateRefreshToken } from "@/utils/jwt";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -21,24 +20,28 @@ export async function POST(req) {
       throw new ApiError(400, "Email and password are required");
     }
 
+    // Fetch only necessary fields
     const user = await db.User.findOne({
       where: { email },
+      attributes: ["username", "password", "role"], // Limit fields fetched for the user
       include: [
         {
           model: BusinessProfile,
           as: "businessProfile",
           required: false,
+          attributes: ["businessName", "profileThumb"], // Limit fields fetched for businessProfile
         },
         {
           model: PersonalProfile,
           as: "personalProfile",
           required: false,
+          attributes: ["firstName", "lastName", "profileThumb"], // Limit fields fetched for personalProfile
         },
         {
           model: Address,
-
           as: "addresses",
           required: false,
+          attributes: ["address", "city", "country"], // Limit fields fetched for addresses
         },
       ],
     });
@@ -55,37 +58,39 @@ export async function POST(req) {
     }
 
     // Generate JWT token
-    const token = await generateToken(user.id);
-    if (!token) {
-      throw new ApiError(500, "Failed to generate token");
-    }
-
-    // Set cookie options
-    const options = {
+    const accessToken = await generateAccessToken({
+      username: user.username,
+      role: user.role,
+    });
+    const refreshToken = await generateRefreshToken({
+      username: user.username,
+      role: user.role,
+    });
+    // Set tokens in cookies
+    const accessOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 15, // 15 minutes
     };
 
-    const userData = {
-      userId: user.id,
-      username: user.username,
-      businessProfile: user?.businessProfile,
-      personalProfile: user?.personalProfile,
-      addresses: user?.addresses,
+    const refreshOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24, // 1 days
     };
+
+    const response = NextResponse.json({
+      status: 201,
+      message: "Login successful",
+    });
+    response.cookies.set("accessToken", accessToken, accessOptions);
+    response.cookies.set("refreshToken", refreshToken, refreshOptions);
 
     // Create a response
-    const response = NextResponse.json({
-      user: userData,
-      status: 200,
-      message: "User logged in successfully",
-    });
-
-    // Set the Set-Cookie header properly
-    response.cookies.set("token", token, options);
 
     return response;
   } catch (error) {
