@@ -39,7 +39,11 @@ export default function ReviewCard({ review }) {
         <div className="flex gap-4 items-center mb-2">
           <div>
             <IconImage
-              src={profileImage}
+              src={
+                review?.user?.personalProfile?.profileThumb ||
+                review?.user?.businessProfile?.profileThumb ||
+                profileImage
+              }
               size={70}
               className="rounded-full ring-1 ring-offset-2"
               alt="profile pic"
@@ -93,10 +97,19 @@ export default function ReviewCard({ review }) {
           <h1 className={`${font18}`}>{title}</h1>
           <p className={`${font16} text-gray-500  `}>{comment}</p>
         </div>
-        {images && (
+        {images && images[0] !== null && (
           <div className="flex gap-4 mt-3">
-            <IconImage src={profileImage} size={100} alt="review image" />
-            <IconImage src={profileImage} size={100} alt="review image" />
+            {images?.length > 0 &&
+              images.map((image, i) => {
+                return (
+                  <IconImage
+                    src={image || ""}
+                    size={100}
+                    alt="review image"
+                    key={i}
+                  />
+                );
+              })}
           </div>
         )}
         <hr className=" w-full  mt-4 " />

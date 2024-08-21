@@ -9,13 +9,16 @@ import Layout from "@/components/Layout/Layout";
 import Notfound from "@/components/Notfound";
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
-import Star from "@/components/Star/Star";
+import blueStart from "@/public/images/star/blue.svg";
+import greenStar from "@/public/images/star/green.svg";
+import yellowStart from "@/public/images/star/yellow.svg";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
 import { Combobox } from "@/components/Combobox";
+import IconImage from "@/components/IconImage/IconImage";
 import {
   countries,
   font14,
@@ -39,8 +42,8 @@ export default function Categories() {
   // Parameters for filtering
   const queryParams = {
     searchTerm,
-    category: selectedCategory,
-    subcategory: selectedSubcategory,
+    category: selectedCategory?.name,
+    subcategory: selectedSubcategory?.name,
     rating: rating > 0 ? rating : undefined,
     claimed,
     city,
@@ -67,7 +70,10 @@ export default function Categories() {
     error: subcategoryError,
 
     isLoading: subcategoryLoading,
-  } = useSWR("/api/subcategory", (url) => apiService.getData(url));
+  } = useSWR(
+    ["/api/subcategory", { categoryId: selectedCategory?.id }],
+    (url) => apiService.getData(url)
+  );
 
   const businessProfiles = data?.data || [];
 
@@ -130,25 +136,61 @@ export default function Categories() {
             <div>
               <h1 className={`${font16} font-medium`}>Rating</h1>
               <div className="border border-r-0 h-11 rounded grid grid-cols-4">
-                {[0, 3, 4, 5].map((value) => (
-                  <button
-                    key={value}
-                    className={`${font14} text-gray-700 font-semibold border-r flex justify-center items-center cursor-pointer ${
-                      rating === value
-                        ? "bg-[#9ce0ff] text-white"
-                        : "hover:bg-[#81d7fe] hover:text-white"
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setRating(rating !== value ? value : 0);
-                    }}
-                  >
-                    {value > 0 && <Star colorClass="#0084FF" />}
-                    <h1 className="text-xs">
-                      {value === 0 ? "Any" : `${value}.0 +`}
-                    </h1>
-                  </button>
-                ))}
+                <button
+                  className={`${font14} text-gray-700 font-semibold border-r flex justify-center items-center cursor-pointer gap-2 ${
+                    rating === 0
+                      ? "bg-[#81d7fe] text-white"
+                      : "hover:bg-[#81d7fe] hover:text-white"
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRating(0);
+                  }}
+                >
+                  <h1 className="text-md  ">any</h1>
+                </button>{" "}
+                <button
+                  className={`${font14} text-gray-700 font-semibold border-r flex justify-center items-center cursor-pointer gap-2 ${
+                    rating === 3
+                      ? "bg-yellow-100 text-gray-700"
+                      : "hover:bg-yellow-100 hover:text-white"
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRating(3);
+                  }}
+                >
+                  <IconImage src={yellowStart} size={24} />
+                  <h1 className="text-md  ">3.0 +</h1>
+                </button>{" "}
+                <button
+                  className={`${font14} text-gray-700 font-semibold border-r flex justify-center items-center cursor-pointer gap-2 ${
+                    rating === 4
+                      ? "bg-green-200   "
+                      : "hover:bg-green-200 hover:text-white"
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRating(4);
+                  }}
+                >
+                  <IconImage src={greenStar} size={24} />
+                  <h1 className="text-md font-bold  ">4.0 +</h1>
+                </button>
+                <button
+                  className={`${font14} text-gray-700 font-semibold border-r flex justify-center items-center cursor-pointer gap-2 ${
+                    rating === 5
+                      ? "bg-[#81d7fe]   "
+                      : "hover:bg-[#81d7fe] hover:text-white"
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRating(5);
+                  }}
+                >
+                  <IconImage src={blueStart} size={24} />
+                  <h1 className="text-md font-bold  ">5.0 </h1>
+                </button>
               </div>
             </div>
 

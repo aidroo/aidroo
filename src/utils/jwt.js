@@ -34,7 +34,7 @@ const REFRESH_SECRET = new TextEncoder().encode(process.env.REFRESH_SECRET);
 export async function generateAccessToken(payload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("1h") // 15 minutes
+    .setExpirationTime("1d") // 15 minutes
     .sign(ACCESS_SECRET);
 }
 

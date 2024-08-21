@@ -3,19 +3,16 @@ import apiService from "@/lib/apiService";
 import { useState } from "react";
 import useSWR from "swr";
 import { Combobox } from "./Combobox";
-import PaginationComponent from "./Pagination/PaginationComponent";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
-const fetcher = (url) => apiService.getData(url);
 export default function Subcategory() {
   const [subcategoryText, setSubcategoryText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
 
-  const itemsPerPage = 5;
   // Revalidate subcategories
 
   const {
@@ -24,8 +21,8 @@ export default function Subcategory() {
     mutate,
     isLoading,
   } = useSWR(
-    ["/api/subcategory", { page: currentPage, limit: itemsPerPage }],
-    fetcher
+    ["/api/subcategory", { categoryId: selectedCategory?.id }],
+    (url) => apiService.getData(url)
   );
 
   const {
@@ -74,6 +71,7 @@ export default function Subcategory() {
           options={categoryData?.data}
           isLoading={categoryLoading}
           error={categoryerror}
+          placeholder=" Selected Category"
         />
         {error && <h1 className="p-2 text-red-200">{error | apiError}</h1>}
         <Button variant="hover" size="lg" type="submit">
@@ -104,18 +102,18 @@ export default function Subcategory() {
               ))
             ) : (
               <TableRow>
-                <TableCell>No subcategories available</TableCell>
+                <TableCell>No category selected</TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
 
-        {/* Pagination */}
+        {/* Pagination
         <PaginationComponent
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           totalPages={data?.totalPages}
-        />
+        /> */}
       </div>
     </div>
   );

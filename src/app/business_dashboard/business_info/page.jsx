@@ -80,9 +80,12 @@ export default function BusinessInfo() {
   const {
     data: subcategoryData,
     error: subcategoryError,
-    isLoading: subcategoryLoading,
-  } = useSWR("/api/subcategory", (url) => apiService.getData(url));
 
+    isLoading: subcategoryLoading,
+  } = useSWR(
+    ["/api/subcategory", { categoryId: selectedCategory?.id }],
+    (url) => apiService.getData(url)
+  );
   // image  upload
   const handleChange = (e) => {
     const file = e.target.files[0];

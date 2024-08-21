@@ -48,8 +48,6 @@ export default function BusinessPage() {
     fetcher
   );
 
-  // fetching category list
-
   const {
     data: categoryData,
     error: categoryError,
@@ -62,8 +60,10 @@ export default function BusinessPage() {
     error: subcategoryError,
 
     isLoading: subcategoryLoading,
-  } = useSWR("/api/subcategory", (url) => apiService.getData(url));
-
+  } = useSWR(
+    ["/api/subcategory", { categoryId: selectedCategory?.id }],
+    (url) => apiService.getData(url)
+  );
   const onSubmit = async (data) => {
     clearErrors();
     setApiError("");
@@ -130,7 +130,7 @@ export default function BusinessPage() {
               role="status"
             ></div>
           )}
-          {!isLoading && username !== "" && !data?.user && (
+          {!isLoading && username !== "" && !data?.data && (
             <BsCheckCircleFill className="text-primary_color text-3xl mr-2" />
           )}
         </div>

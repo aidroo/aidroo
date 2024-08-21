@@ -10,17 +10,15 @@ const BusinessProfile = sequelize.define(
         model: "Users",
         key: "username",
       },
-
       allowNull: false,
     },
     businessName: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-
     profileThumb: {
       type: DataTypes.STRING(1000),
-      allowNull: true, // allowNull: true is more explicit than defaultValue: null
+      allowNull: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -43,7 +41,7 @@ const BusinessProfile = sequelize.define(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM("approved", "pending", "deleted"), // Enum values as strings
+      type: DataTypes.ENUM("approved", "pending", "deleted"),
       defaultValue: "pending",
     },
     rating: {
@@ -81,6 +79,11 @@ const BusinessProfile = sequelize.define(
     workwith: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+
+    totalReviews: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
   },
   {

@@ -46,7 +46,7 @@ const Review = sequelize.define(
     },
     images: {
       type: DataTypes.JSON, // Allows storing an array or object of images
-      allowNull: true,
+      allowNull: false,
     },
   },
   {

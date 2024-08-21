@@ -51,35 +51,19 @@ export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
 
-    const page = parseInt(searchParams.get("page")) || 1;
-    const limit = parseInt(searchParams.get("limit")) || 5;
-    const offset = (page - 1) * limit;
-
-    if (page < 1 || limit < 1) {
-      return NextResponse.json({
-        status: 400,
-        message: "Page and limit must be positive integers.",
-      });
-    }
+    const categoryId = searchParams.get("categoryId");
 
     await connectToDatabase();
 
     // Fetch subcategories with pagination
-    const { rows: subcategories, count: totalRecords } =
-      await db.Subcategory.findAndCountAll({
-        offset,
-        limit,
-        order: [["createdAt", "DESC"]],
-      });
 
-    const totalPages = Math.ceil(totalRecords / limit);
+    const subcategories = await db.Subcategory.findAll({
+      where: { categoryId: categoryId },
+    });
 
     return NextResponse.json({
       status: 201,
       message: "Subcategories fetched successfully.",
-      totalRecords,
-      totalPages,
-      currentPage: page,
       data: subcategories,
     });
   } catch (error) {

@@ -50,9 +50,7 @@ export default function BusinessProfileSidebar({ data }) {
                 <h1 className={` text-primary_color ${font16}`}>
                   Total Funding
                 </h1>
-                <p className={`text-gray-500 ${font14} `}>
-                  {funds} B - {10 + funds} B
-                </p>
+                <p className={`text-gray-500 ${font14} `}>{funds} B</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -98,7 +96,7 @@ export default function BusinessProfileSidebar({ data }) {
             <IconImage src={earningIcon} alt="total spent icon" size={64} />
             <div className="">
               <h1 className={`${font16} text-primary_color`}>Total Spent</h1>
-              <p className={`text-gray-500 ${font14}`}>1200 $</p>
+              <p className={`text-gray-500 ${font14}`}>0 $</p>
             </div>
           </div>
           <div className="border" />
@@ -106,7 +104,7 @@ export default function BusinessProfileSidebar({ data }) {
             <IconImage src={ceoIcon} alt="bag icon" size={64} />
             <div className="">
               <h1 className={`${font16} text-primary_color`}>Work with</h1>
-              <p className={`text-gray-500 ${font14}`}>7 Profile</p>
+              <p className={`text-gray-500 ${font14}`}>0 Profile</p>
             </div>
           </div>
         </div>

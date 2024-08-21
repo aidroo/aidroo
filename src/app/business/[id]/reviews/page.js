@@ -23,7 +23,7 @@ export default function Review() {
   const { currentUser } = useAuth();
 
   const username = pathname.split("/").filter(Boolean)[1];
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
 
   const fetcher = (url) => apiService.getData(url);
   const { data, error, mutate, isLoading } = useSWR(
@@ -32,7 +32,6 @@ export default function Review() {
       {
         page: currentPage,
         limit: itemsPerPage,
-        username: currentUser?.username,
         profileId: username,
       },
     ],
@@ -53,6 +52,7 @@ export default function Review() {
   if (!data) {
     return <Notfound />;
   }
+  const rating = Math.round(data.rating);
 
   return (
     <div className="col-span-1 space-y-6">
@@ -67,7 +67,7 @@ export default function Review() {
           <IconImage src={topplacementBadge} size={70} alt="image" />
           <h1 className={`${font16}`}>Overall Rating</h1>
           <div className="flex gap-1">
-            <Rating value={4} size={18} />
+            <Rating value={rating} size={18} />
           </div>
           <h1 className={`${font14}`}>
             <span>{data?.totalRecords}</span> Reviews

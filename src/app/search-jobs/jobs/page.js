@@ -6,8 +6,8 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function page() {
-  const [searchText, setSearchText] = useState("");
-  console.log(searchText);
+  const [setSearchText] = useState("");
+
   return (
     <div>
       <form className="flex gap-4  p-1 rounded justify-center my-8  w-full">

@@ -47,6 +47,8 @@ export default function BusinessProfileCard({ businessProfile, id }) {
     profileThumb = "",
   } = businessProfile.businessProfile;
   const { country = "", city = "" } = businessProfile.addresses;
+
+  let averageRating = Math.round(rating);
   return (
     <div className="mb-4">
       <div className="flex gap-4 items-center  p-4  ">
@@ -72,7 +74,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
           {/*rating */}
           <div className="md:flex gap-4  items-center  space-y-2 md:space-y-0 ">
             <div className="flex gap-1 ">
-              <Rating value={rating} size={18} />
+              <Rating value={averageRating} size={18} />
             </div>
             <h1 className="text-gray-600 text-sm  ">
               <span>{rating} </span>
