@@ -4,8 +4,14 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+// fillButton: "w-full bg-primary_color text-white",
+// hover:
+//   " w-full bg-white text-gray-600 border shadow hover:bg-primary_color hover:text-white duration-200 ",
+// hoverButton:
+//   " rounded px-5 py-2.5  group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-[#0084FF] hover:to-[#0084FF] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#0084FF] transition-all ease-out duration-300",
+
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary_color disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {

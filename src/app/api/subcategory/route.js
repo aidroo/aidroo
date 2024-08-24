@@ -47,16 +47,23 @@ export async function POST(req) {
 }
 
 // GET: Fetch subcategories with pagination
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
 
     const categoryId = searchParams.get("categoryId");
 
+    if (!categoryId) {
+      return NextResponse.json({
+        status: 400,
+        message: "Category ID is required",
+      });
+    }
+
     await connectToDatabase();
 
-    // Fetch subcategories with pagination
-
+    // Fetch subcategories based on the categoryId
     const subcategories = await db.Subcategory.findAll({
       where: { categoryId: categoryId },
     });

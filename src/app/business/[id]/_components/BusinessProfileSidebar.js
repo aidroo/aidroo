@@ -4,7 +4,7 @@ import Rating from "@/components/Rating/Rating";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { font14, font16, font18 } from "@/constant";
 import {
-  bagIcon,
+  brifcaseIcon,
   categories,
   ceoIcon,
   claimWithBusiness,
@@ -73,7 +73,7 @@ export default function BusinessProfileSidebar({ data }) {
             <h1 className={` text-primary_color ${font18}`}>Deals on Aidroo</h1>
           </div>
           <div className="flex items-center gap-2 px-8">
-            <IconImage src={bagIcon} alt="bag icon" size={4} />
+            <IconImage src={brifcaseIcon} alt="bag icon" size={4} />
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
                 Total Posted Job
@@ -142,10 +142,10 @@ export default function BusinessProfileSidebar({ data }) {
                 </svg>
               </span>
               <span className="absolute flex items-center justify-center w-full h-full text-primary_color transition-all duration-300 transform group-hover:translate-x-full ease">
-                Access your Business
+                Access my Business
               </span>
               <span className="relative invisible text-sm">
-                Access your Business
+                Access my Business
               </span>
             </a>
           </div>

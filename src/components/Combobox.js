@@ -45,7 +45,7 @@ export function Combobox({
         <Command>
           <CommandInput
             placeholder={`Search  ${placeholder}...`}
-            className="h-9"
+            className="h-10"
           />
           {isLoading ? (
             "Loading..."

@@ -1,6 +1,5 @@
 "use client";
 import logo from "@/asserts/aidroo-logo.svg";
-import Heading from "@/components/Heading";
 import CustomInput from "@/components/InputComponent/CustomInput";
 import Layout from "@/components/Layout/Layout";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
@@ -100,12 +99,12 @@ export default function Login() {
           </Link>
         </div>
         <div className=" w-full flex flex-col items-center justify-center ">
-          <Heading className="text-sm">
+          <h1>
             Not signed up?{" "}
             <Link href="/signup" className="  text-primary_color">
               Signup
             </Link>
-          </Heading>
+          </h1>
         </div>
       </div>
     </Layout>

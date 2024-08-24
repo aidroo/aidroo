@@ -1,6 +1,6 @@
 import { font14, font16, font18 } from "@/constant";
 import {
-  bagIcon,
+  brifcaseIcon,
   categories,
   ceoIcon,
   claimWithBusiness,
@@ -73,7 +73,7 @@ export default function BusinessProfileSidebar({ data }) {
             <h1 className={` text-primary_color ${font18}`}>Deals on Aidroo</h1>
           </div>
           <div className="flex items-center gap-2 px-8">
-            <IconImage src={bagIcon} alt="bag icon" size={4} />
+            <IconImage src={brifcaseIcon} alt="bag icon" size={4} />
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
                 Total Posted Job

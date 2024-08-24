@@ -1,7 +1,7 @@
 import logo from "@/asserts/aidroo-logo.svg";
 import filter from "@/asserts/filter.svg";
 import humber from "@/asserts/mobile-icons/Hamburger-l1.svg";
-import category from "@/asserts/mobile-icons/categories.svg";
+import categoryImage from "@/asserts/mobile-icons/categories.svg";
 import pageIcon from "@/asserts/mobile-icons/page_icon.svg";
 import businessIcon from "@/asserts/mobile-icons/pricing-plan.svg";
 import helpIcon from "@/asserts/mobile-icons/support.svg";
@@ -68,7 +68,7 @@ export {
   businessProfilePic,
   businessverified,
   categories,
-  category,
+  categoryImage,
   ceoIcon,
   claimedIcon,
   claimWithBusiness,

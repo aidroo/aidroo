@@ -2,9 +2,9 @@ import Layout from "@/components/Layout/Layout"; // Server Component
 import Loading from "@/components/Loading";
 import axiosInstance from "@/lib/axios";
 import { Suspense } from "react";
-import BusinessNavbar from "../_components/BusinessNavbar";
-import BusinessProfileHeader from "../_components/BusinessProfileHeader";
-import BusinessProfileSidebar from "../_components/BusinessProfileSidebar";
+import BusinessNavbar from "./_components/BusinessNavbar";
+import BusinessProfileHeader from "./_components/BusinessProfileHeader";
+import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
 
 export default async function BusinessProfileLayout({ children, params }) {
   const { id } = params;

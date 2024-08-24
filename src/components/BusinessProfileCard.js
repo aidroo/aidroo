@@ -3,7 +3,7 @@ import {
   brifcaseIcon,
   businessProfilePic,
   categories,
-  category,
+  categoryImage,
   locationIcon,
   moneyBag,
   myReview,
@@ -13,6 +13,7 @@ import {
 } from "@/exportImage";
 import { shortenString } from "@/lib/utils";
 
+import Image from "next/image";
 import Link from "next/link";
 import { FaRegPaperPlane } from "react-icons/fa6";
 import IconImage from "./IconImage/IconImage";
@@ -33,12 +34,7 @@ let str = ` I had a seamless experience with Panacea.professionals do not unders
                                       adipisicing elit. Amet, explicabo! Lorem
                                       ipsum dolor, sit amet consectetur
                                       adipisicing elit. Distinctio ratione velit
-                                      doloribus quasi neque magnam facilis eius,
-                                      repellat ipsa veniam, expedita itaque
-                                      optio obcaecati nisi a porro dolorum
-                                      eveniet provident deleniti mollitia
-                                      adipisci quis! Similique asperiores
-                                      quisquam deleniti neque cum?`;
+                                      doloribus quasi neque magnam facilis eius,`;
 export default function BusinessProfileCard({ businessProfile, id }) {
   const {
     businessName = "",
@@ -95,12 +91,8 @@ export default function BusinessProfileCard({ businessProfile, id }) {
       {/* job */}
       <div className="px-4 py-1 flex justify-between md:hidden">
         <div className="flex gap-1 items-center ">
-          <IconImage src={category} size={15} alt="category" />
-          <h1 className="text-sm">Digital Agency</h1>
-        </div>
-        <div className="flex gap-1 items-center ">
-          <IconImage src={category} size={15} />
-          <h1 className="text-sm">Digital Agency</h1>
+          <IconImage src={categoryImage} size={15} alt="category" />
+          <h1 className="text-sm">{category}</h1>
         </div>
       </div>
 
@@ -113,8 +105,8 @@ export default function BusinessProfileCard({ businessProfile, id }) {
             <div className="flex justify-between  ">
               <div className=" hidden md:grid grid-cols-1 md:grid-cols-3  w-full gap-4">
                 <div className="flex gap-2 items-center ">
-                  <IconImage src={category} size={20} />
-                  <h1 className="text-sm">Digital Agency</h1>
+                  <IconImage src={categoryImage} size={20} />
+                  <h1 className="text-sm">{category}</h1>
                 </div>
                 <Dialog>
                   <DialogTrigger asChild>
@@ -192,10 +184,8 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                   </DialogContent>
                 </Dialog>
                 <AccordionTrigger className=" w-fit flex  -mt-3 ">
-                  <IconImage src={myReview} size={20} />
-                  <span className="text-sm text-primary_color">
-                    Latest reviews
-                  </span>
+                  <Image src={myReview} className="h-6 w-6" />
+                  <span className="text-sm text-primary_color">Reviews</span>
                 </AccordionTrigger>
               </div>
 
@@ -274,9 +264,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 </Dialog>
                 <AccordionTrigger className=" w-fit flex    ">
                   <IconImage src={myReview} size={20} />
-                  <span className="text-sm text-primary_color">
-                    Latest reviews
-                  </span>
+                  <span className="text-sm text-primary_color">Reviews</span>
                 </AccordionTrigger>
               </div>
             </div>

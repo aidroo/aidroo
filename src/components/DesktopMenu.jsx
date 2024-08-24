@@ -82,7 +82,18 @@ export default function DesktopMenu() {
         </div>
 
         <div className="col-span-2  mr-24 flex justify-end items-center gap-4   ">
-          <div className="px-4  py-2   relative rounded group  font-medium bg-[#1E56AD] text-white inline-block">
+          <button
+            href="#_"
+            class=" rounded px-5  h-10 overflow-hidden group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-2 hover:ring-white transition-all ease-out duration-300"
+          >
+            <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping  inline-flex absolute    h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+            </span>
+            <span className="relative">Explore Job</span>
+          </button>
+          {/* <div className="px-4  py-2   relative rounded group  font-medium bg-[#1E56AD] text-white inline-block">
             <div className="absolute -top-2 -right-1">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
@@ -90,8 +101,8 @@ export default function DesktopMenu() {
               </span>
             </div>
 
-            <span className="relative">Explore Job</span>
-          </div>
+            
+          </div> */}
           <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -102,7 +113,7 @@ export default function DesktopMenu() {
                 className="px-4  py-2   relative rounded group overflow-hidden font-medium bg-[#1E56AD] text-white inline-block"
               >
                 <span className="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-primary_color group-hover:h-full opacity-90"></span>
-                <span className="relative group-hover:text-white text-sm">
+                <span className="relative group-hover:text-white ">
                   For Business
                 </span>
               </button>
@@ -172,9 +183,41 @@ export default function DesktopMenu() {
           {!currentUser ? (
             <Link
               href="/login"
-              className="text-white border border-blue-300 h-10 flex justify-center items-center px-4 rounded-sm"
+              className="relative inline-flex items-center justify-center h-10 px-4   overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-sm  shadow-md group"
             >
-              Log in
+              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
+                <svg
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 512 512"
+                  xmlSpace="preserve"
+                  width={24}
+                >
+                  <style type="text/css">{`.st0{fill:#FFFFFF;}`}</style>
+                  <g>
+                    <path
+                      className="st0"
+                      d="M107.5,57.9h296.4c16,0,29,13,29,29v48.3c0,4.8-3.9,8.7-8.7,8.7H414c-4.8,0-8.7-3.9-8.7-8.7V93.5
+            c0-4.5-3.6-8.1-8.1-8.1H114.2c-4.5,0-8.1,3.6-8.1,8.1v324c0,4.5,3.6,8.1,8.1,8.1h283.1c4.5,0,8.1-3.6,8.1-8.1v-41.6
+            c0-4.8,3.9-8.7,8.7-8.7h10.2c4.8,0,8.7,3.9,8.7,8.7v48.3c0,16-13,29-29,29H107.5c-16,0-29-13-29-29V86.9
+            C78.5,70.9,91.5,57.9,107.5,57.9z"
+                    />
+                    <path
+                      className="st0"
+                      d="M432.9,265.5v-16c0-4.8-3.9-8.7-8.7-8.7H276.6v-77.6l-92.2,92.2l92.2,92.2v-73.5h147.6
+            C429,274.2,432.9,270.3,432.9,265.5z"
+                    />
+                  </g>
+                </svg>
+              </span>
+              <span className="absolute flex items-center justify-center w-full h-full text-white -all duration-300 transform group-hover:translate-x-full ease">
+                Login
+              </span>
+              <span className="relative invisible text-sm">Login</span>
             </Link>
           ) : (
             <>

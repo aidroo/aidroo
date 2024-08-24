@@ -7,7 +7,7 @@ import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { countries, font14 } from "@/constant";
-import { category } from "@/exportImage";
+import { categoryImage } from "@/exportImage";
 import { useDebounce } from "@/hooks/useDebaunce";
 import apiService from "@/lib/apiService";
 import Link from "next/link";
@@ -147,7 +147,7 @@ export default function BusinessPage() {
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex items-center border rounded-md ">
           <div className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm flex items-center justify-center">
-            <IconImage src={category} size={24} alt="icon" />
+            <IconImage src={categoryImage} size={24} alt="icon" />
           </div>
           <Combobox
             selectedCategory={selectedCategory}
@@ -161,7 +161,7 @@ export default function BusinessPage() {
         </div>
         <div className="flex items-center border rounded-md ">
           <div className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm flex items-center justify-center">
-            <IconImage src={category} size={24} alt="icon" />
+            <IconImage src={categoryImage} size={24} alt="icon" />
           </div>
           <Combobox
             selectedCategory={selectedSubcategory}

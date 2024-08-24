@@ -5,7 +5,7 @@ import { font16 } from "@/constant";
 import {
   brifcaseIcon,
   businessIcon,
-  category,
+  categoryImage,
   filter,
   helpIcon,
   logo,
@@ -37,12 +37,12 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
 export default function MobileMenu() {
+  const { currentUser, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [humberOpen, setHumberOpen] = useState(false);
   const [setSearchText] = useState("");
   const [isHovered, setIsHovered] = useState(false);
 
-  const { currentUser } = useAuth();
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
   };
@@ -177,7 +177,7 @@ export default function MobileMenu() {
                   <h1 className={`${font16}`}>For Business</h1>
                 </div>
                 <div className="flex items-center gap-4 border-b pb-4">
-                  <IconImage src={category} size={20} alt="icon" />
+                  <IconImage src={categoryImage} size={20} alt="icon" />
                   <h1 className={`${font16}`}>Categories</h1>
                 </div>
                 <AccordionItem value="item-1">
@@ -222,7 +222,7 @@ export default function MobileMenu() {
                         className="  ring-primary_color ring-offset-2  flex gap-2    "
                       >
                         <LogOutSvg size={16} isHovered={isHovered} />
-                        <Heading size="sm">Logout</Heading>
+                        <h1 onClick={logout}> Logout</h1>
                       </Button>
                     )}
                   </div>
