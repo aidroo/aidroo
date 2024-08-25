@@ -1,4 +1,5 @@
 import db from "@/config/model";
+import { NextResponse } from "next/server";
 import { Op } from "sequelize";
 
 export async function fetchProfiles({
@@ -25,10 +26,10 @@ export async function fetchProfiles({
     ...(searchCity && { city: { [Op.like]: `%${searchCity}%` } }),
   };
   // const paginationOptions = {
-  //   page: searchParams.get("page"),
-  //   limit: searchParams.get("limit"),
-  //   sortBy: searchParams.get("sortBy"),
-  //   sortOrder: searchParams.get("sortOrder"),
+  //   page: 1,
+  //   limit: 10,
+  //   sortBy: "asc",
+  //   sortOrder: "desc",
   // };
 
   // const { page, limit, offset, sortBy, sortOrder } =
@@ -55,10 +56,40 @@ export async function fetchProfiles({
 
         // limit, // Limit the number of records
         // offset, // Offset for pagination
-        // order: [[sortBy, sortOrder]], // Order by specific field and order
+        order: [["createdAt", "DESC"]], // Order by specific field and order
       });
     return { businessProfiles: businessProfiles, totalRecords: totalRecords };
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function fetchSingleProfile({ username }) {
+  try {
+    const user = await db.User.findOne({
+      where: { username },
+      include: [
+        {
+          model: db.BusinessProfile,
+          as: "businessProfile",
+          required: true,
+        },
+        {
+          model: db.Address,
+          as: "addresses",
+        },
+      ],
+    });
+
+    if (!user) {
+      return NextResponse.json({ status: 404, message: "User not found" });
+    }
+
+    // Convert the Sequelize model to a plain object
+    const plainUser = user.toJSON();
+
+    return { businessProfile: plainUser };
+  } catch (error) {
+    return NextResponse.json({ error: error.message, status: 500 });
   }
 }

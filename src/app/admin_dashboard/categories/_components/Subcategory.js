@@ -1,11 +1,12 @@
 "use client";
+
+import { Combobox } from "@/components/Combobox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import apiService from "@/lib/apiService";
 import { useState } from "react";
 import useSWR from "swr";
-import { Combobox } from "./Combobox";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
 export default function Subcategory() {
   const [subcategoryText, setSubcategoryText] = useState("");
@@ -14,7 +15,7 @@ export default function Subcategory() {
   const [error, setError] = useState(null);
 
   // Revalidate subcategories
-  console.log(selectedCategory);
+
   const {
     data,
     error: apiError,

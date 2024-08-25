@@ -64,7 +64,9 @@ export default function SearchBar({
         >
           <option value="">All Countries</option>
           {countries.map((country) => (
-            <option value={country.name}>{country.name}</option>
+            <option value={country.name} key={country.code}>
+              {country.name}
+            </option>
           ))}
         </select>
       </div>

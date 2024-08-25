@@ -1,4 +1,5 @@
 "use client";
+import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,7 +27,7 @@ export default function BusinessProfileFiltering({
 
   // State
   const [subcategories, setSubcategories] = useState([]);
-  const [category, setCategory] = useState(categoryFilter || "");
+  // const [category, setCategory] = useState(categoryFilter || "");
   const [search, setSearch] = useState(searchQuery || "");
   const [subcategory, setSubcategory] = useState(subcategoryFilter || "");
   const [country, setCountry] = useState(countryFilter || "");
@@ -34,14 +35,16 @@ export default function BusinessProfileFiltering({
   const [city, setCity] = useState(searchCity || "");
   const [claimedStatues, setClaimedStatus] = useState(claimedStatus || false);
   const [openNow, setOpenNow] = useState(openNowFilter || false);
-
+  const [selectedCategory, setSelectedCategory] = useState(
+    categoryFilter || null
+  );
   // Effect to fetch subcategories based on selected category name
   useEffect(() => {
-    if (category) {
+    if (selectedCategory?.name) {
       const getSubcategories = async () => {
         try {
           const response = await axiosInstance.get("/api/subcategory", {
-            params: { categoryName: category }, // Fetching subcategories based on selected category name
+            params: { categoryId: selectedCategory?.id }, // Fetching subcategories based on selected category name
           });
           setSubcategories(response.data?.data || []);
         } catch (error) {
@@ -53,14 +56,14 @@ export default function BusinessProfileFiltering({
     } else {
       setSubcategories([]); // Clear subcategories when no category is selected
     }
-  }, [category]);
+  }, [selectedCategory?.name]);
 
   // Effect to update the URL when search parameters change
   useEffect(() => {
     const query = new URLSearchParams();
 
     if (search) query.set("search", search);
-    if (category) query.set("category", category);
+    if (selectedCategory?.name) query.set("category", selectedCategory?.name);
     if (subcategory) query.set("subcategory", subcategory);
     if (country) query.set("country", country);
     if (rating) query.set("rating", rating);
@@ -74,7 +77,7 @@ export default function BusinessProfileFiltering({
     });
   }, [
     search,
-    category,
+    selectedCategory?.name,
     subcategory,
     country,
     rating,
@@ -98,7 +101,7 @@ export default function BusinessProfileFiltering({
         />
 
         {/* Category Filter */}
-        <div>
+        {/* <div>
           <select
             name="category"
             value={category}
@@ -113,7 +116,16 @@ export default function BusinessProfileFiltering({
                 </option>
               ))}
           </select>
-        </div>
+        </div> */}
+
+        {/* 00 */}
+
+        <Combobox
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          options={categories}
+          placeholder=" Selected Category"
+        />
 
         {/* Subcategory Filter */}
         <div>

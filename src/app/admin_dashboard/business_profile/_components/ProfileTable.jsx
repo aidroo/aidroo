@@ -1,6 +1,7 @@
 import Notfound from "@/components/Notfound";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -9,14 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { FaRegEdit } from "react-icons/fa";
 import ProfileEditDialog from "./ProfileEditDialog";
 
 export default function ProfileTable({ profiles }) {
+  console;
   if (profiles.length === 0) return <Notfound />;
 
-  const { businessName, category, status, verified, top, guaranteed } =
-    profiles[0]?.businessProfile;
-  const { country } = profiles[0]?.addresses;
   return (
     <div className="w-[450px] lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md">
       <Table>
@@ -49,13 +49,25 @@ export default function ProfileTable({ profiles }) {
         <TableBody>
           {profiles?.length > 0 &&
             profiles?.map((item) => {
+              const {
+                businessName,
+                category,
+                status,
+                verified,
+                top,
+                guaranteed,
+              } = item?.businessProfile;
+              const { country } = item?.addresses;
               return (
-                <TableRow key={item}>
+                <TableRow key={item.email}>
                   <TableCell className=" ">{businessName}</TableCell>
                   <TableCell className="font-medium ">{category}</TableCell>
                   <TableCell className=" ">{country}</TableCell>
                   <TableCell className=" ">
-                    <Badge>{status}</Badge>
+                    {status === "pending" && (
+                      <Badge className="bg-red-300">{status}</Badge>
+                    )}
+                    {status === "approved" && <Badge>{status}</Badge>}
                   </TableCell>
                   <TableCell className=" ">
                     <Checkbox className="h-6 w-6" checked={verified} disabled />
@@ -72,7 +84,18 @@ export default function ProfileTable({ profiles }) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <ProfileEditDialog />
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <FaRegEdit className="text-lg cursor-pointer" />
+                      </DialogTrigger>
+                      <ProfileEditDialog
+                        username={item.username}
+                        currentStatus={status}
+                        currentVerified={verified}
+                        currentTop={top}
+                        currentGuaranteed={guaranteed}
+                      />
+                    </Dialog>
                   </TableCell>
                 </TableRow>
               );

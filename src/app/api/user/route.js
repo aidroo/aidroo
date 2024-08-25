@@ -21,6 +21,7 @@ export async function POST(req) {
     businessName,
     businessType,
     phoneNumber,
+    profileThumb,
     city,
     address,
     country,
@@ -77,6 +78,7 @@ export async function POST(req) {
             firstName,
             lastName,
             dob,
+            profileThumb,
             gender,
           });
         } else if (role === "business") {
@@ -86,6 +88,8 @@ export async function POST(req) {
             businessType,
             phoneNumber,
             category,
+
+            profileThumb,
             subcategory,
           });
         }

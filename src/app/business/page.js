@@ -56,12 +56,12 @@ export default async function Categories({ searchParams }) {
           Find your best company
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-8    lg:gap-x-4">
+        <div className="grid grid-cols-1 lg:grid-cols-8 gap-y-10   lg:gap-x-4">
           {/* Filter Section */}
           <BusinessProfileFiltering categories={categories} />
 
           {/* Business Profile Section */}
-          <div className="col-span-5 border-2 rounded-md p-6 space-y-4">
+          <div className="col-span-5  lg:border-2 rounded-md lg:p-6 space-y-4">
             {businessProfiles.length > 0 && (
               <>
                 <div className="overflow-hidden w-full">

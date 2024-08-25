@@ -1,12 +1,13 @@
 "use client";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
-import Subcategory from "@/components/Subcategory";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import apiService from "@/lib/apiService";
 import { useState } from "react";
 import useSWR from "swr";
+import Subcategory from "./_components/Subcategory";
 
 export default function Categories() {
   const [categoryText, setCategoryText] = useState("");

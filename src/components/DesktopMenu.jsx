@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
 import { font16, font18 } from "@/constant";
+
 import {
   addyourbusiness,
   claimWithBusiness,
@@ -84,10 +85,9 @@ export default function DesktopMenu() {
         <div className="col-span-2  mr-24 flex justify-end items-center gap-4   ">
           <button
             href="#_"
-            class=" rounded px-5  h-10 overflow-hidden group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-2 hover:ring-white transition-all ease-out duration-300"
+            class=" rounded px-5  h-10  group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-1 hover:ring-white transition-all ease-out duration-300"
           >
-            <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-            <span className="relative flex h-3 w-3">
+            <span className="absolute -top-2 -right-1  flex h-3 w-3">
               <span className="animate-ping  inline-flex absolute    h-full w-full rounded-full bg-white opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
             </span>

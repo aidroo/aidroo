@@ -26,7 +26,7 @@ const Star = ({
     >
       <style>
         {`
-          .initial { fill: #9b9b9b; }
+          .initial { fill: #A0A0A0; }
           .white { fill: #ffffff; }
           .red { fill: #ff0000; }
           .yellow { fill: #f9931f; }

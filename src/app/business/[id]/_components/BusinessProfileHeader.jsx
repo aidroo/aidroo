@@ -16,7 +16,7 @@ export default function BusinessProfileHeader({ data }) {
     <div className="w-full bg-[#f5fafc] dark:bg-dark">
       <div className="max-w-[1280px] mx-auto">
         <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-4 py-8  px-10">
-          <div className="flex gap-8  items-center justify-center  col-span-3 ">
+          <div className="flex gap-8  items-start justify-center  col-span-3 ">
             <div className="w-24 md:w-32 shrink-0 overflow-hidden ring-1 rounded-md">
               <ResponsiveImage
                 src={data?.profileThumb || businessProfilePic}
@@ -27,29 +27,35 @@ export default function BusinessProfileHeader({ data }) {
               />
             </div>
             <div>
-              <div className="flex gap-4 items-center">
-                <h1 className={font18bold}>{data?.businessName}</h1>
-                {data?.verified && (
+              <div className=" flex gap-x-4  justify-between items-start ">
+                <h1 className={`${font18bold}    text-justify -mt-1`}>
+                  {data?.businessName}
+                </h1>
+                {!data?.verified && (
                   <Image src={verifiedIcon} className="w-5" alt="Verified" />
                 )}
               </div>
-              <div className="flex gap-x-2 mt-2 items-center">
-                <p className="text-[14px] text-gray-700  ">
+              <div className="flex gap-4 items-center">
+                <h1 className={` w-full ${font18bold}  text-wrap`}></h1>
+              </div>
+
+              <div className="flex gap-x-2 lg:mt-2 items-center">
+                <p className="  text-gray-700  ">
                   {data?.totalReviews} Reviews{" "}
                 </p>
                 <GoDotFill className="text-primary_color" />
                 {data?.rating < 3.5 && <p>Poor</p>}
                 {data?.rating > 3.5 && data.rating > 4.5 && <p>Good</p>}
-                {data?.rating > 4.5 && <p>Excellent</p>}
+                {data?.rating > 5 && <p>Excellent</p>}
               </div>
-              <div className="flex gap-x-2 mt-2 items-center">
+              <div className="flex gap-x-2 lg:mt-2 items-center">
                 <Rating value={rating} size={22} />
                 <p className="text-[18px] text-gray-700 font-semibold">
                   {data?.rating}
                 </p>
               </div>
 
-              <Image src={claimedIcon} alt="Claimed" className="w-24 mt-2" />
+              <Image src={claimedIcon} alt="Claimed" className="w-24 lg:mt-2" />
             </div>
           </div>
 

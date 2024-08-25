@@ -29,6 +29,10 @@ export async function PUT(req) {
       country,
       category,
       subcategory,
+      status,
+      verified,
+      top,
+      guaranteed,
     } = body;
 
     // Validate required fields
@@ -70,6 +74,7 @@ export async function PUT(req) {
         if (description) personalProfile.description = description;
         if (phoneNumber) personalProfile.phoneNumber = phoneNumber;
         if (profileThumb) personalProfile.profileThumb = profileThumb;
+
         // if (dob) personalProfile.dob = dob;
         // if (gender) personalProfile.gender = gender;
         await personalProfile.save({ transaction });
@@ -89,7 +94,14 @@ export async function PUT(req) {
         if (description) businessProfile.description = description;
         if (category) businessProfile.category = category;
         if (subcategory) businessProfile.subcategory = subcategory;
-        if (profileThumb) businessProfile.profileThumb = profileThumb;
+        // Boolean fields handling
+        if (typeof status !== "undefined") businessProfile.status = status;
+        if (typeof verified !== "undefined")
+          businessProfile.verified = verified;
+        if (typeof top !== "undefined") businessProfile.top = top;
+        if (typeof guaranteed !== "undefined")
+          businessProfile.guaranteed = guaranteed;
+
         await businessProfile.save({ transaction });
       }
     }
@@ -111,10 +123,10 @@ export async function PUT(req) {
     // Commit the transaction
     await transaction.commit();
 
-    return NextResponse.json(
-      { status: 200, message: "User updated successfully." },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      status: 201,
+      message: "User updated successfully.",
+    });
   } catch (error) {
     // Rollback the transaction in case of an error
     await transaction.rollback();

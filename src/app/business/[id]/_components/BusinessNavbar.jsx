@@ -18,8 +18,8 @@ export default function BusinessNavbar() {
             : ""
         }`}
       >
-        <FaRegStar className="text-[22px]" />
-        <span>Reviews</span>
+        <FaRegStar className=" lg:text-[22px]" />
+        <span className=" text-sm mg:text-16">Reviews</span>
       </Link>
       <Link
         href={`/business/${id}/jobs`}
@@ -29,7 +29,7 @@ export default function BusinessNavbar() {
             : ""
         }`}
       >
-        <VscBriefcase className="text-2xl" />
+        <VscBriefcase className="text-xl lg:text-2xl" />
         <span>Jobs</span>
       </Link>
       <Link
@@ -40,7 +40,7 @@ export default function BusinessNavbar() {
             : ""
         }`}
       >
-        <IoIosArrowDropright className="text-2xl" />
+        <IoIosArrowDropright className="text-xl lg:text-2xl" />
         <span>More</span>
       </Link>
     </div>

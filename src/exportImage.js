@@ -8,6 +8,7 @@ import helpIcon from "@/asserts/mobile-icons/support.svg";
 import search from "@/asserts/search.svg";
 import bagIcon from "@/public/icons/bag.svg";
 import brifcaseIcon from "@/public/icons/businessbriefcase.svg";
+import brifcaseIcon2 from "@/public/icons/businessbriefcase2.svg";
 import ceoIcon from "@/public/icons/ceo.svg";
 import claimedIcon from "@/public/icons/claimed.svg";
 import claimWithBusiness from "@/public/icons/claimthisbusiness.svg";
@@ -64,6 +65,7 @@ export {
   addyourbusiness,
   bagIcon,
   brifcaseIcon,
+  brifcaseIcon2,
   businessIcon,
   businessProfilePic,
   businessverified,

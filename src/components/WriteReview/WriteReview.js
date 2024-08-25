@@ -19,6 +19,7 @@ import { FaImage } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import Heading from "../Heading";
 import OptionSelect from "../OptionSelect/OptionSelect";
+import Star from "../Star/Star";
 import { Skeleton } from "../ui/skeleton";
 
 export default function WriteReview({
@@ -122,7 +123,9 @@ export default function WriteReview({
 
           <h1 className="text-primary">Write Review</h1>
           <div className="flex gap-1">
-            <Rating />
+            <Star colorClass="initial" />
+            <Star colorClass="initial" />
+            <Star colorClass="initial" />
           </div>
         </div>
       )}

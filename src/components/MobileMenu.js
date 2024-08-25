@@ -78,7 +78,7 @@ export default function MobileMenu() {
 
             <SheetTrigger asChild>
               <div>
-                <div className="border w-9 h-9 rounded-md border-gray-500 relative  flex justify-center items-center  transition-all duration-500 ">
+                <div className="border w-9 h-9 rounded-md border-[#00408B] relative  flex justify-center items-center  transition-all duration-500 ">
                   {!humberOpen ? (
                     <IoMenu className="text-primary_color text-3xl" />
                   ) : (

@@ -15,6 +15,7 @@ import varifiedBadgePersional from "@/public/icons/verified-badgey-persional.svg
 import { font14, font16, font18, font18bold } from "@/constant";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
 import profileImage from "@/public/images/profile.jpg";
+import Image from "next/image";
 import { AiFillLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
 import { FaReply } from "react-icons/fa";
@@ -36,7 +37,7 @@ export default function ReviewCard({ review }) {
   return (
     <Card className="">
       <CardHeader className="flex">
-        <div className="flex gap-4 items-center mb-2">
+        <div className="flex gap-4 items-start mb-2">
           <div>
             <IconImage
               src={
@@ -50,11 +51,11 @@ export default function ReviewCard({ review }) {
             />
           </div>
           <div className="">
-            <div className="flex gap-6 items-center">
-              <h1 className={`${font18bold}`}>
+            <div className=" flex gap-x-4  justify-between items-start ">
+              <h1 className={`${font18bold}    text-justify -mt-1`}>
                 {review?.user?.businessProfile?.businessName || fulName}
               </h1>
-              <IconImage src={varifiedBadgePersional} size={16} />
+              <Image src={varifiedBadgePersional} className="w-5 mr-0" />
             </div>
 
             <p className={`${font14} text-gray-500`}>
@@ -75,13 +76,13 @@ export default function ReviewCard({ review }) {
         <hr className=" w-full  " />
       </CardHeader>
       <CardContent className="  mt-6 space-y-2">
-        <div className=" grid grid-cols-1 lg:grid-cols-2   gap-4  items-center -mt-10 text-sm">
-          <div className="flex  gap-4 items-center">
+        <div className=" grid grid-cols-1 lg:grid-cols-2   gap-x-4  items-center -mt-10 text-sm">
+          <div className="flex  gap-4 justify-between items-center">
             <div className="flex gap-1 ">
               <Rating value={rating} size={18} />
             </div>
 
-            <div className="w-24 flex  items-center gap-2">
+            <div className="w-24 flex -mr-6   items-center gap-2">
               <IconImage
                 src={reviewVerifiedIcon}
                 alt="verified image"
