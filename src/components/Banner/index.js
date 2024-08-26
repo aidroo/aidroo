@@ -7,7 +7,7 @@ export default function Banner() {
   return (
     <div className=" h-fit py-14 patenBackgroundImage  ">
       <div className="  max-w-[1280px]  mx-auto mt-14 lg:mt-0  ">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 sm:px-8 items-center mx-4">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 sm:px-8 items-center px-2">
           <div className="flex flex-col gap-6 text-center justify-center ">
             <Heading Heading className=" font-semibold   text-3xl  pb-">
               Explore Reviews <br className="block lg:hidden" />
@@ -31,7 +31,8 @@ export default function Banner() {
           <Image
             src={hero}
             alt="A descriptive alt text"
-            className="w-80 md:w-2/3"
+            width={500}
+            height={300}
           />
         </div>
       </div>

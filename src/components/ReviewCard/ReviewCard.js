@@ -10,16 +10,15 @@ import {
 import followerIcon from "@/public/icons/follower.svg";
 import reportIcon from "@/public/icons/report-icon.svg";
 import reviewsIcon from "@/public/icons/reviews.svg";
-import varifiedBadgePersional from "@/public/icons/verified-badgey-persional.svg";
 
-import { font14, font16, font18, font18bold } from "@/constant";
+import { font14, font16, font18 } from "@/constant";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
 import profileImage from "@/public/images/profile.jpg";
-import Image from "next/image";
 import { AiFillLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
 import { FaReply } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
+import TitleNameAndVerified from "../TitleNameAndVerified";
 
 export default function ReviewCard({ review }) {
   const { title, comment, rating, love, like, images } = review;
@@ -52,10 +51,13 @@ export default function ReviewCard({ review }) {
           </div>
           <div className="">
             <div className=" flex gap-x-4  justify-between items-start ">
-              <h1 className={`${font18bold}    text-justify -mt-1`}>
-                {review?.user?.businessProfile?.businessName || fulName}
-              </h1>
-              <Image src={varifiedBadgePersional} className="w-5 mr-0" />
+              <TitleNameAndVerified
+                title={review?.user?.businessProfile?.businessName || fulName}
+                verified={
+                  review?.user?.businessProfile?.verified ||
+                  review?.user?.personalProfile?.verified
+                }
+              />
             </div>
 
             <p className={`${font14} text-gray-500`}>

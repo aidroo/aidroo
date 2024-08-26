@@ -25,7 +25,7 @@ export default function ProfileForm() {
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
   const [businessName, setBusinessName] = useState("");
-  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [funds, setFunds] = useState("");
   const [employees, setEmployees] = useState("");
@@ -78,10 +78,8 @@ export default function ProfileForm() {
     profileThumb: uploadUrl,
     category: selectedCategory?.name,
     subcategory: selectedSubcategory?.name,
-
     country,
-    address,
-
+    city,
     description,
     employees,
     funds,
@@ -274,9 +272,9 @@ export default function ProfileForm() {
                   />
                   <Input
                     type="text"
-                    placeholder="Address"
+                    placeholder="City"
                     className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
-                    onChange={(e) => setAddress(e.target.value)}
+                    onChange={(e) => setCity(e.target.value)}
                   />{" "}
                   <Input
                     type="text"

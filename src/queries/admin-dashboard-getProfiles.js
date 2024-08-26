@@ -11,59 +11,66 @@ export async function fetchProfiles({
   searchCity,
   claimedStatus,
   openNow,
+  page = 1,
+  limit = 10,
 }) {
+  // Ensure page and limit are integers
+  page = parseInt(page, 10);
+  limit = parseInt(limit, 10);
+
+  // Default offset calculation
+  const offset = (page - 1) * limit;
+
   const whereConditions = {
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
     ...(ratingFilter && { rating: ratingFilter }),
     ...(claimedStatus !== null && { claimed: claimedStatus === "true" }),
-
     ...(openNow && { open: openNow }),
   };
+
   const addressConditions = {
     ...(countryFilter && { country: countryFilter }),
     ...(searchCity && { city: { [Op.like]: `%${searchCity}%` } }),
   };
-  // const paginationOptions = {
-  //   page: 1,
-  //   limit: 10,
-  //   sortBy: "asc",
-  //   sortOrder: "desc",
-  // };
 
-  // const { page, limit, offset, sortBy, sortOrder } =
-  //   paginationCalculator(paginationOptions);
   try {
     const { rows: businessProfiles, count: totalRecords } =
       await db.User.findAndCountAll({
-        // Select only email and username from User
         attributes: ["email", "username"],
         include: [
           {
             model: db.BusinessProfile,
             as: "businessProfile",
-            where: whereConditions, // Conditions for filtering BusinessProfile
-            required: true, // Inner join - only fetch users with BusinessProfiles
+            where: whereConditions,
+            required: true,
           },
           {
             model: db.Address,
             as: "addresses",
-            where: addressConditions, // Conditions for filtering Address
-            required: true, // Left join - fetch users with or without Addresses
+            where: addressConditions,
+            required: true,
           },
         ],
-
-        // limit, // Limit the number of records
-        // offset, // Offset for pagination
-        order: [["createdAt", "DESC"]], // Order by specific field and order
+        order: [["createdAt", "DESC"]],
+        offset: offset,
+        limit: limit, // Ensure limit is a number
       });
-    return { businessProfiles: businessProfiles, totalRecords: totalRecords };
+
+    // Calculate total pages for pagination
+    const totalPages = Math.ceil(totalRecords / limit);
+    return {
+      businessProfiles: businessProfiles,
+      totalRecords,
+      totalPages,
+      currentPage: page,
+    };
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching profiles:", error);
+    throw new Error("Database query failed");
   }
 }
-
 export async function fetchSingleProfile({ username }) {
   try {
     const user = await db.User.findOne({

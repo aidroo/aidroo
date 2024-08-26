@@ -53,7 +53,7 @@ export default function MobileMenu() {
 
       <Sheet onOpenChange={() => setHumberOpen(!humberOpen)}>
         <div className="flex   justify-between  h-24 items-center text-lg   max-h-[72px] ">
-          <div className=" w-24 ">
+          <div className=" w-24 ps-2 ">
             <Link href="/">
               <ResponsiveImage
                 src={logo}
@@ -76,7 +76,7 @@ export default function MobileMenu() {
               )}
             </div>
 
-            <SheetTrigger asChild>
+            <SheetTrigger asChild className="pr-2">
               <div>
                 <div className="border w-9 h-9 rounded-md border-[#00408B] relative  flex justify-center items-center  transition-all duration-500 ">
                   {!humberOpen ? (
@@ -100,7 +100,7 @@ export default function MobileMenu() {
               : "opacity-0 -translate-y-8 pointer-events-none "
           }`}
         >
-          <form className="flex gap-4 justify-center  h-10">
+          <form className="flex gap-x-4 justify-center  h-9">
             <Input
               type="text"
               name="search"

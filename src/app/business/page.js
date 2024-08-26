@@ -3,6 +3,7 @@ import Layout from "@/components/Layout/Layout";
 import { font18bold } from "@/constant";
 
 import Notfound from "@/components/Notfound";
+import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
 import { fetchCategories } from "@/queries/category-and-subcategory";
 import BusinessProfileCard from "./_components/BusinessProfileCard";
@@ -18,18 +19,23 @@ export default async function Categories({ searchParams }) {
   const claimedStatus = searchParams.claimed || false;
   const searchCity = searchParams.city || "";
   const openNow = searchParams.openNow || "";
+  const limit = searchParams.limit || 10;
+  const page = parseInt(searchParams?.page) || 1;
 
   // Fetch the data from your API or database based on the search and filter criteria
-  const { businessProfiles } = await fetchProfiles({
-    searchQuery,
-    categoryFilter,
-    subcategoryFilter,
-    countryFilter,
-    ratingFilter,
-    searchCity,
-    claimedStatus,
-    openNow,
-  });
+  const { businessProfiles, totalPages, currentPage, totalRecords } =
+    await fetchProfiles({
+      searchQuery,
+      categoryFilter,
+      subcategoryFilter,
+      countryFilter,
+      ratingFilter,
+      searchCity,
+      claimedStatus,
+      openNow,
+      page,
+      limit,
+    });
 
   // console.log(businessProfiles);
   // Loading placeholder
@@ -81,11 +87,13 @@ export default async function Categories({ searchParams }) {
                     onChange={setLimit}
                     value={limit}
                   /> */}
-                  {/* <PaginationComponent
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    totalPages={data?.totalPages}
-                  /> */}
+                  {limit < totalRecords && (
+                    <PaginationComponent
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      baseUrl="/business"
+                    />
+                  )}
                 </div>
               </>
             )}

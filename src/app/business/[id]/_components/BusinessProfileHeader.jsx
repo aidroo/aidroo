@@ -1,8 +1,9 @@
 "use client";
 import Rating from "@/components/Rating/Rating";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
+import TitleNameAndVerified from "@/components/TitleNameAndVerified";
 import { font14, font18bold } from "@/constant";
-import { businessProfilePic, claimedIcon, verifiedIcon } from "@/exportImage";
+import { businessProfilePic, claimedIcon } from "@/exportImage";
 import Image from "next/image";
 import { FaPlus } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
@@ -27,12 +28,12 @@ export default function BusinessProfileHeader({ data }) {
               />
             </div>
             <div>
-              <div className=" flex gap-x-4  justify-between items-start ">
-                <h1 className={`${font18bold}    text-justify -mt-1`}>
-                  {data?.businessName}
-                </h1>
-                {!data?.verified && (
-                  <Image src={verifiedIcon} className="w-5" alt="Verified" />
+              <div className="flex gap-2 items-center">
+                {data?.businessName && (
+                  <TitleNameAndVerified
+                    title={data?.businessName}
+                    verified={data?.verified}
+                  />
                 )}
               </div>
               <div className="flex gap-4 items-center">

@@ -5,12 +5,13 @@ import { Input } from "../ui/input";
 
 export default function SearchingBar() {
   return (
-    <form className="flex gap-4 justify-center  h-10">
+    <form className="flex gap-x-4 justify-center  h-10">
       <Input
         type="text"
         name="search"
         placeholder="Search"
         className="bg-white dark:bg-dark  max-w-80  "
+        onChange={(e) => handleInputChange(e)}
       />
 
       <div className="relative flex gap-4">

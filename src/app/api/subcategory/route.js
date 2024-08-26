@@ -53,7 +53,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
 
     const categoryId = searchParams.get("categoryId");
-    console.log(categoryId);
+
     if (!categoryId) {
       return NextResponse.json({
         status: 400,

@@ -35,15 +35,15 @@ const carosulImag = [
 export default function Carosul() {
   return (
     <div className="flex flex-col   overflow-hidden max-w-7xl mx-auto py-24 ">
-      <h1 className="text-center text-lg lg:text-2xl gap-2 font-thin flex items-center justify-center">
+      <h1 className="text-center text-sm lg:text-2xl gap-2 font-thin flex items-center justify-center">
         Listed by over
-        <span className="text-2xl lg:text-4xl font-semibold text-primary_color">
+        <span className="text-xl lg:text-4xl font-semibold text-primary_color">
           321,000
         </span>{" "}
         businesses globally
       </h1>
       <div className="flex overflow-hidden   group mt-14">
-        <div className="flex  space-x-16 animate-loop-scroll group-hover:paused">
+        <div className="flex  space-x-16  px-2 animate-loop-scroll group-hover:paused">
           {carosulImag.map((img) => (
             <Image
               key={img}

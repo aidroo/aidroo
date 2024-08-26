@@ -1,3 +1,4 @@
+import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
 import { fetchCategories } from "@/queries/category-and-subcategory";
 import ProfileForm from "./_components/ProfileForm";
@@ -8,13 +9,18 @@ export default async function BusinessPage({ searchParams }) {
   const searchQuery = searchParams.search || "";
   const categoryFilter = searchParams.category || "";
   const countryFilter = searchParams.country || "";
+  const page = searchParams.page || 1;
+  const limit = searchParams.limit || 10;
 
   // Fetch the data from your API or database based on the search and filter criteria
-  const { businessProfiles } = await fetchProfiles({
-    searchQuery,
-    categoryFilter,
-    countryFilter,
-  });
+  const { businessProfiles, totalPages, currentPage, totalRecords } =
+    await fetchProfiles({
+      searchQuery,
+      categoryFilter,
+      countryFilter,
+      page,
+      limit,
+    });
   const { categories } = await fetchCategories();
 
   return (
@@ -30,8 +36,22 @@ export default async function BusinessPage({ searchParams }) {
           categories={categories}
         />
 
-        <ProfileTable profiles={businessProfiles} />
+        <ProfileTable
+          profiles={businessProfiles}
+          limit={limit}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+        />
       </div>
+      {limit < totalRecords && (
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          baseUrl="/admin_dashboard/business_profile"
+        />
+      )}
     </div>
   );
 }

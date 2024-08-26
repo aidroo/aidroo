@@ -2,12 +2,12 @@ import heroImage from "@/asserts/business-image.svg";
 
 import Image from "next/image";
 
-import { Button } from "../ui/button";
 import { font14, font16, font18bold } from "@/constant";
+import { Button } from "../ui/button";
 
 const Business = () => {
   return (
-    <div className="background-gradient bannerBackgroundImage   px-4  py-20  ">
+    <div className="background-gradient bannerBackgroundImage  px-2 lg:px-4  py-20  ">
       <div className="max-w-[1280px]  mx-auto  ">
         <div className="  mx-auto text-center    rounded-lg">
           <h1 className={`  mb-1 ${font18bold}`}>
@@ -27,7 +27,7 @@ const Business = () => {
             className="mt-[-50px]"
           />
 
-          <div className=" max-w-[325px] md:w-[400px] space-y-6">
+          <div className="  space-y-6">
             <div>
               <h1 className={`font-semibold text-primary_color ${font16}`}>
                 Enhanced Branding
@@ -56,11 +56,11 @@ const Business = () => {
                 update, monitor, and analyze listings efficiently.
               </p>
             </div>
-            <div className="mt-8 flex  justify-between space-x-4">
-              <Button variant="fillButton" size="lg" className="h-9 md:h-10  ">
+            <div className="mt-8 flex    space-x-4">
+              <Button variant="fillButton" className="w-fit h-9 md:h-10  ">
                 See Our Pricing
               </Button>
-              <Button variant="hover" size="lg" className="h-9 md:h-10">
+              <Button variant="hover" className="w-fit h-9 md:h-10">
                 Add business
               </Button>
             </div>

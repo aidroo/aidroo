@@ -8,45 +8,64 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function PaginationComponent({
   currentPage,
-  setCurrentPage,
   totalPages,
+  baseUrl,
+  initialLimit = 10, // default limit if not provided
 }) {
-  const handlePrevPageChange = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const router = useRouter();
+  const [limit, setLimit] = useState(initialLimit);
 
-  const handleNextPageChange = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      // Construct URL with dynamic query parameters
+      const queryParams = new URLSearchParams();
+      queryParams.set("page", page);
+      queryParams.set("limit", limit);
+
+      router.push(`${baseUrl}?${queryParams.toString()}`);
     }
   };
 
   return (
-    <Pagination>
+    <Pagination className="py-10">
       <PaginationContent>
         {/* Previous Button */}
         {currentPage > 1 && (
           <PaginationItem>
-            <PaginationPrevious href="#" onClick={handlePrevPageChange} />
+            <PaginationPrevious
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(currentPage - 1);
+              }}
+            />
           </PaginationItem>
         )}
 
-        {/* First Page and Ellipsis if currentPage > 2 */}
+        {/* First Page and Ellipsis */}
         {currentPage > 2 && (
           <>
             <PaginationItem>
-              <PaginationLink href="#" onClick={() => setCurrentPage(1)}>
+              <PaginationLink
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePageChange(1);
+                }}
+              >
                 1
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
+            {currentPage > 3 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
           </>
         )}
 
@@ -55,7 +74,10 @@ export default function PaginationComponent({
           <PaginationItem>
             <PaginationLink
               href="#"
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(currentPage - 1);
+              }}
             >
               {currentPage - 1}
             </PaginationLink>
@@ -74,23 +96,31 @@ export default function PaginationComponent({
           <PaginationItem>
             <PaginationLink
               href="#"
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(currentPage + 1);
+              }}
             >
               {currentPage + 1}
             </PaginationLink>
           </PaginationItem>
         )}
 
-        {/* Last Page and Ellipsis if currentPage < totalPages - 1 */}
+        {/* Last Page and Ellipsis */}
         {currentPage < totalPages - 1 && (
           <>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
+            {currentPage < totalPages - 2 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
             <PaginationItem>
               <PaginationLink
                 href="#"
-                onClick={() => setCurrentPage(totalPages)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePageChange(totalPages);
+                }}
               >
                 {totalPages}
               </PaginationLink>
@@ -101,7 +131,13 @@ export default function PaginationComponent({
         {/* Next Button */}
         {currentPage < totalPages && (
           <PaginationItem>
-            <PaginationNext href="#" onClick={handleNextPageChange} />
+            <PaginationNext
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(currentPage + 1);
+              }}
+            />
           </PaginationItem>
         )}
       </PaginationContent>

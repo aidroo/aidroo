@@ -14,7 +14,6 @@ import { FaRegEdit } from "react-icons/fa";
 import ProfileEditDialog from "./ProfileEditDialog";
 
 export default function ProfileTable({ profiles }) {
-  console;
   if (profiles.length === 0) return <Notfound />;
 
   return (
@@ -38,10 +37,10 @@ export default function ProfileTable({ profiles }) {
             <TableHead className="text-lg text-gray-700 font-medium  ">
               Verified
             </TableHead>
-            <TableHead className="text-lg text-gray-700 font-medium  ">
+            <TableHead className="text-lg text-gray-700 font-medium flex  items-center mt-2 gap-x-2 ">
               Top Guaranteed
             </TableHead>
-            <TableHead className="text-lg text-gray-700 font-medium  ">
+            <TableHead className="text-lg text-gray-700 font-medium ">
               Action
             </TableHead>
           </TableRow>

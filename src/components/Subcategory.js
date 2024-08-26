@@ -14,7 +14,7 @@ export default function Subcategory() {
   const [error, setError] = useState(null);
 
   // Revalidate subcategories
-  console.log(selectedCategory);
+
   const {
     data,
     error: apiError,
