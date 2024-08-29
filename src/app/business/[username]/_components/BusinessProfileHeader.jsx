@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/heading-has-content */
 "use client";
 import Rating from "@/components/Rating/Rating";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
@@ -10,8 +11,8 @@ import { GoDotFill } from "react-icons/go";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
 
-export default function BusinessProfileHeader({ data }) {
-  const rating = Math.round(data.rating);
+export default function BusinessProfileHeader({ profile }) {
+  const rating = Math.round(profile.rating);
 
   return (
     <div className="w-full bg-[#f5fafc] dark:bg-dark">
@@ -20,7 +21,7 @@ export default function BusinessProfileHeader({ data }) {
           <div className="flex gap-8  items-start justify-center  col-span-3 ">
             <div className="w-24 md:w-32 shrink-0 overflow-hidden ring-1 rounded-md">
               <ResponsiveImage
-                src={data?.profileThumb || businessProfilePic}
+                src={profile?.profileThumb || businessProfilePic}
                 width={500}
                 height={300}
                 alt="profile image"
@@ -29,10 +30,10 @@ export default function BusinessProfileHeader({ data }) {
             </div>
             <div>
               <div className="flex gap-2 items-center">
-                {data?.businessName && (
+                {profile?.businessName && (
                   <TitleNameAndVerified
-                    title={data?.businessName}
-                    verified={data?.verified}
+                    title={profile?.businessName}
+                    verified={profile?.verified}
                   />
                 )}
               </div>
@@ -42,17 +43,17 @@ export default function BusinessProfileHeader({ data }) {
 
               <div className="flex gap-x-2 lg:mt-2 items-center">
                 <p className="  text-gray-700  ">
-                  {data?.totalReviews} Reviews{" "}
+                  {profile?.totalReviews} Reviews{" "}
                 </p>
                 <GoDotFill className="text-primary_color" />
-                {data?.rating < 3.5 && <p>Poor</p>}
-                {data?.rating > 3.5 && data.rating > 4.5 && <p>Good</p>}
-                {data?.rating > 5 && <p>Excellent</p>}
+                {profile?.rating < 3.5 && <p>Poor</p>}
+                {profile?.rating > 3.5 && profile?.rating > 4.5 && <p>Good</p>}
+                {profile?.rating > 5 && <p>Excellent</p>}
               </div>
               <div className="flex gap-x-2 lg:mt-2 items-center">
                 <Rating value={rating} size={22} />
                 <p className="text-[18px] text-gray-700 font-semibold">
-                  {data?.rating}
+                  {profile?.rating}
                 </p>
               </div>
 

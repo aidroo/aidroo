@@ -1,3 +1,4 @@
+"use client";
 import { font18 } from "@/constant";
 import { verifiedIcon } from "@/exportImage";
 import Image from "next/image";

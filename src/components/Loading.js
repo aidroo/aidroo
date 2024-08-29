@@ -1,3 +1,4 @@
+"use client";
 import loaderImage from "@/public/images/loaderaidroo.gif";
 import IconImage from "./IconImage/IconImage";
 export default function Loading() {

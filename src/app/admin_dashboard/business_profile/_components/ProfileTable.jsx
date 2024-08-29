@@ -47,37 +47,46 @@ export default function ProfileTable({ profiles }) {
         </TableHeader>
         <TableBody>
           {profiles?.length > 0 &&
-            profiles?.map((item) => {
-              const {
-                businessName,
-                category,
-                status,
-                verified,
-                top,
-                guaranteed,
-              } = item?.businessProfile;
-              const { country } = item?.addresses;
+            profiles?.map((profile) => {
               return (
-                <TableRow key={item.email}>
-                  <TableCell className=" ">{businessName}</TableCell>
-                  <TableCell className="font-medium ">{category}</TableCell>
-                  <TableCell className=" ">{country}</TableCell>
+                <TableRow key={profile.email}>
                   <TableCell className=" ">
-                    {status === "pending" && (
-                      <Badge className="bg-red-300">{status}</Badge>
-                    )}
-                    {status === "approved" && <Badge>{status}</Badge>}
+                    {profile?.businessProfile?.businessName}
+                  </TableCell>
+                  <TableCell className="font-medium ">
+                    {profile?.businessProfile?.category}
                   </TableCell>
                   <TableCell className=" ">
-                    <Checkbox className="h-6 w-6" checked={verified} disabled />
+                    {profile?.addresses?.country}
+                  </TableCell>
+                  <TableCell className=" ">
+                    {profile?.businessProfile?.status === "pending" && (
+                      <Badge className="bg-red-300">
+                        {profile?.businessProfile?.status}
+                      </Badge>
+                    )}
+                    {profile?.businessProfile?.status === "approved" && (
+                      <Badge>{profile?.businessProfile?.status}</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className=" ">
+                    <Checkbox
+                      className="h-6 w-6"
+                      checked={profile?.businessProfile?.verified}
+                      disabled
+                    />
                   </TableCell>
                   <TableCell>
                     <div className=" h-14 flex items-center   gap-6 ">
-                      <Checkbox className="h-6 w-6" checked={top} disabled />
+                      <Checkbox
+                        className="h-6 w-6"
+                        checked={profile?.businessProfile?.top}
+                        disabled
+                      />
 
                       <Checkbox
                         className="h-6 w-6"
-                        checked={guaranteed}
+                        checked={profile?.businessProfile?.guaranteed}
                         disabled
                       />
                     </div>
@@ -88,11 +97,11 @@ export default function ProfileTable({ profiles }) {
                         <FaRegEdit className="text-lg cursor-pointer" />
                       </DialogTrigger>
                       <ProfileEditDialog
-                        username={item.username}
-                        currentStatus={status}
-                        currentVerified={verified}
-                        currentTop={top}
-                        currentGuaranteed={guaranteed}
+                        username={profile.username}
+                        currentStatus={profile?.businessProfile?.status}
+                        currentVerified={profile?.businessProfile?.verified}
+                        currentTop={profile?.businessProfile?.top}
+                        currentGuaranteed={profile?.businessProfile?.guaranteed}
                       />
                     </Dialog>
                   </TableCell>

@@ -3,13 +3,39 @@ import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import Rating from "@/components/Rating/Rating";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import { Progress } from "@/components/ui/progress";
-import WriteReview from "@/components/WriteReview/WriteReview";
+import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import { getAllProfileReviews } from "@/queries/reviews";
 
+// export async function generateMetadata({ params }) {
+//   const { username } = params;
+
+//   // Fetch the user's profile details using the username
+//   const userProfile = await fetchSingleProfile({ username: username });
+
+//   // Return the metadata object
+//   return {
+//     // title: `${userProfile?.businessProfile.businessProfile}'s Profile`,
+//     title: `${userProfile?.businessProfile.businessProfile.businessName}`,
+//     description: `${userProfile?.businessProfile.businessProfile?.description}`,
+//     openGraph: {
+//       title: `${userProfile?.businessProfile.businessProfile.businessName}`,
+//       description: `${userProfile?.businessProfile.businessProfile?.description}`,
+//       images: [
+//         {
+//           url: `${userProfile?.businessProfile.businessProfile.profileThumb}`,
+//           width: 800,
+//           height: 600,
+//           alt: `${userProfile?.businessProfile.businessProfile.businessName}'s profile image`,
+//         },
+//       ],
+//     },
+//   };
+// }
+
 // Review is a server component
-export default async function Review({ params: { id }, searchParams }) {
+export default async function Review({ params: { username }, searchParams }) {
   const limit = parseInt(searchParams.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
   // Fetch data from the server-side function
@@ -20,13 +46,13 @@ export default async function Review({ params: { id }, searchParams }) {
     totalPages,
     currentPage,
     totalRecords,
-  } = await getAllProfileReviews(id, page, limit);
+  } = await getAllProfileReviews(username, page, limit);
   const averageRating = Math.round(rating);
-  const baseUrl = `/business/${id}/reviews`;
+  const baseUrl = `/business/${username}/reviews`;
   return (
     <div className="col-span-1 space-y-6">
       {/* Write Review */}
-      <WriteReview profileId={id} />
+      <WriteReview2 profileId={username} />
 
       {/* Overall Rating and Rating Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-2 rounded-md p-4">
@@ -53,11 +79,8 @@ export default async function Review({ params: { id }, searchParams }) {
       </div>
 
       {/* Review Cards */}
-      {reviews.length > 0 ? (
-        reviews.map((review) => <ReviewCard key={review.id} review={review} />)
-      ) : (
-        <p>No reviews found.</p>
-      )}
+      {reviews.length > 0 &&
+        reviews.map((review) => <ReviewCard key={review.id} review={review} />)}
 
       {limit < totalRecords && (
         <PaginationComponent

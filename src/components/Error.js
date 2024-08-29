@@ -1,3 +1,4 @@
+"use client";
 export default function Error({ error }) {
   return (
     <section className="bg-white dark:bg-gray-900">

@@ -1,3 +1,4 @@
+"use client";
 import { notFound } from "@/exportImage";
 import Image from "next/image";
 

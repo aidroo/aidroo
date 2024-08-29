@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
 import { Roboto } from "next/font/google";
 import "./globals.css";
@@ -25,7 +24,6 @@ export default function RootLayout({ children }) {
         > */}
         <AuthProvider>
           <main className="w-full ">{children}</main>
-          <Toaster />
         </AuthProvider>
 
         {/* </ThemeProvider> */}

@@ -18,7 +18,7 @@ export default function PaginationComponent({
   initialLimit = 10, // default limit if not provided
 }) {
   const router = useRouter();
-  const [limit, setLimit] = useState(initialLimit);
+  const [limit] = useState(initialLimit);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {

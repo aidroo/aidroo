@@ -75,10 +75,12 @@ export async function fetchSingleProfile({ username }) {
   try {
     const user = await db.User.findOne({
       where: { username },
+      attributes: ["username", "email"],
       include: [
         {
           model: db.BusinessProfile,
           as: "businessProfile",
+          // attributes: ["businessName", "profileThumb", "description", "rating"],
           required: true,
         },
         {
@@ -94,8 +96,14 @@ export async function fetchSingleProfile({ username }) {
 
     // Convert the Sequelize model to a plain object
     const plainUser = user.toJSON();
+    const profile = {
+      email: plainUser.email,
+      username: plainUser.username,
+      ...plainUser.businessProfile,
+      ...plainUser.addresses,
+    };
 
-    return { businessProfile: plainUser };
+    return { profile };
   } catch (error) {
     return NextResponse.json({ error: error.message, status: 500 });
   }

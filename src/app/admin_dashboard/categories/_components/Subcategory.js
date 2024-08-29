@@ -4,48 +4,41 @@ import { Combobox } from "@/components/Combobox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import apiService from "@/lib/apiService";
-import { useState } from "react";
-import useSWR from "swr";
+import axiosInstance from "@/lib/axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function Subcategory() {
+export default function Subcategory({ categories, subcategories }) {
   const [subcategoryText, setSubcategoryText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [currentPage, setCurrentPage] = useState(1);
+
   const [error, setError] = useState(null);
-
+  const router = useRouter();
   // Revalidate subcategories
-
-  const {
-    data,
-    error: apiError,
-    mutate,
-    isLoading,
-  } = useSWR(
-    ["/api/subcategory", { categoryId: selectedCategory?.id }],
-    (url) => apiService.getData(url)
-  );
-
-  const {
-    data: categoryData,
-    isLoading: categoryLoading,
-    error: categoryerror,
-  } = useSWR("/api/category", apiService.getData);
-
+  useEffect(() => {
+    if (selectedCategory) {
+      const query = new URLSearchParams();
+      if (selectedCategory?.name)
+        query.set("category_id", selectedCategory?.id);
+      router.push(`/admin_dashboard/categories?${query.toString()}`, {
+        shallow: true,
+      });
+    }
+  }, [selectedCategory, router]);
   const handleSubcategorySubmit = async (e) => {
     e.preventDefault();
     if (!subcategoryText) return;
 
     try {
-      const response = await apiService.addData("/api/subcategory", {
+      const response = await axiosInstance.post("/api/subcategory", {
         name: subcategoryText,
         categoryId: selectedCategory?.id,
       });
 
-      if (response?.status === 201) {
+      if (response?.statusText === "OK") {
         setSelectedCategory(null);
         setSubcategoryText("");
-        mutate();
+        router.refresh("/admin_dashboard/categories");
       } else {
         setError(response?.message);
       }
@@ -69,12 +62,10 @@ export default function Subcategory() {
         <Combobox
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
-          options={categoryData?.data}
-          isLoading={categoryLoading}
-          error={categoryerror}
+          options={categories}
           placeholder=" Selected Category"
         />
-        {error && <h1 className="p-2 text-red-200">{error | apiError}</h1>}
+        {error && <h1 className="p-2 text-red-200">{error}</h1>}
         <Button variant="hover" size="lg" type="submit">
           Create
         </Button>
@@ -88,24 +79,17 @@ export default function Subcategory() {
 
         <Table className="ms-2 space-y-4 overflow-x-hidden">
           <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell>Loading...</TableCell>
-              </TableRow>
-            ) : data?.data?.length > 0 ? (
-              data?.data?.map((item) => (
-                <TableRow key={item?.id}>
-                  <TableCell className="font-medium">{item?.name}</TableCell>
+            {subcategories.length > 0 &&
+              subcategories.map((subcategory) => (
+                <TableRow key={subcategory?.id}>
+                  <TableCell className="font-medium">
+                    {subcategory?.name}
+                  </TableCell>
                   <TableCell className="text-sm text-gray-500">
-                    {item?.Category?.name}
+                    {subcategory?.Category?.name}
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell>No category selected</TableCell>
-              </TableRow>
-            )}
+              ))}
           </TableBody>
         </Table>
 

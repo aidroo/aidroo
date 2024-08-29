@@ -1,13 +1,9 @@
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { getAllReviews } from "@/queries/reviews";
-import ReviewSearchBar from "./_components/ReviewSearchBar";
+import ReviewTable from "./_components/ReviewTable";
 
-let str =
-  "Lorem ipsum dolor sit amet consectetur  Lorem ipsum dolor sit amet consectetur";
 export default async function Review({ searchParams }) {
   const searchQuery = searchParams.search || "";
-
-  const countryFilter = searchParams.country || "";
 
   const limit = parseInt(searchParams.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
@@ -18,34 +14,36 @@ export default async function Review({ searchParams }) {
     totalPages,
     currentPage,
     totalRecords,
-  } = await getAllReviews(page, limit);
+  } = await getAllReviews(page, limit, searchQuery);
 
   // const baseUrl = `/business/${id}/reviews`;
   return (
     <div className="rounded-lg space-y-6">
       <div className="flex flex-col justify-center items-center space-y-8">
-        <div className="border p-4 rounded-md w-fit">
-          {/* <ProfileForm /> */}
+        <div className="border p-4 rounded-md w-fit z-10">
+          {/* <ReviewAndProfileCreateDialog /> */}
         </div>
-        <ReviewSearchBar
+        {/* <ReviewSearchBar
           searchQuery={searchQuery}
-          countryFilter={countryFilter}
-        />
-        {/* 
-        {} ** <ProfileTable
-          profiles={businessProfiles}
-          limit={limit}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalRecords={totalRecords}
+          options={reviews}
+          // countryFilter={countryFilter}
         /> */}
+
+        {/* <CommandInput
+          placeholder="Search review title or comment"
+          baseUrl="/api/admin_dashboard/reviews"
+          searchQuery={searchQuery}
+          reviews={reviews}
+        /> */}
+
+        <ReviewTable reviews={reviews} />
       </div>
       {limit < totalRecords && (
         <PaginationComponent
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalRecords}
-          baseUrl="/admin_dashboard/business_profile"
+          baseUrl="/admin_dashboard/reviews"
         />
       )}
     </div>

@@ -1,3 +1,4 @@
+"use client";
 const Heading = ({ children, className, size = "md" }) => {
   const sizeClasses = {
     "2xl": "text-2xl md:text-3xl",

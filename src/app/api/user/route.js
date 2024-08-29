@@ -30,6 +30,7 @@ export async function POST(req) {
   } = body;
 
   // Validate required fields
+
   if (!username || !email || !password) {
     return NextResponse.json(
       { status: 400, message: "Username, email, and password are required." },
@@ -54,10 +55,10 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-
+    const lowercaseUsername = username.toLowerCase();
     // Create the new user
     const user = await db.User.create({
-      username,
+      username: lowercaseUsername,
       email,
       password: hashPassword,
       role,

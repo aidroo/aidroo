@@ -1,3 +1,4 @@
+"use client";
 import { font14 } from "@/constant";
 import Image from "next/image";
 import Link from "next/link";

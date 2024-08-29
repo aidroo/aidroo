@@ -32,6 +32,13 @@ export async function POST(req) {
     // Create the category
     const newCategory = await db.Category.create({ name });
 
+    if (!newCategory) {
+      return NextResponse.json({
+        status: 500,
+        message: "Failed to create category.",
+      });
+    }
+
     return NextResponse.json({
       status: 201,
       message: "Category created successfully.",

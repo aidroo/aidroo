@@ -21,7 +21,7 @@ import useSWR from "swr";
 
 export default function BusinessInfo() {
   const { currentUser } = useAuth();
-
+  console.log(currentUser);
   // Fetch user data
   const {
     data: userData,

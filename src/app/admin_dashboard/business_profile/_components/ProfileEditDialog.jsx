@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 "use client";
+import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -34,7 +36,7 @@ export default function ProfileEditDialog({
       });
 
       if (response?.data?.status === 201) {
-        router.push("/admin_dashboard/business_profile");
+        router.refresh("/admin_dashboard/business_profile");
       }
     } catch (error) {
       setError("some error occurred!");
@@ -78,7 +80,7 @@ export default function ProfileEditDialog({
         </div>
         {error && <div className="text-red-500 ">{error}</div>}
         <Button onClick={handleUpdate} disabled={loading}>
-          {loading ? "Updating..." : "Update Profile"}
+          {loading ? <Spinner /> : "Update Profile"}
         </Button>
       </div>
     </DialogContent>

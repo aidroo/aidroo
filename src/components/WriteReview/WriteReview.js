@@ -15,17 +15,16 @@ import { useAuth } from "@/hooks/useAuth";
 import apiService from "@/lib/apiService";
 import Link from "next/link";
 import { useState } from "react";
-import { FaImage } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import FileUploadComponent from "../FileUploadComponent";
 import Heading from "../Heading";
 import OptionSelect from "../OptionSelect/OptionSelect";
 import Star from "../Star/Star";
-import { Skeleton } from "../ui/skeleton";
 
 export default function WriteReview({
   admin = false,
   mutate,
-  username,
+
   profileId,
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,33 +50,11 @@ export default function WriteReview({
 
   const reviewData = {
     profileId,
-    username,
+    username: currentUser?.username,
     title,
     images: [uploadUrl],
     comment,
     rating,
-  };
-  const handleChange = async (e) => {
-    const file = e.target.files[0];
-
-    if (!file) {
-      setError("Please select a file");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    setLoading(true);
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    setUploadUrl(result?.data?.url);
-    setLoading(false);
   };
 
   const handleReviewSubmit = async (e) => {
@@ -131,7 +108,7 @@ export default function WriteReview({
       )}
       {isOpen && (
         <div>
-          {username ? (
+          {currentUser?.username ? (
             <form
               className="w-full border-2   rounded-md p-4 space-y-8 "
               onSubmit={handleReviewSubmit}
@@ -186,7 +163,7 @@ export default function WriteReview({
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3     md:gap-4   ">
+              <div className="grid grid-cols-1 md:grid-cols-3     md:gap-x-4   ">
                 <div className=" col-span-2 space-y-4">
                   <Input
                     placeholder="Title"
@@ -200,47 +177,7 @@ export default function WriteReview({
                     onChange={(e) => setComment(e.target.value)}
                   />
                 </div>
-                <div className=" col-span-1 space-y-4 mx-auto">
-                  {!uploadUrl && loading && (
-                    <Skeleton className="h-32 w-32 rounded-full" />
-                  )}
-                  {uploadUrl && !loading && (
-                    <div className=" w-full  p-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-14 shrink-0 fill-green-500 inline"
-                        viewBox="0 0 512 512"
-                      >
-                        <path
-                          d="M383.841 171.838c-7.881-8.31-21.02-8.676-29.343-.775L221.987 296.732l-63.204-64.893c-8.005-8.213-21.13-8.393-29.35-.387-8.213 7.998-8.386 21.137-.388 29.35l77.492 79.561a20.687 20.687 0 0 0 14.869 6.275 20.744 20.744 0 0 0 14.288-5.694l147.373-139.762c8.316-7.888 8.668-21.027.774-29.344z"
-                          data-original="#000000"
-                        />
-                        <path
-                          d="M256 0C114.84 0 0 114.84 0 256s114.84 256 256 256 256-114.84 256-256S397.16 0 256 0zm0 470.487c-118.265 0-214.487-96.214-214.487-214.487 0-118.265 96.221-214.487 214.487-214.487 118.272 0 214.487 96.221 214.487 214.487 0 118.272-96.215 214.487-214.487 214.487z"
-                          data-original="#000000"
-                        />
-                      </svg>
-                    </div>
-                  )}
-                  {!uploadUrl && !loading && (
-                    <label
-                      htmlFor="uploadFile1"
-                      className="  font-semibold text-base rounded p-4  flex flex-col items-center justify-center cursor-pointer border-2 h-28    mx-auto font-[sans-serif]"
-                    >
-                      <FaImage className="text-6xl text-primary_color" />
-
-                      <input
-                        type="file"
-                        id="uploadFile1"
-                        className="hidden"
-                        onChange={handleChange}
-                      />
-                      <p className="text-xs font-medium text-gray-400 mt-2">
-                        Drag Image or Browse
-                      </p>
-                    </label>
-                  )}
-                </div>
+                <FileUploadComponent setUploadUrl={setUploadUrl} />
               </div>
               {/* personal user create */}
               {admin && (

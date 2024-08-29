@@ -132,7 +132,7 @@ export async function middleware(request) {
 export const config = {
   matcher: [
     // "/admin_dashboard/:path*",
-    // "/business_dashboard/:path*",
+    "/business_dashboard/:path*",
     "/personal_dashboard/:path*",
     "/login",
     "/signup/business/:path*", // Protect signup business

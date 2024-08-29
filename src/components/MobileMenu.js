@@ -218,11 +218,12 @@ export default function MobileMenu() {
                       </Button>
                     ) : (
                       <Button
+                        onClick={logout}
                         variant="hover"
                         className="  ring-primary_color ring-offset-2  flex gap-2    "
                       >
                         <LogOutSvg size={16} isHovered={isHovered} />
-                        <h1 onClick={logout}> Logout</h1>
+                        <h1> Logout</h1>
                       </Button>
                     )}
                   </div>

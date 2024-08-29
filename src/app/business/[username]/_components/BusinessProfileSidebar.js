@@ -1,6 +1,10 @@
+import IconImage from "@/components/IconImage/IconImage";
+import QRCodeComponent from "@/components/Qrcode/Qrcode";
+import Rating from "@/components/Rating/Rating";
+import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { font14, font16, font18 } from "@/constant";
 import {
-  brifcaseIcon,
+  brifcaseIcon2,
   categories,
   ceoIcon,
   claimWithBusiness,
@@ -13,14 +17,9 @@ import {
   workerIcon,
 } from "@/exportImage";
 import Link from "next/link";
-import IconImage from "./IconImage/IconImage";
-import QRCodeComponent from "./Qrcode/Qrcode";
-import Rating from "./Rating/Rating";
-import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
 
-export default function BusinessProfileSidebar({ data }) {
-  const { businessName, category, funds, employees, description } =
-    data.businessProfile;
+export default function BusinessProfileSidebar({ profile }) {
+  const { businessName, category, funds, employees, description } = profile;
   return (
     <div className="col-span-2 w-full  mb-8 ">
       <div className="w-full  space-y-4   ">
@@ -72,18 +71,18 @@ export default function BusinessProfileSidebar({ data }) {
             <IconImage src={dealonIcon} alt="" />
             <h1 className={` text-primary_color ${font18}`}>Deals on Aidroo</h1>
           </div>
-          <div className="flex items-center gap-2 px-8">
-            <IconImage src={brifcaseIcon} alt="bag icon" size={4} />
+          {/* <div className="flex items-center gap-2 px-8">
+            <Image src={brifcaseIcon} alt="bag icon" className="" />
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
                 Total Posted Job
               </h1>
               <p className={`text-gray-500 ${font14}`}>0 Job posted</p>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 px-8">
             <div className="w-14 ">
-              <ResponsiveImage src={workerIcon} />
+              <ResponsiveImage src={brifcaseIcon2} />
             </div>
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
@@ -142,10 +141,10 @@ export default function BusinessProfileSidebar({ data }) {
                 </svg>
               </span>
               <span className="absolute flex items-center justify-center w-full h-full text-primary_color transition-all duration-300 transform group-hover:translate-x-full ease">
-                Access your Business
+                Access my Business
               </span>
               <span className="relative invisible text-sm">
-                Access your Business
+                Access my Business
               </span>
             </a>
           </div>
