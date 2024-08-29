@@ -1,10 +1,13 @@
 import Layout from "@/components/Layout/Layout";
+import { font14 } from "@/constant";
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
 import Head from "next/head";
+import { FaPlus } from "react-icons/fa6";
+import { HiOutlineShare } from "react-icons/hi";
+import { LiaSmsSolid } from "react-icons/lia";
 import BusinessNavbar from "./_components/BusinessNavbar";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
-
 export async function generateMetadata({ params }) {
   const { username } = params;
   const { profile } = await fetchSingleProfile({ username });
@@ -20,8 +23,8 @@ export async function generateMetadata({ params }) {
       images: [
         {
           url: profileThumb,
-          width: 800,
-          height: 600,
+          width: 1200,
+          height: 630,
           alt: `${businessName}'s profile image`,
         },
       ],
@@ -67,7 +70,7 @@ export default async function BusinessProfileLayout({ children, params }) {
         />
         <meta property="og:type" content={metadata.openGraph.type} />
         {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content={metadata.twitter.card} />
         <meta name="twitter:title" content={metadata.twitter.title} />
         <meta
           name="twitter:description"
@@ -78,7 +81,29 @@ export default async function BusinessProfileLayout({ children, params }) {
       <div className="w-full pb-14">
         <div className="w-full rounded-md dark:bg-dark">
           <div className="max-w-[1280px] mx-auto pb-10">
-            {profile && <BusinessProfileHeader profile={profile} />}
+            {/*  */}
+            <div className="w-full bg-[#f5fafc] dark:bg-dark">
+              <div className="max-w-[1280px] mx-auto">
+                <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-4 py-8  px-10">
+                  {profile && <BusinessProfileHeader profile={profile} />}
+                  <div className="lg:border-s border-primary_color items-center justify-center flex gap-2 lg:gap-4    col-span-2">
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                      <LiaSmsSolid className="text-sm md:text-xl" />
+                      <span className={font14}>Chat</span>
+                    </div>
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                      <FaPlus className="text-sm" />
+                      <span className={font14}>Follow</span>
+                    </div>
+                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                      <HiOutlineShare className="text-sm md:text-xl" />
+                      <span className={font14}>Share</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-7 gap-y-14 lg:gap-10 bg-slate-50 px-2 lg:p-10 rounded-md mb-4">
               <div className="col-span-5">
                 <BusinessNavbar />
