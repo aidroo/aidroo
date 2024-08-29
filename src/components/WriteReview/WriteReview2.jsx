@@ -70,96 +70,100 @@ export function WriteReview2({ profileId }) {
   };
 
   return (
-    <Dialog className="w-full">
-      <DialogTrigger asChild>
-        <div className="w-full border-2   rounded-md p-4 text-32 flex justify-between items-center cursor-pointer">
-          <IconImage src={userIcon} size={50} alt="user" />
+    <>
+      {profileId !== currentUser?.username && (
+        <Dialog className="w-full">
+          <DialogTrigger asChild>
+            <div className="w-full border-2   rounded-md p-4 text-32 flex justify-between items-center cursor-pointer">
+              <IconImage src={userIcon} size={50} alt="user" />
 
-          <h1 className="text-primary">Write Review</h1>
-          <div className="flex gap-1">
-            <Star colorClass="initial" />
-            <Star colorClass="initial" />
-            <Star colorClass="initial" />
-          </div>
-        </div>
-      </DialogTrigger>
-      {currentUser?.username ? (
-        <DialogContent className=" w-[700px] py-10">
-          <form
-            className="w-full  border    rounded-md   space-y-8 p-4 "
-            onSubmit={handleReviewSubmit}
-          >
-            <div>
-              <div className=" grid grid-cols-1 md:grid-cols-3 gap-y-4 ">
-                <div>
-                  <h1 className="text-xl">Value</h1>
-                  <div className="flex gap-1">
-                    <Rating
-                      value={serviceRating}
-                      isEditable
-                      size={18}
-                      rating={serviceRating}
-                      setRating={setServiceRating}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <h1 className="text-xl">Value</h1>
-                  <div className="flex gap-1">
-                    <Rating
-                      value={valueRating}
-                      isEditable
-                      size={18}
-                      rating={valueRating}
-                      setRating={setValueRating}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <h1 className="text-xl">Recommended</h1>
-                  <div className="flex gap-1">
-                    <Rating
-                      value={recommendRating}
-                      isEditable
-                      size={18}
-                      rating={recommendRating}
-                      setRating={setRecommendRating}
-                    />
-                  </div>
-                </div>
+              <h1 className="text-primary">Write Review</h1>
+              <div className="flex gap-1">
+                <Star colorClass="initial" />
+                <Star colorClass="initial" />
+                <Star colorClass="initial" />
               </div>
             </div>
+          </DialogTrigger>
+          {currentUser?.username ? (
+            <DialogContent className=" w-[700px] py-10">
+              <form
+                className="w-full  border    rounded-md   space-y-8 p-4 "
+                onSubmit={handleReviewSubmit}
+              >
+                <div>
+                  <div className=" grid grid-cols-1 md:grid-cols-3 gap-y-4 ">
+                    <div>
+                      <h1 className="text-xl">Value</h1>
+                      <div className="flex gap-1">
+                        <Rating
+                          value={serviceRating}
+                          isEditable
+                          size={18}
+                          rating={serviceRating}
+                          setRating={setServiceRating}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="text-xl">Value</h1>
+                      <div className="flex gap-1">
+                        <Rating
+                          value={valueRating}
+                          isEditable
+                          size={18}
+                          rating={valueRating}
+                          setRating={setValueRating}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="text-xl">Recommended</h1>
+                      <div className="flex gap-1">
+                        <Rating
+                          value={recommendRating}
+                          isEditable
+                          size={18}
+                          rating={recommendRating}
+                          setRating={setRecommendRating}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3   space-y-4   md:gap-x-4   ">
-              <div className=" col-span-2 space-y-4 ">
-                <Input
-                  placeholder="Title"
-                  className=" h-10 "
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-3   space-y-4   md:gap-x-4   ">
+                  <div className=" col-span-2 space-y-4 ">
+                    <Input
+                      placeholder="Title"
+                      className=" h-10 "
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
 
-                <Textarea
-                  placeholder="Type your message here."
-                  className="min-h-28"
-                  onChange={(e) => setComment(e.target.value)}
-                />
-              </div>
-              <FileUploadComponent setUploadUrl={setUploadUrl} />
-            </div>
-            {/* personal user create */}
-            <Button type="submit" disabled={loading} className="flex gap-4">
-              {loading && <Spinner />}
-              Write Review
-            </Button>
-            {/* personal user create end */}
-          </form>
-          <DialogFooter className="flex items-center justify-center"></DialogFooter>
-        </DialogContent>
-      ) : (
-        <DialogContent>
-          <h1>Login first</h1>
-        </DialogContent>
+                    <Textarea
+                      placeholder="Type your message here."
+                      className="min-h-28"
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                  </div>
+                  <FileUploadComponent setUploadUrl={setUploadUrl} />
+                </div>
+                {/* personal user create */}
+                <Button type="submit" disabled={loading} className="flex gap-4">
+                  {loading && <Spinner />}
+                  Write Review
+                </Button>
+                {/* personal user create end */}
+              </form>
+              <DialogFooter className="flex items-center justify-center"></DialogFooter>
+            </DialogContent>
+          ) : (
+            <DialogContent>
+              <h1>Login first</h1>
+            </DialogContent>
+          )}
+        </Dialog>
       )}
-    </Dialog>
+    </>
   );
 }

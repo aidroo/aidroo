@@ -8,32 +8,6 @@ import { font14, font16 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import { getAllProfileReviews } from "@/queries/reviews";
 
-// export async function generateMetadata({ params }) {
-//   const { username } = params;
-
-//   // Fetch the user's profile details using the username
-//   const userProfile = await fetchSingleProfile({ username: username });
-
-//   // Return the metadata object
-//   return {
-//     // title: `${userProfile?.businessProfile.businessProfile}'s Profile`,
-//     title: `${userProfile?.businessProfile.businessProfile.businessName}`,
-//     description: `${userProfile?.businessProfile.businessProfile?.description}`,
-//     openGraph: {
-//       title: `${userProfile?.businessProfile.businessProfile.businessName}`,
-//       description: `${userProfile?.businessProfile.businessProfile?.description}`,
-//       images: [
-//         {
-//           url: `${userProfile?.businessProfile.businessProfile.profileThumb}`,
-//           width: 800,
-//           height: 600,
-//           alt: `${userProfile?.businessProfile.businessProfile.businessName}'s profile image`,
-//         },
-//       ],
-//     },
-//   };
-// }
-
 // Review is a server component
 export default async function Review({ params: { username }, searchParams }) {
   const limit = parseInt(searchParams.limit) || 10;

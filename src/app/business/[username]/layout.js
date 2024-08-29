@@ -10,31 +10,42 @@ import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
 export async function generateMetadata({ params }) {
   const { username } = params;
+
+  // Fetch the user's profile details using the username
   const { profile } = await fetchSingleProfile({ username });
 
-  const { businessName, description, profileThumb } = profile;
+  if (!profile) {
+    return {
+      title: "Profile Not Found",
+      description: "The profile you are looking for does not exist.",
+    };
+  }
+
+  const { businessName, profileThumb, rating, totalReviews } = profile;
 
   return {
-    title: businessName,
-    description: description,
+    title: `${businessName} is rated Excellent`,
+    description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
     openGraph: {
-      title: businessName,
-      description: description,
+      title: `${businessName} is rated Excellent`,
+      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
       images: [
         {
-          url: profileThumb,
+          url: `${profileThumb}`,
           width: 1200,
           height: 630,
-          alt: `${businessName}'s profile image`,
+          alt: `${businessName} profile image`,
         },
       ],
-      type: "website",
+      url: `https://aidroo.com/${username}`, // Replace with your profile URL
+      site_name: "Aidroo",
     },
     twitter: {
       card: "summary_large_image",
-      title: businessName,
-      description: description,
-      image: profileThumb,
+      title: `${businessName} is rated Excellent`,
+      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+      image: `${profileThumb}`,
+      image_alt: `${businessName} profile image`,
     },
   };
 }
