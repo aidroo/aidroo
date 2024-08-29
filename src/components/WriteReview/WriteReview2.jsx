@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import userIcon from "@/public/icons/customer-review.gif";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FileUploadComponent from "../FileUploadComponent";
@@ -159,7 +160,12 @@ export function WriteReview2({ profileId }) {
             </DialogContent>
           ) : (
             <DialogContent>
-              <h1>Login first</h1>
+              <Link
+                href="/login"
+                className="px-4 py-2 bg-primary_color text-white w-2/3"
+              >
+                Login
+              </Link>
             </DialogContent>
           )}
         </Dialog>

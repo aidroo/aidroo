@@ -1,7 +1,7 @@
 import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { businessProfilePic, categoryImage } from "@/exportImage";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,9 +25,9 @@ export default function BusinessProfileCard({ businessProfile, id }) {
   let averageRating = Math.round(rating);
   return (
     <Card className="mb-4 hover:zoom-in-105   ">
-      <CardContent className="flex gap-4 items-start  p-2   ">
+      <CardContent className="flex gap-4 items-start  p-3   ">
         {/* image */}
-        <div className=" rounded-md ring-1 p-1">
+        <div className=" rounded-md ring-1 p-2">
           <IconImage
             src={profileThumb || businessProfilePic}
             alt="profile pic"
@@ -72,7 +72,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between  items-center  border-t pt-2 flex-wrap  sm:px-2     ">
+      <div className="flex justify-between  items-center  border-t   lg:px-4  flex-wrap py-2  px-2     ">
         <div className="flex gap-2 items-center ">
           <Image src={categoryImage} className="w-5" />
           <h1 className="text-sm">{category}</h1>
@@ -80,7 +80,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
 
         <Jobs />
         <BusinessProfileReview />
-      </CardFooter>
+      </div>
     </Card>
   );
 }

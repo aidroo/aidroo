@@ -10,9 +10,9 @@ export default function TitleNameAndVerified({ title = "", verified = false }) {
       style={{ width: "100%" }}
     >
       <span className="text-justify">{title}</span>
-      {verified && (
+      {!verified && (
         <span className="inline-block align-baseline ms-2 ">
-          <Image src={verifiedIcon} className="w-4 inline-block" />
+          <Image src={verifiedIcon} className="w-5 inline-block" />
         </span>
       )}
     </div>
