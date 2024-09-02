@@ -9,6 +9,13 @@ import { fetchCategories } from "@/queries/category-and-subcategory";
 
 import BusinessProfileCard from "./_components/BusinessProfileCard";
 import BusinessProfileFiltering from "./_components/BusinessProfileFiltering";
+// export async function generateStaticParams() {
+//   const businessProfiles = await fetchCategories();
+//   console.log("businessProfiles");
+//   return businessProfiles.map((profile) => ({
+//     username: profile.username,
+//   }));
+// }
 
 export default async function Categories({ searchParams }) {
   const { categories } = await fetchCategories();

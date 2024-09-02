@@ -11,6 +11,7 @@ const PersonalProfile = sequelize.define(
         key: "username",
       },
       allowNull: false,
+      // onDelete: "CASCADE",
     },
     firstName: {
       type: DataTypes.STRING(255), // Define length explicitly

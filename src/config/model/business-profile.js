@@ -11,6 +11,7 @@ const BusinessProfile = sequelize.define(
         key: "username",
       },
       allowNull: false,
+      // onDelete: "CASCADE",
     },
     businessName: {
       type: DataTypes.STRING(255),

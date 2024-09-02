@@ -47,12 +47,14 @@ import instagram from "@/public/icons/social/instagram.svg";
 import linkedin from "@/public/icons/social/linkedin.svg";
 import twitter from "@/public/icons/social/twitter.svg";
 import youtube from "@/public/icons/social/youtube.svg";
+import topplacementBadge from "@/public/icons/topplacement.svg";
+import unverified_badge from "@/public/icons/unverified_badge.svg";
 import earningIcon from "@/public/icons/usd.svg";
 import user from "@/public/icons/user.svg";
+import perosnal_verified from "@/public/icons/verified-badgey-persional.svg";
 import verifiedIcon from "@/public/icons/verified.svg";
+import verified_badge from "@/public/icons/verified_badge.svg";
 import whitesearch from "@/public/icons/whitesearch.svg";
-
-import topplacementBadge from "@/public/icons/topplacement.svg";
 import workerIcon from "@/public/icons/worker.svg";
 import businessProfilePic from "@/public/images/business.svg";
 import google from "@/public/images/google.svg";
@@ -61,6 +63,7 @@ import profileImage, {
 } from "@/public/images/profile.jpg";
 import srsoft from "@/public/images/srsoft.svg";
 import tesla from "@/public/images/tesla.svg";
+import unclaimed from "@/public/images/unverified.svg";
 export {
   addyourbusiness,
   bagIcon,
@@ -100,6 +103,7 @@ export {
   notFound,
   notificationIcon,
   pageIcon,
+  perosnal_verified,
   photoadd,
   plaimedbadge,
   pricingPlan,
@@ -117,8 +121,11 @@ export {
   topplacement,
   topplacementBadge,
   twitter,
+  unclaimed,
+  unverified_badge,
   user,
   userdashboard,
+  verified_badge,
   verifiedIcon,
   whitesearch,
   workerIcon,

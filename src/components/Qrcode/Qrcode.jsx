@@ -5,6 +5,7 @@
 import { font14, font18 } from "@/constant";
 import qr from "@/public/images/qr-code.svg";
 import { Share1Icon } from "@radix-ui/react-icons";
+import { usePathname } from "next/navigation";
 import QRCode from "qrcode.react";
 import { useRef, useState } from "react";
 import { FaDownload } from "react-icons/fa6";
@@ -12,6 +13,9 @@ import IconImage from "../IconImage/IconImage";
 
 const QRCodeComponent = () => {
   const [open, setOpen] = useState(false);
+
+  const pathname = usePathname();
+
   const qrRef = useRef();
 
   const handleChange = () => {
@@ -50,7 +54,7 @@ const QRCodeComponent = () => {
           <div className="border-t space-y-4 " ref={qrRef}>
             <QRCode
               size={150}
-              value="https://reactjs.org/"
+              value={`https://aidroo.com${pathname}`}
               fgColor="#000000"
               bgColor="#ffffff"
               level="H"

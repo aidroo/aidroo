@@ -44,8 +44,8 @@ export default function ReviewCard({ review }) {
                 review?.user?.businessProfile?.profileThumb ||
                 profileImage
               }
-              size={70}
-              className="rounded-full ring-1 ring-offset-2"
+              size={75}
+              className="rounded-full ring-1  "
               alt="profile pic"
             />
           </div>
@@ -81,7 +81,7 @@ export default function ReviewCard({ review }) {
         <div className=" grid grid-cols-1 lg:grid-cols-2   gap-x-4  items-center -mt-10 text-sm">
           <div className="flex  gap-4 justify-between items-center">
             <div className="flex gap-1 ">
-              <Rating value={rating} size={18} />
+              <Rating value={Math.floor(rating)} size={18} />
             </div>
 
             <div className="w-24 flex -mr-6   items-center gap-2">

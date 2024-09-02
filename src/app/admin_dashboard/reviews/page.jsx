@@ -1,5 +1,6 @@
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { getAllReviews } from "@/queries/reviews";
+import ReviewSearchBar from "./_components/ReviewSearchBar";
 import ReviewTable from "./_components/ReviewTable";
 
 export default async function Review({ searchParams }) {
@@ -7,6 +8,7 @@ export default async function Review({ searchParams }) {
 
   const limit = parseInt(searchParams.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
+
   // Fetch data from the server-side function
   const {
     reviews,
@@ -23,11 +25,11 @@ export default async function Review({ searchParams }) {
         <div className="border p-4 rounded-md w-fit z-10">
           {/* <ReviewAndProfileCreateDialog /> */}
         </div>
-        {/* <ReviewSearchBar
+        <ReviewSearchBar
           searchQuery={searchQuery}
           options={reviews}
           // countryFilter={countryFilter}
-        /> */}
+        />
 
         {/* <CommandInput
           placeholder="Search review title or comment"

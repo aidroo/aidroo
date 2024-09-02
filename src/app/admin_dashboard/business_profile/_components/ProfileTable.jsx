@@ -1,5 +1,6 @@
 import Notfound from "@/components/Notfound";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -12,13 +13,14 @@ import {
 } from "@/components/ui/table";
 import { FaRegEdit } from "react-icons/fa";
 import ProfileEditDialog from "./ProfileEditDialog";
+import ReviewAndProfileCreateDialog from "./ReviewAndProfileCreateDialog";
 
-export default function ProfileTable({ profiles }) {
+export default function ProfileTable({ profiles, isExit }) {
   if (profiles.length === 0) return <Notfound />;
 
   return (
-    <div className="w-[450px] lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md">
-      <Table>
+    <div className="w-[450px]  lg:w-[800px]  overflow-hidden overflow-x-auto space-y-6 border rounded-md">
+      <Table className="w-[1000px]">
         <TableHeader className="w-fit h-14 ">
           <TableRow>
             <TableHead className="text-lg text-gray-700 font-medium  ">
@@ -42,6 +44,9 @@ export default function ProfileTable({ profiles }) {
             </TableHead>
             <TableHead className="text-lg text-gray-700 font-medium ">
               Action
+            </TableHead>
+            <TableHead className="text-lg text-gray-700 font-medium ">
+              Write Review
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -91,6 +96,7 @@ export default function ProfileTable({ profiles }) {
                       />
                     </div>
                   </TableCell>
+                  {/* profile edit dialog */}
                   <TableCell>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -102,6 +108,18 @@ export default function ProfileTable({ profiles }) {
                         currentVerified={profile?.businessProfile?.verified}
                         currentTop={profile?.businessProfile?.top}
                         currentGuaranteed={profile?.businessProfile?.guaranteed}
+                      />
+                    </Dialog>
+                  </TableCell>
+                  {/* profile and review create dialog */}
+                  <TableCell>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline">Write</Button>
+                      </DialogTrigger>
+                      <ReviewAndProfileCreateDialog
+                        username={profile.username}
+                        isExit={isExit}
                       />
                     </Dialog>
                   </TableCell>

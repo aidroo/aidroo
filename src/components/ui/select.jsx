@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  CaretSortIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -10,6 +9,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const Select = SelectPrimitive.Root;
 
@@ -29,7 +29,7 @@ const SelectTrigger = React.forwardRef(
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <CaretSortIcon className="h-4 w-4 opacity-50" />
+        <IoMdArrowDropdown className="text-xl opacity-50" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )

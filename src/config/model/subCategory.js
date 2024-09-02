@@ -10,7 +10,8 @@ const SubCategory = sequelize.define(
         model: "Categories",
         key: "id",
       },
-      allowNull: false, // Ensure each subcategory is linked to a category
+      allowNull: false,
+      // onDelete: "CASCADE", // Ensure each subcategory is linked to a category
     },
     name: {
       type: DataTypes.STRING(255),

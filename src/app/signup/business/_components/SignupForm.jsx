@@ -2,6 +2,7 @@
 import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
+import PasswordInput from "@/components/PasswordInput";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,6 @@ import { useEffect, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
-import { SlLock } from "react-icons/sl";
 
 export default function SignupForm({ categories, subcategories, isExit }) {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
     city: "",
     address: "",
   });
-
+  console.log(userData);
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
   const query = new URLSearchParams();
@@ -153,23 +153,22 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          type="password"
-          icon={SlLock}
+        <PasswordInput
           placeholder="Create Password"
           name="password"
           value={userData.password}
-          onChange={handleChange}
-          required
+          onChange={(e) =>
+            setUserData({ ...userData, [e.target.name]: e.target.value })
+          }
         />
-        <Input
-          type="password"
-          icon={SlLock}
+
+        <PasswordInput
           placeholder="Confirm Password"
           name="confirmPassword"
           value={userData.confirmPassword}
-          onChange={handleChange}
-          required
+          onChange={(e) =>
+            setUserData({ ...userData, [e.target.name]: e.target.value })
+          }
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

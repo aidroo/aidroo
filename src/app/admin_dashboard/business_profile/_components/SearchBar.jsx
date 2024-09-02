@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"; // For Next.js 13+ with app directo
 import { useEffect, useState } from "react";
 
 export default function SearchBar({
+  baseUrl = "/",
   searchQuery,
   categoryFilter,
   countryFilter,
@@ -28,7 +29,7 @@ export default function SearchBar({
     if (country) query.set("country", country);
 
     // Update the URL with query parameters without a full page reload
-    router.push(`/admin_dashboard/business_profile?${query.toString()}`);
+    router.push(`${baseUrl}?${query.toString()}`);
   }, [search, category, country, router]);
 
   return (

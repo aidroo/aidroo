@@ -14,6 +14,7 @@ const Address = sequelize.define(
         key: "username",
       },
       allowNull: false,
+      // onDelete: "CASCADE",
     },
     country: {
       type: DataTypes.STRING,

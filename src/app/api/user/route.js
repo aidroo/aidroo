@@ -17,6 +17,10 @@ export async function POST(req) {
     firstName,
     lastName,
     dob,
+    funds,
+    employees,
+
+    description,
     gender,
     businessName,
     businessType,
@@ -89,8 +93,10 @@ export async function POST(req) {
             businessType,
             phoneNumber,
             category,
-
             profileThumb,
+            funds,
+            employees,
+            description,
             subcategory,
           });
         }

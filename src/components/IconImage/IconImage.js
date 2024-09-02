@@ -11,7 +11,7 @@ const IconImage = ({ src, alt = "image", size = 50, className }) => {
         src={src}
         alt={alt}
         layout="fill"
-        className={`object-contain  ${className} shrink-0`}
+        className={`object-contain  ${className} shrink-0 `}
       />
     </div>
   );

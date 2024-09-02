@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FaRegEdit } from "react-icons/fa";
+import ReviewEditDialog from "./ReviewEdidtModal";
 
 export default function ReviewTable({ reviews }) {
   return (
@@ -69,10 +70,10 @@ export default function ReviewTable({ reviews }) {
                       <FaRegEdit className="text-lg cursor-pointer" />
                     </DialogTrigger>
 
-                    {/* <ReviewEditDialog
+                    <ReviewEditDialog
                       id={review.reviewId}
-                      currentVerified={verified}
-                    /> */}
+                      currentVerified={review.verified}
+                    />
                   </Dialog>
                 </TableCell>
               </TableRow>

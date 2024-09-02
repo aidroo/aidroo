@@ -2,9 +2,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
 import { font16, font18 } from "@/constant";
+import jobIcons from "@/public/icons/businessbriefcase4.svg";
 
 import {
   addyourbusiness,
+  brifcaseIcon,
   claimWithBusiness,
   loginIcon,
   logo,
@@ -28,11 +30,25 @@ import IconImage from "./IconImage/IconImage";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+} from "./ui/select";
 
 export default function DesktopMenu() {
-  const [setSearchText] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [show, setShow] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("business");
+
   const { currentUser, logout } = useAuth();
+  const handleValueChange = (value) => {
+    setSelectedValue(value);
+    console.log(value);
+  };
 
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
@@ -56,14 +72,55 @@ export default function DesktopMenu() {
         {/* searching bar */}
         <div className="flex   items-center  col-span-2  text-lg text-gray-700 ms-12  ">
           <form className="flex gap-2">
-            <Input
-              type="text"
-              name="search"
-              placeholder="Search"
-              className="bg-white dark:bg-dark h-10 max-w-72 w-[280px]"
-              onChange={(e) => handleInputChange(e)}
-            />
-
+            <div className="flex justify-between  bg-white rounded-md gap-x-2 items-center pr-1">
+              <Input
+                type="text"
+                name="search"
+                placeholder="Search"
+                className=" dark:bg-dark h-10 max-w-72 w-[280px] border-none focus-visible:ring-0"
+                onChange={(e) => handleInputChange(e)}
+              />
+              <Select
+                value={selectedValue}
+                onValueChange={handleValueChange}
+                className="focus:ring-0 focus:ring-ring"
+              >
+                <SelectTrigger className="w-fit bg-gray-200  px-2  ">
+                  {/* <Image src={brifcaseIcon} /> */}
+                  {selectedValue === "business" && (
+                    <Image src={brifcaseIcon} className="w-6" />
+                  )}
+                  {selectedValue === "job" && (
+                    <Image src={jobIcons} className="w-6" />
+                  )}
+                  {/* <Image src={workerIcon} className="w-12" /> */}
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="business">
+                      <div className="flex items-center gap-6  border-b pb-2 ">
+                        <IconImage
+                          src={brifcaseIcon}
+                          size={32}
+                          alt="notification icon"
+                        />
+                        <p className={`${font16} text-gray-700`}>Business</p>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="job">
+                      <div className="flex items-center gap-6  border-b pb-2 ">
+                        <IconImage
+                          src={jobIcons}
+                          size={32}
+                          alt="notification icon"
+                        />
+                        <p className={`${font16} text-gray-700`}>Jobs</p>
+                      </div>
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="relative">
               {/* <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
               <Image src={filter} alt="Icon 1" className="w-6" />

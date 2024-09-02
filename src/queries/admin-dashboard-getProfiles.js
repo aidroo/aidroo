@@ -57,11 +57,11 @@ export async function fetchProfiles({
         offset: offset,
         limit: limit, // Ensure limit is a number
       });
-
+    const plainProfile = businessProfiles.map((profile) => profile.toJSON());
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalRecords / limit);
     return {
-      businessProfiles: businessProfiles,
+      businessProfiles: plainProfile,
       totalRecords,
       totalPages,
       currentPage: page,

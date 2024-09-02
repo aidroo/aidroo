@@ -1,95 +1,78 @@
 import Layout from "@/components/Layout/Layout";
 import { font14 } from "@/constant";
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
-import Head from "next/head";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
 import BusinessNavbar from "./_components/BusinessNavbar";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
+
 export async function generateMetadata({ params }) {
   const { username } = params;
 
-  // Fetch the user's profile details using the username
-  const { profile } = await fetchSingleProfile({ username });
+  try {
+    // Fetch the user's profile details using the username
+    const { profile } = await fetchSingleProfile({ username });
 
-  if (!profile) {
+    if (!profile) {
+      return {
+        title: "Profile Not Found",
+        description: "The profile you are looking for does not exist.",
+      };
+    }
+
+    const { businessName, profileThumb, rating, totalReviews, verified } =
+      profile;
+
+    return {
+      title: `${businessName} is rated Excellent`,
+      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+      url: `https://aidroo.com/${username}`, // Replace with your profile URL
+      site_name: "Aidroo",
+      openGraph: {
+        title: `${businessName} is rated Excellent`,
+        description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+        images: [
+          {
+            url: `${
+              process.env.NEXT_PUBLIC_API_BASE_URL
+            }/api/og?rating=3&profileThumb=${encodeURIComponent(
+              profileThumb
+            )}&title=${encodeURIComponent(
+              businessName
+            )}&verified=${verified}&totalReviews=${totalReviews}`,
+            width: 1200,
+            height: 630,
+            alt: `${businessName} profile image`,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${businessName} is rated Excellent`,
+        description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+        image: `${profileThumb}`,
+        image_alt: `${businessName} profile image`,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching profile:", error);
     return {
       title: "Profile Not Found",
       description: "The profile you are looking for does not exist.",
     };
   }
-
-  const { businessName, profileThumb, rating, totalReviews } = profile;
-
-  return {
-    title: `${businessName} is rated Excellent`,
-    description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
-    openGraph: {
-      title: `${businessName} is rated Excellent`,
-      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
-      images: [
-        {
-          url: `${profileThumb}`,
-          width: 1200,
-          height: 630,
-          alt: `${businessName} profile image`,
-        },
-      ],
-      url: `https://aidroo.com/${username}`, // Replace with your profile URL
-      site_name: "Aidroo",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${businessName} is rated Excellent`,
-      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
-      image: `${profileThumb}`,
-      image_alt: `${businessName} profile image`,
-    },
-  };
 }
 
 export default async function BusinessProfileLayout({ children, params }) {
   const { username } = params;
-  const metadata = await generateMetadata({ params });
+
   const { profile } = await fetchSingleProfile({ username });
 
   return (
     <Layout>
-      <Head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        {/* Open Graph */}
-        <meta property="og:title" content={metadata.openGraph.title} />
-        <meta
-          property="og:description"
-          content={metadata.openGraph.description}
-        />
-        <meta property="og:image" content={metadata.openGraph.images[0].url} />
-        <meta
-          property="og:image:width"
-          content={metadata.openGraph.images[0].width}
-        />
-        <meta
-          property="og:image:height"
-          content={metadata.openGraph.images[0].height}
-        />
-        <meta
-          property="og:image:alt"
-          content={metadata.openGraph.images[0].alt}
-        />
-        <meta property="og:type" content={metadata.openGraph.type} />
-        {/* Twitter Card */}
-        <meta name="twitter:card" content={metadata.twitter.card} />
-        <meta name="twitter:title" content={metadata.twitter.title} />
-        <meta
-          name="twitter:description"
-          content={metadata.twitter.description}
-        />
-        <meta name="twitter:image" content={metadata.twitter.image} />
-      </Head>
-      <div className="w-full pb-14">
+      <div className="w-full pb-14 ">
         <div className="w-full rounded-md dark:bg-dark">
           <div className="max-w-[1280px] mx-auto pb-10">
             {/*  */}

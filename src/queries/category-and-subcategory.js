@@ -2,12 +2,12 @@ import db from "@/config/model";
 
 export async function fetchCategories(page = 1, limit = 10) {
   try {
-    const offset = (page - 1) * limit;
+    // const offset = (page - 1) * limit;
     const { rows: categories, count: totalRecords } =
       await db.Category.findAndCountAll({
         order: [["createdAt", "DESC"]],
-        offset: offset,
-        limit: limit,
+        // offset: offset,
+        // limit: limit,
       });
 
     // Convert Sequelize instances to plain objects

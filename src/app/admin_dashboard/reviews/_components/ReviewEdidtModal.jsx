@@ -26,7 +26,7 @@ export default function ReviewEditDialog({ id, currentVerified }) {
 
       if (response?.data?.status === 201) {
         setSuccess(response.data.message);
-        router.push("/admin_dashboard/reviews");
+        router.refresh("/admin_dashboard/reviews");
       }
     } catch (error) {
       //   console.log(error?.response?.data?.message);

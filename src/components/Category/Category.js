@@ -1,6 +1,6 @@
 "use client";
 
-import { categories, font18 } from "@/constant";
+import { categories } from "@/constant";
 import { Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -72,7 +72,7 @@ export default function Category() {
     <div className="bg-[#d4e5ff] dark:bg-dark py-10">
       <div className="max-w-[1360px] mx-auto sm:px-8 flex items-center flex-col space-y-6">
         <h1
-          className={`text-center ${font18}  font-semibold  ${poppins.variable}`}
+          className={`text-center text-2xl  font-semibold  ${poppins.variable}`}
         >
           Explore Categories
         </h1>

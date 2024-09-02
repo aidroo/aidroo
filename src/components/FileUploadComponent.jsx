@@ -46,12 +46,12 @@ export default function FileUploadComponent({ setUploadUrl }) {
 
   return (
     <div
-      className={`flex w-full  items-start    justify-center bg-grey-lighter ${
+      className={`flex w-full  items-start     justify-center bg-grey-lighter ${
         loading ? "cursor-wait" : ""
       }`}
     >
       <label
-        className={`w-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white ${
+        className={`w-full flex flex-col items-center px-2 py-4 bg-white text-blue rounded-lg shadow-lg tracking-wide   border border-blue cursor-pointer hover:bg-blue hover:border-primary_color ${
           loading && "opacity-50 pointer-events-none"
         }`}
       >

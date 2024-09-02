@@ -11,6 +11,7 @@ const Job = sequelize.define(
         key: "username",
       },
       allowNull: false,
+      // onDelete: "CASCADE",
     },
     title: {
       type: DataTypes.STRING(255), // Set a reasonable length for the job title

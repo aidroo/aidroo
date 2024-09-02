@@ -36,9 +36,9 @@ export default function Carosul() {
   return (
     <div className="flex flex-col   overflow-hidden max-w-7xl mx-auto py-24 ">
       <h1 className="text-center text-sm lg:text-2xl gap-2 font-thin flex items-center justify-center">
-        Listed by over
+        Listed over
         <span className="text-xl lg:text-4xl font-semibold text-primary_color">
-          321,000
+          321,000 +
         </span>{" "}
         businesses globally
       </h1>

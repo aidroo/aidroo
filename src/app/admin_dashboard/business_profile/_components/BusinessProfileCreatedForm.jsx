@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 
-export default function ProfileForm({ categories, isExit }) {
+export default function BusinessProfileCreateForm({ categories, isExit }) {
   const router = useRouter();
   // Initialize state with empty strings or defaults
   const [selectedCategory, setSelectedCategory] = useState(null);

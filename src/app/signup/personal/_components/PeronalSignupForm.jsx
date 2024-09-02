@@ -1,5 +1,6 @@
 "use client";
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
+import PasswordInput from "@/components/PasswordInput";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
-import { SlLock } from "react-icons/sl";
 
 export default function PersonalSingupForm({ isExit }) {
   const router = useRouter();
@@ -117,25 +117,21 @@ export default function PersonalSingupForm({ isExit }) {
         icon={MdOutlineMail}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          type="password"
+        <PasswordInput
           placeholder="Create Password"
           name="password"
           value={userData.password}
-          onChange={handleChange}
-          className="mb-4"
-          icon={SlLock}
-          required
+          onChange={(e) =>
+            setUserData({ ...userData, [e.target.name]: e.target.value })
+          }
         />
-        <Input
-          type="password"
+        <PasswordInput
           placeholder="Confirm Password"
           name="confirmPassword"
           value={userData.confirmPassword}
-          onChange={handleChange}
-          className="mb-4"
-          icon={SlLock}
-          required
+          onChange={(e) =>
+            setUserData({ ...userData, [e.target.name]: e.target.value })
+          }
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

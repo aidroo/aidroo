@@ -13,7 +13,7 @@ export default function OptionSelect({
   className,
   label = "",
   options = [],
-
+  value,
   onChange,
 }) {
   const [selectedValue, setSelectedValue] = useState("");
@@ -28,7 +28,7 @@ export default function OptionSelect({
   return (
     <Select
       className={` ${className}`}
-      value={selectedValue}
+      value={selectedValue || value}
       onValueChange={handleValueChange}
     >
       <SelectTrigger
@@ -41,7 +41,7 @@ export default function OptionSelect({
           {options.map((option) => (
             <SelectItem
               key={option.name}
-              value={option.name}
+              value={option.name || value}
               className="text-sm"
             >
               {option.name}

@@ -2,7 +2,7 @@ import heroImage from "@/asserts/business-image.svg";
 
 import Image from "next/image";
 
-import { font14, font16, font18bold } from "@/constant";
+import { font14, font16 } from "@/constant";
 import { Button } from "../ui/button";
 
 const Business = () => {
@@ -10,12 +10,12 @@ const Business = () => {
     <div className="background-gradient bannerBackgroundImage  px-2 lg:px-4  py-20  ">
       <div className="max-w-[1280px]  mx-auto  ">
         <div className="  mx-auto text-center    rounded-lg">
-          <h1 className={`  mb-1 ${font18bold}`}>
+          <h1 className={`  mb-1 text-2xl font-semibold`}>
             Why <span className="text-primary_color">Aidroo</span> for your
             Business?
           </h1>
-          <p className={`${font14} mb-8`}>
-            Explore the popular listings around the world
+          <p className={`${font16} mb-8`}>
+            Explore Business and find jobs around the world
           </p>
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 ">

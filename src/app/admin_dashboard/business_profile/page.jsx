@@ -2,7 +2,7 @@ import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
 import { fetchCategories } from "@/queries/category-and-subcategory";
 import { checkUserExistsWithUsername } from "@/queries/user-query";
-import ProfileForm from "./_components/ProfileForm";
+import BusinessProfileCreateForm from "./_components/BusinessProfileCreatedForm";
 import ProfileTable from "./_components/ProfileTable";
 import SearchBar from "./_components/SearchBar";
 
@@ -31,13 +31,14 @@ export default async function BusinessPage({ searchParams }) {
     <div className="rounded-lg space-y-6">
       <div className="flex flex-col justify-center items-center space-y-8">
         <div className="border p-4 rounded-md w-fit">
-          <ProfileForm categories={categories} isExit={isExit} />
+          <BusinessProfileCreateForm categories={categories} isExit={isExit} />
         </div>
         <SearchBar
           searchQuery={searchQuery}
           categoryFilter={categoryFilter}
           countryFilter={countryFilter}
           categories={categories}
+          baseUrl="/admin_dashboard/business_profile"
         />
 
         <ProfileTable
@@ -46,6 +47,7 @@ export default async function BusinessPage({ searchParams }) {
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalRecords}
+          isExit={isExit}
         />
       </div>
       {limit < totalRecords && (

@@ -24,6 +24,7 @@ export function Combobox({
   setSelectedCategory,
   options = [],
   isLoading = false,
+  value,
   placeholder = "",
 }) {
   const [open, setOpen] = React.useState(false);
@@ -56,7 +57,7 @@ export function Combobox({
                 {options?.map((framework) => (
                   <CommandItem
                     key={framework?.id}
-                    value={framework?.name}
+                    value={framework?.name || value}
                     onSelect={() => {
                       setSelectedCategory(
                         selectedCategory?.name === framework?.name
