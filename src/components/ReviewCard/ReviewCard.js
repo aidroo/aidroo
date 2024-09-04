@@ -53,10 +53,9 @@ export default function ReviewCard({ review }) {
             <div className=" flex gap-x-4  justify-between items-start ">
               <TitleNameAndVerified
                 title={review?.user?.businessProfile?.businessName || fulName}
-                verified={
-                  review?.user?.businessProfile?.verified ||
-                  review?.user?.personalProfile?.verified
-                }
+                verified={review?.user?.businessProfile?.verified}
+                // personalVerified={review?.user?.personalProfile?.verified}
+                isShown={true}
               />
             </div>
 

@@ -126,49 +126,40 @@ export async function GET(req) {
   await connectToDatabase();
 
   const { searchParams } = new URL(req.url);
-  const username = searchParams.get("username");
-
-  if (!username) {
+  const businessName = searchParams.get("businessName");
+  console.log(businessName);
+  if (!businessName) {
     return NextResponse.json(
-      { status: 400, message: "Username is required." },
+      { status: 400, message: "Business name is required." },
       { status: 400 }
     );
   }
 
   try {
-    const user = await db.User.findOne({
-      where: { username },
+    const { rows: businessProfiles } = await db.User.findAndCountAll({
       attributes: ["username", "email"],
       include: [
         {
           model: db.BusinessProfile,
+          where: { businessName: { [Op.like]: `%${businessName}%` } }, // Partial match
           as: "businessProfile",
-          required: false, // Inner join - only fetch users with BusinessProfiles
-        },
-        {
-          model: db.PersonalProfile,
-          as: "personalProfile",
-          required: false, // Inner join - only fetch users with BusinessProfiles
+          required: true,
         },
         {
           model: db.Address,
           as: "addresses",
-          required: true, // Left join - fetch users with or without Addresses
+          required: true,
         },
       ],
+      order: [["createdAt", "DESC"]],
+
+      limit: 10, // Log the SQL query for debugging
     });
 
-    if (!user) {
-      return NextResponse.json(
-        { status: 404, message: "User not found." },
-        { status: 404 }
-      );
-    }
-
     return NextResponse.json({
-      status: 201,
+      status: 200,
       message: "User fetched successfully.",
-      data: user,
+      user: businessProfiles,
     });
   } catch (error) {
     console.error("Error fetching user:", error);

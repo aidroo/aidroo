@@ -58,11 +58,12 @@ export async function getAllProfileReviews(username, page = 1, limit = 10) {
       attributes: ["rating", "totalReviews"],
     });
 
+    const plainReviews = reviews.map((review) => review.toJSON());
     return {
       totalRecords,
       totalPages,
       currentPage: page,
-      reviews,
+      reviews: plainReviews,
       totalReview: overallRating?.totalReviews || 0,
       rating: overallRating?.rating || 0,
     };

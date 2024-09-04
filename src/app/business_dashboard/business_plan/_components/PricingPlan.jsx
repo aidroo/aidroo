@@ -7,7 +7,7 @@ import {
   guaranteedbadge,
   plaimedbadge,
   tikmark,
-  topplacement,
+  topplacementBadge,
   verifiedIcon,
 } from "@/exportImage";
 
@@ -17,7 +17,7 @@ const pricingPlan = [
     title: "Claimed Badge",
   },
   {
-    src: topplacement,
+    src: topplacementBadge,
     title: "Top Placement",
   },
   {

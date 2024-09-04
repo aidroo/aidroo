@@ -9,13 +9,9 @@ import { fetchCategories } from "@/queries/category-and-subcategory";
 
 import BusinessProfileCard from "./_components/BusinessProfileCard";
 import BusinessProfileFiltering from "./_components/BusinessProfileFiltering";
-// export async function generateStaticParams() {
-//   const businessProfiles = await fetchCategories();
-//   console.log("businessProfiles");
-//   return businessProfiles.map((profile) => ({
-//     username: profile.username,
-//   }));
-// }
+export const metadata = {
+  title: "business",
+};
 
 export default async function Categories({ searchParams }) {
   const { categories } = await fetchCategories();
@@ -65,7 +61,7 @@ export default async function Categories({ searchParams }) {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-2  py-10">
+      <div className="max-w-7xl mx-auto px-2  py-10 ">
         <h1 className={`text-primary_color ${font18bold} text-center py-8`}>
           Find your best company
         </h1>
@@ -78,7 +74,7 @@ export default async function Categories({ searchParams }) {
           <div className="col-span-5  lg:border-2 rounded-md lg:p-6 space-y-4">
             {businessProfiles.length > 0 && (
               <>
-                <div className="overflow-hidden w-full">
+                <div className=" w-full">
                   {businessProfiles.map((businessProfile) => (
                     <BusinessProfileCard
                       key={businessProfile?.username}

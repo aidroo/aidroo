@@ -2,11 +2,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
 import { font16, font18 } from "@/constant";
-import jobIcons from "@/public/icons/businessbriefcase4.svg";
 
 import {
   addyourbusiness,
-  brifcaseIcon,
   claimWithBusiness,
   loginIcon,
   logo,
@@ -20,42 +18,24 @@ import {
   user,
   userdashboard,
   verifiedIcon,
-  whitesearch,
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import DynamicSearchInput from "./DynamicSearchInput";
 import IconImage from "./IconImage/IconImage";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from "./ui/select";
 
 export default function DesktopMenu() {
-  const [searchText, setSearchText] = useState("");
   const [isHovered, setIsHovered] = useState(false);
-  const [show, setShow] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("business");
 
   const { currentUser, logout } = useAuth();
-  const handleValueChange = (value) => {
-    setSelectedValue(value);
-    console.log(value);
-  };
 
-  const handleInputChange = (event) => {
-    setSearchText(event.target.value);
-  };
   return (
     <div className=" h-[72px] place-content-center hidden lg:block">
-      <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  h-11  items-center justify-center max-w-[1260px] mx-auto    ">
+      <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  h-11  items-start justify-center max-w-[1260px] mx-auto    ">
         {/* logo */}
         <div className=" col-span-1   ">
           <Link href="/">
@@ -70,74 +50,13 @@ export default function DesktopMenu() {
         </div>
 
         {/* searching bar */}
-        <div className="flex   items-center  col-span-2  text-lg text-gray-700 ms-12  ">
-          <form className="flex gap-2">
-            <div className="flex justify-between  bg-white rounded-md gap-x-2 items-center pr-1">
-              <Input
-                type="text"
-                name="search"
-                placeholder="Search"
-                className=" dark:bg-dark h-10 max-w-72 w-[280px] border-none focus-visible:ring-0"
-                onChange={(e) => handleInputChange(e)}
-              />
-              <Select
-                value={selectedValue}
-                onValueChange={handleValueChange}
-                className="focus:ring-0 focus:ring-ring"
-              >
-                <SelectTrigger className="w-fit bg-gray-200  px-2  ">
-                  {/* <Image src={brifcaseIcon} /> */}
-                  {selectedValue === "business" && (
-                    <Image src={brifcaseIcon} className="w-6" />
-                  )}
-                  {selectedValue === "job" && (
-                    <Image src={jobIcons} className="w-6" />
-                  )}
-                  {/* <Image src={workerIcon} className="w-12" /> */}
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="business">
-                      <div className="flex items-center gap-6  border-b pb-2 ">
-                        <IconImage
-                          src={brifcaseIcon}
-                          size={32}
-                          alt="notification icon"
-                        />
-                        <p className={`${font16} text-gray-700`}>Business</p>
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="job">
-                      <div className="flex items-center gap-6  border-b pb-2 ">
-                        <IconImage
-                          src={jobIcons}
-                          size={32}
-                          alt="notification icon"
-                        />
-                        <p className={`${font16} text-gray-700`}>Jobs</p>
-                      </div>
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="relative">
-              {/* <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
-              <Image src={filter} alt="Icon 1" className="w-6" />
-            </div> */}
-              {/* {isHovered2 && (
-            <div className="absolute  shadow rounded-md    top-[42px] pt-4 -right-6 ">
-              <div className=" file:selection: z-50  border-2 rounded   p-8 ">
-                <input type="checkbox" />
-                <Button variant="hoverButton">submit</Button>
-              </div>
-            </div>
-          )} */}
-            </div>
-            <div className=" flex items-center justify-center  bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
-              <Image src={whitesearch} alt="Icon 1" className="w-6 " />
-            </div>
-          </form>
+        <div className="flex   items-start col-span-2  text-lg text-gray-700 ms-12  ">
+          <DynamicSearchInput
+          // title={title}
+          // verified={verified}
+          // baseUrl=""
+          // searchQuery={searchQuery}
+          />
         </div>
 
         <div className="col-span-2  mr-24 flex justify-end items-center gap-4   ">

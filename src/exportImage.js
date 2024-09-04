@@ -9,11 +9,16 @@ import search from "@/asserts/search.svg";
 import bagIcon from "@/public/icons/bag.svg";
 import brifcaseIcon from "@/public/icons/businessbriefcase.svg";
 import brifcaseIcon2 from "@/public/icons/businessbriefcase2.svg";
+import brifcaseIcon3 from "@/public/icons/businessbriefcase3.svg";
+import brifcaseIcon4 from "@/public/icons/businessbriefcase4.svg";
 import ceoIcon from "@/public/icons/ceo.svg";
 import claimedIcon from "@/public/icons/claimed.svg";
 import claimWithBusiness from "@/public/icons/claimthisbusiness.svg";
 import dealonIcon from "@/public/icons/dealon.svg";
-import categories from "@/public/icons/jobposticons/categories.svg";
+import {
+  default as bordercategoriesIcon,
+  default as categories,
+} from "@/public/icons/jobposticons/categories.svg";
 import hashtag from "@/public/icons/jobposticons/hashtag.svg";
 import locationIcon from "@/public/icons/jobposticons/locationicon.svg";
 import moneyBag from "@/public/icons/jobposticons/moneybag.svg";
@@ -67,8 +72,11 @@ import unclaimed from "@/public/images/unverified.svg";
 export {
   addyourbusiness,
   bagIcon,
+  bordercategoriesIcon,
   brifcaseIcon,
   brifcaseIcon2,
+  brifcaseIcon3,
+  brifcaseIcon4,
   businessIcon,
   businessProfilePic,
   businessverified,

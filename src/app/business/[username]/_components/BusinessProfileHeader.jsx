@@ -1,5 +1,5 @@
-import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
+import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
 import {
   businessProfilePic,
@@ -20,17 +20,20 @@ export default function BusinessProfileHeader({ profile }) {
   return (
     <div className="flex gap-8 items-start justify-center col-span-3">
       {/* Profile Image */}
-      <IconImage
-        src={profile?.profileThumb || businessProfilePic}
-        size={120}
-        className=" rounded-md ring-1 p-1   "
-        alt="profile pic"
-      />
+
+      <div className="w-28 h-28  rounded-md p-1  flex  ">
+        <ResponsiveImage
+          src={profile?.profileThumb || businessProfilePic}
+          size={120}
+          className=" rounded-md ring-1 p-1   "
+          alt="profile pic"
+        />
+      </div>
 
       {/* Profile Details */}
-      <div className="flex  flex-col ">
+      <div className="flex  flex-col min-h-28  ">
         {/* Business Name and Verification */}
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-x-2 items-center">
           {profile?.businessName && (
             <TitleNameAndVerified
               title={profile.businessName}

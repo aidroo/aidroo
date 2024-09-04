@@ -37,7 +37,9 @@ export async function generateMetadata({ params }) {
           {
             url: `${
               process.env.NEXT_PUBLIC_API_BASE_URL
-            }/api/og?rating=3&profileThumb=${encodeURIComponent(
+            }/api/og?rating=${parseFloat(rating).toFixed(
+              2
+            )}&profileThumb=${encodeURIComponent(
               profileThumb
             )}&title=${encodeURIComponent(
               businessName
@@ -78,7 +80,7 @@ export default async function BusinessProfileLayout({ children, params }) {
             {/*  */}
             <div className="w-full bg-[#f5fafc] dark:bg-dark">
               <div className="max-w-[1280px] mx-auto">
-                <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-4 py-8  px-10">
+                <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-x-4 py-8  px-10">
                   {profile && <BusinessProfileHeader profile={profile} />}
                   <div className="lg:border-s border-primary_color items-center justify-center flex gap-2 lg:gap-4    col-span-2">
                     <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">

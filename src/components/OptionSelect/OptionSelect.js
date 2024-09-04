@@ -31,9 +31,7 @@ export default function OptionSelect({
       value={selectedValue || value}
       onValueChange={handleValueChange}
     >
-      <SelectTrigger
-        className={` min-w-32   dark:bg-gray-800 h-10   ${className}`}
-      >
+      <SelectTrigger className={` min-w-32   dark:bg-gray-800    ${className}`}>
         <SelectValue placeholder={label} className="text-sm  " />
       </SelectTrigger>
       <SelectContent>

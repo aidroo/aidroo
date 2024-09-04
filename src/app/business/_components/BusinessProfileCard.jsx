@@ -24,7 +24,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
 
   let averageRating = Math.round(rating);
   return (
-    <Card className="mb-4 hover:zoom-in-105   ">
+    <Card className="mb-10 cursor-pointer hover:zoom-in-[110px]  hover:shadow-xl transform hover:scale-105 transition duration-500 ">
       <CardContent className="flex gap-4 items-start  p-3   ">
         {/* image */}
         <div className=" rounded-md ring-1 p-2">

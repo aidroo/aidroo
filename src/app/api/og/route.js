@@ -1,6 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-img-element */
+import { Poppins } from "next/font/google";
 import { ImageResponse } from "next/og";
+
+const poppins = Poppins({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+});
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -30,14 +36,19 @@ export async function GET(request) {
 
   return new ImageResponse(
     (
-      <div tw="flex flex-col w-full h-full items-center justify-center bg-white">
-        <img tw="flex w-32 border" src={profileUrl} alt="hello" />
+      <div
+        tw="flex flex-col w-full h-full items-center justify-center bg-white space-y-6"
+        style={{
+          fontFamily: `${poppins.style.fontFamily}`,
+        }}
+      >
+        <img tw="flex w-1/5 border rounded-xl " src={profileUrl} alt="hello" />
 
-        <div tw="flex   items-center justify-center">
-          <span tw="text-2xl mr-2 ">{sortedString}</span>
+        <div tw="flex mt-8  items-center justify-center">
+          <span tw="text-4xl mr-2  ">{sortedString}</span>
           {verified ? (
             <img
-              tw="w-5"
+              tw="w-8"
               src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/nackgugh5tinsynmfx89.jpg"
               alt="hello"
             />
@@ -50,12 +61,12 @@ export async function GET(request) {
           )}
         </div>
 
-        <span>{totalReviews === null ? totalReviews : 0} Reviews</span>
-        <span tw="flex gap-4 items-center justify-center w-full ">
+        <span tw="text-3xl">{totalReviews ? totalReviews : 0} Reviews</span>
+        <span tw="flex gap-4 items-center justify-center w-full my-2 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={`${18 * totalStars}px`} // Adjust width to fit all stars
-            height={`${18}px`} // Height of the SVG
+            width={`${24 * totalStars}px`} // Adjust width to fit all stars
+            height={`${24}px`} // Height of the SVG
             viewBox={`0 0 ${20 * totalStars} ${18}`} // Adjust viewBox to fit all stars
           >
             {[...Array(totalStars)].map((_, index) => {
@@ -78,7 +89,7 @@ export async function GET(request) {
               );
             })}
           </svg>
-          <span tw="text-xl">{rating}</span>
+          <span tw="text-2xl ml-4">{rating}</span>
         </span>
       </div>
     ),
