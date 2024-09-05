@@ -70,9 +70,9 @@ export default function PersonalProfileCreatedForm({
             type="text"
             placeholder="Username"
             className={`bg-white dark:bg-gray-800 border-none focus-visible:ring-0 flex-grow `}
-            value={userData.profileId}
+            value={userData.username}
             onChange={handleChange}
-            name="profileId"
+            name="username"
             required
           />
           {!isExit && userData.profileId !== "" && (

@@ -1,5 +1,7 @@
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import topbachimage from "@/public/icons/topplacement_price.svg";
+
 import { font16 } from "@/constant";
 import {
   brifcaseIcon,
@@ -7,7 +9,6 @@ import {
   guaranteedbadge,
   plaimedbadge,
   tikmark,
-  topplacementBadge,
   verifiedIcon,
 } from "@/exportImage";
 
@@ -17,7 +18,7 @@ const pricingPlan = [
     title: "Claimed Badge",
   },
   {
-    src: topplacementBadge,
+    src: topbachimage,
     title: "Top Placement",
   },
   {

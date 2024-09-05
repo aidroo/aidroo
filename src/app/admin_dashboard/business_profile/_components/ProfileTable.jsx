@@ -118,7 +118,7 @@ export default function ProfileTable({ profiles, isExit }) {
                         <Button variant="outline">Write</Button>
                       </DialogTrigger>
                       <ReviewAndProfileCreateDialog
-                        username={profile.username}
+                        profileId={profile.username}
                         isExit={isExit}
                       />
                     </Dialog>

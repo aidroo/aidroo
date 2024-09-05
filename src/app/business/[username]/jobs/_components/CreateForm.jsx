@@ -11,9 +11,7 @@ import {
   moneyBag,
   schedule,
 } from "@/exportImage";
-import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoLogoUsd } from "react-icons/io";
@@ -35,26 +33,26 @@ export default function CreateForm({ categories, subcategories }) {
       setInputValue(""); // Clear the input after adding a hashtag
     }
   };
-  const { currentUser } = useAuth();
-  const router = useRouter;
+  // const { currentUser } = useAuth();
+  // const router = useRouter;
 
-  const [jobData, setJobData] = useState({
-    username: currentUser?.username,
-    title: "",
-    description: "",
-    price: 0,
-    category_id: selectedCategory?.id,
-    subcategory_id: selectedSubcategory?.id,
-    priceType: "",
-    currency: "USD",
-    location: "",
-    country: "",
-    startDate: "",
-    endDate: "",
-    images: [],
-    tags: [],
-    status: "pending",
-  });
+  // const [jobData, setJobData] = useState({
+  //   username: currentUser?.username,
+  //   title: "",
+  //   description: "",
+  //   price: 0,
+  //   category_id: selectedCategory?.id,
+  //   subcategory_id: selectedSubcategory?.id,
+  //   priceType: "",
+  //   currency: "USD",
+  //   location: "",
+  //   country: "",
+  //   startDate: "",
+  //   endDate: "",
+  //   images: [],
+  //   tags: [],
+  //   status: "pending",
+  // });
 
   // const query = new URLSearchParams();
   // useEffect(() => {

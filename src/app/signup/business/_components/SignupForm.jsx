@@ -33,7 +33,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
     city: "",
     address: "",
   });
-  console.log(userData);
+
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
   const query = new URLSearchParams();

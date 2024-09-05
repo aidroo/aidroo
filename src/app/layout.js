@@ -1,10 +1,11 @@
 import { AuthProvider } from "@/context/AuthContext";
-import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
-const roboto = Roboto({
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"], // You can specify the font weights you need
+  weight: ["400", "700", "600"], // You can specify the font weights you need
 });
 
 export const metadata = {
@@ -15,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="light">
-      <body className={roboto.className}>
+      <body className={poppins.className}>
         {/* <ThemeProvider
           attribute="class"
           enableSystem
@@ -23,7 +24,14 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         > */}
         <AuthProvider>
-          <main className="w-full ">{children}</main>
+          <main className="w-full ">
+            {children}
+
+            <Script
+              src="//code.tidio.co/nypfvkwgb7jxvqyd73rwal3ay4bbp5g9.js"
+              strategy="afterInteractive"
+            />
+          </main>
         </AuthProvider>
 
         {/* </ThemeProvider> */}

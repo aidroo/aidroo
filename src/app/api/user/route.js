@@ -127,7 +127,7 @@ export async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const businessName = searchParams.get("businessName");
-  console.log(businessName);
+
   if (!businessName) {
     return NextResponse.json(
       { status: 400, message: "Business name is required." },

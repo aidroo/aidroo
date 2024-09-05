@@ -23,7 +23,7 @@ export default function TitleNameAndVerified({
 
       {personalVerified && (
         <span className="inline-block align-baseline ms-2 ">
-          <Image src={perosnal_verified} className="w-4 inline-block" />
+          <Image src={perosnal_verified} className="w-[18px] inline-block" />
         </span>
       )}
 

@@ -1,11 +1,10 @@
-"use client";
 import { font16 } from "@/constant";
-import { brifcaseIcon, brifcaseIcon4, verifiedIcon } from "@/exportImage";
+import { brifcaseIcon, brifcaseIcon4 } from "@/exportImage";
 import axiosInstance from "@/lib/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import IconImage from "./IconImage/IconImage";
 import TitleNameAndVerified from "./TitleNameAndVerified";
@@ -20,38 +19,43 @@ import {
 
 export default function DynamicSearchInput() {
   const [selectedValue, setSelectedValue] = useState("business");
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
+  const router = useRouter();
 
   const handleValueChange = (value) => {
     setSelectedValue(value);
     console.log(value);
   };
 
-  const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
-  const router = useRouter();
+  // Debouncing logic using useEffect
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      handleSearch(search);
+    }, 500); // Adjust the delay (in milliseconds) as needed
+
+    return () => {
+      clearTimeout(debounceTimeout);
+    };
+  }, [search]);
 
   const handleSearch = async (query) => {
-    setSearch(query);
-    if (query.length > 2) {
-      try {
-        // Fetch results from your API
+    try {
+      if (query) {
         const response = await axiosInstance.get(
-          `/api/user?businessName=${search}`
+          `/api/user?businessName=${query}`
         );
-        // console.log(response.data.user);
-
-        console.log(response);
-        setResults(response?.data?.user);
-      } catch (error) {
-        console.error("Error fetching results:", error);
+        setResults(response?.data?.user || []);
+      } else {
+        setResults([]);
       }
-    } else {
+    } catch (error) {
+      console.error("Error fetching results:", error);
       setResults([]);
     }
   };
 
   const handleResultClick = () => {
-    // Navigate to filtering page with the selected item's data
     router.push(`/business?search=${search}`);
   };
 
@@ -64,13 +68,14 @@ export default function DynamicSearchInput() {
           type="text"
           placeholder="Search Jobs"
           value={search}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)} // Directly updating the search state
         />
 
         <Select
           value={selectedValue}
           onValueChange={handleValueChange}
           className="focus:ring-ring"
+          align="start"
         >
           <SelectTrigger className="w-fit px-2 h-10 rounded-none focus:ring-0 bg-gray-50 border-none shadow-none">
             {selectedValue === "business" && (
@@ -80,7 +85,7 @@ export default function DynamicSearchInput() {
               <Image src={brifcaseIcon4} className="w-6" />
             )}
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="">
             <SelectGroup>
               <SelectItem value="business">
                 <div className="flex items-center gap-6 border-b pb-2">
@@ -106,6 +111,7 @@ export default function DynamicSearchInput() {
           </SelectContent>
         </Select>
       </div>
+
       {results.length > 0 &&
         results.map((profile) => {
           const roundedRating =
@@ -122,38 +128,36 @@ export default function DynamicSearchInput() {
                       isShown={true}
                     />
                   </Link>
-                  {profile.businessProfile.totalReviews && (
-                    <div className="flex items-center text-[16px] gap-x-4  mt-1">
-                      <div className="flex gap-x-4 items-center">
-                        {profile.businessProfile.totalReviews} Reviews
-                      </div>
-                      <div className="flex  gap-x-2">
-                        <GoDotFill className={` text-primary_color`} />
-                        <span
-                          className={`${
-                            roundedRating < 3
-                              ? "bg-red-400"
-                              : roundedRating < 4
-                              ? "bg-yellow-300"
-                              : roundedRating < 5
-                              ? "bg-primary_color"
-                              : " "
-                          } px-1 flex `}
-                        >
-                          {" "}
-                          {profile.businessProfile.rating}
-                        </span>
-                      </div>
+
+                  <div className="flex items-center text-[16px] gap-x-4  mt-1">
+                    <div className="flex gap-x-4 items-center">
+                      {profile.businessProfile.totalReviews || 0} Reviews
                     </div>
-                  )}
+                    <div className="flex  gap-x-2">
+                      <GoDotFill className={` text-primary_color`} />
+                      <span
+                        className={`${
+                          roundedRating < 3
+                            ? "bg-red-400"
+                            : roundedRating < 4
+                            ? "bg-yellow-300"
+                            : roundedRating < 5
+                            ? "bg-primary_color"
+                            : "  "
+                        } px-1 flex rounded-sm`}
+                      >
+                        {profile.businessProfile.rating || 0}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                {profile.businessProfile.verified && (
+                {/* {profile.businessProfile.verified && (
                   <div className="text-sm font-normal text-gray-500 tracking-wide">
                     <span className="inline-block align-baseline ms-2">
                       <Image src={verifiedIcon} className="w-5 inline-block" />
                     </span>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           );
@@ -162,7 +166,7 @@ export default function DynamicSearchInput() {
       {results.length > 0 && (
         <div className="flex justify-center py-2">
           <button
-            className="bg-blue-500 w-2/3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full  "
+            className="bg-blue-500 w-2/3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             onClick={handleResultClick}
           >
             Show all results

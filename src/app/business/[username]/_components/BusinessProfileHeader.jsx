@@ -18,7 +18,7 @@ export default function BusinessProfileHeader({ profile }) {
     rating < 3.5 ? "Poor" : rating <= 4.5 ? "Good" : "Excellent";
 
   return (
-    <div className="flex gap-8 items-start justify-center col-span-3">
+    <div className="flex gap-8 items-start lg:justify-center col-span-3">
       {/* Profile Image */}
 
       <div className="w-28 h-28  rounded-md p-1  flex  ">
@@ -50,7 +50,7 @@ export default function BusinessProfileHeader({ profile }) {
           <p>{ratingLabel}</p>
         </div>
         <div className="flex gap-x-2   items-center">
-          <Rating value={rating} size={22} />
+          <Rating value={rating.toFixed(2)} size={22} />
           <p className="text-[18px] text-gray-700 font-semibold">
             {profile?.rating}
           </p>

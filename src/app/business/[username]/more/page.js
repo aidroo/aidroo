@@ -1,6 +1,5 @@
 "use client";
 import Heading from "@/components/Heading";
-import { GoogleMap } from "@/components/Map/Map";
 import ThumbSlider from "@/components/ThumbSlider/ThumbSlider";
 import { Switch } from "@/components/ui/switch";
 import { businessOur, font18 } from "@/constant";
@@ -36,9 +35,9 @@ export default function More() {
         ))}
       </div>
       {/* map */}
-      <div className="   h-[440px] w-full p-4 border-2 rounded-md">
+      {/* <div className="   h-[440px] w-full p-4 border-2 rounded-md">
         <GoogleMap showMarker={false} className="h-[400px] w-full rounded-md" />
-      </div>
+      </div> */}
     </>
   );
 }

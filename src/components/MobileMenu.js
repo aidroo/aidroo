@@ -6,7 +6,6 @@ import {
   brifcaseIcon,
   businessIcon,
   categoryImage,
-  filter,
   helpIcon,
   logo,
   pageIcon,
@@ -20,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
+import DynamicSearchInput from "./DynamicSearchInput";
 import Heading from "./Heading";
 import IconImage from "./IconImage/IconImage";
 import LogOutSvg from "./logoutIcon/LogOutSvg";
@@ -32,7 +32,6 @@ import {
 } from "./ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
@@ -40,12 +39,8 @@ export default function MobileMenu() {
   const { currentUser, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [humberOpen, setHumberOpen] = useState(false);
-  const [setSearchText] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
 
-  const handleInputChange = (event) => {
-    setSearchText(event.target.value);
-  };
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className=" w-full lg:hidden  block   bg-[#002A64]    space-y-4  z-50">
@@ -100,24 +95,17 @@ export default function MobileMenu() {
               : "opacity-0 -translate-y-8 pointer-events-none "
           }`}
         >
-          <form className="flex gap-x-4 justify-center  h-9">
-            <Input
-              type="text"
-              name="search"
-              placeholder="Search"
-              className="bg-white dark:bg-dark  max-w-80  "
-              onChange={(e) => handleInputChange(e)}
+          <div className="flex w-full gap-x-4   items-start col-span-2  text-lg text-gray-700    ">
+            <DynamicSearchInput
+            // title={title}
+            // verified={verified}
+            // baseUrl=""
+            // searchQuery={searchQuery}
             />
-
-            <div className="relative flex gap-4">
-              <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-10 md:w-[42px]    ">
-                <Image src={filter} alt="Icon 1" className="w-5" />
-              </div>
-              <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-10 md:w-[42px] ">
-                <Image src={whitesearch} alt="Icon 1" className="w-5" />
-              </div>
-            </div>
-          </form>
+            {/* <div className=" flex items-center justify-center  h-9    bg-primary_color p-1 rounded-md   cursor-pointer w-10 md:w-[42px] ">
+              <Image src={whitesearch} alt="Icon 1" className="w-5" />
+            </div> */}
+          </div>
         </div>
 
         <SheetContent>

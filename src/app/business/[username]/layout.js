@@ -24,7 +24,8 @@ export async function generateMetadata({ params }) {
 
     const { businessName, profileThumb, rating, totalReviews, verified } =
       profile;
-
+    const ratingLabel =
+      rating < 3.5 ? "Poor" : rating <= 4.5 ? "Good" : "Excellent";
     return {
       title: `${businessName} is rated Excellent`,
       description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }) {
       },
       twitter: {
         card: "summary_large_image",
-        title: `${businessName} is rated Excellent`,
+        title: `${businessName} is rated ${ratingLabel}`,
         description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
         image: `${profileThumb}`,
         image_alt: `${businessName} profile image`,
@@ -80,9 +81,9 @@ export default async function BusinessProfileLayout({ children, params }) {
             {/*  */}
             <div className="w-full bg-[#f5fafc] dark:bg-dark">
               <div className="max-w-[1280px] mx-auto">
-                <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-x-4 py-8  px-10">
+                <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-x-4 py-8  px-3 lg:px-10">
                   {profile && <BusinessProfileHeader profile={profile} />}
-                  <div className="lg:border-s border-primary_color items-center justify-center flex gap-2 lg:gap-4    col-span-2">
+                  <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4    col-span-2">
                     <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
                       <LiaSmsSolid className="text-sm md:text-xl" />
                       <span className={font14}>Chat</span>

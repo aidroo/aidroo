@@ -54,6 +54,7 @@ export default function ReviewCard({ review }) {
               <TitleNameAndVerified
                 title={review?.user?.businessProfile?.businessName || fulName}
                 verified={review?.user?.businessProfile?.verified}
+                personalVerified={true}
                 // personalVerified={review?.user?.personalProfile?.verified}
                 isShown={true}
               />
@@ -119,15 +120,15 @@ export default function ReviewCard({ review }) {
       <CardFooter>
         <div className=" w-full  flex justify-between  items-center  ">
           <div className="flex gap-2 md:gap-4  ">
-            <div className="flex gap-1   items-center border py-[2px] px-1 rounded shadow">
+            <div className="flex gap-1   items-center border hover:border-primary_color py-[2px] px-1 rounded hover:shadow-lg">
               <AiFillLike />
               <span>{like}</span>
             </div>
-            <div className="flex gap-1 py-[2px] px-1 items-center border   rounded shadow">
+            <div className="flex gap-1 py-[2px] px-1 items-center border hover:border-red-500   rounded  first-line: hover:shadow-lg">
               <FcLike />
               <span>{love}</span>
             </div>
-            <div className="flex gap-1   items-center border py-[2px] px-1 rounded shadow">
+            <div className="flex gap-1   items-center border py-[2px] px-1 hover:border-primary_color rounded   hover:shadow-lg">
               <CiShare2 />
               <span>0</span>
             </div>

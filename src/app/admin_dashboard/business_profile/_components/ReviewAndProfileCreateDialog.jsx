@@ -10,7 +10,7 @@ import { useState } from "react";
 import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 import { WriteReviewForm } from "./WriteReviewForm";
 
-export default function ReviewAndProfileCreateDialog({ username, isExit }) {
+export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
   const [uploadUrl, setUploadUrl] = useState(null);
   const [error, setError] = useState(null);
   // const router = useRouter();
@@ -19,7 +19,7 @@ export default function ReviewAndProfileCreateDialog({ username, isExit }) {
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
-    profileId: "",
+    username: "",
     email: "",
     password: "",
     role: "personal",
@@ -34,9 +34,9 @@ export default function ReviewAndProfileCreateDialog({ username, isExit }) {
     comment: "",
     rating: 0,
     images: [],
-    username,
+    profileId,
   });
-  console.log(userData);
+
   // Handler for updating review data
   const handleReviewChange = (field, value) => {
     setReviewData((prevReviewData) => ({

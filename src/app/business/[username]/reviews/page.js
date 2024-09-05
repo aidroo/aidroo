@@ -4,7 +4,7 @@ import Rating from "@/components/Rating/Rating";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import { Progress } from "@/components/ui/progress";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
-import { font14, font16 } from "@/constant";
+import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import { getAllProfileReviews } from "@/queries/reviews";
 
@@ -12,6 +12,7 @@ import { getAllProfileReviews } from "@/queries/reviews";
 export default async function Review({ params: { username }, searchParams }) {
   const limit = parseInt(searchParams.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
+
   // Fetch data from the server-side function
   const {
     reviews,
@@ -32,7 +33,7 @@ export default async function Review({ params: { username }, searchParams }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-2 rounded-md p-4">
         <div className="flex flex-col justify-center items-center space-y-2">
           <IconImage src={topplacementBadge} size={70} alt="image" />
-          <h1 className={`${font16}`}>Overall Rating</h1>
+          <h1 className={`${font18}`}>Overall Rating</h1>
           <div className="flex gap-1">
             <Rating value={averageRating} size={18} />
           </div>

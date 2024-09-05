@@ -10,6 +10,7 @@ export default async function Categories({ searchParams }) {
   const limit = parseInt(searchParams.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
   const selectedCategoryId = parseInt(searchParams?.category_id);
+
   const { categories, totalPages, currentPage, totalRecords } =
     await fetchCategories(page, limit);
 

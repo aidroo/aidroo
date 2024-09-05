@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Poppins } from "next/font/google";
 import { ImageResponse } from "next/og";
+import { GoDotFill } from "react-icons/go";
 
 const poppins = Poppins({
   weight: ["400", "600"],
@@ -13,7 +14,8 @@ export async function GET(request) {
   const title = searchParams.get("title" || "");
   const rating = parseInt(searchParams.get("rating" || 0));
   const profileUrl = searchParams.get("profileThumb" || "");
-  const verified = searchParams.get("verified" || false);
+  const verified = searchParams.get("verified") === "true"; // Convert the string to a boolean
+
   const totalReviews = searchParams.get("totalReviews" || 0);
 
   // Retrieve the color, 18, and filledStars parameters from the query string
@@ -37,59 +39,70 @@ export async function GET(request) {
   return new ImageResponse(
     (
       <div
-        tw="flex flex-col w-full h-full items-center justify-center bg-white space-y-6"
+        tw={`flex w-full   h-full items-center justify-center bg-white  `}
         style={{
           fontFamily: `${poppins.style.fontFamily}`,
         }}
       >
-        <img tw="flex w-1/5 border rounded-xl " src={profileUrl} alt="hello" />
+        <img
+          tw="flex  w-1/4 ring-1 rounded-xl mr-14  object-cover"
+          src={profileUrl}
+          alt="hello"
+        />
 
-        <div tw="flex mt-8  items-center justify-center">
-          <span tw="text-4xl mr-2  ">{sortedString}</span>
-          {verified ? (
-            <img
-              tw="w-8"
-              src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/nackgugh5tinsynmfx89.jpg"
-              alt="hello"
-            />
-          ) : (
-            <img
-              tw="w-4"
-              src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/wav2s9ok4jmqiodxdtti.jpg"
-              alt="hello"
-            />
-          )}
-        </div>
+        <span tw="flex flex-col   justify-center ">
+          <div tw="flex mt-8  items-center  ">
+            <span tw="text-6xl mr-2  ">{sortedString}</span>
 
-        <span tw="text-3xl">{totalReviews ? totalReviews : 0} Reviews</span>
-        <span tw="flex gap-4 items-center justify-center w-full my-2 ">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={`${24 * totalStars}px`} // Adjust width to fit all stars
-            height={`${24}px`} // Height of the SVG
-            viewBox={`0 0 ${20 * totalStars} ${18}`} // Adjust viewBox to fit all stars
-          >
-            {[...Array(totalStars)].map((_, index) => {
-              const starColor = index < filledStars ? color : "#e0e0e0";
-              const x = index * 20; // Position each star horizontally
+            {verified ? (
+              <img
+                tw="w-12"
+                src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/nackgugh5tinsynmfx89.jpg"
+                alt="Verified"
+              />
+            ) : (
+              <img
+                tw="w-12"
+                src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/wav2s9ok4jmqiodxdtti.jpg"
+                alt="Not Verified"
+              />
+            )}
+          </div>
+          <span tw="flex items-center">
+            <span tw="text-4xl mr-4">
+              {totalReviews === "null" ? 0 : totalReviews} Reviews
+            </span>
+            <GoDotFill tw="text-primary_color text-4xl  " />
+            <span tw="text-4xl ml-2">{rating}</span>
+          </span>
+          <span tw="flex gap-4 items-center  w-full my-2 ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={`${24 * totalStars}px`} // Adjust width to fit all stars
+              height={`${24}px`} // Height of the SVG
+              viewBox={`0 0 ${20 * totalStars} ${18}`} // Adjust viewBox to fit all stars
+            >
+              {[...Array(totalStars)].map((_, index) => {
+                const starColor = index < filledStars ? color : "#e0e0e0";
+                const x = index * 20; // Position each star horizontally
 
-              return (
-                <g key={index} transform={`translate(${x}, 0)`}>
-                  <path
-                    fill={starColor} // Apply the color using the fill attribute
-                    d={dynamicPath} // Use the dynamic path data
-                    transform={`scale(${18 / 512}) `} // Scale the path to the desired 18
-                  />
-                  <path
-                    fill="#ffffff" // Apply white color for the inner path
-                    d={innerWhitePath} // Use the inner white path data
-                    transform={`scale(${18 / 512})`} // Scale the path to fit inside the star
-                  />
-                </g>
-              );
-            })}
-          </svg>
-          <span tw="text-2xl ml-4">{rating}</span>
+                return (
+                  <g key={index} transform={`translate(${x}, 0)`}>
+                    <path
+                      fill={starColor} // Apply the color using the fill attribute
+                      d={dynamicPath} // Use the dynamic path data
+                      transform={`scale(${18 / 512}) `} // Scale the path to the desired 18
+                    />
+                    <path
+                      fill="#ffffff" // Apply white color for the inner path
+                      d={innerWhitePath} // Use the inner white path data
+                      transform={`scale(${18 / 512})`} // Scale the path to fit inside the star
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </span>
         </span>
       </div>
     ),
