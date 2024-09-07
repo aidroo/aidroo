@@ -1,6 +1,7 @@
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import {
   fetchCategories,
+  fetchCategoriesWithOutLimit,
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import Category from "./_components/Category";
@@ -13,6 +14,8 @@ export default async function Categories({ searchParams }) {
 
   const { categories, totalPages, currentPage, totalRecords } =
     await fetchCategories(page, limit);
+
+  const { categories: allCategories } = await fetchCategoriesWithOutLimit();
 
   const { subcategories } = await fetchSubcategories(selectedCategoryId || {});
 
@@ -32,7 +35,7 @@ export default async function Categories({ searchParams }) {
       </div>
 
       {/* Sub Category */}
-      <Subcategory categories={categories} subcategories={subcategories} />
+      <Subcategory categories={allCategories} subcategories={subcategories} />
     </div>
   );
 }

@@ -50,9 +50,9 @@ export default function BusinessProfileHeader({ profile }) {
           <p>{ratingLabel}</p>
         </div>
         <div className="flex gap-x-2   items-center">
-          <Rating value={rating.toFixed(2)} size={22} />
+          <Rating value={rating} size={22} />
           <p className="text-[18px] text-gray-700 font-semibold">
-            {profile?.rating}
+            {profile?.rating.toFixed(1)}
           </p>
           {starImage && (
             <Image src={starImage} alt="Star Rating" width={24} height={24} />

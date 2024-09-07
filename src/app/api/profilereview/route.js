@@ -119,6 +119,7 @@ export async function POST(req) {
 
     // Calculate new rating
     const { rating: currentRating, totalReviews } = businessProfile;
+
     const newTotalReviews = totalReviews + 1;
     const updatedRating = (
       (currentRating * totalReviews + parseFloat(rating)) /
@@ -126,13 +127,6 @@ export async function POST(req) {
     ).toFixed(2);
     businessProfile.rating = updatedRating;
     businessProfile.totalReviews = newTotalReviews;
-    await businessProfile.save();
-
-    // Update businessProfile totalReviews and calculate the new average rating
-    businessProfile.totalReviews += 1;
-    businessProfile.rating =
-      (businessProfile.rating * (businessProfile.totalReviews - 1) + rating) /
-      businessProfile.totalReviews;
 
     await businessProfile.save({ transaction });
 

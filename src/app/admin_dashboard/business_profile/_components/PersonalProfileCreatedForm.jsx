@@ -20,14 +20,14 @@ export default function PersonalProfileCreatedForm({
 
   const query = new URLSearchParams();
   useEffect(() => {
-    if (userData.profileId) {
-      query.set("username", userData.profileId);
+    if (userData.username) {
+      query.set("username", userData.username);
     }
     router.push(`/admin_dashboard/business_profile?${query.toString()}`, {
       shallow: true,
     });
     // Reset subcategory when category is changed
-  }, [router, userData.profileId]);
+  }, [router, userData.username, isExit]);
 
   return (
     <div className="space-y-6 p-4 border ">
@@ -37,7 +37,7 @@ export default function PersonalProfileCreatedForm({
           name="firstName"
           placeholder="First Name"
           className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
-          value={userData.businessName}
+          value={userData.firstName}
           onChange={handleChange}
         />
         <Input
@@ -45,7 +45,7 @@ export default function PersonalProfileCreatedForm({
           name="lastName"
           placeholder="Last Name"
           className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
-          value={userData.businessName}
+          value={userData.lastName}
           onChange={handleChange}
         />
       </div>{" "}
@@ -75,7 +75,7 @@ export default function PersonalProfileCreatedForm({
             name="username"
             required
           />
-          {!isExit && userData.profileId !== "" && (
+          {!isExit && userData.username !== "" && (
             <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
           )}
         </div>

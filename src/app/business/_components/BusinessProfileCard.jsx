@@ -56,7 +56,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 <Rating value={averageRating} size={18} />
               </div>
               <h1 className="text-gray-600   ">
-                <span>{rating} </span>
+                <span>{rating.toFixed(1)} </span>
               </h1>
             </div>
             <div className="flex gap-2 items-center  text-gray-600">

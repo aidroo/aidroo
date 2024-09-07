@@ -1,6 +1,6 @@
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
-import { fetchCategories } from "@/queries/category-and-subcategory";
+import { fetchCategoriesWithOutLimit } from "@/queries/category-and-subcategory";
 import { checkUserExistsWithUsername } from "@/queries/user-query";
 import BusinessProfileCreateForm from "./_components/BusinessProfileCreatedForm";
 import ProfileTable from "./_components/ProfileTable";
@@ -23,7 +23,7 @@ export default async function BusinessPage({ searchParams }) {
       page,
       limit,
     });
-  const { categories } = await fetchCategories();
+  const { categories } = await fetchCategoriesWithOutLimit();
 
   const isExit = await checkUserExistsWithUsername(username);
 

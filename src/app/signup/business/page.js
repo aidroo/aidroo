@@ -1,5 +1,5 @@
 import {
-  fetchCategories,
+  fetchCategoriesWithOutLimit,
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import { checkUserExistsWithUsername } from "@/queries/user-query";
@@ -9,7 +9,7 @@ export default async function BusinessPage({ searchParams }) {
   const selectedCategoryId = searchParams.category_id;
   const username = searchParams.username;
   const [categoriesData, subcategoriesData] = await Promise.all([
-    fetchCategories(),
+    fetchCategoriesWithOutLimit(),
     fetchSubcategories(selectedCategoryId || {}),
   ]);
 

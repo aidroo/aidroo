@@ -11,12 +11,13 @@ import followerIcon from "@/public/icons/follower.svg";
 import reportIcon from "@/public/icons/report-icon.svg";
 import reviewsIcon from "@/public/icons/reviews.svg";
 
+import replayIcon from "@/asserts/Reply.svg";
 import { font14, font16, font18 } from "@/constant";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
 import profileImage from "@/public/images/profile.jpg";
+import Image from "next/image";
 import { AiFillLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
-import { FaReply } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import TitleNameAndVerified from "../TitleNameAndVerified";
 
@@ -133,12 +134,11 @@ export default function ReviewCard({ review }) {
               <span>0</span>
             </div>
           </div>
-          <div className="flex gap-1 w-8 h-6 items-center text-sm">
-            <FaReply className="text-gray-500" />
-            <span className="text-sm">Replay</span>
+          <div className="flex gap-1   items-center text-sm    ">
+            <Image src={replayIcon} className="w-[26px]" />
           </div>
 
-          <IconImage src={reportIcon} size={18} />
+          <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
     </Card>

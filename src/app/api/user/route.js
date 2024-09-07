@@ -59,7 +59,7 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-    const lowercaseUsername = username.toLowerCase();
+    const lowercaseUsername = username.toLowerCase().replace(/[^a-z@]/g, "");
     // Create the new user
     const user = await db.User.create({
       username: lowercaseUsername,

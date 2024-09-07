@@ -25,6 +25,23 @@ export async function fetchCategories(page = 1, limit = 10) {
     return { categories: [], totalRecords: 0 };
   }
 }
+export async function fetchCategoriesWithOutLimit() {
+  try {
+    const categories = await db.Category.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+
+    // Convert Sequelize instances to plain objects
+    const plainCategories = categories.map((category) => category.toJSON());
+
+    return {
+      categories: plainCategories,
+    };
+  } catch (error) {
+    console.error(error);
+    return { categories: [], totalRecords: 0 };
+  }
+}
 
 export async function fetchSubcategories(category_id, page = 1, limit = 10) {
   if (!category_id) {

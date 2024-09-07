@@ -5,7 +5,7 @@ import { font18bold } from "@/constant";
 import Notfound from "@/components/Notfound";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
-import { fetchCategories } from "@/queries/category-and-subcategory";
+import { fetchCategoriesWithOutLimit } from "@/queries/category-and-subcategory";
 
 import BusinessProfileCard from "./_components/BusinessProfileCard";
 import BusinessProfileFiltering from "./_components/BusinessProfileFiltering";
@@ -14,7 +14,7 @@ export const metadata = {
 };
 
 export default async function Categories({ searchParams }) {
-  const { categories } = await fetchCategories();
+  const { categories } = await fetchCategoriesWithOutLimit();
   const searchQuery = searchParams.search || "";
   const categoryFilter = searchParams.category || "";
   const subcategoryFilter = searchParams.subcategory || "";

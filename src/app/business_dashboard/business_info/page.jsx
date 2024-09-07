@@ -1,6 +1,6 @@
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
 import {
-  fetchCategories,
+  fetchCategoriesWithOutLimit,
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import BusinessProfileUpdatedForm from "./_components/BusinessProfileUpdatedForm";
@@ -10,7 +10,7 @@ export default async function BusinessProfile({ searchParams }) {
   const username = searchParams.username;
 
   const [categoriesData, subcategoriesData, profile] = await Promise.all([
-    fetchCategories(),
+    fetchCategoriesWithOutLimit(),
     fetchSubcategories(selectedCategoryId || {}),
 
     fetchSingleProfile({ username }),

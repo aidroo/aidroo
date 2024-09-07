@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
     const ratingLabel =
       rating < 3.5 ? "Poor" : rating <= 4.5 ? "Good" : "Excellent";
     return {
-      title: `${businessName} is rated Excellent`,
+      title: `${businessName} is rated ${ratingLabel}`,
       description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
       url: `https://aidroo.com/${username}`, // Replace with your profile URL
       site_name: "Aidroo",

@@ -10,8 +10,8 @@ import userIcon from "@/public/icons/customer-review.gif";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import FileUploadComponent from "../FileUploadComponent";
 import IconImage from "../IconImage/IconImage";
+import MultipleFileUpload from "../MultipleFileUpload";
 import Rating from "../Rating/Rating";
 import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 import Star from "../Star/Star";
@@ -153,7 +153,7 @@ export function WriteReview2({ profileId }) {
                         />
                       </div>
                       <div>
-                        <FileUploadComponent setUploadUrl={setUploadUrl} />
+                        <MultipleFileUpload setUploadUrl={setUploadUrl} />
                         <div className="w-44 h-24 flex  justify-between gap-x-2 mt-4   ">
                           <ResponsiveImage src={profileImage} />
                           <ResponsiveImage src={profileImage} />

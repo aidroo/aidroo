@@ -241,13 +241,13 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
                     onChange={(e) => setCity(e.target.value)}
                   />{" "}
                   <Input
-                    type="text"
+                    type="number"
                     placeholder="Total funds"
                     className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
                     onChange={(e) => setFunds(e.target.value)}
                   />
                   <Input
-                    type="text"
+                    type="number"
                     placeholder="Total Employees"
                     className="bg-white dark:bg-gray-800  h-10   text-xs md:text-sm"
                     onChange={(e) => setEmployees(e.target.value)}

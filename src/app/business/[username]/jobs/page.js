@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { font14, font16, font18bold, options } from "@/constant";
 import { profileImage, profilePic } from "@/exportImage";
 import {
-  fetchCategories,
+  fetchCategoriesWithOutLimit,
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import CreateForm from "./_components/CreateForm";
@@ -15,7 +15,7 @@ export default async function Jobs({ searchParams }) {
   const selectedCategoryId = searchParams.category_id;
 
   const [categoriesData, subcategoriesData] = await Promise.all([
-    fetchCategories(),
+    fetchCategoriesWithOutLimit(),
     fetchSubcategories(selectedCategoryId || 1),
   ]);
 
