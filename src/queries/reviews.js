@@ -9,7 +9,9 @@ export async function getAllProfileReviews(username, page = 1, limit = 10) {
     const offset = (page - 1) * limit;
 
     // Define where condition (filter by profileId if provided)
-    const whereCondition = username ? { profileId: username } : {};
+    const whereCondition = username
+      ? { profileId: username, status: "approved" }
+      : {};
 
     // Fetch reviews with pagination and related user details
     const { rows: reviews, count: totalRecords } =
@@ -93,7 +95,14 @@ export async function getAllReviews(page = 1, limit = 10, searchQuery = "") {
     // Fetch reviews with pagination
     const { rows: reviews, count: totalRecords } =
       await db.Review.findAndCountAll({
-        attributes: ["id", "comment", "profileId", "title", "verified"], // `profileId` is the `username`
+        attributes: [
+          "id",
+          "comment",
+          "profileId",
+          "title",
+          "verified",
+          "status",
+        ], // `profileId` is the `username`
         where: reviewWhereClause,
         include: [
           {
@@ -163,7 +172,8 @@ export async function getAllReviews(page = 1, limit = 10, searchQuery = "") {
           comment: review.comment,
           title: review.title,
           verified: review.verified, // Review verification status
-          profileId: review.profileId, // The user's username
+          profileId: review.profileId,
+          status: review.status, // The user's username
           profileDetails,
         };
       })

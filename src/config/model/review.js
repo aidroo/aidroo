@@ -44,6 +44,10 @@ const Review = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    status: {
+      type: DataTypes.ENUM("approved", "pending"),
+      defaultValue: "pending",
+    },
     images: {
       type: DataTypes.JSON, // Allows storing an array or object of images
       allowNull: false,

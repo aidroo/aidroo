@@ -8,13 +8,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
-export default function ReviewEditDialog({ id, currentVerified }) {
+export default function ReviewEditDialog({
+  id,
+  currentVerified,
+  currentStatus,
+}) {
   const [verified, setVerified] = useState(currentVerified);
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
+  const [status, setStatus] = useState(currentStatus); // Initial status
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -22,6 +27,7 @@ export default function ReviewEditDialog({ id, currentVerified }) {
       const response = await axiosInstance.put(`/api/review/${id}`, {
         id,
         verified,
+        status,
       });
 
       if (response?.data?.status === 201) {
@@ -60,6 +66,17 @@ export default function ReviewEditDialog({ id, currentVerified }) {
     <DialogContent>
       <DialogTitle></DialogTitle>
       <div className="space-y-4">
+        <div className="flex gap-4 items-center">
+          <label>Status</label>
+          <select
+            value={status} // The initial value of status
+            onChange={(e) => setStatus(e.target.value)}
+            className="input"
+          >
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
         <div className="flex gap-4 items-center">
           <Checkbox
             checked={verified}

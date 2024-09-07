@@ -28,8 +28,6 @@ export async function POST(req) {
     profileId,
   } = body;
 
-  console.log(username);
-  console.log(profileId);
   // Validate required fields
   if (!username || !email || !password) {
     return NextResponse.json({
@@ -100,6 +98,7 @@ export async function POST(req) {
           rating,
           profileId, // Use the created user's username for profileId
           images,
+          status: "approved",
         },
         { transaction }
       ),

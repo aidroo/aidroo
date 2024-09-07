@@ -5,7 +5,7 @@ export async function PUT(request, { params }) {
   const { id } = params; // Fetch the username from the URL
   const body = await request.json();
 
-  const { verified } = body;
+  const { verified, status } = body;
 
   try {
     const review = await db.Review.findByPk(id);
@@ -18,6 +18,7 @@ export async function PUT(request, { params }) {
     }
 
     review.verified = verified;
+    review.status = status;
     await review.save();
     return NextResponse.json({
       status: 201,
