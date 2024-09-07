@@ -85,6 +85,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
     city,
     description,
     employees,
+    status: "approved",
     funds,
   };
   // handler

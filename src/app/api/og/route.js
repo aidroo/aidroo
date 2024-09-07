@@ -24,7 +24,7 @@ export async function GET(request) {
   const totalStars = 5;
   const filledStars = parseInt(searchParams.get("filledStars")) || 4;
 
-  const sortedString = title.slice(0, 30);
+  const sortedString = title.slice(0, 35);
 
   // Define the dynamic SVG path data for the star shape
   const dynamicPath = `M507.4,256.1c0,69.4-28.1,132.2-73.5,177.5c-45.3,45.5-108.3,73.7-177.5,73.7c-57.2,0-110.3-19.2-152.5-51.8
@@ -39,20 +39,21 @@ export async function GET(request) {
   return new ImageResponse(
     (
       <div
-        tw={`flex w-full   h-full items-center justify-center bg-white gap-x-64  `}
+        tw={`flex w-full   h-full items-center  justify-center   bg-white gap-x-64   `}
         style={{
           fontFamily: poppins.style.fontFamily,
+          gap: "20px",
         }}
       >
         <img
-          tw="flex  w-1/4 ring-1 rounded-xl mr-14  object-cover"
+          tw="flex  w-1/4 ring-1 rounded-xl ml-24   object-cover"
           src={profileUrl}
           alt="hello"
         />
 
-        <div tw="flex flex-col   justify-center ">
+        <div tw="flex flex-col   justify-center -mt-28 ">
           <div tw="flex mt-8  items-center  ">
-            <span tw="text-6xl mr-2  ">{sortedString}</span>
+            <span tw="text-7xl mr-2  ">{sortedString}</span>
 
             {verified ? (
               <img
@@ -68,18 +69,18 @@ export async function GET(request) {
               />
             )}
           </div>
-          <div tw="flex items-center">
-            <span tw="text-4xl mr-4">
+          <div tw="flex items-center mt-6">
+            <span tw="text-6xl mr-4">
               {totalReviews === "null" ? 0 : totalReviews} Reviews
             </span>
-            <GoDotFill tw="text-primary_color text-4xl  " />
-            <span tw="text-4xl ml-2">{rating}</span>
+            <GoDotFill tw="text-primary_color text-7xl  " />
+            <span tw="text-6xl ml-2">{rating}</span>
           </div>
-          <div tw="flex gap-4 items-center  w-full my-2 ">
+          <div tw="flex gap-4 items-center  w-full my-2 mt-8 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${24 * totalStars}px`} // Adjust width to fit all stars
-              height={`${24}px`} // Height of the SVG
+              width={`${50 * totalStars}px`} // Adjust width to fit all stars
+              height={`${50}px`} // Height of the SVG
               viewBox={`0 0 ${20 * totalStars} ${18}`} // Adjust viewBox to fit all stars
             >
               {[...Array(totalStars)].map((_, index) => {

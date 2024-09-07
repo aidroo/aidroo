@@ -6,8 +6,6 @@ import { businessProfilePic, categoryImage } from "@/exportImage";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegPaperPlane } from "react-icons/fa";
-import BusinessProfileReview from "./BusinessProfileReview";
-import Jobs from "./Jobs";
 
 export const works = [1, 2, 3, 4, 5, 6];
 
@@ -77,8 +75,8 @@ export default function BusinessProfileCard({ businessProfile, id }) {
           <h1 className="text-sm">{category}</h1>
         </div>
 
-        <Jobs />
-        <BusinessProfileReview />
+        {/* <Jobs />
+        <BusinessProfileReview /> */}
       </div>
     </Card>
   );

@@ -1,32 +1,25 @@
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
-import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { font14, font16, font18bold, options } from "@/constant";
-import { profileImage, profilePic } from "@/exportImage";
-import {
-  fetchCategoriesWithOutLimit,
-  fetchSubcategories,
-} from "@/queries/category-and-subcategory";
-import CreateForm from "./_components/CreateForm";
+// import {
+//   fetchCategoriesWithOutLimit,
+//   fetchSubcategories,
+// } from "@/queries/category-and-subcategory";
 
-export default async function Jobs({ searchParams }) {
-  const selectedCategoryId = searchParams.category_id;
+export default async function Jobs() {
+  // const selectedCategoryId = searchParams.category_id;
 
-  const [categoriesData, subcategoriesData] = await Promise.all([
-    fetchCategoriesWithOutLimit(),
-    fetchSubcategories(selectedCategoryId || 1),
-  ]);
+  // const [categoriesData, subcategoriesData] = await Promise.all([
+  //   fetchCategoriesWithOutLimit(),
+  //   fetchSubcategories(selectedCategoryId || 1),
+  // ]);
 
-  const categories = categoriesData.categories;
-  const subcategories = subcategoriesData.subcategories;
+  // const categories = categoriesData.categories;
+  // const subcategories = subcategoriesData.subcategories;
 
   return (
     <div>
-      <CreateForm categories={categories} subcategories={subcategories} />
+      <h1>0 Jobs Posted</h1>
+      {/* <CreateForm categories={categories} subcategories={subcategories} /> */}
       {/* post job card */}
-      <div>
+      {/* <div>
         <div className="w-full rounded-lg border-2 p-6 flex flex-col space-y-4">
           <h1
             className={` ${font16}text-primary_color flex items-center gap-4`}
@@ -41,10 +34,10 @@ export default async function Jobs({ searchParams }) {
               me credit due to not providing evidence of income. Other financial
               institutions that are supposedly for medical professionals.
             </p>
-          </div>
+          </div> */}
 
-          {/* image */}
-          <div className="flex gap-4 ">
+      {/* image */}
+      {/* <div className="flex gap-4 ">
             <div className="dark:ring-offset-slate-700 rounded w-24 md:w-32 shrink-0 overflow-hidden">
               <ResponsiveImage
                 src={profilePic}
@@ -80,9 +73,9 @@ export default async function Jobs({ searchParams }) {
             Apply Now
           </Button>
         </div>
-      </div>
+      </div> */}
       {/* report this review */}
-      <form className="border-2 p-6 rounded-md space-y-4 ">
+      {/* <form className="border-2 p-6 rounded-md space-y-4 ">
         <h1 className={`${font18bold}`}>Report this review?</h1>
         <div className="border-2" />
         <h1 className={`${font16}`}>Please choose a reson</h1>
@@ -101,7 +94,7 @@ export default async function Jobs({ searchParams }) {
           <Button variant="hoverButton">Submit</Button>
           <Button variant="hoverButton">Close</Button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export async function POST(req) {
     dob,
     funds,
     employees,
-
+    status,
     description,
     gender,
     businessName,
@@ -98,6 +98,7 @@ export async function POST(req) {
             employees,
             description,
             subcategory,
+            status,
           });
         }
 

@@ -68,6 +68,59 @@ const pricingPlan = [
   },
 ];
 
+const standerPlan = [
+  {
+    src: plaimedbadge,
+    title: "Top Placement",
+    subtitle: "(6 Months)",
+  },
+  {
+    src: topbachimage,
+    title: "Verified badge",
+    subtitle: "(Lifetime)",
+  },
+  {
+    src: verifiedIcon,
+    title: "Guaranteed Profile ",
+    subtitle: "(Lifetime)",
+  },
+  {
+    src: guaranteedbadge,
+    title: "Job Apply priority and Suggestions",
+  },
+  {
+    src: brifcaseIcon,
+    title: "Featured Business",
+  },
+
+  {
+    src: tikmark,
+    title: "700 reviews invitations",
+  },
+  {
+    src: clientsmanagement,
+    title: "Highlighted listings ",
+    subtitle: "(1 year)",
+  },
+  {
+    src: tikmark,
+    title: "Negative reviews removal",
+    subtitle: "(1 year all)",
+  },
+  {
+    src: tikmark,
+    title: "Business Promotions ",
+  },
+  {
+    src: tikmark,
+    title: "100 valid Clients leads",
+  },
+  {
+    src: guaranteedbadge,
+    title: "25 user login",
+  },
+];
+
 export default function PricingPlan() {
   return (
     <div className="max-w-7xl mx-auto  ">
@@ -149,7 +202,7 @@ export default function PricingPlan() {
           <TabsContent value="yearly" className="w-full md:w-2/3 mx-auto">
             <div className="border     p-6 rounded-md  space-y-4  ">
               <h1 size="xl" className="text-primary_color text-center">
-                Standard
+                Business
               </h1>
               <div className="border rounded-md p-4 ">
                 <h1>
@@ -160,7 +213,10 @@ export default function PricingPlan() {
                 <h1 className={`${font16} text-center`}>Per Package</h1>
               </div>
               <ul className="flex flex-col justify-start space-y-3">
-                {pricingPlan.map((plan) => (
+                <li className="text-xl font-normal text-primary_color">
+                  Standard +
+                </li>
+                {standerPlan.map((plan) => (
                   <li
                     key={plan.title}
                     className="flex items-center gap-4   justify-between "

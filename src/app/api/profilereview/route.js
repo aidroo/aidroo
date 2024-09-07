@@ -1,5 +1,6 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
+import { trimStrings } from "@/utils/trimString";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
@@ -8,7 +9,13 @@ export async function POST(req) {
   await connectToDatabase();
 
   // Parse the request body
+
+  // Parse the request body
   const body = await req.json();
+
+  // Trim all string properties
+  const trimmedBody = trimStrings(body);
+
   const {
     username,
     email,
@@ -26,8 +33,7 @@ export async function POST(req) {
     address,
     country,
     profileId,
-  } = body;
-
+  } = trimmedBody;
   // Validate required fields
   if (!username || !email || !password) {
     return NextResponse.json({

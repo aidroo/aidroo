@@ -22,7 +22,7 @@ import { FcLike } from "react-icons/fc";
 import TitleNameAndVerified from "../TitleNameAndVerified";
 
 export default function ReviewCard({ review }) {
-  const { title, comment, rating, love, like, images } = review;
+  const { title, comment, rating, love, like, images, verified } = review;
 
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
@@ -85,14 +85,16 @@ export default function ReviewCard({ review }) {
               <Rating value={Math.floor(rating)} size={18} />
             </div>
 
-            <div className="w-24 flex -mr-6   items-center gap-2">
-              <IconImage
-                src={reviewVerifiedIcon}
-                alt="verified image"
-                size={24}
-              />
-              <span>verified</span>
-            </div>
+            {verified && (
+              <div className="w-24 flex -mr-6   items-center gap-2">
+                <IconImage
+                  src={reviewVerifiedIcon}
+                  alt="verified image"
+                  size={24}
+                />
+                <span>verified</span>
+              </div>
+            )}
           </div>
 
           {/* <p className={`${font14} mr-0 `}>{toLocalTimeString}</p> */}
