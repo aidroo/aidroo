@@ -28,6 +28,8 @@ export async function POST(req) {
     profileId,
   } = body;
 
+  console.log(username);
+  console.log(profileId);
   // Validate required fields
   if (!username || !email || !password) {
     return NextResponse.json({
@@ -56,7 +58,7 @@ export async function POST(req) {
       });
     }
 
-    const lowercaseUsername = username.toLowerCase();
+    const lowercaseUsername = username.toLowerCase().replace(/[^a-z@]/g, "");
 
     // Create the new user
     await db.User.create(
@@ -73,7 +75,7 @@ export async function POST(req) {
     await Promise.all([
       db.PersonalProfile.create(
         {
-          username: username,
+          username: lowercaseUsername,
           firstName,
           lastName,
           profileThumb: uploadUrl,
@@ -83,7 +85,7 @@ export async function POST(req) {
       ),
       db.Address.create(
         {
-          username: username,
+          username: lowercaseUsername,
           country,
           city,
           address,
@@ -92,7 +94,7 @@ export async function POST(req) {
       ),
       db.Review.create(
         {
-          username: username,
+          username: lowercaseUsername,
           title,
           comment,
           rating,

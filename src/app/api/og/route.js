@@ -39,9 +39,9 @@ export async function GET(request) {
   return new ImageResponse(
     (
       <div
-        tw={`flex w-full   h-full items-center justify-center bg-white  `}
+        tw={`flex w-full   h-full items-center justify-center bg-white gap-x-64  `}
         style={{
-          fontFamily: `${poppins.style.fontFamily}`,
+          fontFamily: poppins.style.fontFamily,
         }}
       >
         <img
@@ -50,7 +50,7 @@ export async function GET(request) {
           alt="hello"
         />
 
-        <span tw="flex flex-col   justify-center ">
+        <div tw="flex flex-col   justify-center ">
           <div tw="flex mt-8  items-center  ">
             <span tw="text-6xl mr-2  ">{sortedString}</span>
 
@@ -68,14 +68,14 @@ export async function GET(request) {
               />
             )}
           </div>
-          <span tw="flex items-center">
+          <div tw="flex items-center">
             <span tw="text-4xl mr-4">
               {totalReviews === "null" ? 0 : totalReviews} Reviews
             </span>
             <GoDotFill tw="text-primary_color text-4xl  " />
             <span tw="text-4xl ml-2">{rating}</span>
-          </span>
-          <span tw="flex gap-4 items-center  w-full my-2 ">
+          </div>
+          <div tw="flex gap-4 items-center  w-full my-2 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={`${24 * totalStars}px`} // Adjust width to fit all stars
@@ -102,8 +102,8 @@ export async function GET(request) {
                 );
               })}
             </svg>
-          </span>
-        </span>
+          </div>
+        </div>
       </div>
     ),
     {
