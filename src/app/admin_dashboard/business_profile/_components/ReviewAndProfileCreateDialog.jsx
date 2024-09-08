@@ -3,7 +3,7 @@ import FileUploadComponent from "@/components/FileUploadComponent";
 import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
 import { Button } from "@/components/ui/button";
-import { DialogContent } from "@/components/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { brifcaseIcon } from "@/exportImage";
@@ -13,8 +13,8 @@ import { useState } from "react";
 import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 
 export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
-  console.log(profileId);
   const [uploadUrl, setUploadUrl] = useState(null);
+  console.log(profileId);
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
@@ -43,7 +43,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     comment: "",
     rating: 0,
     images: [],
-    profileId,
+    profileId: profileId,
   };
 
   const [userData, setUserData] = useState(initialUserData);
@@ -64,6 +64,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         ...reviewData,
         rating: averageRating, // Include the calculated rating
         uploadUrl,
+        profileId,
       });
 
       if (response.status === 201) {
@@ -100,6 +101,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
 
   return (
     <DialogContent className="h-screen overflow-hidden overflow-y-auto">
+      <DialogTitle></DialogTitle>
       <form className="rounded-lg py-10 space-y-6" onSubmit={handleSubmit}>
         <div className="w-full border rounded-md space-y-8 p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4">

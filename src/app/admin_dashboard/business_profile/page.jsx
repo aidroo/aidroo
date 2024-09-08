@@ -13,7 +13,7 @@ export default async function BusinessPage({ searchParams }) {
   const username = searchParams.username || "";
   const page = searchParams.page || 1;
   const limit = searchParams.limit || 10;
-
+  const all = true;
   // Fetch the data from your API or database based on the search and filter criteria
   const { businessProfiles, totalPages, currentPage, totalRecords } =
     await fetchProfiles({
@@ -22,6 +22,7 @@ export default async function BusinessPage({ searchParams }) {
       countryFilter,
       page,
       limit,
+      all,
     });
   const { categories } = await fetchCategoriesWithOutLimit();
 

@@ -15,6 +15,7 @@ export async function fetchProfiles({
   openNow,
   page = 1,
   limit = 10,
+  all = false,
 }) {
   // Ensure page and limit are integers
   page = parseInt(page, 10);
@@ -24,7 +25,7 @@ export async function fetchProfiles({
   const offset = (page - 1) * limit;
 
   const whereConditions = {
-    status: "approved",
+    ...(!all && { status: "approved" }),
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
