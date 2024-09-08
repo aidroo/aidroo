@@ -13,6 +13,7 @@ import { useState } from "react";
 import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 
 export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
+  console.log(profileId);
   const [uploadUrl, setUploadUrl] = useState(null);
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
 
   const [userData, setUserData] = useState(initialUserData);
   const [reviewData, setReviewData] = useState(initialReviewData);
-  console.log(userData);
+
   // Calculate the average rating
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
 
@@ -157,7 +158,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
                 onChange={handleInputChange}
               />
             </div>
-            <FileUploadComponent />
+            {/* <FileUploadComponent /> */}
           </div>
         </div>
 

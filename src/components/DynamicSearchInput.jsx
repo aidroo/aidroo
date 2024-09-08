@@ -20,6 +20,7 @@ import {
 export default function DynamicSearchInput() {
   const [selectedValue, setSelectedValue] = useState("business");
   const [search, setSearch] = useState("");
+  const [show, setShow] = useState(false);
   const [results, setResults] = useState([]);
   const router = useRouter();
 
@@ -46,6 +47,7 @@ export default function DynamicSearchInput() {
           `/api/user?businessName=${query}`
         );
         setResults(response?.data?.user || []);
+        setShow(true);
       } else {
         setResults([]);
       }
@@ -60,7 +62,11 @@ export default function DynamicSearchInput() {
   };
 
   return (
-    <div className="w-full max-w-md bg-gray-50 shadow-md rounded-md border overflow-hidden">
+    <div
+      className="w-full max-w-md bg-gray-50 shadow-md rounded-md border overflow-hidden"
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
       <div className="flex">
         <Input
           className="w-full rounded-md bg-gray-50 text-gray-700 leading-tight focus:outline-none py-2 px-2 border-none focus-visible:ring-0 h-10"
@@ -68,7 +74,8 @@ export default function DynamicSearchInput() {
           type="text"
           placeholder="Search Jobs"
           value={search}
-          onChange={(e) => setSearch(e.target.value)} // Directly updating the search state
+          onChange={(e) => setSearch(e.target.value)}
+          // Directly updating the search state
         />
 
         <Select
@@ -112,7 +119,8 @@ export default function DynamicSearchInput() {
         </Select>
       </div>
 
-      {results.length > 0 &&
+      {show &&
+        results.length > 0 &&
         results.map((profile) => {
           const roundedRating =
             Math.round(profile.businessProfile.rating * 10) / 10;
@@ -163,10 +171,10 @@ export default function DynamicSearchInput() {
           );
         })}
 
-      {results.length > 0 && (
+      {show && results.length > 0 && (
         <div className="flex justify-center py-2">
           <button
-            className="bg-blue-500 w-2/3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-blue-500 w-2/3 hover:bg-blue-700 text-white  py-2 px-4 rounded-full"
             onClick={handleResultClick}
           >
             Show all results

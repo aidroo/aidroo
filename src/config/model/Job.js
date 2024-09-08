@@ -4,6 +4,11 @@ import sequelize from "../sequalize";
 const Job = sequelize.define(
   "Job",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING(255), // Explicitly define the length of username
       references: {

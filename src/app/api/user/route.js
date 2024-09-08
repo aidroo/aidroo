@@ -142,7 +142,10 @@ export async function GET(req) {
       include: [
         {
           model: db.BusinessProfile,
-          where: { businessName: { [Op.like]: `%${businessName}%` } }, // Partial match
+          where: {
+            businessName: { [Op.like]: `%${businessName}%` },
+            status: "approved",
+          }, // Partial match
           as: "businessProfile",
           required: true,
         },

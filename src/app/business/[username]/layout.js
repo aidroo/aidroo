@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import { font14 } from "@/constant";
+
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
@@ -82,7 +83,13 @@ export default async function BusinessProfileLayout({ children, params }) {
             <div className="w-full bg-[#f5fafc] dark:bg-dark">
               <div className="max-w-[1280px] mx-auto">
                 <div className="grid w-full grid-cols-1 lg:grid-cols-5   gap-x-4 py-8  px-3 lg:px-10">
-                  {profile && <BusinessProfileHeader profile={profile} />}
+                  {profile && (
+                    <BusinessProfileHeader
+                      profile={profile}
+                      totalReviews={profile.totalReviews}
+                      averageRating={profile.averageRating}
+                    />
+                  )}
                   <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4    col-span-2">
                     <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
                       <LiaSmsSolid className="text-sm md:text-xl" />

@@ -18,16 +18,25 @@ export default function PersonalProfileCreatedForm({
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const query = new URLSearchParams();
   useEffect(() => {
-    if (userData.username) {
-      query.set("username", userData.username);
-    }
-    router.push(`/admin_dashboard/business_profile?${query.toString()}`, {
-      shallow: true,
-    });
-    // Reset subcategory when category is changed
-  }, [router, userData.username, isExit]);
+    // Function to get existing query parameters
+    const getQueryParams = () => {
+      const queryParams = new URLSearchParams(window.location.search);
+      if (userData.username) {
+        queryParams.set("username", userData.username);
+      }
+      return queryParams;
+    };
+
+    // Update the URL with the new query parameters
+    const updatedQueryParams = getQueryParams();
+    router.push(
+      `/admin_dashboard/business_profile?${updatedQueryParams.toString()}`,
+      {
+        shallow: true,
+      }
+    );
+  }, [userData.username, isExit, router]);
 
   return (
     <div className="space-y-6 p-4 border ">

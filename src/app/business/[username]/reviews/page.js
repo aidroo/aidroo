@@ -22,6 +22,7 @@ export default async function Review({ params: { username }, searchParams }) {
     currentPage,
     totalRecords,
   } = await getAllProfileReviews(username, page, limit);
+
   const averageRating = Math.floor(rating);
   const baseUrl = `/business/${username}/reviews`;
   return (

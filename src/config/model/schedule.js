@@ -4,6 +4,11 @@ import sequelize from "../sequalize";
 const Schedule = sequelize.define(
   "Schedule",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING,
       references: {

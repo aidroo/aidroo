@@ -4,6 +4,11 @@ import sequelize from "../sequalize";
 const BusinessProfile = sequelize.define(
   "BusinessProfile",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING(255),
       references: {

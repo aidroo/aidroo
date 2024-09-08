@@ -9,13 +9,16 @@ import {
 import Image from "next/image";
 import { GoDotFill } from "react-icons/go";
 
-export default function BusinessProfileHeader({ profile }) {
-  const rating = Math.floor(profile.rating);
-  const { totalReviews, starImage } = profile;
+export default function BusinessProfileHeader({
+  profile,
+  totalReviews,
+  averageRating,
+}) {
+  const { starImage } = profile;
 
   // Determine rating label based on the rating value
   const ratingLabel =
-    rating < 3.5 ? "Poor" : rating <= 4.5 ? "Good" : "Excellent";
+    averageRating < 3.5 ? "Poor" : averageRating <= 4.5 ? "Good" : "Excellent";
 
   return (
     <div className="flex gap-8 items-start lg:justify-center col-span-3">
@@ -50,9 +53,9 @@ export default function BusinessProfileHeader({ profile }) {
           <p>{ratingLabel}</p>
         </div>
         <div className="flex gap-x-2   items-center">
-          <Rating value={rating} size={22} />
+          <Rating value={Math.round(averageRating)} size={22} />
           <p className="text-[18px] text-gray-700 font-semibold">
-            {profile?.rating.toFixed(1)}
+            {averageRating < 1 ? 0 : averageRating}
           </p>
           {starImage && (
             <Image src={starImage} alt="Star Rating" width={24} height={24} />

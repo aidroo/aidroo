@@ -6,6 +6,11 @@ import sequelize from "../sequalize";
 const Address = sequelize.define(
   "Address",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     // Define attributes
     username: {
       type: DataTypes.STRING,

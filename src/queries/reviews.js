@@ -54,20 +54,29 @@ export async function getAllProfileReviews(username, page = 1, limit = 10) {
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalRecords / limit);
 
-    // Fetch overall rating and total reviews for the business profile associated with the provided profileId
-    const overallRating = await db.BusinessProfile.findOne({
-      where: { username },
-      attributes: ["rating", "totalReviews"],
+    // Calculate the average rating for the profile from the approved reviews
+    const averageRatingResult = await db.Review.findOne({
+      where: { profileId: username, status: "approved" },
+      attributes: [
+        [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
+      ],
     });
 
+    // Extract the average rating and convert it to a floating-point number
+    const averageRating = averageRatingResult?.dataValues?.averageRating
+      ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
+      : 0;
+
+    // Convert reviews to plain objects
     const plainReviews = reviews.map((review) => review.toJSON());
+
     return {
       totalRecords,
       totalPages,
       currentPage: page,
       reviews: plainReviews,
-      totalReview: overallRating?.totalReviews || 0,
-      rating: overallRating?.rating || 0,
+      totalReview: totalRecords, // Use totalRecords for total reviews
+      rating: averageRating, // Use the calculated average rating
     };
   } catch (error) {
     console.log(error);

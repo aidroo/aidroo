@@ -4,6 +4,11 @@ import sequelize from "../sequalize";
 const SubCategory = sequelize.define(
   "SubCategory",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     categoryId: {
       type: DataTypes.INTEGER,
       references: {

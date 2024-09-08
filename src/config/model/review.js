@@ -4,6 +4,11 @@ import sequelize from "../sequalize";
 const Review = sequelize.define(
   "Review",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING(255), // Explicitly set length for username
       references: {

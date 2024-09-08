@@ -1,6 +1,8 @@
+/* eslint-disable no-dupe-keys */
 import db from "@/config/model";
 import { NextResponse } from "next/server";
-import { Op } from "sequelize";
+
+import { Op } from "sequelize"; // Ensure these are imported
 
 export async function fetchProfiles({
   searchQuery,
@@ -22,6 +24,7 @@ export async function fetchProfiles({
   const offset = (page - 1) * limit;
 
   const whereConditions = {
+    status: "approved",
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
@@ -46,6 +49,7 @@ export async function fetchProfiles({
             where: whereConditions,
             required: true,
           },
+
           {
             model: db.Address,
             as: "addresses",
@@ -71,8 +75,10 @@ export async function fetchProfiles({
     throw new Error("Database query failed");
   }
 }
+
 export async function fetchSingleProfile({ username }) {
   try {
+    // Fetch the user profile along with business profile and address
     const user = await db.User.findOne({
       where: { username },
       attributes: ["username", "email"],
@@ -80,7 +86,6 @@ export async function fetchSingleProfile({ username }) {
         {
           model: db.BusinessProfile,
           as: "businessProfile",
-          // attributes: ["businessName", "profileThumb", "description", "rating"],
           required: true,
         },
         {
@@ -94,6 +99,19 @@ export async function fetchSingleProfile({ username }) {
       return NextResponse.json({ status: 404, message: "User not found" });
     }
 
+    // Calculate the total number of approved reviews for the profile
+    const totalReviews = await db.Review.count({
+      where: { profileId: username, status: "approved" },
+    });
+
+    // Calculate the average rating for the profile
+    const averageRatingResult = await db.Review.findOne({
+      where: { profileId: username, status: "approved" },
+      attributes: [
+        [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
+      ],
+    });
+
     // Convert the Sequelize model to a plain object
     const plainUser = user.toJSON();
     const profile = {
@@ -101,10 +119,15 @@ export async function fetchSingleProfile({ username }) {
       username: plainUser.username,
       ...plainUser.businessProfile,
       ...plainUser.addresses,
+      totalReviews: totalReviews || 0, // Fallback to 0 if no reviews
+      averageRating: averageRatingResult?.dataValues?.averageRating
+        ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
+        : 0, // Fallback to 0 if no reviews
     };
 
     return { profile };
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: error.message, status: 500 });
   }
 }
