@@ -12,15 +12,14 @@ export const works = [1, 2, 3, 4, 5, 6];
 export default function BusinessProfileCard({ businessProfile, id }) {
   const {
     businessName = "",
-    rating = 5,
+
     verified = false,
     profileThumb = "",
     category,
-    totalReviews,
   } = businessProfile.businessProfile;
   const { country = "", city = "" } = businessProfile.addresses;
 
-  let averageRating = Math.round(rating);
+  let averageRating = Math.round(businessProfile.averageRating);
   return (
     <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
       <Link href={`/business/${id}`}>
@@ -46,7 +45,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
             </div>
 
             <p className="  text-gray-700 text-[14px]  ">
-              {totalReviews || 0} Reviews{" "}
+              {businessProfile?.totalReviews || 0} Reviews{" "}
             </p>
             {/*rating */}
             <div className="flex gap-x-4  items-center  space-y-2 md:space-y-0 ">
@@ -54,7 +53,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 <Rating value={averageRating} size={18} />
               </div>
               <h1 className="text-gray-600   ">
-                <span>{rating.toFixed(1)} </span>
+                <span>{businessProfile?.totalReviews} </span>
               </h1>
             </div>
             <div className="flex gap-2 items-center  text-gray-600">

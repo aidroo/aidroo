@@ -63,7 +63,7 @@ export default function PersonalSingupForm({ isExit }) {
       if (response.status === 201) {
         router.push("/login");
       } else {
-        setApiError(response.message || "Something went wrong");
+        setApiError(response?.data?.message || "Something went wrong");
       }
     } catch (error) {
       setApiError("Error occurred during registration. Try again.");

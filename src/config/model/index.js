@@ -27,6 +27,8 @@ db.Review = Review;
 db.Schedule = Schedule;
 
 // Define associations
+
+// User to PersonalProfile
 db.User.hasOne(db.PersonalProfile, {
   foreignKey: "username",
   as: "personalProfile",
@@ -36,6 +38,7 @@ db.PersonalProfile.belongsTo(db.User, {
   as: "user",
 });
 
+// User to BusinessProfile
 db.User.hasOne(db.BusinessProfile, {
   foreignKey: "username",
   as: "businessProfile",
@@ -45,6 +48,7 @@ db.BusinessProfile.belongsTo(db.User, {
   as: "user",
 });
 
+// User to Address
 db.User.hasOne(db.Address, {
   foreignKey: "username",
   as: "addresses",
@@ -54,7 +58,7 @@ db.Address.belongsTo(db.User, {
   as: "user",
 });
 
-// schedule association
+// Schedule association
 db.User.hasMany(db.Schedule, {
   foreignKey: "username",
   as: "schedule",
@@ -64,7 +68,7 @@ db.Schedule.belongsTo(db.User, {
   as: "user",
 });
 
-// jobs association
+// Jobs association
 db.User.hasMany(db.JobPost, {
   foreignKey: "username",
   as: "jobPost",
@@ -74,18 +78,25 @@ db.JobPost.belongsTo(db.User, {
   as: "user",
 });
 
-// review association
+// Reviews association with User (the creator of the review)
 db.User.hasMany(db.Review, {
-  foreignKey: "username",
-  as: "review",
+  foreignKey: "username", // This refers to the user who created the review
+  as: "review", // Changed from singular "review" to plural "reviews"
 });
 db.Review.belongsTo(db.User, {
   foreignKey: "username",
-  as: "user",
+  as: "user", // The user who created the review
 });
 
-// db.JobPost.hasMany(Review, { foreignKey: "jobId", as: "reviews" });
-// db.Review.belongsTo(JobPost, { foreignKey: "jobId", as: "jobs" });
+// Reviews association with BusinessProfile (the profile being reviewed)
+db.BusinessProfile.hasMany(db.Review, {
+  foreignKey: "profileId", // This refers to the profile being reviewed
+  as: "review",
+});
+db.Review.belongsTo(db.BusinessProfile, {
+  foreignKey: "profileId",
+  as: "businessProfile", // The profile being reviewed
+});
 
 // Category and Subcategory associations
 db.Category.hasMany(db.Subcategory, {

@@ -36,10 +36,10 @@ export async function POST(req) {
   // Validate required fields
 
   if (!username || !email || !password) {
-    return NextResponse.json(
-      { status: 400, message: "Username, email, and password are required." },
-      { status: 400 }
-    );
+    return NextResponse.json({
+      status: 400,
+      message: "Username, email, and password are required.",
+    });
   }
 
   try {
@@ -54,12 +54,13 @@ export async function POST(req) {
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { status: 400, message: "User already exists." },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        status: 400,
+        message: "User already exists.",
+      });
     }
-    const lowercaseUsername = username.toLowerCase().replace(/[^a-z@]/g, "");
+    const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
+
     // Create the new user
     const user = await db.User.create({
       username: lowercaseUsername,
@@ -69,10 +70,10 @@ export async function POST(req) {
     });
 
     // Send the initial response to the client
-    const response = NextResponse.json(
-      { status: 201, message: "User registered successfully." },
-      { status: 201 }
-    );
+    const response = NextResponse.json({
+      status: 201,
+      message: "User registered successfully.",
+    });
 
     // Perform additional operations asynchronously
     (async () => {

@@ -14,7 +14,7 @@ import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 
 export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
   const [uploadUrl, setUploadUrl] = useState(null);
-  console.log(profileId);
+
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");

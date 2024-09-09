@@ -10,7 +10,7 @@ export default async function BusinessPage({ searchParams }) {
   const searchQuery = searchParams.search || "";
   const categoryFilter = searchParams.category || "";
   const countryFilter = searchParams.country || "";
-  const username = searchParams.username || "";
+  const usernameQuery = searchParams.username || "";
   const page = searchParams.page || 1;
   const limit = searchParams.limit || 10;
   const all = true;
@@ -26,13 +26,17 @@ export default async function BusinessPage({ searchParams }) {
     });
   const { categories } = await fetchCategoriesWithOutLimit();
 
-  const isExit = await checkUserExistsWithUsername(username);
+  const isExit = await checkUserExistsWithUsername(usernameQuery);
 
   return (
     <div className="rounded-lg space-y-6">
       <div className="flex flex-col justify-center items-center space-y-8">
         <div className="border p-4 rounded-md w-fit">
-          <BusinessProfileCreateForm categories={categories} isExit={isExit} />
+          <BusinessProfileCreateForm
+            categories={categories}
+            isExit={isExit}
+            usernameQuery={usernameQuery}
+          />
         </div>
         <SearchBar
           searchQuery={searchQuery}

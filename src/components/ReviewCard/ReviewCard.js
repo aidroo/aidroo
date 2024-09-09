@@ -26,6 +26,7 @@ export default function ReviewCard({ review }) {
 
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
+
   const fulName =
     review?.user?.personalProfile?.firstName +
     " " +

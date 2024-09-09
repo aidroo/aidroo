@@ -27,7 +27,7 @@ export default async function Categories({ searchParams }) {
   const page = parseInt(searchParams?.page) || 1;
 
   // Fetch the data from your API or database based on the search and filter criteria
-  const { businessProfiles, totalPages, currentPage, totalRecords } =
+  const { businessProfiles, totalRecords, totalPages, currentPage } =
     await fetchProfiles({
       searchQuery,
       categoryFilter,
