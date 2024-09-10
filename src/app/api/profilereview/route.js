@@ -62,7 +62,7 @@ export async function POST(req) {
       });
     }
 
-    const lowercaseUsername = username.toLowerCase().replace(/[^a-z@]/g, "");
+    const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
 
     // Create the new user
     await db.User.create(
@@ -110,38 +110,11 @@ export async function POST(req) {
       ),
     ]);
 
-    // Find the business profile and update the totalReviews and rating
-
-    const businessProfile = await db.BusinessProfile.findOne({
-      where: { username: profileId },
-      transaction,
-    });
-
-    if (!businessProfile) {
-      return NextResponse.json(
-        { message: "Business profile not found." },
-        { status: 404 }
-      );
-    }
-
-    // Calculate new rating
-    const { rating: currentRating, totalReviews } = businessProfile;
-
-    const newTotalReviews = totalReviews + 1;
-    const updatedRating = (
-      (currentRating * totalReviews + parseFloat(rating)) /
-      newTotalReviews
-    ).toFixed(2);
-    businessProfile.rating = updatedRating;
-    businessProfile.totalReviews = newTotalReviews;
-
-    await businessProfile.save({ transaction });
-
     // Commit the transaction
     await transaction.commit();
 
     return NextResponse.json(
-      { status: 201, message: "User registered successfully." },
+      { status: 201, message: "User and review  create successfully." },
       { status: 201 }
     );
   } catch (error) {
@@ -157,6 +130,6 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
-  return NextResponse.json({ status: 200, message: "review and profile" });
-}
+// export async function GET() {
+//   return NextResponse.json({ status: 200, message: "review and profile" });
+// }

@@ -10,7 +10,7 @@ import {
 export default function SelectComponent({
   options = [],
   placeholder = "Select an option",
-  value = "",
+  value = "", // Controlled value
   onChange,
   name,
   disabled = false,
@@ -20,7 +20,7 @@ export default function SelectComponent({
     <div className="w-full space-y-2">
       {label && <label className="text-sm font-medium">{label}</label>}
       <Select
-        value={value.name}
+        value={value} // Controlled value from parent
         onValueChange={onChange}
         disabled={disabled}
         name={name}
@@ -29,14 +29,14 @@ export default function SelectComponent({
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => {
-            console.log(option);
-            return (
-              <SelectItem key={option.name} value={option.name}>
-                {option.name}
-              </SelectItem>
-            );
-          })}
+          {placeholder !== "Subcategory" && (
+            <SelectItem value="default">All {placeholder}</SelectItem>
+          )}
+          {options.map((option) => (
+            <SelectItem key={option.name} value={option.name}>
+              {option.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

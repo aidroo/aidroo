@@ -120,9 +120,11 @@ export default function DesktopMenu() {
                           size={27}
                           alt="notification icon"
                         />
-                        <span className={`${font16} text-gray-700`}>
-                          Claim Business
-                        </span>
+                        <Link href="/claim">
+                          <span className={`${font16} text-gray-700`}>
+                            Claim Business
+                          </span>
+                        </Link>
                       </span>
                     </Link>
                     <Link href="/">

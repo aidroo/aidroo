@@ -21,8 +21,9 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
   const [serviceRating, setServiceRating] = useState(0);
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
+  const [selectedCountry, setSelectedCountry] = useState(false);
   const router = useRouter();
-
+  console.log("selected country", selectedCountry);
   // Initialize state for user and review data
   const initialUserData = {
     firstName: "",
@@ -32,7 +33,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     password: "",
     role: "personal",
     profileThumb: "",
-    country: "",
+
     city: "",
     description: "",
     address: "",
@@ -64,6 +65,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         ...reviewData,
         rating: averageRating, // Include the calculated rating
         uploadUrl,
+        country: selectedCountry?.name,
         profileId,
       });
 
@@ -77,6 +79,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         setServiceRating(0); // Reset service rating
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating
+        setSelectedCountry(null);
 
         router.refresh("/admin_dashboard/business_profile");
 
@@ -189,6 +192,8 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
           userData={userData}
           setUserData={setUserData}
           isExit={isExit}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
         {error && <h1 className="p-2 text-red-300">{error}</h1>}
         {success && <div className="text-green-300 ">{success}</div>}

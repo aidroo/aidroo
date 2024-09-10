@@ -1,14 +1,13 @@
 "use client";
-import { Combobox } from "@/components/Combobox";
 import FileUploadComponent from "@/components/FileUploadComponent";
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
+import SelectComponent from "@/components/SelectInput";
 import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { countries, font14 } from "@/constant";
+import { countries } from "@/constant";
 import { brifcaseIcon } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
@@ -23,15 +22,16 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
 
   // Form states
   const [selectedCategory, setSelectedCategory] = useState(null);
+
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-  const [clearCountrySelect, setClearCountrySelect] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(false);
+
   const [subcategories, setSubcategories] = useState([]);
   const [formData, setFormData] = useState({
     businessName: "",
     username: "",
     email: "",
     password: "",
-    country: "",
     city: "",
     description: "",
     funds: "",
@@ -98,6 +98,15 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
       console.error("Error deleting file:", error);
     }
   };
+  const userData = {
+    ...formData,
+    profileThumb: uploadUrl,
+    category: selectedCategory?.name,
+    subcategory: selectedSubcategory?.name,
+    country: selectedCountry?.name,
+    role: "business",
+    status: "approved",
+  };
 
   // Handle form submission
   const handleSubmit = async (event) => {
@@ -106,15 +115,6 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
     setLoading(true);
     setApiError("");
 
-    const userData = {
-      ...formData,
-      profileThumb: uploadUrl,
-      category: selectedCategory?.name,
-      subcategory: selectedSubcategory?.name,
-      role: "business",
-      status: "approved",
-    };
-
     try {
       const response = await axiosInstance.post("/api/user", userData);
       console.log(response);
@@ -122,7 +122,6 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
       if (response?.data?.status === 201) {
         setMessage("Business profile created successfully!");
         resetForm();
-        setClearCountrySelect(true);
       } else {
         setApiError(response?.data.message || "Something went wrong");
       }
@@ -135,11 +134,6 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
       router.push("/admin_dashboard/business_profile");
     }
   };
-  useEffect(() => {
-    if (clearCountrySelect) {
-      setClearCountrySelect(false);
-    }
-  }, [clearCountrySelect]);
 
   // Reset form fields
   const resetForm = () => {
@@ -157,6 +151,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
     setUploadUrl("");
     setSelectedCategory(null);
     setSelectedSubcategory(null);
+    setSelectedCountry(null);
   };
 
   return (
@@ -241,29 +236,51 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Combobox
+                <SelectComponent
+                  options={categories}
+                  value={selectedCategory?.name || ""}
+                  onChange={(value) =>
+                    setSelectedCategory(
+                      categories.find((cat) => cat.name === value)
+                    )
+                  }
+                  placeholder="Category"
+                />
+                {/* <Combobox
                   selectedCategory={selectedCategory}
                   setSelectedCategory={setSelectedCategory}
                   options={categories}
                   placeholder="Category"
-                />
-                <Combobox
-                  selectedCategory={selectedSubcategory}
-                  setSelectedCategory={setSelectedSubcategory}
+                /> */}
+                <SelectComponent
                   options={subcategories}
+                  value={selectedSubcategory?.name || ""}
+                  onChange={(value) =>
+                    setSelectedSubcategory(
+                      subcategories.find((sub) => sub.name === value)
+                    )
+                  }
                   placeholder="Subcategory"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <OptionSelect
+                <SelectComponent
+                  options={countries}
+                  value={selectedCountry?.name || ""}
+                  onChange={(value) =>
+                    setSelectedCountry(countries.find((c) => c.name === value))
+                  }
+                  placeholder="Country"
+                />
+                {/* <OptionSelect
                   label="Select a country"
                   options={countries}
                   onChange={(value) =>
                     setFormData((prev) => ({ ...prev, country: value }))
                   }
                   className={`text-gray-600 ${font14} h-10`}
-                />
+                /> */}
                 <Input
                   type="text"
                   name="city"

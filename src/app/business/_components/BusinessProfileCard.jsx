@@ -2,7 +2,12 @@ import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
 import { Card, CardContent } from "@/components/ui/card";
-import { businessProfilePic, categoryImage } from "@/exportImage";
+import {
+  brifcaseIcon,
+  businessProfilePic,
+  categoryImage,
+  myReview,
+} from "@/exportImage";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegPaperPlane } from "react-icons/fa";
@@ -53,7 +58,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 <Rating value={averageRating} size={18} />
               </div>
               <h1 className="text-gray-600   ">
-                <span>{businessProfile?.totalReviews} </span>
+                <span>{businessProfile?.averageRating} </span>
               </h1>
             </div>
             <div className="flex gap-2 items-center  text-gray-600">
@@ -73,7 +78,14 @@ export default function BusinessProfileCard({ businessProfile, id }) {
           <Image src={categoryImage} className="w-5" />
           <h1 className="text-sm">{category}</h1>
         </div>
-
+        <div className="flex gap-2 items-center cursor-pointer text-primary_color ">
+          <Image src={brifcaseIcon} className="w-6" />
+          <h1 className="text-sm">Job feed</h1>
+        </div>
+        <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
+          <Image src={myReview} className="w-5" />
+          <h1 className="text-sm">Review</h1>
+        </div>
         {/* <Jobs />
         <BusinessProfileReview /> */}
       </div>

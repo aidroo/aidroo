@@ -1,8 +1,8 @@
 "use client";
 
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
+import SelectComponent from "@/components/SelectInput";
 import { Input } from "@/components/ui/input";
-import { countries, font14 } from "@/constant";
+import { countries } from "@/constant";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
@@ -12,6 +12,8 @@ export default function PersonalProfileCreatedForm({
   userData,
   setUserData,
   isExit,
+  selectedCountry,
+  setSelectedCountry,
 }) {
   const router = useRouter();
   const handleChange = (e) => {
@@ -100,12 +102,13 @@ export default function PersonalProfileCreatedForm({
           value={userData.password}
           onChange={handleChange}
         />
-        <OptionSelect
-          label="Country"
+        <SelectComponent
           options={countries}
-          className={`text-gray-600 ${font14} h-10`}
-          onChange={(country) => setUserData({ ...userData, country })}
-          value={userData.country}
+          value={selectedCountry?.name || ""}
+          onChange={(value) =>
+            setSelectedCountry(countries.find((c) => c.name === value))
+          }
+          placeholder="Country"
         />
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">

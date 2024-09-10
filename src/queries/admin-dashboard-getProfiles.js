@@ -24,49 +24,101 @@ export async function fetchProfiles({
   // Default offset calculation
   const offset = (page - 1) * limit;
 
+  // Base condition for fetching approved profiles only
   const whereConditions = {
     ...(!all && { status: "approved" }),
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
-    ...(ratingFilter && { rating: ratingFilter }),
     ...(claimedStatus !== null && { claimed: claimedStatus === "true" }),
-    ...(openNow && { open: openNow }),
+    ...(openNow && { open: openNow }), // Assuming you have an 'open' field
   };
 
+  // Address-related conditions
   const addressConditions = {
     ...(countryFilter && { country: countryFilter }),
     ...(searchCity && { city: { [Op.like]: `%${searchCity}%` } }),
   };
 
   try {
+    // Fetch business profiles
     const { rows: businessProfiles, count: totalRecords } =
       await db.User.findAndCountAll({
-        attributes: ["email", "username"],
+        attributes: ["username", "email"], // Select only the needed fields from User
         include: [
           {
             model: db.BusinessProfile,
             as: "businessProfile",
             where: whereConditions,
-            required: true,
+            // attributes: [
+            //   "username",
+            //   "email",
+            //   "businessName",
+            //   "profileThumb",
+            //   "description",
+            //   "phoneNumber",
+            //   "category",
+            //   "subcategory",
+            //   "status",
+            //   "verified",
+            //   "claimed",
+            //   "funds",
+            //   "employees",
+            //   "spent",
+            //   "workwith",
+            // ], // Select only the needed fields from
+            required: true, // Only fetch users with matching business profiles
           },
-
           {
             model: db.Address,
             as: "addresses",
             where: addressConditions,
-            required: true,
+            required: true, // Only fetch users with matching addresses
           },
         ],
         order: [["createdAt", "DESC"]],
         offset: offset,
-        limit: limit, // Ensure limit is a number
+        limit: limit, // Pagination limit
       });
-    const plainProfile = businessProfiles.map((profile) => profile.toJSON());
+
+    // Fetch ratings and total reviews for each profile
+    const plainProfiles = await Promise.all(
+      businessProfiles.map(async (profile) => {
+        const totalReviews = await db.Review.count({
+          where: { profileId: profile.username, status: "approved" },
+        });
+
+        const averageRatingResult = await db.Review.findOne({
+          where: { profileId: profile.username, status: "approved" },
+          attributes: [
+            [
+              db.Sequelize.fn("AVG", db.Sequelize.col("rating")),
+              "averageRating",
+            ],
+          ],
+          raw: true,
+        });
+
+        const averageRating = averageRatingResult?.averageRating || 0;
+        if (ratingFilter && averageRating < ratingFilter) {
+          return null; // Exclude profiles with averageRating below the ratingFilter
+        }
+
+        return {
+          ...profile.toJSON(), // Convert the Sequelize instance to a plain object
+          totalReviews,
+          averageRating: parseFloat(averageRating).toFixed(1), // Format to one decimal place
+        };
+      })
+    );
+    const filteredProfiles = plainProfiles.filter(
+      (profile) => profile !== null
+    );
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalRecords / limit);
+
     return {
-      businessProfiles: plainProfile,
+      businessProfiles: filteredProfiles, // Return enriched profiles with review data
       totalRecords,
       totalPages,
       currentPage: page,
