@@ -101,7 +101,7 @@ export async function fetchProfiles({
 
         const averageRating = averageRatingResult?.averageRating || 0;
         if (ratingFilter && averageRating < ratingFilter) {
-          return null; // Exclude profiles with averageRating below the ratingFilter
+          return null;
         }
 
         return {

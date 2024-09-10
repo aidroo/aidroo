@@ -35,6 +35,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
   });
 
   const [apiError, setApiError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const query = new URLSearchParams();
   // Update URL when category is selected
@@ -62,7 +63,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError("");
-
+    alert("success");
     const { confirmPassword, ...dataToSend } = userData;
 
     if (userData.password !== confirmPassword) {
@@ -79,6 +80,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
       });
 
       if (response.status === 201) {
+        setSuccess("Pending We are reviewing your request");
         router.push("/login");
       } else {
         setApiError(response.data.message || "Something went wrong");
@@ -203,6 +205,11 @@ export default function SignupForm({ categories, subcategories, isExit }) {
       </div>
       {apiError && (
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
+      )}
+      {success && (
+        <p className="    p-2 rounded-md text-green-200   bg-green-100">
+          {success && success}
+        </p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

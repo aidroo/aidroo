@@ -139,7 +139,7 @@ export default function DesktopMenu() {
                         </span>
                       </span>
                     </Link>
-                    <Link href="/">
+                    <Link href="/claim/pricing_plan">
                       <span className="flex items-center gap-6  pb-2 ">
                         <IconImage
                           src={pricingPlan}

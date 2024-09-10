@@ -11,6 +11,7 @@ import {
   tikmark,
   verifiedIcon,
 } from "@/exportImage";
+import Link from "next/link";
 
 const pricingPlan = [
   {
@@ -171,8 +172,8 @@ export default function PricingPlan() {
               </ul>
 
               <div className="flex justify-center">
-                <a
-                  href="#_"
+                <Link
+                  href="/claim/checkout"
                   className="relative inline-flex items-center rounded-md justify-center h-10 px-4 py-3 mt-4 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color shadow-md group"
                 >
                   <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
@@ -195,7 +196,7 @@ export default function PricingPlan() {
                     Continue
                   </span>
                   <span className="relative invisible text-sm">Continue</span>
-                </a>
+                </Link>
               </div>
             </div>
           </TabsContent>
@@ -238,8 +239,8 @@ export default function PricingPlan() {
               </ul>
 
               <div className="flex justify-center">
-                <a
-                  href="#_"
+                <Link
+                  href="/claim/checkout"
                   className="relative inline-flex items-center rounded-md justify-center h-10 px-4 py-3 mt-4 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color shadow-md group"
                 >
                   <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
@@ -262,7 +263,7 @@ export default function PricingPlan() {
                     Continue
                   </span>
                   <span className="relative invisible text-sm">Continue</span>
-                </a>
+                </Link>
               </div>
             </div>
           </TabsContent>

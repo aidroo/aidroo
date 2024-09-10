@@ -48,10 +48,27 @@ export default function ClaimPageForm() {
         />
 
         <div className="flex flex-col gap-y-4 w-2/3 my-4">
-          <FileUploadComponent />
-          <FileUploadComponent />
+          <div className=" w-fit ">
+            <h1 className="text-gray-700 py-2">
+              Your prof or Identity (Upload image)
+            </h1>
+            <FileUploadComponent />
+          </div>
+          <div className=" w-fit">
+            <h1 className="text-gray-700 py-2">
+              {" "}
+              Business Documents (Upload image)
+            </h1>
+            <FileUploadComponent />
+          </div>
         </div>
-        <Textarea />
+
+        <div className=" w-full ">
+          <h1 className="text-gray-700 py-2">
+            Write about your business prof!
+          </h1>
+          <Textarea />
+        </div>
 
         <div className="flex items-center my-4 gap-4">
           <Checkbox id="terms" className="w-4 h-4  " />
@@ -64,7 +81,7 @@ export default function ClaimPageForm() {
         </div>
 
         <div className="h-10  bg-primary_color flex justify-center items-center text-white rounded-md md:text-xl">
-          <Link href="/pricing_plan">Continue</Link>
+          <Link href="/claim/pricing_plan">Continue</Link>
         </div>
       </div>
     </div>

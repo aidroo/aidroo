@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 
 export default function BusinessProfileSidebar({ profile }) {
+  console.log(profile);
   const { businessName, category, funds, employees, description } = profile;
   return (
     <div className="col-span-2 w-full  mb-8 ">
@@ -121,7 +122,7 @@ export default function BusinessProfileSidebar({ profile }) {
               Claim listing is the best way to manage and protect your business.
             </p>
             <Link
-              href="/claim"
+              href={`/claim?username=${profile.username} `}
               className="relative inline-flex items-center justify-center h-12 px-4 py-3 mt-4 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-full shadow-md group"
             >
               <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">

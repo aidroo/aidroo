@@ -16,7 +16,7 @@ const BusinessProfile = sequelize.define(
         key: "username",
       },
       allowNull: false,
-      // onDelete: "CASCADE",
+      onDelete: "CASCADE", // Cascade delete when user is deleted
     },
     businessName: {
       type: DataTypes.STRING(255),
@@ -86,7 +86,6 @@ const BusinessProfile = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-
     totalReviews: {
       type: DataTypes.INTEGER,
       allowNull: true,

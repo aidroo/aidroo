@@ -1,16 +1,15 @@
-"use client";
 import { font14 } from "@/constant";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CategoryItem({ category }) {
+export default function CategoryCard({ category }) {
   return (
     <Link
-      className="slide_card bg-[#d4e5ff] dark:bg-[#0b1120] shadow-md min-w-[80px] h-20  md:h-[120px] before:bg-[#ccd9ff] dark:before:bg-dark dark:border"
-      href="#"
+      href="/business"
+      className="slide_card bg-[#d4e5ff] dark:bg-[#0b1120] shadow-md min-w-[80px] h-36  md:h-[120px] before:bg-[#ccd9ff] dark:before:bg-dark dark:border"
     >
       <div className="relative flex justify-center">
-        <div className="absolute top-[-13px] w-36 h-24">
+        <div className="absolute top-1/2 md:-top-3 w-36 h-24">
           <svg
             version="1.1"
             id="Layer_1"
@@ -18,7 +17,7 @@ export default function CategoryItem({ category }) {
             xmlnsXlink="http://www.w3.org/1999/xlink"
             x="0px"
             y="0px"
-            className=" hidden opacity-20 md:block"
+            className="  opacity-20 "
             viewBox="0 0 512 512"
             style={{ enableBackground: "new 0 0 512 512" }}
             xmlSpace="preserve"
@@ -63,10 +62,10 @@ export default function CategoryItem({ category }) {
             width={40}
             height={40}
             alt="Category icon"
-            className="absolute top-4   md:top-[35px] p-1 shrink-0"
+            className="absolute  top-[50px] md:top-[40px] p-1 mb-4 shrink-0"
           />
           <h1
-            className={`absolute text-xs md:text-[16px]  top-14 md:top-[77px] text-gray-500  font-light ${font14}  `}
+            className={`absolute top-24 md:top-20   text-gray-500  font-light ${font14}  `}
           >
             {category.name}
           </h1>

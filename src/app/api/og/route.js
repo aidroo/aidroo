@@ -39,14 +39,14 @@ export async function GET(request) {
   return new ImageResponse(
     (
       <div
-        tw={`flex w-full   h-full items-center  justify-center   bg-white gap-x-64   `}
+        tw={`flex w-full   h-full items-center  justify-start   bg-white gap-x-64   `}
         style={{
           fontFamily: poppins.style.fontFamily,
           gap: "20px",
         }}
       >
         <img
-          tw="flex  w-1/4 ring-1 rounded-xl ml-24   object-cover"
+          tw="flex  w-1/4 h-1/2  ring-1 rounded-xl ml-24   object-cover"
           src={profileUrl}
           alt="hello"
         />

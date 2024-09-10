@@ -21,91 +21,106 @@ db.BusinessProfile = BusinessProfile;
 db.Address = Address;
 db.Category = Category;
 db.Subcategory = SubCategory;
-
 db.JobPost = Job;
 db.Review = Review;
 db.Schedule = Schedule;
 
-// Define associations
+// Define associations with cascading deletes
 
 // User to PersonalProfile
 db.User.hasOne(db.PersonalProfile, {
   foreignKey: "username",
   as: "personalProfile",
+  onDelete: "CASCADE", // Automatically delete PersonalProfile when User is deleted
 });
 db.PersonalProfile.belongsTo(db.User, {
   foreignKey: "username",
   as: "user",
+  onDelete: "CASCADE", // Automatically delete PersonalProfile if User is deleted
 });
 
 // User to BusinessProfile
 db.User.hasOne(db.BusinessProfile, {
   foreignKey: "username",
   as: "businessProfile",
+  onDelete: "CASCADE", // Automatically delete BusinessProfile when User is deleted
 });
 db.BusinessProfile.belongsTo(db.User, {
   foreignKey: "username",
   as: "user",
+  onDelete: "CASCADE",
 });
 
 // User to Address
 db.User.hasOne(db.Address, {
   foreignKey: "username",
   as: "addresses",
+  onDelete: "CASCADE", // Automatically delete Address when User is deleted
 });
 db.Address.belongsTo(db.User, {
   foreignKey: "username",
   as: "user",
+  onDelete: "CASCADE",
 });
 
 // Schedule association
 db.User.hasMany(db.Schedule, {
   foreignKey: "username",
   as: "schedule",
+  onDelete: "CASCADE", // Automatically delete Schedules when User is deleted
 });
 db.Schedule.belongsTo(db.User, {
   foreignKey: "username",
   as: "user",
+  onDelete: "CASCADE",
 });
 
 // Jobs association
 db.User.hasMany(db.JobPost, {
   foreignKey: "username",
   as: "jobPost",
+  onDelete: "CASCADE", // Automatically delete Jobs when User is deleted
 });
 db.JobPost.belongsTo(db.User, {
   foreignKey: "username",
   as: "user",
+  onDelete: "CASCADE",
 });
 
 // Reviews association with User (the creator of the review)
 db.User.hasMany(db.Review, {
   foreignKey: "username", // This refers to the user who created the review
-  as: "review", // Changed from singular "review" to plural "reviews"
+  as: "reviews",
+  onDelete: "CASCADE", // Automatically delete Reviews when User is deleted
 });
 db.Review.belongsTo(db.User, {
   foreignKey: "username",
   as: "user", // The user who created the review
+  onDelete: "CASCADE",
 });
 
 // Reviews association with BusinessProfile (the profile being reviewed)
 db.BusinessProfile.hasMany(db.Review, {
   foreignKey: "profileId", // This refers to the profile being reviewed
   as: "review",
+  onDelete: "CASCADE", // Automatically delete Reviews when BusinessProfile is deleted
 });
 db.Review.belongsTo(db.BusinessProfile, {
   foreignKey: "profileId",
   as: "businessProfile", // The profile being reviewed
+  onDelete: "CASCADE",
 });
 
 // Category and Subcategory associations
 db.Category.hasMany(db.Subcategory, {
   foreignKey: "categoryId",
   as: "subcategories",
+  onDelete: "CASCADE", // Automatically delete Subcategories when Category is deleted
 });
 db.Subcategory.belongsTo(db.Category, {
   foreignKey: "categoryId",
   as: "category",
+  onDelete: "CASCADE",
 });
 
 export default db;

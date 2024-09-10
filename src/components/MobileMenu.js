@@ -164,10 +164,13 @@ export default function MobileMenu() {
                   <IconImage src={brifcaseIcon} size={20} alt="icon" />
                   <h1 className={`${font16}`}>For Business</h1>
                 </div>
-                <div className="flex items-center gap-4 border-b pb-4">
+                <Link
+                  href="/category"
+                  className="flex items-center gap-4 border-b pb-4"
+                >
                   <IconImage src={categoryImage} size={20} alt="icon" />
                   <h1 className={`${font16}`}>Categories</h1>
-                </div>
+                </Link>
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
                     <div className="flex items-center gap-4 no-underline  ">
