@@ -19,7 +19,6 @@ import {
 import Link from "next/link";
 
 export default function BusinessProfileSidebar({ profile }) {
-  console.log(profile);
   const { businessName, category, funds, employees, description } = profile;
   return (
     <div className="col-span-2 w-full  mb-8 ">

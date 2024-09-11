@@ -53,7 +53,7 @@ export default function BusinessProfileHeader({
           <p>{ratingLabel}</p>
         </div>
         <div className="flex gap-x-2   items-center">
-          <Rating value={Math.round(averageRating)} size={22} />
+          <Rating value={Math.floor(averageRating)} size={22} />
           <p className="text-[18px] text-gray-700 font-semibold">
             {averageRating < 1 ? 0 : averageRating}
           </p>

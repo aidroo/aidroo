@@ -14,6 +14,7 @@ import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
 
 export default function PersonalSingupForm({ isExit }) {
+  const [success, setSuccess] = useState("");
   const router = useRouter();
   const [userData, setUserData] = useState({
     firstName: "",
@@ -50,6 +51,7 @@ export default function PersonalSingupForm({ isExit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError("");
+    setSuccess("");
 
     if (userData.password !== userData.confirmPassword) {
       setApiError("Passwords do not match");
@@ -60,8 +62,8 @@ export default function PersonalSingupForm({ isExit }) {
       setLoading(true);
       const response = await axiosInstance.post("/api/user", userData);
 
-      if (response.status === 201) {
-        router.push("/login");
+      if (response.data.status === 201) {
+        setSuccess("Pending we are reviewing your request");
       } else {
         setApiError(response?.data?.message || "Something went wrong");
       }
@@ -166,6 +168,10 @@ export default function PersonalSingupForm({ isExit }) {
       </div>
       {apiError && (
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
+      )}
+
+      {success && (
+        <p className="p-2 rounded-md text-green-300   bg-green-50">{success}</p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

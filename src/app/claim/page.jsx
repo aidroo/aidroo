@@ -21,7 +21,7 @@ export default async function ClaimPage({ searchParams }) {
         </div>
       </div>
 
-      <ClaimPageForm />
+      <ClaimPageForm username={username} />
     </Layout>
   );
 }

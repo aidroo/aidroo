@@ -42,7 +42,7 @@ export default function WriteReview({
   const { currentUser } = useAuth();
 
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
-  let rating = Math.round(averageRating);
+  let rating = Math.floor(averageRating);
 
   const handleOpenChange = () => {
     setIsOpen(!isOpen);

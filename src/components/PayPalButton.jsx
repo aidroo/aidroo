@@ -7,7 +7,8 @@ export default function PayPalButton({ amount }) {
   useEffect(() => {
     // Load PayPal script
     const paypalScript = loadScript({
-      "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+      "client-id":
+        "AbPIoLdiQSgysc-5-EYEDClClsoLPDz4yX5yK5vr5wSy1WEX8fcU72qsDTST5QbPCoDxg0V8dQgV3hhQ",
       currency: "USD",
     });
 

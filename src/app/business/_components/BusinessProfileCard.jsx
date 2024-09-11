@@ -24,7 +24,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
   } = businessProfile.businessProfile;
   const { country = "", city = "" } = businessProfile.addresses;
 
-  let averageRating = Math.round(businessProfile.averageRating);
+  let averageRating = Math.floor(businessProfile.averageRating);
   return (
     <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
       <Link href={`/business/${id}`}>

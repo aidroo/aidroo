@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/alt-text */
 "use client";
+import PayPalButton from "@/components/PayPalButton";
 import Rating from "@/components/Rating/Rating";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
@@ -14,7 +15,7 @@ import { useState } from "react";
 import { GoDotFill } from "react-icons/go";
 
 /* eslint-disable @next/next/no-img-element */
-export default function CheckoutForm({ profile }) {
+export default function CheckoutForm({ profile, price }) {
   const { starImage } = profile;
 
   // Determine rating label based on the rating value
@@ -165,7 +166,7 @@ export default function CheckoutForm({ profile }) {
                           </div>
                           <div className="flex gap-x-2   items-center">
                             <Rating
-                              value={Math.round(profile?.averageRating)}
+                              value={Math.floor(profile?.averageRating)}
                               size={22}
                             />
                             <p className="text-[18px] text-gray-700 font-semibold">
@@ -235,16 +236,16 @@ export default function CheckoutForm({ profile }) {
                         <span className="text-gray-600">Subtotal</span>
                       </div>
                       <div className="pl-3">
-                        <span className="font-semibold">$190.91</span>
+                        <span className="font-semibold">${price}</span>
                       </div>
                     </div>
                     <div className="w-full flex items-center">
                       <div className="flex-grow">
                         <span className="text-gray-600">Taxes (GST)</span>
                       </div>
-                      <div className="pl-3">
-                        <span className="font-semibold">$19.09</span>
-                      </div>
+                      {/* <div className="pl-3">
+                        <span className="font-semibold">$0</span>
+                      </div> */}
                     </div>
                   </div>
                   <div className="mb-6 pb-6 border-b border-gray-200 md:border-none text-gray-800 text-xl">
@@ -256,7 +257,7 @@ export default function CheckoutForm({ profile }) {
                         <span className="font-semibold text-gray-400 text-sm">
                           AUD
                         </span>
-                        <span className="font-semibold">$210.00</span>
+                        <span className="font-semibold">${price}</span>
                       </div>
                     </div>
                   </div>
@@ -299,7 +300,6 @@ export default function CheckoutForm({ profile }) {
                             name="type"
                             disabled
                             id="type1"
-                            defaultChecked
                           />
                           <img
                             src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png"
@@ -411,6 +411,7 @@ export default function CheckoutForm({ profile }) {
                             className="form-radio h-5 w-5 text-primary_color"
                             name="type"
                             id="type1"
+                            defaultChecked
                           />
                           <Image
                             src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
@@ -429,7 +430,7 @@ export default function CheckoutForm({ profile }) {
                         PAY NOW
                       </button>
                     </div> */}
-                    {/* <PayPalButton amount={200} /> */}
+                    <PayPalButton amount={price} />
                   </div>
                   <div className="text-gray-600">
                     <p className="text-sm">

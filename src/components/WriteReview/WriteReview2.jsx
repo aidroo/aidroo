@@ -29,7 +29,7 @@ export function WriteReview2({ profileId }) {
   const [uploadUrl, setUploadUrl] = useState([]);
   const [loading, setLoading] = useState(false);
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
-  let rating = Math.round(averageRating);
+  let rating = Math.floor(averageRating);
 
   const [clicked, setClicked] = useState(false);
   const reviewData = {

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 
-export default function ClaimPageForm() {
+export default async function ClaimPageForm({ username }) {
   return (
     <div className="max-w-3xl mx-auto border p-8">
       <div>
@@ -81,7 +81,9 @@ export default function ClaimPageForm() {
         </div>
 
         <div className="h-10  bg-primary_color flex justify-center items-center text-white rounded-md md:text-xl">
-          <Link href="/claim/pricing_plan">Continue</Link>
+          <Link href={`/claim/pricing_plan?username=${username}`}>
+            Continue
+          </Link>
         </div>
       </div>
     </div>

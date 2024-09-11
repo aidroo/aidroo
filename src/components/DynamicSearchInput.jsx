@@ -132,7 +132,7 @@ export default function DynamicSearchInput() {
         results.length > 0 &&
         results.map((profile) => {
           const roundedRating =
-            Math.round(profile.businessProfile.rating * 10) / 10;
+            Math.floor(profile.businessProfile.rating * 10) / 10;
 
           return (
             <div className=" text-sm border-b" key={profile.username}>

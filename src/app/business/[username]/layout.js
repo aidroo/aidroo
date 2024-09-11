@@ -23,23 +23,26 @@ export async function generateMetadata({ params }) {
       };
     }
 
-    const { businessName, profileThumb, rating, totalReviews, verified } =
-      profile;
+    const { businessName, profileThumb, totalReviews, verified } = profile;
     const ratingLabel =
-      rating < 3.5 ? "Poor" : rating <= 4.5 ? "Good" : "Excellent";
+      Math.floor(profile.averageRating) < 3.5
+        ? "Poor"
+        : profile.averageRating <= 4.5
+        ? "Good"
+        : "Excellent";
     return {
       title: `${businessName} is rated ${ratingLabel}`,
-      description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+      description: `Based on ${totalReviews} reviews with an average rating of ${profile.averageRating} out of 5.`,
       url: `https://aidroo.com/${username}`, // Replace with your profile URL
       site_name: "Aidroo",
       openGraph: {
         title: `${businessName} is rated ${ratingLabel}`,
-        description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+        description: `Based on ${totalReviews} reviews with an average rating of ${profile.averageRating} out of 5.`,
         images: [
           {
             url: `${
               process.env.NEXT_PUBLIC_API_BASE_URL
-            }/api/og?rating=${parseFloat(rating).toFixed(
+            }/api/og?rating=${parseFloat(profile.averageRating).toFixed(
               2
             )}&profileThumb=${encodeURIComponent(
               profileThumb
@@ -55,7 +58,7 @@ export async function generateMetadata({ params }) {
       twitter: {
         card: "summary_large_image",
         title: `${businessName} is rated ${ratingLabel}`,
-        description: `Based on ${totalReviews} reviews with an average rating of ${rating} out of 5.`,
+        description: `Based on ${totalReviews} reviews with an average rating of ${profile.averageRating} out of 5.`,
         image: `${profileThumb}`,
         image_alt: `${businessName} profile image`,
       },

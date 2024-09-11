@@ -222,9 +222,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
       )}
       {success && (
-        <p className="    p-2 rounded-md text-green-300   bg-green-50">
-          {success && success}
-        </p>
+        <p className="p-2 rounded-md text-green-300   bg-green-50">{success}</p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button
