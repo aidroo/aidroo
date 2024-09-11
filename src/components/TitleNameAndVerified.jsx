@@ -17,19 +17,31 @@ export default function TitleNameAndVerified({
       <span className="text-justify">{title}</span>
       {verified && (
         <span className="inline-block align-baseline ms-2 ">
-          <Image src={verifiedIcon} className="w-[18px] inline-block" />
+          <Image
+            src={verifiedIcon}
+            className="w-[20px] inline-block"
+            alt="bordercategoriesIcon"
+          />
         </span>
       )}
 
       {personalVerified && (
         <span className="inline-block align-baseline ms-2 ">
-          <Image src={perosnal_verified} className="w-[18px] inline-block" />
+          <Image
+            src={perosnal_verified}
+            className="w-[18px] inline-block"
+            alt="bordercategoriesIcon"
+          />
         </span>
       )}
 
       {!verified && !personalVerified && isShown && (
         <span className="inline-block align-baseline ms-2 ">
-          <Image src={unclaimed} className="w-[18px] inline-block" />
+          <Image
+            src={unclaimed}
+            className="w-[16px] inline-block"
+            alt="bordercategoriesIcon"
+          />
         </span>
       )}
     </div>

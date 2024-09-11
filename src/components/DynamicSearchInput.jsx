@@ -46,7 +46,8 @@ export default function DynamicSearchInput() {
         const response = await axiosInstance.get(
           `/api/user?businessName=${query}`
         );
-        setResults(response?.data?.user || []);
+
+        setResults(response?.data?.businessProfiles || []);
         setShow(true);
       } else {
         setResults([]);
@@ -86,10 +87,18 @@ export default function DynamicSearchInput() {
         >
           <SelectTrigger className="w-fit px-2 h-10 rounded-none focus:ring-0 bg-gray-50 border-none shadow-none">
             {selectedValue === "business" && (
-              <Image src={brifcaseIcon} className="w-6" />
+              <Image
+                src={brifcaseIcon}
+                className="w-6"
+                alt="bordercategoriesIcon"
+              />
             )}
             {selectedValue === "job" && (
-              <Image src={brifcaseIcon4} className="w-6" />
+              <Image
+                src={brifcaseIcon4}
+                className="w-6"
+                alt="bordercategoriesIcon"
+              />
             )}
           </SelectTrigger>
           <SelectContent className="">
@@ -126,7 +135,7 @@ export default function DynamicSearchInput() {
             Math.round(profile.businessProfile.rating * 10) / 10;
 
           return (
-            <div className=" text-sm border-b" key={profile}>
+            <div className=" text-sm border-b" key={profile.username}>
               <div className="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-1 my-2">
                 <div className="  font-medium px-2 flex flex-col">
                   <Link href={`/business/${profile.username}`}>
@@ -139,7 +148,7 @@ export default function DynamicSearchInput() {
 
                   <div className="flex items-center text-[16px] gap-x-4  mt-1">
                     <div className="flex gap-x-4 items-center">
-                      {profile.businessProfile.totalReviews || 0} Reviews
+                      {profile.totalReviews || 0} Reviews
                     </div>
                     <div className="flex  gap-x-2">
                       <GoDotFill className={` text-primary_color`} />
@@ -154,7 +163,7 @@ export default function DynamicSearchInput() {
                             : "  "
                         } px-1 flex rounded-sm`}
                       >
-                        {profile.businessProfile.rating || 0}
+                        {profile.averageRating || 0}
                       </span>
                     </div>
                   </div>

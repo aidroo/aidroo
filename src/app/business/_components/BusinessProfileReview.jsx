@@ -19,7 +19,7 @@ export default function BusinessProfileReview() {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
-          <Image src={myReview} className="w-5" />
+          <Image src={myReview} className="w-5" alt="bordercategoriesIcon" />
           <h1 className="text-sm">Review</h1>
         </div>
       </DialogTrigger>

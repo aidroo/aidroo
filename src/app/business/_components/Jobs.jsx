@@ -18,7 +18,11 @@ export default function Jobs() {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex gap-2 items-center cursor-pointer text-primary_color ">
-          <Image src={brifcaseIcon} className="w-6" />
+          <Image
+            src={brifcaseIcon}
+            className="w-6"
+            alt="bordercategoriesIcon"
+          />
           <h1 className="text-sm">Job feed</h1>
         </div>
       </DialogTrigger>

@@ -165,7 +165,11 @@ export default function DesktopMenu() {
               className="relative inline-flex items-center justify-center h-10 px-4   overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-sm  shadow-md group"
             >
               <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
-                <Image src={loginIcon} className="w-7" />
+                <Image
+                  src={loginIcon}
+                  className="w-7"
+                  alt="bordercategoriesIcon"
+                />
               </span>
               <span className="absolute flex items-center justify-center w-full h-full text-white -all duration-300 transform group-hover:translate-x-full ease">
                 Login

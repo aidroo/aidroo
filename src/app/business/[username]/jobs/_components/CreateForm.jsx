@@ -91,7 +91,7 @@ export default function CreateForm({ categories, subcategories }) {
           </div>
           <div className="flex gap-x-4 items-start   ">
             <div className="w-14 -mt-2">
-              <Image src={moneyBag} />
+              <Image src={moneyBag} alt="moneyBag " />
             </div>
 
             <div className="w-full grid grid-cols-2 gap-x-4">
@@ -136,7 +136,7 @@ export default function CreateForm({ categories, subcategories }) {
           {/* category and subcategory */}
           <div className="flex gap-x-4 items-start   ">
             <div className="w-14 -mt-2">
-              <Image src={bordercategoriesIcon} />
+              <Image src={bordercategoriesIcon} alt="bordercategoriesIcon" />
             </div>
             <div className=" w-full grid grid-cols-2 gap-4">
               <div className="">
@@ -162,7 +162,7 @@ export default function CreateForm({ categories, subcategories }) {
 
           <div className="flex gap-x-4 items-start   ">
             <div className="w-14 -mt-2">
-              <Image src={locationIcon} />
+              <Image src={locationIcon} alt="bordercategoriesIcon" />
             </div>
 
             <div className="w-full   ">
@@ -199,7 +199,7 @@ export default function CreateForm({ categories, subcategories }) {
 
           <div className="flex gap-x-4 items-start   ">
             <div className="w-14 -mt-2">
-              <Image src={schedule} />
+              <Image src={schedule} alt="bordercategoriesIcon" />
             </div>
 
             <div className="w-full grid grid-cols-2 gap-x-4">
@@ -233,7 +233,7 @@ export default function CreateForm({ categories, subcategories }) {
 
           <div className="flex gap-x-4 items-start   ">
             <div className="w-14 -mt-2">
-              <Image src={hashtag} />
+              <Image src={hashtag} alt="bordercategoriesIcon" />
             </div>
 
             <div className="w-full grid grid-cols-2 gap-x-4">

@@ -124,52 +124,97 @@ export async function POST(req) {
   }
 }
 
-export async function GET(req) {
-  await connectToDatabase();
-
-  const { searchParams } = new URL(req.url);
+export async function GET(request) {
+  // Extract the search query from the request's URL
+  const { searchParams } = new URL(request.url);
   const businessName = searchParams.get("businessName");
 
   if (!businessName) {
     return NextResponse.json(
-      { status: 400, message: "Business name is required." },
+      { message: "Business name is required" },
       { status: 400 }
     );
   }
 
+  // Pagination parameters
+  const page = parseInt(searchParams.get("page")) || 1;
+  const limit = parseInt(searchParams.get("limit")) || 10;
+  const offset = (page - 1) * limit;
+
+  const whereConditions = {
+    status: "approved",
+    businessName: { [Op.like]: `%${businessName}%` }, // Case-insensitive match
+  };
+
   try {
-    const { rows: businessProfiles } = await db.User.findAndCountAll({
-      attributes: ["username", "email"],
-      include: [
-        {
-          model: db.BusinessProfile,
-          where: {
-            businessName: { [Op.like]: `%${businessName}%` },
-            status: "approved",
-          }, // Partial match
-          as: "businessProfile",
-          required: true,
-        },
-        {
-          model: db.Address,
-          as: "addresses",
-          required: true,
-        },
-      ],
-      order: [["createdAt", "DESC"]],
+    // Fetch business profiles
+    const { rows: businessProfiles, count: totalRecords } =
+      await db.User.findAndCountAll({
+        attributes: ["username", "email"], // Select only the needed fields from User
+        include: [
+          {
+            model: db.BusinessProfile,
+            as: "businessProfile",
+            where: whereConditions,
+            attributes: [
+              "businessName",
+              "profileThumb",
+              "description",
+              "rating",
+              "verified",
+              "category",
+              "subcategory",
+            ],
+            required: true, // Only fetch users with matching business profiles
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+        offset: offset,
+        limit: limit, // Pagination limit
+      });
 
-      limit: 10, // Log the SQL query for debugging
-    });
+    // Enrich profiles with review data
+    const enrichedProfiles = await Promise.all(
+      businessProfiles.map(async (profile) => {
+        const totalReviews = await db.Review.count({
+          where: { profileId: profile.username, status: "approved" },
+        });
 
+        const averageRatingResult = await db.Review.findOne({
+          where: { profileId: profile.username, status: "approved" },
+          attributes: [
+            [
+              db.Sequelize.fn("AVG", db.Sequelize.col("rating")),
+              "averageRating",
+            ],
+          ],
+          raw: true,
+        });
+
+        const averageRating = averageRatingResult?.averageRating || 0;
+
+        return {
+          ...profile.toJSON(),
+          totalReviews,
+          averageRating: parseFloat(averageRating).toFixed(1), // Format to one decimal place
+        };
+      })
+    );
+
+    // Calculate total pages for pagination
+    const totalPages = Math.ceil(totalRecords / limit);
+    console.log(enrichedProfiles);
+    // Return the enriched profiles with pagination info
     return NextResponse.json({
-      status: 200,
-      message: "User fetched successfully.",
-      user: businessProfiles,
+      businessProfiles: enrichedProfiles,
+      totalRecords,
+      totalPages,
+      currentPage: page,
     });
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching profiles:", error);
     return NextResponse.json(
-      { status: 500, message: "Internal Server Error" },
+      { message: "Error fetching profiles" },
       { status: 500 }
     );
   }

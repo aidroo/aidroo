@@ -138,7 +138,11 @@ export default function ReviewCard({ review }) {
             </div>
           </div>
           <div className="flex gap-1   items-center text-sm    ">
-            <Image src={replayIcon} className="w-[26px]" />
+            <Image
+              src={replayIcon}
+              className="w-[26px]"
+              alt="bordercategoriesIcon"
+            />
           </div>
 
           <IconImage src={reportIcon} size={24} />

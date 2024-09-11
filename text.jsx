@@ -16,10 +16,10 @@
                   {/* <Image src={brifcaseIcon} /> */
                 }
                  {selectedValue === "business" && (
-                    <Image src={brifcaseIcon} className="w-6" />
+                    <Image src={brifcaseIcon} className="w-6" alt="" />
                   )}
                   {selectedValue === "job" && (
-                    <Image src={jobIcons} className="w-6" />
+                    <Image src={jobIcons} className="w-6" alt="" />
                   )}
                 {
                   /* <Image src={workerIcon} className="w-12" /> */

@@ -46,7 +46,7 @@ export async function GET(request) {
         }}
       >
         <img
-          tw="flex  w-1/4 h-1/2  ring-1 rounded-xl ml-24   object-cover"
+          tw="flex  w-1/4 h-1/2   rounded-xl ml-24   object-cover"
           src={profileUrl}
           alt="hello"
         />

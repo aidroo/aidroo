@@ -63,7 +63,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError("");
-    alert("success");
+    setSuccess("");
     const { confirmPassword, ...dataToSend } = userData;
 
     if (userData.password !== confirmPassword) {
@@ -79,9 +79,24 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         subcategory: selectedSubcategory?.name,
       });
 
-      if (response.status === 201) {
-        setSuccess("Pending We are reviewing your request");
-        router.push("/login");
+      if (response.data.status === 201) {
+        setSuccess("Pending we are reviewing your request");
+
+        // Reset form fields after successful submission
+        setUserData({
+          businessName: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          phoneNumber: "",
+          role: "business",
+          country: "United States",
+          city: "",
+          address: "",
+        });
+        setSelectedCategory(null);
+        setSelectedSubcategory(null);
       } else {
         setApiError(response.data.message || "Something went wrong");
       }
@@ -207,7 +222,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
       )}
       {success && (
-        <p className="    p-2 rounded-md text-green-200   bg-green-100">
+        <p className="    p-2 rounded-md text-green-300   bg-green-50">
           {success && success}
         </p>
       )}

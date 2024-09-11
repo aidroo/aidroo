@@ -421,14 +421,15 @@ export default function CheckoutForm({ profile }) {
                         </label>
                       </div>
                     </div>
-                    <div className="w-full p-3">
+                    {/* <div className="w-full p-3">
                       <button
                         className="block w-full max-w-xs mx-auto border border-transparent bg-primary_color  hover:bg-indigo-400 focus:border-primary_color  text-white rounded-md px-5 py-2 font-semibold"
                         onClick={payNow}
                       >
                         PAY NOW
                       </button>
-                    </div>
+                    </div> */}
+                    {/* <PayPalButton amount={200} /> */}
                   </div>
                   <div className="text-gray-600">
                     <p className="text-sm">
