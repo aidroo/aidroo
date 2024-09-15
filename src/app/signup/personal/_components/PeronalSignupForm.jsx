@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PasswordInput from "@/components/PasswordInput";
@@ -171,7 +172,10 @@ export default function PersonalSingupForm({ isExit }) {
       )}
 
       {success && (
-        <p className="p-2 rounded-md text-green-300   bg-green-50">{success}</p>
+        <p className="p-2 rounded-md text-green-300    ">
+          Pending!{" "}
+          <span className="text-red-400">We're reviewing your request</span>
+        </p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

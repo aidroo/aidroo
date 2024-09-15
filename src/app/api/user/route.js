@@ -30,6 +30,7 @@ export async function POST(req) {
     address,
     country,
     category,
+    verified,
     subcategory,
   } = body;
 
@@ -84,6 +85,7 @@ export async function POST(req) {
             firstName,
             lastName,
             dob,
+            verified,
             profileThumb,
             gender,
           });
@@ -100,6 +102,8 @@ export async function POST(req) {
             description,
             subcategory,
             status,
+
+            verified,
           });
         }
 

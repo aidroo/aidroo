@@ -4,8 +4,10 @@ import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import SelectComponent from "@/components/SelectInput";
 import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { countries } from "@/constant";
 import { brifcaseIcon } from "@/exportImage";
@@ -25,7 +27,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
 
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(false);
-
+  const [verified, setVerified] = useState(false);
   const [subcategories, setSubcategories] = useState([]);
   const [formData, setFormData] = useState({
     businessName: "",
@@ -106,6 +108,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
     country: selectedCountry?.name,
     role: "business",
     status: "approved",
+    verified: verified,
   };
 
   // Handle form submission
@@ -117,7 +120,6 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
 
     try {
       const response = await axiosInstance.post("/api/user", userData);
-      console.log(response);
 
       if (response?.data?.status === 201) {
         setMessage("Business profile created successfully!");
@@ -131,7 +133,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
       );
     } finally {
       setLoading(false);
-      router.push("/admin_dashboard/business_profile");
+      router.refresh("/admin_dashboard/business_profile");
     }
   };
 
@@ -152,6 +154,7 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
     setSelectedCategory(null);
     setSelectedSubcategory(null);
     setSelectedCountry(null);
+    setVerified(false);
   };
 
   return (
@@ -316,6 +319,13 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
                 />
               </div>
 
+              <div className="flex gap-4 items-center">
+                <Checkbox
+                  checked={verified}
+                  onCheckedChange={(e) => setVerified(e)}
+                />
+                <Label>Verified</Label>
+              </div>
               <Button type="submit" className="w-full h-10" disabled={loading}>
                 {loading ? <Spinner /> : "Submit"}
               </Button>

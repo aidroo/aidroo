@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
@@ -80,7 +81,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
       });
 
       if (response.data.status === 201) {
-        setSuccess("Pending we are reviewing your request");
+        setSuccess("Pending! We're reviewing your request");
 
         // Reset form fields after successful submission
         setUserData({
@@ -222,7 +223,10 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
       )}
       {success && (
-        <p className="p-2 rounded-md text-green-300   bg-green-50">{success}</p>
+        <p className="p-2 rounded-md text-green-300    ">
+          Pending!{" "}
+          <span className="text-red-400">We're reviewing your request</span>
+        </p>
       )}
       <div className="flex items-center justify-center pt-2">
         <Button

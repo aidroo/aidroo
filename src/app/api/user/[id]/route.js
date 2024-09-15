@@ -74,7 +74,9 @@ export async function PUT(req) {
         if (description) personalProfile.description = description;
         if (phoneNumber) personalProfile.phoneNumber = phoneNumber;
         if (profileThumb) personalProfile.profileThumb = profileThumb;
-
+        if (typeof status !== "undefined") personalProfile.status = status;
+        if (typeof verified !== "undefined")
+          personalProfile.verified = verified;
         // if (dob) personalProfile.dob = dob;
         // if (gender) personalProfile.gender = gender;
         await personalProfile.save({ transaction });

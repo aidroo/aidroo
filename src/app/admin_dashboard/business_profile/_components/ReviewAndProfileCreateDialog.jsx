@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { brifcaseIcon } from "@/exportImage";
 import axiosInstance from "@/lib/axios";
+
+import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
@@ -23,7 +25,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
   const [recommendRating, setRecommendRating] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState(false);
   const router = useRouter();
-  console.log("selected country", selectedCountry);
+
   // Initialize state for user and review data
   const initialUserData = {
     firstName: "",
@@ -33,7 +35,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     password: "",
     role: "personal",
     profileThumb: "",
-
+    userVerified: false,
     city: "",
     description: "",
     address: "",
@@ -44,6 +46,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     comment: "",
     rating: 0,
     images: [],
+    verified: false,
     profileId: profileId,
   };
 
@@ -99,6 +102,13 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     setReviewData((prevReviewData) => ({
       ...prevReviewData,
       [name]: value,
+    }));
+  };
+  // Handle checkbox change
+  const handleCheckboxChange = (checked) => {
+    setReviewData((prevReviewData) => ({
+      ...prevReviewData,
+      verified: checked,
     }));
   };
 
@@ -163,6 +173,14 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
                 onChange={handleInputChange}
               />
             </div>
+
+            <div className="flex gap-4 items-center">
+              <Checkbox
+                checked={reviewData.verified}
+                onCheckedChange={handleCheckboxChange}
+              />
+            </div>
+
             {/* <FileUploadComponent /> */}
           </div>
         </div>
@@ -191,6 +209,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         <PersonalProfileCreatedForm
           userData={userData}
           setUserData={setUserData}
+          handleCheckboxChange={handleCheckboxChange}
           isExit={isExit}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}

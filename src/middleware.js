@@ -89,7 +89,7 @@ export async function middleware(request) {
     }
 
     if (path.startsWith("/personal_dashboard")) {
-      if (userRole !== "personal") {
+      if (userRole !== "personal" || userRole !== "admin") {
         return NextResponse.redirect(
           new URL("/business_dashboard", request.nextUrl)
         );
@@ -99,7 +99,7 @@ export async function middleware(request) {
     // Prevent logged-in users from accessing login/signup pages
     if (isPublicPath) {
       // Redirect based on user role
-      if (userRole === "business") {
+      if (userRole === "business" || userRole !== "admin") {
         return NextResponse.redirect(
           new URL("/business_dashboard", request.nextUrl)
         );

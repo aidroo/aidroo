@@ -3,7 +3,6 @@
 
 "use client";
 import { Input } from "@/components/ui/input";
-import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import userIcon from "@/public/icons/customer-review.gif";
@@ -13,7 +12,6 @@ import { useState } from "react";
 import IconImage from "../IconImage/IconImage";
 import MultipleFileUpload from "../MultipleFileUpload";
 import Rating from "../Rating/Rating";
-import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 import Star from "../Star/Star";
 import { Textarea } from "../ui/textarea";
 
@@ -154,10 +152,10 @@ export function WriteReview2({ profileId }) {
                       </div>
                       <div>
                         <MultipleFileUpload setUploadUrl={setUploadUrl} />
-                        <div className="w-44 h-24 flex  justify-between gap-x-2 mt-4   ">
+                        {/* <div className="w-44 h-24 flex  justify-between gap-x-2 mt-4   ">
                           <ResponsiveImage src={profileImage} />
                           <ResponsiveImage src={profileImage} />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     {/* personal user create */}

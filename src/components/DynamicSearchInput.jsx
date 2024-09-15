@@ -73,7 +73,7 @@ export default function DynamicSearchInput() {
           className="w-full rounded-md bg-gray-50 text-gray-700 leading-tight focus:outline-none py-2 px-2 border-none focus-visible:ring-0 h-10"
           id="search"
           type="text"
-          placeholder="Search Jobs"
+          placeholder="Search Business"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           // Directly updating the search state

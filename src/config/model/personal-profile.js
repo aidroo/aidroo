@@ -11,7 +11,6 @@ const PersonalProfile = sequelize.define(
         key: "username",
       },
       allowNull: false,
-      // onDelete: "CASCADE",
     },
     firstName: {
       type: DataTypes.STRING(255), // Define length explicitly
@@ -48,6 +47,11 @@ const PersonalProfile = sequelize.define(
     activeOrderCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+    status: {
+      type: DataTypes.ENUM("pending", "approved"), // ENUM field for status
+      defaultValue: "pending", // Default value set to 'pending'
+      allowNull: false,
     },
   },
   {

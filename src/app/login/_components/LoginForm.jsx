@@ -30,11 +30,13 @@ export default function LoginForm() {
       setError("");
       const response = await axiosInstance.post("/api/auth/login", userData);
 
-      if (response?.status === 201 || response.status === 200) {
+      console.log(response);
+
+      if (response?.data?.status === 201) {
         fetchUser();
         router.push("/");
       } else {
-        setError(response.message);
+        setError(response.data.message);
       }
     } catch (error) {
       setError(error.message);

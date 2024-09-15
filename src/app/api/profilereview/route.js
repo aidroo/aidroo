@@ -29,6 +29,8 @@ export async function POST(req) {
     description,
     uploadUrl,
     images,
+    verified,
+    userVerified,
     city,
     address,
     country,
@@ -84,6 +86,7 @@ export async function POST(req) {
           lastName,
           profileThumb: uploadUrl,
           description,
+          verified: userVerified,
         },
         { transaction }
       ),
@@ -104,6 +107,7 @@ export async function POST(req) {
           rating,
           profileId, // Use the created user's username for profileId
           images,
+          verified,
           status: "approved",
         },
         { transaction }

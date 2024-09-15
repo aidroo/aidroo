@@ -1,7 +1,9 @@
 "use client";
 
 import SelectComponent from "@/components/SelectInput";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { countries } from "@/constant";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,6 +18,7 @@ export default function PersonalProfileCreatedForm({
   setSelectedCountry,
 }) {
   const router = useRouter();
+
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
@@ -40,14 +43,18 @@ export default function PersonalProfileCreatedForm({
     );
   }, [userData.username, isExit, router]);
 
+  const handleCheckboxChange = (checked) => {
+    setUserData({ ...userData, userVerified: checked });
+  };
+
   return (
-    <div className="space-y-6 p-4 border ">
-      <div className=" w-full flex gap-x-2">
+    <div className="space-y-6 p-4 border">
+      <div className="w-full flex gap-x-2">
         <Input
           type="text"
           name="firstName"
           placeholder="First Name"
-          className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
+          className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
           value={userData.firstName}
           onChange={handleChange}
         />
@@ -55,18 +62,17 @@ export default function PersonalProfileCreatedForm({
           type="text"
           name="lastName"
           placeholder="Last Name"
-          className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
+          className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
           value={userData.lastName}
           onChange={handleChange}
         />
-      </div>{" "}
-      {/* email */}
-      <div className=" w-full flex gap-x-2">
+      </div>
+      <div className="w-full flex gap-x-2">
         <Input
           type="email"
           name="email"
-          placeholder="email"
-          className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
+          placeholder="Email"
+          className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
           required
           value={userData.email}
           onChange={handleChange}
@@ -80,7 +86,7 @@ export default function PersonalProfileCreatedForm({
           <Input
             type="text"
             placeholder="Username"
-            className={`bg-white dark:bg-gray-800 border-none focus-visible:ring-0 flex-grow `}
+            className="bg-white dark:bg-gray-800 border-none focus-visible:ring-0 flex-grow"
             value={userData.username}
             onChange={handleChange}
             name="username"
@@ -91,13 +97,12 @@ export default function PersonalProfileCreatedForm({
           )}
         </div>
       </div>
-      {/* username */}
-      <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           type="password"
-          placeholder=" password"
+          placeholder="Password"
           name="password"
-          className="bg-white dark:bg-gray-800 h-10  text-xs md:text-sm"
+          className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
           required
           value={userData.password}
           onChange={handleChange}
@@ -111,7 +116,7 @@ export default function PersonalProfileCreatedForm({
           placeholder="Country"
         />
       </div>
-      <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           type="text"
           className="mb-4"
@@ -129,14 +134,14 @@ export default function PersonalProfileCreatedForm({
           onChange={handleChange}
         />
       </div>
-      {/* {error && (
-      <h1 className="p-4 bg-red-50 text-red-200">
-        {error || apiError}
-      </h1>
-    )} */}
-      {/* {message && (
-      <h1 className="p-2 text-green-400 bg-green-200">{message}</h1>
-    )} */}
+      <div className="flex gap-4 items-center">
+        <Checkbox
+          checked={userData.userVerified}
+          id="userverified"
+          onCheckedChange={handleCheckboxChange}
+        />
+        <Label htmlFor="userverified">Verified</Label>
+      </div>
     </div>
   );
 }

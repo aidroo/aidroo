@@ -268,12 +268,36 @@ export const businessSidebarOptions = [
     href: "/business_dashboard/schedule",
   },
   {
-    name: "Security",
-    href: "/business_dashboard/security",
+    name: "Reviews",
+    href: "#",
   },
   {
-    name: "Business Plan",
-    href: "/business_dashboard/business_plan",
+    name: "Messages",
+    href: "#",
+  },
+  {
+    name: "Notifications",
+    href: "#",
+  },
+  {
+    name: "Orders",
+    href: "#",
+  },
+  {
+    name: "Payments",
+    href: "#",
+  },
+  {
+    name: "Security",
+    href: "#",
+  },
+  {
+    name: "More",
+    href: "#",
+  },
+  {
+    name: "Pricing Plan",
+    href: "#",
   },
 ];
 export const personalSidebarOptions = [
@@ -287,16 +311,36 @@ export const personalSidebarOptions = [
     href: "/personal_dashboard/schedule",
   },
   {
-    name: "Review",
-    href: "/personal_dashboard/review",
+    name: "Reviews",
+    href: "#",
   },
   {
     name: "Messages",
-    href: "/personal_dashboard/message",
+    href: "#",
   },
   {
-    name: "Notification",
-    href: "/personal_dashboard/notification",
+    name: "Notifications",
+    href: "#",
+  },
+  {
+    name: "Orders",
+    href: "#",
+  },
+  {
+    name: "Payments",
+    href: "#",
+  },
+  {
+    name: "Security",
+    href: "#",
+  },
+  {
+    name: "More",
+    href: "#",
+  },
+  {
+    name: "Pricing Plan",
+    href: "#",
   },
 ];
 export const adminDashboardSidebarLinks = [
@@ -314,8 +358,49 @@ export const adminDashboardSidebarLinks = [
     href: "/admin_dashboard/personal_profile",
   },
   {
-    name: "Review",
+    name: "Jobs",
+    href: "/admin_dashboard/jobs",
+  },
+  {
+    name: "Reviews",
     href: "/admin_dashboard/reviews",
+  },
+  {
+    name: "Messages",
+    href: "/admin_dashboard/messages",
+  },
+  {
+    name: "Notifications",
+    href: "/admin_dashboard/notifications",
+  },
+
+  {
+    name: "Blog Article",
+    href: "/admin_dashboard/article",
+  },
+  {
+    name: "Pricing Plan",
+    href: "/admin_dashboard/article",
+  },
+  {
+    name: "Deals on Aidroo",
+    href: "/admin_dashboard/article",
+  },
+  {
+    name: "Request Review",
+    href: "/admin_dashboard/article",
+  },
+  {
+    name: "Request Review",
+    href: "#",
+  },
+  {
+    name: "Support",
+    href: "/admin_dashboard/booking",
+  },
+  {
+    name: "Admin Users",
+    href: "/admin_dashboard/admin-user",
   },
 ];
 
