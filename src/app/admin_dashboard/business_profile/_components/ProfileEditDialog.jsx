@@ -20,6 +20,7 @@ export default function ProfileEditDialog({
   const [top, setTop] = useState(currentTop);
   const [guaranteed, setGuaranteed] = useState(currentGuaranteed);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -42,6 +43,22 @@ export default function ProfileEditDialog({
       setError("some error occurred!");
     } finally {
       setLoading(false);
+    }
+  };
+  const handleDelete = async () => {
+    setDeleteLoading(true); // Set loading state to true while the operation is in progress
+    try {
+      const response = await axiosInstance.delete(`/api/user/${username}`);
+
+      if (response?.status === 200) {
+        // Refresh or redirect as needed after successful deletion
+        router.push("/admin_dashboard/business_profile"); // Redirect after deletion
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Error occurred while deleting the user!"); // Set error state if something goes wrong
+    } finally {
+      setDeleteLoading(false); // Set loading state to false after operation completes
     }
   };
 
@@ -81,6 +98,9 @@ export default function ProfileEditDialog({
         {error && <div className="text-red-500 ">{error}</div>}
         <Button onClick={handleUpdate} disabled={loading}>
           {loading ? <Spinner /> : "Update Profile"}
+        </Button>
+        <Button onClick={handleDelete} disabled={loading}>
+          {deleteLoading ? <Spinner /> : "Delete Profile"}
         </Button>
       </div>
     </DialogContent>

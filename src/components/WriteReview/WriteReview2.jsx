@@ -69,8 +69,6 @@ export function WriteReview2({ profileId }) {
     setOpen(!open);
   };
 
-  console.log(reviewData.images);
-
   return (
     <>
       {profileId !== currentUser?.username && (

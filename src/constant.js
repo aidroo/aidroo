@@ -173,10 +173,10 @@ export const footerLinks = [
     ],
   },
   {
-    title: "Aidroo for Mobile",
+    title: "About aidroo",
     links: [
       {
-        title: "Download the Aidroo app to manage your business",
+        title: "Aidroo, a Europe-based job and directory company",
 
         link: "#",
       },

@@ -24,7 +24,7 @@ export default function BusinessProfileFiltering({
   openNowFilter,
 }) {
   const router = useRouter();
-  console.log(searchQuery);
+
   // State
   const [subcategories, setSubcategories] = useState([]);
   // const [category, setCategory] = useState(categoryFilter || "");

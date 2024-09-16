@@ -135,11 +135,9 @@ export default function Footer() {
 
         <div className="mt-8 space-y-5 md:hidden">
           <div>
-            <p className="text-primary_color font-normal text-[16px]">
-              Aidroo For Mobile
-            </p>
+            <p className="text-primary_color font-semibold  ">About aidroo</p>
             <p className=" font-normal text-sm">
-              Download aidroo app to manage your business
+              Aidroo, a Europe-based job and directory company
             </p>
           </div>
           <div className="flex gap-4 w-72    mx-auto md:hidden">

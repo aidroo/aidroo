@@ -30,8 +30,6 @@ export default function LoginForm() {
       setError("");
       const response = await axiosInstance.post("/api/auth/login", userData);
 
-      console.log(response);
-
       if (response?.data?.status === 201) {
         fetchUser();
         router.push("/");
@@ -89,7 +87,9 @@ export default function LoginForm() {
         </label>
       </div>
       {error && (
-        <p className="text-red-400 bg-red-100 p-2 rounded-md">{error}</p>
+        <p className="text-red-400 bg-red-100 p-2 rounded-md text-center">
+          {error}
+        </p>
       )}
       <Button
         variant="fillButton"

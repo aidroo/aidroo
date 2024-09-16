@@ -27,13 +27,13 @@ export async function GET(req) {
           model: BusinessProfile,
           as: "businessProfile",
           required: false,
-          attributes: ["businessName", "profileThumb"], // Limit fields fetched for businessProfile
+          attributes: ["businessName", "profileThumb", "verified"], // Limit fields fetched for businessProfile
         },
         {
           model: PersonalProfile,
           as: "personalProfile",
           required: false,
-          attributes: ["firstName", "lastName", "profileThumb"], // Limit fields fetched for personalProfile
+          attributes: ["firstName", "lastName", "profileThumb", "verified"], // Limit fields fetched for personalProfile
         },
         {
           model: Address,
@@ -58,6 +58,8 @@ export async function GET(req) {
     const country = user?.addresses?.country || null;
     const city = user?.addresses?.city || null;
     const address = user?.addresses?.address || null;
+    const verified =
+      user?.personalProfile?.verified || user?.businessProfile?.verified;
 
     const userData = {
       username: user.username,
@@ -66,6 +68,7 @@ export async function GET(req) {
         businessName: businessName,
         fullName: firstName + " " + lastName,
         profileThumb: personalThumbnail || businessThumbnail,
+        verified,
       },
       address: {
         country,

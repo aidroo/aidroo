@@ -80,19 +80,11 @@ export async function middleware(request) {
   // If the user is authenticated
   if (decodedToken) {
     const userRole = decodedToken.role;
-
+    console.log("peros", userRole);
     // Prevent business users from accessing personal_dashboard and vice versa
     if (path.startsWith("/admin_dashboard")) {
       if (userRole !== "admin") {
-        return NextResponse.redirect(new URL("/", request.nextUrl));
-      }
-    }
-
-    if (path.startsWith("/personal_dashboard")) {
-      if (userRole !== "personal" || userRole !== "admin") {
-        return NextResponse.redirect(
-          new URL("/business_dashboard", request.nextUrl)
-        );
+        return NextResponse.redirect(new URL("/login", request.nextUrl));
       }
     }
 
@@ -104,7 +96,7 @@ export async function middleware(request) {
           new URL("/business_dashboard", request.nextUrl)
         );
       }
-      if (userRole === "personal") {
+      if (userRole === "personal" || userRole !== "admin") {
         return NextResponse.redirect(
           new URL("/personal_dashboard", request.nextUrl)
         );

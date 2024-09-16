@@ -21,13 +21,12 @@ export default function BusinessProfileUpdatedForm({
   subcategories,
   profile,
 }) {
-  console.log(profile);
   const router = useRouter();
   const { currentUser } = useAuth();
 
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubcategory, setSelectedSubcategory] = useState();
-  const [uploadUrl, setUploadUrl] = useState(null);
+  const [uploadUrl, setUploadUrl] = useState(profile?.profileThumb);
 
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
@@ -43,7 +42,7 @@ export default function BusinessProfileUpdatedForm({
     description: profile?.description || "",
     funds: profile?.funds || "",
     employees: profile?.employees || "",
-    profileThumb: profile?.profileThumb || uploadUrl || "",
+    profileThumb: uploadUrl || "",
   });
   // Fetch user data
 
@@ -71,7 +70,6 @@ export default function BusinessProfileUpdatedForm({
   const deleteUploadedFile = async () => {
     try {
       if (avatarId) {
-        console.log("first");
         await axiosInstance.post(`/api/upload/${avatarId}`, {
           username: currentUser?.username,
           avatarId,
@@ -81,6 +79,8 @@ export default function BusinessProfileUpdatedForm({
       router.refresh("/business_dashboard/business_info");
     } catch (error) {
       console.error("Error deleting file:", error);
+    } finally {
+      setUploadUrl(null);
     }
   };
 
@@ -99,6 +99,7 @@ export default function BusinessProfileUpdatedForm({
         ...formState,
         username: currentUser?.username,
         role: "business",
+        profileThumb: uploadUrl,
       });
     } catch (error) {
       setApiError(error.message);
@@ -113,7 +114,7 @@ export default function BusinessProfileUpdatedForm({
       <div className="flex gap-4 items-center">
         <div className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full w-20 md:w-24 shrink-0 overflow-hidden">
           <ResponsiveImage
-            src={formState.uploadUrl || uploadUrl || brifcaseIcon}
+            src={uploadUrl || brifcaseIcon}
             alt="profile image"
             width={500}
             height={300}
@@ -121,7 +122,10 @@ export default function BusinessProfileUpdatedForm({
           />
         </div>
         <div className="max-w-64 space-y-2">
-          <FileUploadComponent setUploadUrl={setUploadUrl} />
+          <FileUploadComponent
+            profileThumb={profile?.profileThumb}
+            setUploadUrl={setUploadUrl}
+          />
           {/* */}
           <Button variant="hover" onClick={deleteUploadedFile}>
             Remove Photo

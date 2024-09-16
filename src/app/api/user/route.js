@@ -207,7 +207,7 @@ export async function GET(request) {
 
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalRecords / limit);
-    console.log(enrichedProfiles);
+
     // Return the enriched profiles with pagination info
     return NextResponse.json({
       businessProfiles: enrichedProfiles,

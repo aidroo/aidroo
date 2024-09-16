@@ -96,6 +96,8 @@ export async function PUT(req) {
         if (description) businessProfile.description = description;
         if (category) businessProfile.category = category;
         if (subcategory) businessProfile.subcategory = subcategory;
+
+        if (profileThumb) businessProfile.profileThumb = profileThumb;
         // Boolean fields handling
         if (typeof status !== "undefined") businessProfile.status = status;
         if (typeof verified !== "undefined")
@@ -171,15 +173,31 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function DELETE(req) {
-  const { id } = req.url.split("/").pop();
+// DELETE request to remove a user by ID
+export async function DELETE(req, { params }) {
+  const { id } = params; // Destructure the id from route parameters
+
   try {
-    const deleted = await db.User.destroy({ where: { id } });
-    if (!deleted) {
+    // Try deleting the user from the database by the given ID
+    const deletedUser = await db.User.destroy({
+      where: { username: id },
+    });
+
+    // If the user is not found, return a 404 response
+    if (!deletedUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    return NextResponse.json({ message: "User deleted successfully" });
+
+    // If successful, return a success message
+    return NextResponse.json(
+      { message: "User deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Return a 500 response if any error occurs
+    return NextResponse.json(
+      { error: "An error occurred while deleting the user" },
+      { status: 500 }
+    );
   }
 }

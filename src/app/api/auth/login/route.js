@@ -29,13 +29,19 @@ export async function POST(req) {
           model: BusinessProfile,
           as: "businessProfile",
           required: false,
-          attributes: ["businessName", "profileThumb"], // Limit fields fetched for businessProfile
+          attributes: ["businessName", "profileThumb", "verified", "status"], // Limit fields fetched for businessProfile
         },
         {
           model: PersonalProfile,
           as: "personalProfile",
           required: false,
-          attributes: ["firstName", "lastName", "profileThumb"], // Limit fields fetched for personalProfile
+          attributes: [
+            "firstName",
+            "lastName",
+            "profileThumb",
+            "verified",
+            "status",
+          ], // Limit fields fetched for personalProfile
         },
         {
           model: Address,
@@ -57,6 +63,15 @@ export async function POST(req) {
       return NextResponse.json({ status: 401, message: "Invalid password" });
     }
 
+    if (
+      user?.businessProfile?.status === "pending" ||
+      user?.personalProfile?.status === "pending"
+    ) {
+      return NextResponse.json({
+        status: 401,
+        message: "Still we are reviewing !",
+      });
+    }
     // Generate JWT token
     const accessToken = await generateAccessToken({
       username: user.username,

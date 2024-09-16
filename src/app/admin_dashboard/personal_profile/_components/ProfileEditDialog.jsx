@@ -29,7 +29,7 @@ export default function ProfileEditDialog({
         status,
         verified,
       });
-      console.log(response);
+
       if (response?.data?.status === 201) {
         router.refresh("/admin_dashboard/personal_profile");
       }
