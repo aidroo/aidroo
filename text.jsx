@@ -1,109 +1,131 @@
- <form className="flex gap-2">
-            <div className="flex justify-between  bg-white rounded-md gap-x-2 items-center pr-1">
-              <Input
-                type="text"
-                name="search"
-                placeholder="Search"
-                className=" dark:bg-dark h-10 max-w-72 w-[280px] border-none focus-visible:ring-0"
-                onChange={(e) => handleInputChange(e)}
-              />
-              <Select
-                value={selectedValue}
-                onValueChange={handleValueChange}
-                className="focus:ring-0 focus:ring-ring"
-              >
-                <SelectTrigger className="w-fit bg-gray-200  px-2  ">
-                  {/* <Image src={brifcaseIcon} /> */
-                }
-                 {selectedValue === "business" && (
-                    <Image src={brifcaseIcon} className="w-6" alt="" />
-                  )}
-                  {selectedValue === "job" && (
-                    <Image src={jobIcons} className="w-6" alt="" />
-                  )}
-                {
-                  /* <Image src={workerIcon} className="w-12" /> */
-                }
-                 </SelectTrigger>
-                 <SelectContent>
-                   <SelectGroup>
-                     <SelectItem value="business">
-                       <div className="flex items-center gap-6  border-b pb-2 ">
-                         <IconImage
-                          src={brifcaseIcon}
-                          size={32}
-                       alt="notification icon"
-                         />
-                         <p className={`${font16} text-gray-700`}>Business</p>
-                      </div>
-                 </SelectItem>
-                     <SelectItem value="job">
-                       <div className="flex items-center gap-6  border-b pb-2 ">
-                         <IconImage
-                           src={jobIcons}
-                          size={32}
-                         alt="notification icon"
-                        />
-                         <p className={`${font16} text-gray-700`}>Jobs</p>
-                      </div>
-                    </SelectItem>
-                   </SelectGroup>
-                 </SelectContent>
-                   </Select>
-             </div>
-                
-                {
-                  /* fetch dynamic title */
-                }
-                
-                // <ul>
-                //   <li>item</li>
-                //   <li></li>
-                // </ul>
-                // <div className="relative">
-                {
-                  /* <div className=" flex items-center justify-center     bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
-                              <Image src={filter} alt="Icon 1" className="w-6" />
-                            </div> */
-                }
-                {
-                  /* {isHovered2 && (
-                            <div className="absolute  shadow rounded-md    top-[42px] pt-4 -right-6 ">
-                              <div className=" file:selection: z-50  border-2 rounded   p-8 ">
-                                <input type="checkbox" />
-                                <Button variant="hoverButton">submit</Button>
-                              </div>
-                            </div>
-                          )} */
-                }
-                //     </div>
-                //     <div className=" flex items-center justify-center  bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10">
-                //       <Image src={whitesearch} alt="Icon 1" className="w-6 " />
-                //     </div>
-                //   </form> */}
-                
+import { NextResponse } from "next/server";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+} from "./utils/jwt";
 
+export async function middleware(request) {
+  const path = request.nextUrl.pathname;
 
-          
- 
-<div class="min-h-screen bg-gray-100 flex justify-center items-center">
-	<div class="container mx-auto bg-indigo-500 rounded-lg p-14">
-		<form>
-			<h1 class="text-center font-bold text-white text-4xl">Find the perfect domain name</label>
-				<p class="mx-auto font-normal text-sm my-6 max-w-lg">Enter your select domain name and choose any
-					extension name in the next step (choose between .com, .online, .tech, .site, .net, and more)</p>
-				<div class="sm:flex items-center bg-white rounded-lg overflow-hidden px-2 py-1 justify-between">
-					<input class="text-base text-gray-400 flex-grow outline-none px-2 " type="text" placeholder="Search your domain name" />
-					<div class="ms:flex items-center px-2 rounded-lg space-x-4 mx-auto ">
-						<select id="Com" class="text-base text-gray-800 outline-none border-2 px-4 py-2 rounded-lg">
-            <option value="com" selected>com</option>
-            <option value="net">net</option>
-            <option value="org">org</option>
-            <option value="io">io</option>
-          </select>
-						<button class="bg-indigo-500 text-white text-base rounded-lg px-4 py-2 font-thin">Search</button>
-					</div>
-				</div>
-		</form>
-	</div>
-</div>
+  // Define public paths
+  const isPublicPath =
+    path === "/login" ||
+    path.startsWith("/signup/business") ||
+    path.startsWith("/signup/personal");
+
+  // Retrieve tokens from cookies
+  const accessToken = request.cookies.get("accessToken")?.value || "";
+  const refreshToken = request.cookies.get("refreshToken")?.value || "";
+
+  let decodedToken = null;
+
+  if (accessToken) {
+    try {
+      // Verify the access token
+      decodedToken = await verifyAccessToken(accessToken);
+    } catch (error) {
+      console.log("Access token expired or invalid:", error);
+    }
+  }
+
+  if (!decodedToken && refreshToken) {
+    try {
+      // If the access token is expired/invalid but refresh token exists, verify it
+      const decodedRefreshToken = await verifyRefreshToken(refreshToken);
+
+      if (decodedRefreshToken) {
+        // Generate new access and refresh tokens
+        const newAccessToken = await generateAccessToken({
+          username: decodedRefreshToken.username,
+          role: decodedRefreshToken.role,
+        });
+        const newRefreshToken = await generateRefreshToken({
+          username: decodedRefreshToken.username,
+          role: decodedRefreshToken.role,
+        });
+
+        // Update the response with new tokens in cookies
+        const response = NextResponse.next();
+
+        // Set new access token
+        response.cookies.set("accessToken", newAccessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 15, // 15 minutes
+          path: "/",
+        });
+
+        // Set new refresh token
+        response.cookies.set("refreshToken", newRefreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7, // 7 days
+          path: "/",
+        });
+
+        // Continue with the new access token
+        decodedToken = await verifyAccessToken(newAccessToken);
+
+        return response;
+      }
+    } catch (error) {
+      console.log("Refresh token expired or invalid:", error);
+    }
+  }
+
+  // If the user is authenticated
+  if (decodedToken) {
+    const userRole = decodedToken.role;
+    console.log("peros", userRole);
+    // Prevent business users from accessing personal_dashboard and vice versa
+    if (path.startsWith("/admin_dashboard")) {
+      if (userRole !== "admin") {
+        return NextResponse.redirect(new URL("/login", request.nextUrl));
+      }
+    }
+
+    // Prevent logged-in users from accessing login/signup pages
+    if (isPublicPath) {
+      // Redirect based on user role
+      if (userRole === "business" || userRole !== "admin") {
+        return NextResponse.redirect(
+          new URL("/business_dashboard", request.nextUrl)
+        );
+      }
+      if (userRole === "personal" || userRole !== "admin") {
+        return NextResponse.redirect(
+          new URL("/personal_dashboard", request.nextUrl)
+        );
+      }
+
+      // Default redirect for other roles
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+
+    // Otherwise, allow them to continue to the protected page
+    return NextResponse.next();
+  }
+
+  // If the user is not authenticated and accessing a protected path, redirect to login
+  if (!isPublicPath && !decodedToken) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
+
+  // For public paths (login/signup) where the user is not logged in, allow access
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/admin_dashboard/:path*",
+    "/business_dashboard/:path*",
+    "/personal_dashboard/:path*",
+    "/login",
+    "/signup/business/:path*", // Protect signup business
+    "/signup/personal/:path*", // Protect signup personal
+  ],
+};

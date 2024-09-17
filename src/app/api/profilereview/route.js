@@ -27,7 +27,7 @@ export async function POST(req) {
     comment,
     rating,
     description,
-    uploadUrl,
+    profileThumb,
     images,
     verified,
     userVerified,
@@ -43,7 +43,7 @@ export async function POST(req) {
       message: "Username, email, and password are required.",
     });
   }
-
+  // console.log(images, profileThumb);
   // Start a transaction
   const transaction = await db.sequelize.transaction();
 
@@ -84,7 +84,7 @@ export async function POST(req) {
           username: lowercaseUsername,
           firstName,
           lastName,
-          profileThumb: uploadUrl,
+          profileThumb: profileThumb,
           description,
           verified: userVerified,
         },

@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -9,13 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAuth } from "@/hooks/useAuth";
 import { FaRegEdit } from "react-icons/fa";
 import ReviewEditDialog from "./ReviewEdidtModal";
 
 export default function ReviewTable({ reviews }) {
+  const { currentUser } = useAuth();
   return (
-    <Table>
-      <TableHeader className="w-fit h-14 ">
+    <Table className="border">
+      <TableHeader className="w-fit h-14   ">
         <TableRow>
           <TableHead className="text-lg text-gray-700 font-medium  ">
             Profile Name
@@ -34,9 +37,12 @@ export default function ReviewTable({ reviews }) {
             Verified
           </TableHead>
 
-          <TableHead className="text-lg text-gray-700 font-medium ">
-            Action
-          </TableHead>
+          {(currentUser?.role === "admin" ||
+            currentUser?.role === "reviewer") && (
+            <TableHead className="text-lg text-gray-700 font-medium ">
+              Action
+            </TableHead>
+          )}
         </TableRow>
       </TableHeader>
       {reviews && (
@@ -68,20 +74,22 @@ export default function ReviewTable({ reviews }) {
                       checked={review?.verified}
                     />
                   </TableCell>
+                  {(currentUser?.role === "admin" ||
+                    currentUser?.role === "reviewer") && (
+                    <TableCell className="flex gap-3">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <FaRegEdit className="text-lg cursor-pointer" />
+                        </DialogTrigger>
 
-                  <TableCell className="flex gap-3">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <FaRegEdit className="text-lg cursor-pointer" />
-                      </DialogTrigger>
-
-                      <ReviewEditDialog
-                        id={review.reviewId}
-                        currentVerified={review.verified}
-                        currentStatus={review.status}
-                      />
-                    </Dialog>
-                  </TableCell>
+                        <ReviewEditDialog
+                          id={review.reviewId}
+                          currentVerified={review.verified}
+                          currentStatus={review.status}
+                        />
+                      </Dialog>
+                    </TableCell>
+                  )}
                 </TableRow>
               );
             })}

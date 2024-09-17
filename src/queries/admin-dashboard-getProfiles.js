@@ -1,7 +1,6 @@
 /* eslint-disable no-dupe-keys */
 import db from "@/config/model";
 import { NextResponse } from "next/server";
-
 import { Op } from "sequelize"; // Ensure these are imported
 
 export async function fetchProfiles({
@@ -255,5 +254,62 @@ export async function fetchPersonalProfiles({
   } catch (error) {
     console.error("Error fetching profiles:", error);
     throw new Error("Database query failed");
+  }
+}
+
+export async function fetchSinglePersonalProfile(username) {
+  console.log("username", username);
+  try {
+    // Fetch the user profile along with business profile and address
+    const user = await db.User.findOne({
+      where: { username },
+      attributes: ["username", "email"],
+      include: [
+        {
+          model: db.PersonalProfile,
+          as: "personalProfile",
+          required: true,
+        },
+        {
+          model: db.Address,
+          as: "addresses",
+        },
+      ],
+    });
+
+    if (!user) {
+      return NextResponse.json({ status: 404, message: "User not found" });
+    }
+
+    // Calculate the total number of approved reviews for the profile
+    // const totalReviews = await db.Review.count({
+    //   where: { profileId: username, status: "approved" },
+    // });
+
+    // // Calculate the average rating for the profile
+    // const averageRatingResult = await db.Review.findOne({
+    //   where: { profileId: username, status: "approved" },
+    //   attributes: [
+    //     [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
+    //   ],
+    // });
+
+    // Convert the Sequelize model to a plain object
+    const plainUser = user.toJSON();
+    // const profile = {
+    //   email: plainUser.email,
+    //   username: plainUser.username,
+    //   ...plainUser.businessProfile,
+    //   ...plainUser.addresses,
+    //   totalReviews: totalReviews || 0, // Fallback to 0 if no reviews
+    //   averageRating: averageRatingResult?.dataValues?.averageRating
+    //     ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
+    //     : 0, // Fallback to 0 if no reviews
+    // };
+
+    return { profile: plainUser };
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: error.message, status: 500 });
   }
 }

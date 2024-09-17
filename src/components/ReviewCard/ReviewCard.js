@@ -56,9 +56,7 @@ export default function ReviewCard({ review }) {
               <TitleNameAndVerified
                 title={review?.user?.businessProfile?.businessName || fulName}
                 verified={review?.user?.businessProfile?.verified}
-                personalVerified={true}
-                // personalVerified={review?.user?.personalProfile?.verified}
-                isShown={true}
+                personalVerified={review?.user?.personalProfile?.verified}
               />
             </div>
 
@@ -105,15 +103,16 @@ export default function ReviewCard({ review }) {
           <p className={`${font16} text-gray-500  `}>{comment}</p>
         </div>
         {images && images[0] !== null && (
-          <div className="flex gap-4 mt-3">
+          <div className="flex gap-2 mt-3">
             {images?.length > 0 &&
               images.map((image, i) => {
                 return (
                   <IconImage
                     src={image || ""}
-                    size={100}
+                    size={60}
                     alt="review image"
                     key={i}
+                    className="border rounded-md"
                   />
                 );
               })}

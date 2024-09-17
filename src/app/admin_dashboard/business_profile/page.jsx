@@ -31,7 +31,7 @@ export default async function BusinessPage({ searchParams }) {
   return (
     <div className="rounded-lg space-y-6">
       <div className="flex flex-col justify-center items-center space-y-8">
-        <div className="border p-4 rounded-md w-fit">
+        <div className="border  rounded-md w-fit">
           <BusinessProfileCreateForm
             categories={categories}
             isExit={isExit}

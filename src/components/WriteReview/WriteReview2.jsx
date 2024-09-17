@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
@@ -7,17 +8,18 @@ import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import userIcon from "@/public/icons/customer-review.gif";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MdDelete } from "react-icons/md";
+import FileUploadComponent from "../FileUploadComponent";
 import IconImage from "../IconImage/IconImage";
-import MultipleFileUpload from "../MultipleFileUpload";
 import Rating from "../Rating/Rating";
+import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 import Star from "../Star/Star";
 import { Textarea } from "../ui/textarea";
 
 export function WriteReview2({ profileId }) {
   const { currentUser } = useAuth();
-  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -26,6 +28,7 @@ export function WriteReview2({ profileId }) {
   const [recommendRating, setRecommendRating] = useState(0);
   const [uploadUrl, setUploadUrl] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
   let rating = Math.floor(averageRating);
 
@@ -34,7 +37,7 @@ export function WriteReview2({ profileId }) {
     profileId,
     username: currentUser?.username,
     title,
-    images: [uploadUrl],
+    images: uploadUrl,
     comment,
     rating,
   };
@@ -50,7 +53,7 @@ export function WriteReview2({ profileId }) {
 
       if (review?.status === 200) {
         // router.refresh();
-        router.refresh(`/business/${profileId}/reviews`);
+        setSuccess("Pending we are reviewing your request");
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
@@ -69,6 +72,25 @@ export function WriteReview2({ profileId }) {
     setOpen(!open);
   };
 
+  const handleUploadUrl = (url) => {
+    setUploadUrl((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
+  };
+  const handledelete = async (url) => {
+    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
+
+    try {
+      await axiosInstance.post(`/api/upload/${avatarId}`, {
+        username: currentUser?.username,
+        avatarId,
+        role: "business",
+      });
+      setUploadUrl((prevUrls) =>
+        prevUrls.filter((currentUrl) => currentUrl !== url)
+      );
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
+  };
   return (
     <>
       {profileId !== currentUser?.username && (
@@ -104,6 +126,7 @@ export function WriteReview2({ profileId }) {
                               size={18}
                               rating={serviceRating}
                               setRating={setServiceRating}
+                              required
                             />
                           </div>
                         </div>
@@ -140,22 +163,49 @@ export function WriteReview2({ profileId }) {
                           placeholder="Title"
                           className=" h-10 "
                           onChange={(e) => setTitle(e.target.value)}
+                          required
                         />
 
                         <Textarea
                           placeholder="Type your message here."
                           className="min-h-28"
                           onChange={(e) => setComment(e.target.value)}
+                          required
                         />
                       </div>
                       <div>
-                        <MultipleFileUpload setUploadUrl={setUploadUrl} />
-                        {/* <div className="w-44 h-24 flex  justify-between gap-x-2 mt-4   ">
-                          <ResponsiveImage src={profileImage} />
-                          <ResponsiveImage src={profileImage} />
-                        </div> */}
+                        <FileUploadComponent setUploadUrl={handleUploadUrl} />
+                        <div className=" flex  justify-between gap-x-2 mt-4   ">
+                          {uploadUrl &&
+                            uploadUrl.map((url) => (
+                              <div
+                                key={url}
+                                className="relative group w-24 h-24"
+                              >
+                                <ResponsiveImage
+                                  src={url}
+                                  className="border rounded-md  "
+                                  alt="review image"
+                                />
+
+                                <MdDelete
+                                  className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
+                                  onClick={() => handledelete(url)}
+                                />
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     </div>
+                    {success && (
+                      <p className="p-2 rounded-md text-green-300    ">
+                        Pending!{" "}
+                        <span className="text-red-400">
+                          We're reviewing your request
+                        </span>
+                      </p>
+                    )}
+
                     {/* personal user create */}
                     <button
                       type="submit"

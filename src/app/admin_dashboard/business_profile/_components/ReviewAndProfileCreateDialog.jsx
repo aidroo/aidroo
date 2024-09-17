@@ -9,13 +9,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { brifcaseIcon } from "@/exportImage";
 import axiosInstance from "@/lib/axios";
 
+import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MdDelete } from "react-icons/md";
 import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 
 export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
-  const [uploadUrl, setUploadUrl] = useState(null);
+  const [uploadUrl, setUploadUrl] = useState([]);
+  const [singleImage, setSingleImage] = useState(null);
 
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
@@ -34,7 +38,6 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     email: "",
     password: "",
     role: "personal",
-    profileThumb: "",
     userVerified: false,
     city: "",
     description: "",
@@ -45,7 +48,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     title: "",
     comment: "",
     rating: 0,
-    images: [],
+
     verified: false,
     profileId: profileId,
   };
@@ -67,9 +70,10 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         ...userData,
         ...reviewData,
         rating: averageRating, // Include the calculated rating
-        uploadUrl,
+        images: uploadUrl,
         country: selectedCountry?.name,
         profileId,
+        profileThumb: singleImage,
       });
 
       if (response.status === 201) {
@@ -111,7 +115,23 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
       verified: checked,
     }));
   };
+  const handleUploadUrl = (url) => {
+    setUploadUrl((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
+  };
+  const handledelete = async (url) => {
+    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
 
+    try {
+      await axiosInstance.post(`/api/upload/${avatarId}`, {
+        avatarId,
+      });
+      setUploadUrl((prevUrls) =>
+        prevUrls.filter((currentUrl) => currentUrl !== url)
+      );
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
+  };
   return (
     <DialogContent className="h-screen overflow-hidden overflow-y-auto">
       <DialogTitle></DialogTitle>
@@ -174,14 +194,34 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
               />
             </div>
 
+            <div>
+              <FileUploadComponent setUploadUrl={handleUploadUrl} />
+              <div className=" flex  justify-between gap-x-2 mt-4   ">
+                {uploadUrl &&
+                  uploadUrl.map((url) => (
+                    <div key={url} className="relative group w-24 h-24">
+                      <ResponsiveImage
+                        src={url}
+                        className="border rounded-md  "
+                        alt="review image"
+                      />
+
+                      <MdDelete
+                        className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
+                        onClick={() => handledelete(url)}
+                      />
+                    </div>
+                  ))}
+              </div>
+            </div>
+
             <div className="flex gap-4 items-center">
               <Checkbox
                 checked={reviewData.verified}
                 onCheckedChange={handleCheckboxChange}
               />
+              <Label className="text-sm">Verified</Label>
             </div>
-
-            {/* <FileUploadComponent /> */}
           </div>
         </div>
 
@@ -189,7 +229,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         <div className="flex gap-4 items-center border-b-2 pb-4 border p-4">
           <div className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full w-20 md:w-24 shrink-0 overflow-hidden">
             <IconImage
-              src={uploadUrl || brifcaseIcon}
+              src={singleImage || brifcaseIcon}
               alt="profile image"
               size={100}
               className="rounded-lg"
@@ -197,9 +237,9 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
           </div>
           <div className="max-w-64 space-y-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <FileUploadComponent setUploadUrl={setUploadUrl} />
+              <FileUploadComponent setUploadUrl={setSingleImage} />
             </div>
-            <Button variant="hover" onClick={() => setUploadUrl(null)}>
+            <Button variant="hover" onClick={() => handledelete(singleImage)}>
               Remove Photo
             </Button>
           </div>

@@ -158,125 +158,129 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
   };
 
   return (
-    <div className="border p-4 rounded-md w-fit h-auto">
-      <Dialog>
-        <DialogTrigger asChild>
-          <h1 className="text-primary_color text-xl font-semibold cursor-pointer">
-            Create a Business Profile
-          </h1>
-        </DialogTrigger>
-        <DialogContent className="h-screen overflow-scroll w-[500px]">
-          <div className="border rounded-lg p-10 space-y-6">
-            <div className="flex gap-4 items-center border-b-2 pb-4">
-              <div className="ring-2 ring-primary_color ring-offset-8 rounded-full w-20 md:w-24 overflow-hidden">
-                <ResponsiveImage
-                  src={uploadUrl || brifcaseIcon}
-                  alt="profile image"
-                  width={500}
-                  height={300}
-                />
-              </div>
-              <div>
-                <FileUploadComponent setUploadUrl={setUploadUrl} />
-                {uploadUrl && (
-                  <Button variant="hover" onClick={deleteUploadedFile}>
-                    Remove Photo
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="w-full flex gap-x-2">
-                <Input
-                  type="text"
-                  name="businessName"
-                  placeholder="Business Name"
-                  value={formData.businessName}
-                  onChange={handleInputChange}
-                  className="h-10"
-                />
-                <div
-                  className={`w-full flex items-center border gap-2 h-10 rounded-sm ${
-                    isExit && "border-red-200"
-                  }`}
-                >
-                  <LuUser2 className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm" />
-                  <Input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                    className="flex-grow"
-                    required
-                  />
-                  {!isExit && formData.username && (
-                    <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
-                  )}
+    <>
+      {(currentUser?.role === "admin" || currentUser?.role === "becreator") && (
+        <div className="border p-4 rounded-md w-fit h-auto">
+          <Dialog>
+            <DialogTrigger asChild>
+              <h1 className="text-primary_color text-xl font-semibold cursor-pointer">
+                Create a Business Profile
+              </h1>
+            </DialogTrigger>
+            <DialogContent className="h-screen overflow-scroll w-[500px]">
+              <div className="border rounded-lg p-10 space-y-6">
+                <div className="flex gap-4 items-center border-b-2 pb-4">
+                  <div className="ring-2 ring-primary_color ring-offset-8 rounded-full w-20 md:w-24 overflow-hidden">
+                    <ResponsiveImage
+                      src={uploadUrl || brifcaseIcon}
+                      alt="profile image"
+                      width={500}
+                      height={300}
+                    />
+                  </div>
+                  <div>
+                    <FileUploadComponent setUploadUrl={setUploadUrl} />
+                    {uploadUrl && (
+                      <Button variant="hover" onClick={deleteUploadedFile}>
+                        Remove Photo
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <div className="w-full flex gap-x-2">
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="h-10"
-                  required
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="h-10"
-                  required
-                />
-              </div>
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div className="w-full flex gap-x-2">
+                    <Input
+                      type="text"
+                      name="businessName"
+                      placeholder="Business Name"
+                      value={formData.businessName}
+                      onChange={handleInputChange}
+                      className="h-10"
+                    />
+                    <div
+                      className={`w-full flex items-center border gap-2 h-10 rounded-sm ${
+                        isExit && "border-red-200"
+                      }`}
+                    >
+                      <LuUser2 className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm" />
+                      <Input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        className="flex-grow"
+                        required
+                      />
+                      {!isExit && formData.username && (
+                        <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
+                      )}
+                    </div>
+                  </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <SelectComponent
-                  options={categories}
-                  value={selectedCategory?.name || ""}
-                  onChange={(value) =>
-                    setSelectedCategory(
-                      categories.find((cat) => cat.name === value)
-                    )
-                  }
-                  placeholder="Category"
-                />
-                {/* <Combobox
+                  <div className="w-full flex gap-x-2">
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="h-10"
+                      required
+                    />
+                    <Input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="h-10"
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SelectComponent
+                      options={categories}
+                      value={selectedCategory?.name || ""}
+                      onChange={(value) =>
+                        setSelectedCategory(
+                          categories.find((cat) => cat.name === value)
+                        )
+                      }
+                      placeholder="Category"
+                    />
+                    {/* <Combobox
                   selectedCategory={selectedCategory}
                   setSelectedCategory={setSelectedCategory}
                   options={categories}
                   placeholder="Category"
                 /> */}
-                <SelectComponent
-                  options={subcategories}
-                  value={selectedSubcategory?.name || ""}
-                  onChange={(value) =>
-                    setSelectedSubcategory(
-                      subcategories.find((sub) => sub.name === value)
-                    )
-                  }
-                  placeholder="Subcategory"
-                />
-              </div>
+                    <SelectComponent
+                      options={subcategories}
+                      value={selectedSubcategory?.name || ""}
+                      onChange={(value) =>
+                        setSelectedSubcategory(
+                          subcategories.find((sub) => sub.name === value)
+                        )
+                      }
+                      placeholder="Subcategory"
+                    />
+                  </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <SelectComponent
-                  options={countries}
-                  value={selectedCountry?.name || ""}
-                  onChange={(value) =>
-                    setSelectedCountry(countries.find((c) => c.name === value))
-                  }
-                  placeholder="Country"
-                />
-                {/* <OptionSelect
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <SelectComponent
+                      options={countries}
+                      value={selectedCountry?.name || ""}
+                      onChange={(value) =>
+                        setSelectedCountry(
+                          countries.find((c) => c.name === value)
+                        )
+                      }
+                      placeholder="Country"
+                    />
+                    {/* <OptionSelect
                   label="Select a country"
                   options={countries}
                   onChange={(value) =>
@@ -284,58 +288,64 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
                   }
                   className={`text-gray-600 ${font14} h-10`}
                 /> */}
-                <Input
-                  type="text"
-                  name="city"
-                  placeholder="City"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className="h-10"
-                />
-                <Input
-                  type="number"
-                  name="funds"
-                  placeholder="Total funds"
-                  value={formData.funds}
-                  onChange={handleInputChange}
-                  className="h-10"
-                />
-                <Input
-                  type="number"
-                  name="employees"
-                  placeholder="Total Employees"
-                  value={formData.employees}
-                  onChange={handleInputChange}
-                  className="h-10"
-                />
-              </div>
+                    <Input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      className="h-10"
+                    />
+                    <Input
+                      type="number"
+                      name="funds"
+                      placeholder="Total funds"
+                      value={formData.funds}
+                      onChange={handleInputChange}
+                      className="h-10"
+                    />
+                    <Input
+                      type="number"
+                      name="employees"
+                      placeholder="Total Employees"
+                      value={formData.employees}
+                      onChange={handleInputChange}
+                      className="h-10"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Textarea
-                  name="description"
-                  placeholder="Description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Textarea
+                      name="description"
+                      placeholder="Description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
-              <div className="flex gap-4 items-center">
-                <Checkbox
-                  checked={verified}
-                  onCheckedChange={(e) => setVerified(e)}
-                />
-                <Label>Verified</Label>
-              </div>
-              <Button type="submit" className="w-full h-10" disabled={loading}>
-                {loading ? <Spinner /> : "Submit"}
-              </Button>
+                  <div className="flex gap-4 items-center">
+                    <Checkbox
+                      checked={verified}
+                      onCheckedChange={(e) => setVerified(e)}
+                    />
+                    <Label>Verified</Label>
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full h-10"
+                    disabled={loading}
+                  >
+                    {loading ? <Spinner /> : "Submit"}
+                  </Button>
 
-              {apiError && <div className="text-red-500">{apiError}</div>}
-              {message && <div className="text-green-500">{message}</div>}
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+                  {apiError && <div className="text-red-500">{apiError}</div>}
+                  {message && <div className="text-green-500">{message}</div>}
+                </form>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
+    </>
   );
 }

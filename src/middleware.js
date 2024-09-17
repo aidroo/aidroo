@@ -80,28 +80,35 @@ export async function middleware(request) {
   // If the user is authenticated
   if (decodedToken) {
     const userRole = decodedToken.role;
-    console.log("peros", userRole);
-    // Prevent business users from accessing personal_dashboard and vice versa
+
+    console.log("middlewares", userRole);
+
+    // Allow access based on roles
+    if (path.startsWith("/personal_dashboard") && userRole !== "personal") {
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+
+    if (path.startsWith("/business_dashboard") && userRole !== "business") {
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+
+    // Allow other roles to access all routes
     if (path.startsWith("/admin_dashboard")) {
-      if (userRole !== "admin") {
-        return NextResponse.redirect(new URL("/login", request.nextUrl));
-      }
+      return NextResponse.next();
     }
 
     // Prevent logged-in users from accessing login/signup pages
     if (isPublicPath) {
-      // Redirect based on user role
-      if (userRole === "business" || userRole !== "admin") {
+      if (userRole === "business") {
         return NextResponse.redirect(
           new URL("/business_dashboard", request.nextUrl)
         );
       }
-      if (userRole === "personal" || userRole !== "admin") {
+      if (userRole === "personal") {
         return NextResponse.redirect(
           new URL("/personal_dashboard", request.nextUrl)
         );
       }
-
       // Default redirect for other roles
       return NextResponse.redirect(new URL("/", request.nextUrl));
     }
@@ -111,7 +118,7 @@ export async function middleware(request) {
   }
 
   // If the user is not authenticated and accessing a protected path, redirect to login
-  if (!isPublicPath && !decodedToken) {
+  if (!isPublicPath) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 
@@ -125,7 +132,7 @@ export const config = {
     "/business_dashboard/:path*",
     "/personal_dashboard/:path*",
     "/login",
-    "/signup/business/:path*", // Protect signup business
-    "/signup/personal/:path*", // Protect signup personal
+    "/signup/business/:path*",
+    "/signup/personal/:path*",
   ],
 };

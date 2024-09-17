@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAuth } from "@/hooks/useAuth";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
@@ -19,6 +20,7 @@ import ProfileEditDialog from "./ProfileEditDialog";
 export default function ProfileTable({ profiles = [] }) {
   const [currentProfileId, setCurrentProfileId] = useState(null);
 
+  const { currentUser } = useAuth();
   if (profiles.length === 0) return <Notfound />;
 
   // Function to handle dialog open
@@ -37,7 +39,10 @@ export default function ProfileTable({ profiles = [] }) {
             <TableHead className="text-sm">Status</TableHead>
             <TableHead className="text-sm">Hiring</TableHead>
             <TableHead className="text-sm">Verified</TableHead>
-            <TableHead className="text-sm">Actions</TableHead>
+            {currentUser?.role === "editor" ||
+              (currentUser?.role === "admin" && (
+                <TableHead className="text-sm">Actions</TableHead>
+              ))}
           </TableRow>
         </TableHeader>
         <TableBody>

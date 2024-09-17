@@ -21,10 +21,6 @@ import TravelsandHotels from "@/asserts/categories-icons/TravelsandHotels.svg";
 import applePlay from "@/public/icons/apple.svg";
 import googlePlay from "@/public/icons/google.svg";
 
-// TOKEN_SECRET=srikanto
-// TOKEN_SECRET_EXPIRE=1d
-
-// DATABASE_URL=mysql://root:password@localhost:3306/db
 import {
   crossmark,
   guaranteedbadge,
@@ -261,146 +257,173 @@ export const businessSidebarOptions = [
   {
     name: "Business info",
     href: "/business_dashboard/business_info",
+    roles: ["admin", "business"],
   },
 
   {
     name: "Timeline",
     href: "/business_dashboard/schedule",
+    roles: ["admin", "business"],
   },
   {
     name: "Reviews",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Messages",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Notifications",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Orders",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Payments",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Security",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "More",
     href: "#",
+    roles: ["admin", "business"],
   },
   {
     name: "Pricing Plan",
     href: "#",
+    roles: ["admin", "business"],
   },
 ];
 export const personalSidebarOptions = [
   {
     name: "Personal info",
     href: "/personal_dashboard/personal_info",
+    roles: ["admin", "personal"],
   },
 
   {
     name: "Timeline",
     href: "/personal_dashboard/schedule",
+    roles: ["admin", "personal"],
   },
   {
     name: "Reviews",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Messages",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Notifications",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Orders",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Payments",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Security",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "More",
     href: "#",
+    roles: ["admin", "personal"],
   },
   {
     name: "Pricing Plan",
     href: "#",
+    roles: ["admin", "personal"],
   },
 ];
 export const adminDashboardSidebarLinks = [
   {
     name: "Categories",
     href: "/admin_dashboard/categories",
+    roles: ["admin"], // Only admin can see this link
   },
-
   {
     name: "Business Profile",
     href: "/admin_dashboard/business_profile",
+    roles: ["admin"], // Only admin
   },
   {
     name: "Personal Profile",
     href: "/admin_dashboard/personal_profile",
+    roles: ["admin", "reviewer"], // Both admin and reviewers can see this
   },
   {
     name: "Jobs",
     href: "/admin_dashboard/jobs",
+    roles: ["admin", "creator"], // Admin and creators can see this
   },
   {
     name: "Reviews",
     href: "/admin_dashboard/reviews",
+    roles: ["admin", "reviewer", "editor"], // Admin and reviewers can see this
   },
   {
     name: "Messages",
     href: "/admin_dashboard/messages",
+    roles: ["admin", "becreator", "reviewer"], // All roles
   },
   {
     name: "Notifications",
     href: "/admin_dashboard/notifications",
+    roles: ["admin"],
   },
-
   {
     name: "Blog Article",
     href: "/admin_dashboard/article",
+    roles: ["admin", "creator"],
   },
   {
     name: "Pricing Plan",
-    href: "/admin_dashboard/article",
+    href: "/admin_dashboard/pricing_plan",
+    roles: ["admin"],
   },
   {
     name: "Deals on Aidroo",
-    href: "/admin_dashboard/article",
+    href: "/admin_dashboard/deals",
+    roles: ["admin"],
   },
   {
     name: "Request Review",
-    href: "/admin_dashboard/article",
-  },
-  {
-    name: "Request Review",
-    href: "#",
+    href: "/admin_dashboard/request_review",
+    roles: ["admin", "reviewer"],
   },
   {
     name: "Support",
-    href: "/admin_dashboard/booking",
+    href: "/admin_dashboard/support",
+    roles: ["admin", "creator", "reviewer"],
   },
   {
     name: "Admin Users",
     href: "/admin_dashboard/admin-user",
+    roles: ["admin"],
   },
 ];
 

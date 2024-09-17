@@ -72,6 +72,8 @@ export async function POST(req) {
         message: "Still we are reviewing !",
       });
     }
+
+    console.log(user);
     // Generate JWT token
     const accessToken = await generateAccessToken({
       username: user.username,

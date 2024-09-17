@@ -12,6 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import ProfileEditDialog from "./ProfileEditDialog";
@@ -19,6 +21,11 @@ import ReviewAndProfileCreateDialog from "./ReviewAndProfileCreateDialog";
 
 export default function ProfileTable({ profiles, isExit }) {
   const [currentProfileId, setCurrentProfileId] = useState(null);
+
+  const { currentUser } = useAuth();
+  // const currentUser = {
+  //   role: "editor",
+  // };
 
   if (profiles.length === 0) return <Notfound />;
 
@@ -50,19 +57,36 @@ export default function ProfileTable({ profiles, isExit }) {
             <TableHead className="text-lg text-gray-700 font-medium flex items-center mt-2 gap-x-2">
               Top Guaranteed
             </TableHead>
-            <TableHead className="text-lg text-gray-700 font-medium">
-              Action
-            </TableHead>
-            <TableHead className="text-lg text-gray-700 font-medium">
-              Write Review
-            </TableHead>
+            {(currentUser?.role == "admin" ||
+              currentUser?.role == "editor") && (
+              <TableHead className="text-lg text-gray-700 font-medium">
+                Action
+              </TableHead>
+            )}
+            {(currentUser?.role == "admin" ||
+              currentUser?.role == "reviewer") && (
+              <TableHead className="text-lg text-gray-700 font-medium">
+                Write Review
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {profiles?.length > 0 &&
             profiles?.map((profile) => (
               <TableRow key={profile.email}>
-                <TableCell>{profile?.businessProfile?.businessName}</TableCell>
+                {currentUser.role === "admin" ? (
+                  <TableCell>
+                    <Link href={`/business/${profile?.username}`}>
+                      {profile?.businessProfile?.businessName}
+                    </Link>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    {profile?.businessProfile?.businessName}
+                  </TableCell>
+                )}
+
                 <TableCell className="font-medium">
                   {profile?.businessProfile?.category}
                 </TableCell>
@@ -99,40 +123,46 @@ export default function ProfileTable({ profiles, isExit }) {
                   </div>
                 </TableCell>
                 {/* Profile edit dialog */}
-                <TableCell>
-                  <Dialog
-                    onOpenChange={(open) =>
-                      open && handleOpen(profile.username)
-                    }
-                  >
-                    <DialogTrigger asChild>
-                      <FaRegEdit className="text-lg cursor-pointer" />
-                    </DialogTrigger>
-                    <ProfileEditDialog
-                      username={profile.username}
-                      currentStatus={profile?.businessProfile?.status}
-                      currentVerified={profile?.businessProfile?.verified}
-                      currentTop={profile?.businessProfile?.top}
-                      currentGuaranteed={profile?.businessProfile?.guaranteed}
-                    />
-                  </Dialog>
-                </TableCell>
+                {(currentUser?.role == "admin" ||
+                  currentUser?.role == "editor") && (
+                  <TableCell>
+                    <Dialog
+                      onOpenChange={(open) =>
+                        open && handleOpen(profile.username)
+                      }
+                    >
+                      <DialogTrigger asChild>
+                        <FaRegEdit className="text-lg cursor-pointer" />
+                      </DialogTrigger>
+                      <ProfileEditDialog
+                        username={profile.username}
+                        currentStatus={profile?.businessProfile?.status}
+                        currentVerified={profile?.businessProfile?.verified}
+                        currentTop={profile?.businessProfile?.top}
+                        currentGuaranteed={profile?.businessProfile?.guaranteed}
+                      />
+                    </Dialog>
+                  </TableCell>
+                )}
                 {/* Profile and review create dialog */}
-                <TableCell>
-                  <Dialog
-                    onOpenChange={(open) =>
-                      open && handleOpen(profile.username)
-                    }
-                  >
-                    <DialogTrigger asChild>
-                      <Button variant="outline">Write</Button>
-                    </DialogTrigger>
-                    <ReviewAndProfileCreateDialog
-                      profileId={currentProfileId}
-                      isExit={isExit}
-                    />
-                  </Dialog>
-                </TableCell>
+                {(currentUser?.role == "admin" ||
+                  currentUser?.role == "reviewer") && (
+                  <TableCell>
+                    <Dialog
+                      onOpenChange={(open) =>
+                        open && handleOpen(profile.username)
+                      }
+                    >
+                      <DialogTrigger asChild>
+                        <Button variant="outline">Write</Button>
+                      </DialogTrigger>
+                      <ReviewAndProfileCreateDialog
+                        profileId={currentProfileId}
+                        isExit={isExit}
+                      />
+                    </Dialog>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
         </TableBody>
