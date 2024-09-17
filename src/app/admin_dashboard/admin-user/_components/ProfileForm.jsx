@@ -19,27 +19,19 @@ export default function ProfileForm() {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  console.log(userData);
   const options = [
-    {
-      value: "personal",
-      name: "personal",
-    },
-    {
-      value: "business",
-      name: "business",
-    },
     {
       value: "admin",
       name: "admin",
     },
+
     {
       value: "reviewer",
       name: "reviewer",
     },
     {
-      value: "reviewer",
-      name: "reviewer",
+      value: "editor",
+      name: "editor",
     },
     {
       value: "creator",
