@@ -34,8 +34,8 @@ export default function ProfileForm() {
       name: "editor",
     },
     {
-      value: "creator",
-      name: "creator",
+      value: "becreator",
+      name: "becreator",
     },
   ];
 
