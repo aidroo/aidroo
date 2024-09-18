@@ -3,15 +3,17 @@
 "use client";
 import { font16 } from "@/constant";
 import {
+  addyourbusiness,
   brifcaseIcon,
   businessIcon,
   categoryImage,
   helpIcon,
   logo,
+  messageIcon,
+  myReview,
+  notificationIcon,
   pageIcon,
-  profilePic,
   user,
-  verifiedIcon,
   whitesearch,
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
@@ -24,19 +26,21 @@ import Heading from "./Heading";
 import IconImage from "./IconImage/IconImage";
 import LogOutSvg from "./logoutIcon/LogOutSvg";
 import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
+import TitleNameAndVerified from "./TitleNameAndVerified";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
 export default function MobileMenu() {
   const { currentUser, logout } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [humberOpen, setHumberOpen] = useState(false);
 
@@ -109,7 +113,7 @@ export default function MobileMenu() {
         </div>
 
         <SheetContent>
-          <SheetHeader className=" w-full flex justify-center items-center h-24 bg-[#002A64]">
+          <SheetHeader className=" w-full flex  items-start h-24 bg-[#002A64]">
             {!currentUser ? (
               <div className="w-32">
                 <Link href="/">
@@ -122,23 +126,25 @@ export default function MobileMenu() {
                 </Link>
               </div>
             ) : (
-              <div className="bg-[#002A64] p-4 flex items-center gap-4 ">
-                <Avatar>
-                  <AvatarImage src={profilePic} alt="@shadcn" />
-                  <AvatarFallback>
-                    <IconImage src={user} />
-                  </AvatarFallback>
+              <div className="bg-[#002A64] p-4 flex items-start gap-4 ">
+                <Avatar className="w-16 h-16">
+                  <AvatarImage
+                    src={currentUser?.profile?.profileThumb || user}
+                    alt="@shadcn"
+                  />
                 </Avatar>
-                <div className="text-white flex gap-4   ">
-                  <div>
-                    <Heading size="sm">
-                      {currentUser?.profile?.businessName ||
-                        currentUser?.profile?.fullName}
-                    </Heading>
-                    <Heading size="xs">{currentUser?.username}</Heading>
-                  </div>
+                <div className="text-white flex  items-start justify-start flex-col   ">
+                  <TitleNameAndVerified
+                    title={
+                      currentUser?.profile?.businessName ||
+                      currentUser?.profile?.fullName
+                    }
+                    className="text-white"
+                    verified={currentUser?.profile?.verified}
+                  />
 
-                  <IconImage src={verifiedIcon} size={18} />
+                  <p>{currentUser?.username}</p>
+
                   {/* <IconImage src={ver} /> */}
                 </div>
               </div>
@@ -160,10 +166,67 @@ export default function MobileMenu() {
                     <Heading size="xs">Explore job</Heading>
                   </Button>
                 </div>
+                {/* business profile */}
+                {currentUser?.role === "business" && (
+                  <Link
+                    href={`/business/${currentUser?.username}`}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={addyourbusiness} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>My profile</h1>
+                  </Link>
+                )}
+                {/* personal profile */}
+                {currentUser?.role === "personal" && (
+                  <Link
+                    href={`/personal_dashboard `}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={addyourbusiness} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>My profile</h1>
+                  </Link>
+                )}
+                {/* business review */}
+                {currentUser?.role === "business" && (
+                  <Link
+                    href={`/business/${currentUser?.username}`}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={myReview} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>Review</h1>
+                  </Link>
+                )}
+                {/* messages */}
+                <Link
+                  href={`#`}
+                  className="flex items-center gap-4 border-b pb-4"
+                >
+                  <IconImage src={messageIcon} size={20} alt="icon" />
+                  <h1 className={`${font16}`}>Messages</h1>
+                </Link>
+                {/* notification */}
+                <Link
+                  href={`#`}
+                  className="flex items-center gap-4 border-b pb-4"
+                >
+                  <IconImage src={notificationIcon} size={20} alt="icon" />
+                  <h1 className={`${font16}`}>Notification</h1>
+                </Link>
+                {/* my order */}
+                <Link
+                  href={`#`}
+                  className="flex items-center gap-4 border-b pb-4"
+                >
+                  <IconImage src={myReview} size={20} alt="icon" />
+                  <h1 className={`${font16}`}>My Order</h1>
+                </Link>
+
                 <div className="flex items-center gap-4 border-b pb-4">
                   <IconImage src={brifcaseIcon} size={20} alt="icon" />
                   <h1 className={`${font16}`}>For Business</h1>
                 </div>
+
+                {/* category */}
                 <Link
                   href="/category"
                   className="flex items-center gap-4 border-b pb-4"
@@ -171,6 +234,7 @@ export default function MobileMenu() {
                   <IconImage src={categoryImage} size={20} alt="icon" />
                   <h1 className={`${font16}`}>Categories</h1>
                 </Link>
+                {/* pages */}
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
                     <div className="flex items-center gap-4 no-underline  ">
@@ -187,10 +251,12 @@ export default function MobileMenu() {
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
+                {/* pricing plan */}
                 <div className="flex items-center gap-4 border-b pb-4 ">
                   <IconImage src={businessIcon} size={20} alt="icon" />
                   <h1 className={`${font16}`}>Business Pricing Plan</h1>
                 </div>
+
                 <div className="flex items-center gap-4 collapse-content border-b pb-4 ">
                   <IconImage src={helpIcon} size={20} alt="icon" />
                   <h1 className={`${font16}`}> Help and Support</h1>

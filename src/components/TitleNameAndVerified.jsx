@@ -14,13 +14,14 @@ export default function TitleNameAndVerified({
   verified = false,
   isShown = false,
   personalVerified = false,
+  className = "",
 }) {
   return (
     <div
       className={`text-gray-600 ${font18} font-semibold block`}
       style={{ width: "100%" }}
     >
-      <span className="text-justify">{title}</span>
+      <span className={`text-justify ${className}`}>{title}</span>
       {verified && (
         <TooltipProvider>
           <Tooltip>

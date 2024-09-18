@@ -14,8 +14,8 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
 export default function ProfileTable({ profiles }) {
-  const [deleteLoading, setDeleteLoading] = useState();
-  const [error, setError] = useState("");
+  const [, setDeleteLoading] = useState();
+  const [, setError] = useState("");
   const router = useRouter();
 
   if (profiles.length === 0) return <Notfound />;

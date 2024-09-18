@@ -29,7 +29,7 @@ export function WriteReview2({ profileId }) {
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
   const [uploadUrl, setUploadUrl] = useState([]);
-  const [loading, setLoading] = useState(false);
+
   const [success, setSuccess] = useState("");
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
   let rating = Math.floor(averageRating);
@@ -49,15 +49,19 @@ export function WriteReview2({ profileId }) {
     if (!title && !comment && !rating) return;
 
     try {
-      setLoading(true);
       setClicked(true);
       setShowAnimation(true);
+      setSuccess("");
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 700);
       const review = await axiosInstance.post("/api/review", reviewData);
 
       if (review?.status === 200) {
         setTitle("");
         setComment("");
         setSuccess("Pending we are reviewing your request");
+        // 2000ms = 2 seconds
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
@@ -67,9 +71,7 @@ export function WriteReview2({ profileId }) {
       setRecommendRating(0);
       setServiceRating(0);
       setValueRating(0);
-      setLoading(false);
       setClicked(false);
-      setShowAnimation(false);
     }
   };
   const handleChange = () => {
@@ -222,7 +224,7 @@ export function WriteReview2({ profileId }) {
                       </div>
                     </div>
                     {success && (
-                      <p className="p-2 rounded-md text-green-300    ">
+                      <p className="  rounded-md text-primary_color bg-primary_color/10 p-2 text-center  ">
                         Pending!{" "}
                         <span className="text-red-400">
                           We're reviewing your request
@@ -234,11 +236,11 @@ export function WriteReview2({ profileId }) {
                     <div className="relative">
                       <button
                         type="submit"
-                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-white ${
+                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-white    items-center ${
                           clicked ? "bg-primary_color" : "bg-primary_color"
                         }`}
                       >
-                        {loading ? "Submitting.." : "Submit Review"}
+                        {"Submit Review"}
                       </button>
                       {showAnimation && (
                         <div className=" absolute -top-12 -left-8">
