@@ -83,7 +83,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         // Clear the form after successful submission
         setUserData(initialUserData); // Reset user data
         setReviewData({ ...initialReviewData, profileId }); // Reset review data with profileId
-        setUploadUrl(null); // Clear uploaded image URL
+        setUploadUrl([]); // Clear uploaded image URL
         setServiceRating(0); // Reset service rating
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating

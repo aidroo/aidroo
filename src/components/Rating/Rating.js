@@ -41,16 +41,18 @@ const Rating = ({ isEditable = false, value, size, rating, setRating }) => {
   return (
     <>
       {[1, 2, 3, 4, 5].map((index) => (
-        <Star
-          key={index}
-          colorClass={getColorClass(index)}
-          onClick={handleRatingChange}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          index={index}
-          isEditable={isEditable}
-          size={size}
-        />
+        <>
+          <Star
+            key={index}
+            colorClass={getColorClass(index)}
+            onClick={handleRatingChange}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            index={index}
+            isEditable={isEditable}
+            size={size}
+          />
+        </>
       ))}
     </>
   );

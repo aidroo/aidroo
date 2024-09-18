@@ -12,6 +12,7 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import FileUploadComponent from "../FileUploadComponent";
 import IconImage from "../IconImage/IconImage";
+import JsonComponent from "../JonImg";
 import Rating from "../Rating/Rating";
 import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 import Star from "../Star/Star";
@@ -19,6 +20,7 @@ import { Textarea } from "../ui/textarea";
 
 export function WriteReview2({ profileId }) {
   const { currentUser } = useAuth();
+  const [showAnimation, setShowAnimation] = useState(false);
 
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
@@ -49,23 +51,25 @@ export function WriteReview2({ profileId }) {
     try {
       setLoading(true);
       setClicked(true);
+      setShowAnimation(true);
       const review = await axiosInstance.post("/api/review", reviewData);
 
       if (review?.status === 200) {
-        // router.refresh();
+        setTitle("");
+        setComment("");
         setSuccess("Pending we are reviewing your request");
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
     } finally {
-      setTitle("");
-      setUploadUrl(null);
-      setComment("");
+      setUploadUrl([]);
+
       setRecommendRating(0);
       setServiceRating(0);
       setValueRating(0);
       setLoading(false);
       setClicked(false);
+      setShowAnimation(false);
     }
   };
   const handleChange = () => {
@@ -100,6 +104,7 @@ export function WriteReview2({ profileId }) {
               <IconImage src={userIcon} size={50} alt="user" />
 
               <h1 className="text-primary">Write Review</h1>
+
               <div className="flex gap-1">
                 <Star colorClass="initial" />
                 <Star colorClass="initial" />
@@ -118,40 +123,59 @@ export function WriteReview2({ profileId }) {
                     <div>
                       <div className=" grid grid-cols-1 md:grid-cols-3 gap-y-4 ">
                         <div>
-                          <h1 className="text-xl">Value</h1>
-                          <div className="flex gap-1">
-                            <Rating
-                              value={serviceRating}
-                              isEditable
-                              size={18}
-                              rating={serviceRating}
-                              setRating={setServiceRating}
-                              required
-                            />
+                          <h1 className="text-xl flex">Service</h1>
+                          <div className="flex">
+                            <div className="flex gap-1">
+                              <Rating
+                                value={serviceRating}
+                                isEditable
+                                size={18}
+                                rating={serviceRating}
+                                setRating={setServiceRating}
+                                required
+                              />
+                            </div>
+                            {/* <JsonComponent
+                              className=" -mt-2"
+                              number={serviceRating}
+                            /> */}
                           </div>
                         </div>
                         <div>
-                          <h1 className="text-xl">Value</h1>
-                          <div className="flex gap-1">
-                            <Rating
-                              value={valueRating}
-                              isEditable
-                              size={18}
-                              rating={valueRating}
-                              setRating={setValueRating}
-                            />
+                          <h1 className="text-xl  ">Value</h1>
+                          <div className="flex">
+                            <div className="flex gap-1">
+                              <Rating
+                                value={valueRating}
+                                isEditable
+                                size={18}
+                                rating={valueRating}
+                                setRating={setValueRating}
+                              />
+                            </div>
+
+                            {/* <JsonComponent
+                              className=" -mt-2"
+                              number={valueRating}
+                            /> */}
                           </div>
                         </div>
                         <div>
                           <h1 className="text-xl">Recommended</h1>
-                          <div className="flex gap-1">
-                            <Rating
-                              value={recommendRating}
-                              isEditable
-                              size={18}
-                              rating={recommendRating}
-                              setRating={setRecommendRating}
-                            />
+                          <div className="flex">
+                            <div className="flex gap-1">
+                              <Rating
+                                value={recommendRating}
+                                isEditable
+                                size={18}
+                                rating={recommendRating}
+                                setRating={setRecommendRating}
+                              />
+                            </div>
+                            {/* <JsonComponent
+                              className=" -mt-2"
+                              number={recommendRating}
+                            /> */}
                           </div>
                         </div>
                       </div>
@@ -207,15 +231,23 @@ export function WriteReview2({ profileId }) {
                     )}
 
                     {/* personal user create */}
-                    <button
-                      type="submit"
-                      className={`flex gap-4 px-4 py-2 rounded-md   ${
-                        clicked ? "bg-gray-500" : "bg-primary_color"
-                      }`}
-                    >
-                      {loading ? "Submitting.." : "Write Review"}
-                    </button>
-                    {/* personal user create end */}
+                    <div className="relative">
+                      <button
+                        type="submit"
+                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-gray-700  ${
+                          clicked ? "" : "bg-primary_color/20"
+                        }`}
+                      >
+                        {loading ? "Submitting.." : "Submit Review"}
+                      </button>
+                      {showAnimation && (
+                        <div className=" absolute -top-6">
+                          <JsonComponent
+                            shouldLoop={true} // Set to true to loop the animation
+                          />
+                        </div>
+                      )}
+                    </div>
                   </form>
                 </div>
               ) : (
