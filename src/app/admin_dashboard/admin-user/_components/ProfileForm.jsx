@@ -4,17 +4,24 @@ import SelectComponent from "@/components/SelectInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/lib/axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineMail } from "react-icons/md";
 
 export default function ProfileForm() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState("");
   const [userData, setUserData] = useState({
     email: "",
     username: "",
+    firstName: "",
+    lastName: "",
     role: "",
     password: "",
     confirmPassword: "",
   });
+  const router = useRouter();
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
@@ -41,8 +48,9 @@ export default function ProfileForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setApiError("");
-    // setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
     const { confirmPassword, ...dataToSend } = userData;
 
     if (userData.password !== confirmPassword) {
@@ -53,29 +61,29 @@ export default function ProfileForm() {
     try {
       // setLoading(true);
       const response = await axiosInstance.post("/api/user", dataToSend);
-      console.log(response.json());
+      console.log(response);
       if (response.data.status === 201) {
-        // setSuccess("Pending! We're reviewing your request");
+        setSuccess(response.data.message);
         // Reset form fields after successful submission
-        // setUserData({
-        //   businessName: "",
-        //   username: "",
-        //   email: "",
-        //   password: "",
-        //   confirmPassword: "",
-        //   phoneNumber: "",
-        //   role: "business",
-        //   country: "United States",
-        //   city: "",
-        //   address: "",
-        // });
+        setUserData({
+          firstName: "",
+          lastName: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+
+          role: "",
+        });
+
+        router.refresh("/admin_dashboard/admin-user");
       } else {
-        // setApiError(response.data.message || "Something went wrong");
+        setError(response.data.message || "Something went wrong");
       }
     } catch (error) {
       // setApiError("Error occurred during registration. Try again.");
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
   return (
@@ -90,6 +98,24 @@ export default function ProfileForm() {
         onSubmit={handleSubmit}
       >
         <div className="space-y-4">
+          <div className="flex gap-x-4">
+            <Input
+              type="test"
+              placeholder="First Name"
+              name="firstName"
+              value={userData.firstName}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              type="test"
+              placeholder="Last Name"
+              name="lastName"
+              value={userData.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <div className="flex gap-x-4">
             <Input
               type="email"
@@ -135,8 +161,13 @@ export default function ProfileForm() {
             placeholder="User role"
           />
         </div>
+
+        {success && (
+          <h1 className="text-green-400 bg-green-100 p-2">{success}</h1>
+        )}
+        {error && <h1 className="text-red-400 bg-red-100 p-2">{error}</h1>}
         <Button variant="outline" className="w-2/3 bg-primary_color">
-          Submit
+          {loading ? "Submitting...." : "Submit"}
         </Button>
       </form>
     </div>

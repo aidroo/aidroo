@@ -81,7 +81,7 @@ export async function middleware(request) {
   if (decodedToken) {
     const userRole = decodedToken.role;
 
-    console.log("middlewares", userRole);
+    // console.log("middlewares", userRole);
 
     // Allow access based on roles
     if (path.startsWith("/personal_dashboard") && userRole !== "personal") {

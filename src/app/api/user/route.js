@@ -79,17 +79,7 @@ export async function POST(req) {
     // Perform additional operations asynchronously
     (async () => {
       try {
-        if (role === "personal") {
-          await db.PersonalProfile.create({
-            username: user.username,
-            firstName,
-            lastName,
-            dob,
-            verified,
-            profileThumb,
-            gender,
-          });
-        } else if (role === "business") {
+        if (role === "business") {
           await db.BusinessProfile.create({
             username: user.username,
             businessName,
@@ -104,6 +94,16 @@ export async function POST(req) {
             status,
 
             verified,
+          });
+        } else {
+          await db.PersonalProfile.create({
+            username: user.username,
+            firstName,
+            lastName,
+            dob,
+            verified,
+            profileThumb,
+            gender,
           });
         }
 
