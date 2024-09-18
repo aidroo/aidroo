@@ -363,12 +363,12 @@ export const adminDashboardSidebarLinks = [
   {
     name: "Categories",
     href: "/admin_dashboard/categories",
-    roles: ["admin"], // Only admin can see this link
+    roles: ["admin", "editor", ""],
   },
   {
     name: "Business Profile",
     href: "/admin_dashboard/business_profile",
-    roles: ["admin"], // Only admin
+    roles: ["admin", "editor", "becreator", "reviewer"], // Only admin
   },
   {
     name: "Personal Profile",
@@ -377,48 +377,51 @@ export const adminDashboardSidebarLinks = [
   },
   {
     name: "Jobs",
-    href: "/admin_dashboard/jobs",
-    roles: ["admin", "creator"], // Admin and creators can see this
+    // href: "/admin_dashboard/jobs",
+    href: "#",
+    roles: ["admin", "editor", "moderator"], // Admin and creators can see this
   },
   {
     name: "Reviews",
     href: "/admin_dashboard/reviews",
-    roles: ["admin", "reviewer", "editor"], // Admin and reviewers can see this
+    roles: ["admin", "editor", "moderator"], // Admin and reviewers can see this
   },
   {
     name: "Messages",
-    href: "/admin_dashboard/messages",
+    href: "#",
     roles: ["admin", "becreator", "reviewer"], // All roles
   },
   {
     name: "Notifications",
-    href: "/admin_dashboard/notifications",
-    roles: ["admin"],
+    href: "#",
+    roles: ["admin", "editor", "moderator"],
   },
   {
     name: "Blog Article",
-    href: "/admin_dashboard/article",
-    roles: ["admin", "creator"],
+    href: "#",
+    roles: ["admin", "editor"],
   },
-  {
-    name: "Pricing Plan",
-    href: "/admin_dashboard/pricing_plan",
-    roles: ["admin"],
-  },
+  // {
+  //   name: "Pricing Plan",
+  //   href: "/admin_dashboard/pricing_plan",
+  //   roles: ["admin", "editor"],
+  // },
   {
     name: "Deals on Aidroo",
-    href: "/admin_dashboard/deals",
-    roles: ["admin"],
+    href: "#",
+    roles: ["admin", "editor"],
   },
   {
     name: "Request Review",
-    href: "/admin_dashboard/request_review",
-    roles: ["admin", "reviewer"],
+    href: "#",
+    // href: "/admin_dashboard/request_review",
+    roles: ["admin", "editor", "moderator"],
   },
   {
     name: "Support",
-    href: "/admin_dashboard/support",
-    roles: ["admin", "creator", "reviewer"],
+    href: "#",
+    // href: "/admin_dashboard/support",
+    roles: ["admin", "editor", "moderator"],
   },
   {
     name: "Admin Users",

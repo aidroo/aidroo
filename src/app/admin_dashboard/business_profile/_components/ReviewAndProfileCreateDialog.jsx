@@ -39,6 +39,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
     password: "",
     role: "personal",
     userVerified: false,
+    status: "approved",
     city: "",
     description: "",
     address: "",
@@ -87,6 +88,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating
         setSelectedCountry(null);
+        setSingleImage(null);
 
         router.refresh("/admin_dashboard/business_profile");
 

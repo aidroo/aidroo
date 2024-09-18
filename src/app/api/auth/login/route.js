@@ -73,7 +73,6 @@ export async function POST(req) {
       });
     }
 
-    console.log(user);
     // Generate JWT token
     const accessToken = await generateAccessToken({
       username: user.username,
