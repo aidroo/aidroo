@@ -12,19 +12,16 @@ const poppins = Poppins({
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title" || "");
-  const rating = parseInt(searchParams.get("rating" || 0));
+  const rating = searchParams.get("rating" || 0);
   const profileUrl = searchParams.get("profileThumb" || "");
   const verified = searchParams.get("verified") === "true"; // Convert the string to a boolean
-
   const totalReviews = searchParams.get("totalReviews" || 0);
 
   // Retrieve the color, 18, and filledStars parameters from the query string
-  const color = searchParams.get("color") || "#0090ff"; // Default to blue if not provided
+  // Default to blue if not provided
   // Default 18 if not provided
   const totalStars = 5;
-  const filledStars = parseInt(searchParams.get("filledStars")) || 4;
-
-  const sortedString = title.slice(0, 35);
+  const filledStars = Math.floor(rating);
 
   // Define the dynamic SVG path data for the star shape
   const dynamicPath = `M507.4,256.1c0,69.4-28.1,132.2-73.5,177.5c-45.3,45.5-108.3,73.7-177.5,73.7c-57.2,0-110.3-19.2-152.5-51.8
@@ -53,7 +50,7 @@ export async function GET(request) {
 
         <div tw="flex flex-col   justify-center -mt-28 ">
           <div tw="flex mt-8  items-center  ">
-            <span tw="text-7xl mr-2  ">{sortedString}</span>
+            <span tw="text-7xl mr-2 text ">{title}...</span>
 
             {verified ? (
               <img
@@ -74,7 +71,7 @@ export async function GET(request) {
               {totalReviews === "null" ? 0 : totalReviews} Reviews
             </span>
             <GoDotFill tw="text-primary_color text-7xl  " />
-            <span tw="text-6xl ml-2">{rating}</span>
+            <span tw="text-6xl ml-2">{rating.slice(0, 3)}</span>
           </div>
           <div tw="flex gap-4 items-center  w-full my-2 mt-8 ">
             <svg
@@ -84,7 +81,25 @@ export async function GET(request) {
               viewBox={`0 0 ${20 * totalStars} ${18}`} // Adjust viewBox to fit all stars
             >
               {[...Array(totalStars)].map((_, index) => {
-                const starColor = index < filledStars ? color : "#e0e0e0";
+                const getStarColor = (index, rating) => {
+                  if (index < rating) {
+                    // Filled stars
+                    if (rating <= 1) {
+                      return "red"; // 1 to 3 stars are red
+                    } else if (rating <= 3) {
+                      return "#f9931f"; // 4 stars are green
+                    } else if (rating <= 4) {
+                      return "#00a53b"; // 5 stars are blue
+                    } else {
+                      return "#0090ff"; // 5 stars are blue
+                    }
+                  } else {
+                    // Unfilled stars
+                    return "#e0e0e0"; // Default unfilled color (gray)
+                  }
+                };
+
+                const starColor = getStarColor(index, filledStars); // Get star color dynamically
                 const x = index * 20; // Position each star horizontally
 
                 return (

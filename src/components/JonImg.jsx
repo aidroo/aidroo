@@ -16,7 +16,7 @@ const JsonComponent = memo(({ animationData, shouldLoop }) => {
   }, [animationData]);
 
   return (
-    <div className="w-32">
+    <div className="w-52">
       <Lottie
         lottieRef={lottieRef}
         animationData={f}

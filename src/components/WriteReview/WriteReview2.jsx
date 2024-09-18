@@ -234,14 +234,14 @@ export function WriteReview2({ profileId }) {
                     <div className="relative">
                       <button
                         type="submit"
-                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-gray-700  ${
-                          clicked ? "" : "bg-primary_color/20"
+                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-white ${
+                          clicked ? "bg-primary_color" : "bg-primary_color"
                         }`}
                       >
                         {loading ? "Submitting.." : "Submit Review"}
                       </button>
                       {showAnimation && (
-                        <div className=" absolute -top-6">
+                        <div className=" absolute -top-12 -left-8">
                           <JsonComponent
                             shouldLoop={true} // Set to true to loop the animation
                           />

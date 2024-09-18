@@ -107,7 +107,7 @@ export default function BusinessProfileUpdatedForm({
       setLoading(false);
     }
   };
-
+  console.log(uploadUrl);
   return (
     <div className="border rounded-lg p-10 space-y-6">
       {/* image uploaded */}
@@ -123,7 +123,7 @@ export default function BusinessProfileUpdatedForm({
         </div>
         <div className="max-w-64 space-y-2">
           <FileUploadComponent
-            profileThumb={profile?.profileThumb}
+            profileThumb={profile?.profileThumb || uploadUrl}
             setUploadUrl={setUploadUrl}
           />
           {/* */}

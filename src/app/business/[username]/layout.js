@@ -47,7 +47,7 @@ export async function generateMetadata({ params }) {
             )}&profileThumb=${encodeURIComponent(
               profileThumb
             )}&title=${encodeURIComponent(
-              businessName
+              businessName.slice(0, 17)
             )}&verified=${verified}&totalReviews=${totalReviews}`,
             width: 1200,
             height: 630,
