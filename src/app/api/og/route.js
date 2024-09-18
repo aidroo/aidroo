@@ -54,13 +54,13 @@ export async function GET(request) {
 
             {verified ? (
               <img
-                tw="w-12"
+                tw="w-12 -mt-1"
                 src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/nackgugh5tinsynmfx89.jpg"
                 alt="Verified"
               />
             ) : (
               <img
-                tw="w-12"
+                tw="w-12 -mt-1"
                 src="https://res.cloudinary.com/dtwhrzfwy/image/upload/v1724249953/wav2s9ok4jmqiodxdtti.jpg"
                 alt="Not Verified"
               />
