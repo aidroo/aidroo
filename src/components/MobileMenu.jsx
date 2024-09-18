@@ -197,29 +197,39 @@ export default function MobileMenu() {
                   </Link>
                 )}
                 {/* messages */}
-                <Link
-                  href={`#`}
-                  className="flex items-center gap-4 border-b pb-4"
-                >
-                  <IconImage src={messageIcon} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>Messages</h1>
-                </Link>
+
+                {(currentUser?.role === "business" ||
+                  currentUser?.role === "personal") && (
+                  <Link
+                    href={`#`}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={messageIcon} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>Messages</h1>
+                  </Link>
+                )}
                 {/* notification */}
-                <Link
-                  href={`#`}
-                  className="flex items-center gap-4 border-b pb-4"
-                >
-                  <IconImage src={notificationIcon} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>Notification</h1>
-                </Link>
+                {(currentUser?.role === "personal" ||
+                  currentUser?.role === "business") && (
+                  <Link
+                    href={`#`}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={notificationIcon} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>Notification</h1>
+                  </Link>
+                )}
                 {/* my order */}
-                <Link
-                  href={`#`}
-                  className="flex items-center gap-4 border-b pb-4"
-                >
-                  <IconImage src={myReview} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>My Order</h1>
-                </Link>
+                {(currentUser?.role === "personal" ||
+                  currentUser?.role === "business") && (
+                  <Link
+                    href={`#`}
+                    className="flex items-center gap-4 border-b pb-4"
+                  >
+                    <IconImage src={myReview} size={20} alt="icon" />
+                    <h1 className={`${font16}`}>My Order</h1>
+                  </Link>
+                )}
 
                 <div className="flex items-center gap-4 border-b pb-4">
                   <IconImage src={brifcaseIcon} size={20} alt="icon" />

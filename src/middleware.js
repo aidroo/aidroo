@@ -80,7 +80,7 @@ export async function middleware(request) {
   // If the user is authenticated
   if (decodedToken) {
     const userRole = decodedToken.role;
-    console.log("peros", userRole);
+    // console.log("peros", userRole);
     // Prevent business users from accessing personal_dashboard and vice versa
     if (path.startsWith("/admin_dashboard")) {
       if (userRole !== "admin") {
