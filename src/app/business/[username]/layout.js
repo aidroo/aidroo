@@ -93,7 +93,9 @@ export default async function ProfileProfileLayout({ children, params }) {
     "@context": "https://schema.org",
     "@type": "LocalBusiness", // Replace with a more specific type if needed
     name: profile?.businessName || "Default Business Name",
-    image: profile?.profileThumb || "https://example.com/default-image.jpg",
+    image:
+      profile?.profileThumb ||
+      " https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
     description: profile?.description || "No description available.",
     address: {
       "@type": "PostalAddress",
@@ -105,10 +107,10 @@ export default async function ProfileProfileLayout({ children, params }) {
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile?.averageRating?.toString() || "0", // Ensure this is a string
-      bestRating: "5",
-      worstRating: "1",
-      reviewCount: profile?.totalReviews?.toString() || "0", // Ensure this is a string
+      ratingValue: profile?.averageRating || 0, // Ensure this is a string
+      bestRating: 5,
+      worstRating: 1,
+      reviewCount: profile?.totalReviews || 0, // Ensure this is a string
     },
     sameAs: profile?.website ? [profile.website] : [], // Profile's external websites
     url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
