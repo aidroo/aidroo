@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/context/AuthContext";
+import GoogleAnalytics from "@/lib/GoogleAnalytics";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
         > */}
         <AuthProvider>
           <main className="w-full ">
+            {/* Google Analytics Client Component */}
+            <GoogleAnalytics trackingId="G-Q0P2KWDT0B" />
             {children}
 
             <Script
