@@ -4,6 +4,7 @@ import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
+import BusinessNavbar from "./_components/BusinessNavbar";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
 
@@ -90,48 +91,34 @@ export default async function ProfileProfileLayout({ children, params }) {
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "Organization", // Changed to LocalBusiness if it's a local business
+    "@type": "LocalBusiness", // Replace with a more specific type if needed
     name: profile?.businessName || "Default Business Name",
     image: profile?.profileThumb || "https://example.com/default-image.jpg",
     description: profile?.description || "No description available.",
     address: {
       "@type": "PostalAddress",
+      streetAddress: profile?.address || "Address not provided",
       addressLocality: profile?.city || "City not provided",
+      addressRegion: profile?.state || "State not provided",
+      postalCode: profile?.zipCode || "Zip Code not provided",
       addressCountry: profile?.country || "Country not provided",
     },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: profile?.averageRating?.toString() || "0", // Ensure this is a string
+      bestRating: "5",
+      worstRating: "1",
       reviewCount: profile?.totalReviews?.toString() || "0", // Ensure this is a string
     },
-    // review:
-    //   profile?.reviews?.map((review) => ({
-    //     "@type": "Review",
-    //     author: {
-    //       "@type": "Person",
-    //       name: review?.authorName || "Anonymous",
-    //     },
-    //     reviewRating: {
-    //       "@type": "Rating",
-    //       ratingValue: review?.rating?.toString() || "0", // Ensure this is a string
-    //     },
-    //     reviewBody: review?.body || "No review body available.",
-    //   })) || [],
-    // contactPoint: profile?.contactNumber
-    //   ? {
-    //       "@type": "ContactPoint",
-    //       contactType: "Customer Service",
-    //       telephone: profile.contactNumber,
-    //     }
-    //   : undefined,
-    sameAs: profile?.website ? [profile.website] : [],
-    url: `https://aidroo.com/business/${profile?.username}`,
+    sameAs: profile?.website ? [profile.website] : [], // Profile's external websites
+    url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
   };
 
   return (
     <Layout>
       <script
         type="application/ld+json"
+        id={`https://aidroo.com/business/${profile?.username}`}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
       <div className="w-full pb-14">
@@ -167,7 +154,7 @@ export default async function ProfileProfileLayout({ children, params }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-7 gap-y-14 lg:gap-10 bg-slate-50 px-2 lg:p-10 rounded-md mb-4">
               <div className="col-span-5">
-                <profileNavbar />
+                <BusinessNavbar />
                 {children}
               </div>
               {profile && <BusinessProfileSidebar profile={profile} />}
