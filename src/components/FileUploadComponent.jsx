@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 
-export default function FileUploadComponent({ setUploadUrl }) {
+export default function FileUploadComponent({
+  setUploadUrl,
+  required = false,
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -71,6 +74,7 @@ export default function FileUploadComponent({ setUploadUrl }) {
           onChange={handleChange}
           className="hidden"
           disabled={loading}
+          required={required}
         />
       </label>
       {error && <p className="text-red-500 mt-2">{error}</p>}

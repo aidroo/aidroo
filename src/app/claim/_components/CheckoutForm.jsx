@@ -11,7 +11,6 @@ import {
   verified_badge,
 } from "@/exportImage";
 import Image from "next/image";
-import { useState } from "react";
 import { GoDotFill } from "react-icons/go";
 
 /* eslint-disable @next/next/no-img-element */
@@ -26,33 +25,6 @@ export default function CheckoutForm({ profile, price }) {
       ? "Good"
       : "Excellent";
 
-  const [discountCode, setDiscountCode] = useState("");
-
-  const [cardDetails, setCardDetails] = useState({
-    nameOnCard: "",
-    cardNumber: "",
-    expirationMonth: "01",
-    expirationYear: "2024",
-    securityCode: "",
-  });
-
-  const handleInputChange = (e) => {
-    setCardDetails({ ...cardDetails, [e.target.name]: e.target.value });
-  };
-
-  const handleDiscountChange = (e) => {
-    setDiscountCode(e.target.value);
-  };
-
-  const applyDiscount = () => {
-    // Handle discount code logic here
-    console.log("Discount code:", discountCode);
-  };
-
-  const payNow = () => {
-    // Handle payment logic here
-    console.log("Payment details:", cardDetails);
-  };
   return (
     <>
       <style>
