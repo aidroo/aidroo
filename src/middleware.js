@@ -9,6 +9,12 @@ import {
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
 
+  // Redirect if the URL contains any uppercase letters
+  if (/[A-Z]/.test(path)) {
+    const lowercasedUrl = request.nextUrl.clone();
+    lowercasedUrl.pathname = path.toLowerCase();
+    return NextResponse.redirect(lowercasedUrl);
+  }
   // Define public paths
   const isPublicPath =
     path === "/login" ||

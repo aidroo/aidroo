@@ -113,7 +113,7 @@ export default function MobileMenu() {
         </div>
 
         <SheetContent>
-          <SheetHeader className=" w-full flex  items-start h-24 bg-[#002A64]">
+          <SheetHeader className=" w-full flex  justify-center items-center h-24 bg-[#002A64]">
             {!currentUser ? (
               <div className="w-32">
                 <Link href="/">
