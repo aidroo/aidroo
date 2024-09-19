@@ -173,11 +173,37 @@ export default function Footer() {
         <div className="flex flex-col justify-center items-center space-y-2 py-10">
           <Heading className="  font-bold text-gray-600">Follow us on</Heading>
           <div className="flex gap-2">
-            <IconImage src={facebook} size={30} />
-            <IconImage src={twitter} size={30} />
-            <IconImage src={instagram} size={30} />
-            <IconImage src={youtube} size={30} />
-            <IconImage src={linkedin} size={30} />
+            <Link
+              href="https://www.facebook.com/Fb.Aidroo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconImage src={facebook} size={30} />
+            </Link>
+            <Link href="#" target="_blank" rel="noopener noreferrer">
+              <IconImage src={twitter} size={30} />
+            </Link>
+            <Link
+              href="https://www.instagram.com/aidroo_ig/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconImage src={instagram} size={30} />
+            </Link>
+            <Link
+              href="https://youtube.com/@aidroo."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconImage src={youtube} size={30} />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/company/aidroo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconImage src={linkedin} size={30} />
+            </Link>
           </div>
         </div>
         <div className=" flex flex-col justify-center items-center space-y-4  ">
