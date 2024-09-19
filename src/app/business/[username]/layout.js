@@ -1,7 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import { font14 } from "@/constant";
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
-import Script from "next/script";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
@@ -84,7 +83,6 @@ export default async function ProfileProfileLayout({ children, params }) {
   try {
     const response = await fetchSingleProfile({ username });
     profile = response.profile;
-    console.log(profile);
   } catch (error) {
     console.error("Error fetching profile:", error);
     profile = null;
@@ -127,11 +125,15 @@ export default async function ProfileProfileLayout({ children, params }) {
     //     }
     //   : undefined,
     sameAs: profile?.website ? [profile.website] : [],
-    url: `https://aidroo.com/business/${profile?.username}/review`,
+    url: `https://aidroo.com/business/${profile?.username}`,
   };
 
   return (
     <Layout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       <div className="w-full pb-14">
         <div className="w-full rounded-md dark:bg-dark">
           <div className="max-w-[1280px] mx-auto pb-10">
@@ -172,15 +174,6 @@ export default async function ProfileProfileLayout({ children, params }) {
             </div>
           </div>
         </div>
-
-        <Script
-          id="business-profile-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schemaData),
-          }}
-        />
       </div>
     </Layout>
   );
