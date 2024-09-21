@@ -10,79 +10,63 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
 export default function ClaimPageForm({ username }) {
-  const [uploaderUrl1, setUploaderUrl1] = useState([]);
-  const [uploaderUrl2, setUploaderUrl2] = useState("");
+  const router = useRouter();
 
+  const [uploaderUrl1, setUploaderUrl1] = useState([]);
+  const [uploaderUrl2, setUploaderUrl2] = useState([]);
   const [userData, setUserData] = useState({
     fullName: "",
-
     phone: "",
     role: "",
     email: "",
+    address: "",
     claimDescription: "",
   });
 
   const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setUserData((prevState) => ({ ...prevState, [name]: value }));
   };
-  const router = useRouter();
 
-  const handleUploadUrl1 = (url) => {
-    setUploaderUrl1((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
-  };
-  const handleUploadUrl2 = (url) => {
-    setUploaderUrl2((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
-  };
-  const handledelete1 = async (url) => {
-    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
+  const handleUploadUrl1 = (url) =>
+    setUploaderUrl1((prevUrls) => [...prevUrls, url]);
+  const handleUploadUrl2 = (url) =>
+    setUploaderUrl2((prevUrls) => [...prevUrls, url]);
 
+  const handleDelete = async (url, setUploaderUrls) => {
+    const avatarId = url.split("/").pop().split(".")[0];
     try {
       await axiosInstance.post(`/api/upload/${avatarId}`, { avatarId });
-      setUploaderUrl1((prevUrls) =>
-        prevUrls?.filter((currentUrl) => currentUrl !== url)
+      setUploaderUrls((prevUrls) =>
+        prevUrls.filter((currentUrl) => currentUrl !== url)
       );
     } catch (error) {
       console.error("Error deleting file:", error);
     }
   };
-  const handledelete2 = async (url) => {
-    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
 
-    try {
-      await axiosInstance.post(`/api/upload/${avatarId}`, {
-        avatarId,
-      });
-      setUploaderUrl2((prevUrls) =>
-        prevUrls?.filter((currentUrl) => currentUrl !== url)
-      );
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Handle form submission logic here, e.g., sending data to an API
-    // After successful submission, navigate to the next page
     router.push(`/claim/pricing_plan?username=${username}`);
   };
+
   return (
     <div className="max-w-3xl mx-auto border p-8">
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
-            className="mb-4"
-            placeholder="Full Name"
             name="fullName"
+            placeholder="Full Name"
+            className="mb-4"
             onChange={handleChange}
             required
           />
           <Input
             type="number"
-            className="mb-4"
-            placeholder="Phone Number"
             name="phone"
+            placeholder="Phone Number"
+            className="mb-4"
             onChange={handleChange}
             required
           />
@@ -90,95 +74,54 @@ export default function ClaimPageForm({ username }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
-            className="mb-4"
-            placeholder="Business Role"
             name="role"
+            placeholder="Business Role"
+            className="mb-4"
             onChange={handleChange}
             required
           />
           <Input
             type="email"
-            className="mb-4"
-            placeholder="Enter Your email"
             name="email"
+            placeholder="Enter Your Email"
+            className="mb-4"
             onChange={handleChange}
             required
           />
         </div>
         <Input
           type="text"
-          className="mb-4"
-          placeholder="full address"
           name="address"
+          placeholder="Full Address"
+          className="mb-4"
           onChange={handleChange}
           required
         />
 
         <div className="flex flex-col gap-y-4 w-2/3 my-4">
-          <div className=" w-fit ">
-            <h1 className="text-gray-700 py-2">
-              Your prof or Identity (Upload image)
-            </h1>
-            <div className="flex items-start gap-4">
-              <FileUploadComponent setUploadUrl={handleUploadUrl1} />
-              {uploaderUrl1.length > 0 &&
-                uploaderUrl1.map((url, index) => (
-                  <div className="relative group w-60 h-24" key={index}>
-                    <ResponsiveImage
-                      src={url || ""}
-                      className="border rounded-md  "
-                      alt="review image"
-                    />
-
-                    <MdDelete
-                      className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
-                      onClick={() => handledelete1(url)}
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
-          <div className=" w-fit">
-            <h1 className="text-gray-700 py-2">
-              Business Documents (Upload image)
-            </h1>
-            <div className="flex items-start gap-4">
-              <FileUploadComponent setUploadUrl={handleUploadUrl2} />
-              {uploaderUrl2.length > 0 &&
-                uploaderUrl2.map((url, index) => (
-                  <div className="relative group w-60 h-24" key={index}>
-                    <ResponsiveImage
-                      src={url || ""}
-                      className="border rounded-md  "
-                      alt="review image"
-                    />
-
-                    <MdDelete
-                      className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
-                      onClick={() => handledelete2(url)}
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
+          <FileUploadSection
+            title="Your prof or Identity (Upload image)"
+            uploaderUrls={uploaderUrl1}
+            setUploaderUrls={setUploaderUrl1}
+            handleUpload={handleUploadUrl1}
+            handleDelete={handleDelete}
+          />
+          <FileUploadSection
+            title="Business Documents (Upload image)"
+            uploaderUrls={uploaderUrl2}
+            setUploaderUrls={setUploaderUrl2}
+            handleUpload={handleUploadUrl2}
+            handleDelete={handleDelete}
+          />
         </div>
 
-        <div className=" w-full ">
-          <h1 className="text-gray-700 py-2">
-            Write about your business prof!
-          </h1>
-          <Textarea onChange={handleChange} name="claimDescription" required />
-        </div>
+        <TextareaSection
+          label="Write about your business prof!"
+          name="claimDescription"
+          onChange={handleChange}
+        />
 
-        <div className="flex items-center my-4 gap-4">
-          <Checkbox id="terms" className="w-4 h-4  " required />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            I have read and write to the terms and conditions
-          </label>
-        </div>
+        <TermsCheckbox />
 
         <button
           type="submit"
@@ -190,3 +133,51 @@ export default function ClaimPageForm({ username }) {
     </div>
   );
 }
+
+const FileUploadSection = ({
+  title,
+  uploaderUrls,
+  setUploaderUrls,
+  handleUpload,
+  handleDelete,
+}) => (
+  <div className="w-fit">
+    <h1 className="text-gray-700 py-2">{title}</h1>
+    <div className="flex items-start gap-4">
+      <FileUploadComponent setUploadUrl={handleUpload} />
+      {uploaderUrls.length > 0 &&
+        uploaderUrls.map((url, index) => (
+          <div className="relative group w-60 h-24" key={index}>
+            <ResponsiveImage
+              src={url}
+              className="border rounded-md"
+              alt="Uploaded image"
+            />
+            <MdDelete
+              className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
+              onClick={() => handleDelete(url, setUploaderUrls)}
+            />
+          </div>
+        ))}
+    </div>
+  </div>
+);
+
+const TextareaSection = ({ label, name, onChange }) => (
+  <div className="w-full">
+    <h1 className="text-gray-700 py-2">{label}</h1>
+    <Textarea name={name} onChange={onChange} required />
+  </div>
+);
+
+const TermsCheckbox = () => (
+  <div className="flex items-center my-4 gap-4">
+    <Checkbox id="terms" className="w-4 h-4" required />
+    <label
+      htmlFor="terms"
+      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      I have read and agree to the terms and conditions
+    </label>
+  </div>
+);

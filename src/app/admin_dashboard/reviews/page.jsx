@@ -20,8 +20,8 @@ export default async function Review({ searchParams }) {
 
   // const baseUrl = `/business/${id}/reviews`;
   return (
-    <div className="rounded-lg space-y-6 border p-8">
-      <div className="flex flex-col justify-center items-center space-y-8">
+    <div className="rounded-lg space-y-6 border p-2">
+      <div className="flex flex-col justify-center items-center space-y-8 p-2">
         <ReviewSearchBar
           searchQuery={searchQuery}
           options={reviews}

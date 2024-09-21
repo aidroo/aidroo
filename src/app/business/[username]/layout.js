@@ -123,47 +123,50 @@ export default async function ProfileProfileLayout({ children, params }) {
         id={`https://aidroo.com/business/${profile?.username}`}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      <div className="w-full pb-14">
-        <div className="w-full rounded-md dark:bg-dark">
-          <div className="max-w-[1280px] mx-auto pb-10">
-            <div className="w-full bg-[#f5fafc] dark:bg-dark">
-              <div className="max-w-[1280px] mx-auto">
-                <div className="grid w-full grid-cols-1 lg:grid-cols-5 gap-x-4 py-8 px-3 lg:px-10">
-                  {profile && (
-                    <BusinessProfileHeader
-                      profile={profile}
-                      totalReviews={profile.totalReviews}
-                      averageRating={profile.averageRating}
-                    />
-                  )}
-                  <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
-                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                      <LiaSmsSolid className="text-sm md:text-xl" />
-                      <span className={font14}>Chat</span>
-                    </div>
-                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                      <FaPlus className="text-sm" />
-                      <span className={font14}>Follow</span>
-                    </div>
-                    <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                      <HiOutlineShare className="text-sm md:text-xl" />
-                      <span className={font14}>Share</span>
+      <section>
+        {" "}
+        <div className="w-full pb-14">
+          <div className="w-full rounded-md dark:bg-dark">
+            <div className="max-w-[1280px] mx-auto pb-10">
+              <div className="w-full bg-[#f5fafc] dark:bg-dark">
+                <div className="max-w-[1280px] mx-auto">
+                  <div className="grid w-full grid-cols-1 lg:grid-cols-5 gap-x-4 py-8 px-3 lg:px-10">
+                    {profile && (
+                      <BusinessProfileHeader
+                        profile={profile}
+                        totalReviews={profile.totalReviews}
+                        averageRating={profile.averageRating}
+                      />
+                    )}
+                    <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
+                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                        <LiaSmsSolid className="text-sm md:text-xl" />
+                        <span className={font14}>Chat</span>
+                      </div>
+                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                        <FaPlus className="text-sm" />
+                        <span className={font14}>Follow</span>
+                      </div>
+                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
+                        <HiOutlineShare className="text-sm md:text-xl" />
+                        <span className={font14}>Share</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-7 gap-y-14 lg:gap-10 bg-slate-50 px-2 lg:p-10 rounded-md mb-4">
-              <div className="col-span-5">
-                <BusinessNavbar />
-                {children}
+              <div className="grid grid-cols-1 lg:grid-cols-7 gap-y-14 lg:gap-10 bg-slate-50 px-2 lg:p-10 rounded-md mb-4">
+                <div className="col-span-5">
+                  <BusinessNavbar />
+                  {children}
+                </div>
+                {profile && <BusinessProfileSidebar profile={profile} />}
               </div>
-              {profile && <BusinessProfileSidebar profile={profile} />}
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 }

@@ -22,7 +22,7 @@ export default async function Categories({ searchParams }) {
   return (
     <div className="space-y-10">
       {/* Category */}
-      <div className="grid grid-cols-2 gap-10 border rounded-lg p-10">
+      <div className="grid g md:grid-cols-2 gap-10 border rounded-lg p-10">
         <Category categories={categories} />
         {limit < totalRecords && (
           <PaginationComponent

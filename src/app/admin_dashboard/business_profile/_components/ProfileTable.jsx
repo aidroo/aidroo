@@ -35,7 +35,7 @@ export default function ProfileTable({ profiles, isExit }) {
   };
 
   return (
-    <div className="w-[450px] lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md">
+    <div className=" w-full lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md px-2">
       <Table className="w-[1000px]">
         <TableHeader className="w-fit h-14 ">
           <TableRow>
@@ -77,7 +77,9 @@ export default function ProfileTable({ profiles, isExit }) {
               <TableRow key={profile.email}>
                 {currentUser.role === "admin" ? (
                   <TableCell>
-                    <Link href={`/business/${profile?.username}`}>
+                    <Link
+                      href={`/business_dashboard/business_info?username=${profile.username}`}
+                    >
                       {profile?.businessProfile?.businessName}
                     </Link>
                   </TableCell>

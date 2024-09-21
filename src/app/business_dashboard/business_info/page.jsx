@@ -21,6 +21,7 @@ export default async function BusinessProfile({ searchParams }) {
       categories={categoriesData.categories}
       subcategories={subcategoriesData.subcategories}
       profile={profile.profile}
+      username={username}
     />
   );
 }

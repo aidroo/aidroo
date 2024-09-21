@@ -26,7 +26,6 @@ export default function DynamicSearchInput() {
 
   const handleValueChange = (value) => {
     setSelectedValue(value);
-    console.log(value);
   };
 
   // Debouncing logic using useEffect

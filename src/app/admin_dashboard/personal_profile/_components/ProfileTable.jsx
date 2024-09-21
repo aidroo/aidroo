@@ -29,7 +29,7 @@ export default function ProfileTable({ profiles = [] }) {
   };
 
   return (
-    <div className="w-[450px] lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md">
+    <div className=" w-full lg:w-[800px] overflow-hidden overflow-x-auto space-y-6 border rounded-md">
       <Table className="w-[1000px]">
         <TableHeader className="w-fit h-14 ">
           <TableRow>

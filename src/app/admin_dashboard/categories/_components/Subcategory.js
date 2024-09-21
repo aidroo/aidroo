@@ -48,7 +48,7 @@ export default function Subcategory({ categories, subcategories }) {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-10 border rounded-lg p-10">
+    <div className="grid md:grid-cols-2 gap-10 border rounded-lg p-10">
       <form className="space-y-6 w-64" onSubmit={handleSubcategorySubmit}>
         <Input
           type="text"

@@ -34,7 +34,7 @@ export default function SearchBar({
 
   return (
     <div className="w-full">
-      <div className="border flex overflow-hidden h-14  rounded-md w-full space-x-4  px-2 items-center">
+      <div className="border flex flex-col overflow-hidden h-auto gap-4 py-4  rounded-md w-full space-x-4  px-2 items-center">
         <Input
           type="text"
           name="search"

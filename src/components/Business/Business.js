@@ -3,6 +3,7 @@ import heroImage from "@/asserts/business-image.svg";
 import Image from "next/image";
 
 import { font14, font16 } from "@/constant";
+import Link from "next/link";
 import { Button } from "../ui/button";
 
 const Business = () => {
@@ -57,11 +58,14 @@ const Business = () => {
               </p>
             </div>
             <div className="mt-8 flex    space-x-4">
-              <Button variant="fillButton" className="w-fit h-9 md:h-10  ">
+              <Link
+                href={"/pricing_plan"}
+                className="w-fit h-9 md:h-10 bg-primary_color flex items-center justify-center text-white px-4 py-2 rounded-md  "
+              >
                 See Our Pricing
-              </Button>
+              </Link>
               <Button variant="hover" className="w-fit h-9 md:h-10">
-                Add business
+                <Link href={`/signup/business`}>Add Business</Link>
               </Button>
             </div>
           </div>

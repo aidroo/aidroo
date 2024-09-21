@@ -8,7 +8,7 @@ import { Share1Icon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 import QRCode from "qrcode.react";
 import { useRef, useState } from "react";
-import { FaDownload } from "react-icons/fa6";
+import { RiDownload2Line } from "react-icons/ri";
 import IconImage from "../IconImage/IconImage";
 
 const QRCodeComponent = () => {
@@ -74,7 +74,7 @@ const QRCodeComponent = () => {
             </div>
 
             <div className="flex items-center gap-6 px-3  py-2 h-18 cursor-pointer border rounded-md    ">
-              <FaDownload className="text-primary_color" />
+              <RiDownload2Line className="text-primary_color text-xl" />
               {/* <IconImage src={qr} size={35} alt="notification icon" /> */}
               <span
                 className={`${font14} text-gray-600`}

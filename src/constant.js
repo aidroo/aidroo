@@ -102,10 +102,6 @@ export const footerLinks = [
         title: "Our Pricing Plan",
         link: "#",
       },
-      {
-        title: "Our Pricing Plan",
-        link: "#",
-      },
     ],
   },
   {
@@ -610,6 +606,7 @@ export const priceplan = [
     image: tikmark,
   },
 ];
+// terms and conditions
 
 export const font18bold = "text-[20px]  font-semibold";
 export const font18 = "text-[18px]";

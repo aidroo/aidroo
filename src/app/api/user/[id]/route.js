@@ -34,7 +34,7 @@ export async function PUT(req) {
       top,
       guaranteed,
     } = body;
-    console.log(profileThumb);
+
     // Validate required fields
     if (!username) {
       return NextResponse.json(

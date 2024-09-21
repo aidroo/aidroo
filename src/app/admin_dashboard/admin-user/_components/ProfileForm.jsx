@@ -61,7 +61,7 @@ export default function ProfileForm() {
     try {
       // setLoading(true);
       const response = await axiosInstance.post("/api/user", dataToSend);
-      console.log(response);
+
       if (response.data.status === 201) {
         setSuccess(response.data.message);
         // Reset form fields after successful submission

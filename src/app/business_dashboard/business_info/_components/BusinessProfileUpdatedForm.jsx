@@ -20,6 +20,7 @@ export default function BusinessProfileUpdatedForm({
   categories,
   subcategories,
   profile,
+  username,
 }) {
   const router = useRouter();
   const { currentUser } = useAuth();
@@ -52,12 +53,14 @@ export default function BusinessProfileUpdatedForm({
     if (selectedCategory) {
       query.set("category_id", selectedCategory?.id);
     }
-    query.set("username", currentUser?.username);
-    router.push(`/business_dashboard/business_info?${query.toString()}`, {
-      shallow: true,
-    });
+    if (!username) {
+      query.set("username", currentUser?.username);
+      router.push(`/business_dashboard/business_info?${query.toString()}`, {
+        shallow: true,
+      });
+    }
     // Reset subcategory when category is changed
-  }, [selectedCategory, router, formState?.username]);
+  }, [selectedCategory, router, username]);
   // Initialize state with an object to hold form values
 
   const filenameWithExtension =
@@ -107,7 +110,7 @@ export default function BusinessProfileUpdatedForm({
       setLoading(false);
     }
   };
-  console.log(uploadUrl);
+
   return (
     <div className="border rounded-lg p-10 space-y-6">
       {/* image uploaded */}

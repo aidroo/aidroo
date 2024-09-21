@@ -7,7 +7,7 @@ export default function CategoryItem({ category }) {
   return (
     <Link
       className="slide_card bg-[#d4e5ff] dark:bg-[#0b1120] shadow-md min-w-[80px] h-20  md:h-[120px] before:bg-[#ccd9ff] dark:before:bg-dark dark:border"
-      href="#"
+      href="/category"
     >
       <div className="relative flex justify-center">
         <div className="absolute top-[-13px] w-36 h-24">

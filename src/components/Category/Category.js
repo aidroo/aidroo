@@ -95,8 +95,8 @@ export default function Category() {
                       : ""
                   }`}
                 >
-                  {categoryChunk.map((category) => (
-                    <CategoryItem key={Math.random()} category={category} />
+                  {categoryChunk.map((category, index) => (
+                    <CategoryItem category={category} key={index} />
                   ))}
                 </div>
               ))}
