@@ -118,12 +118,14 @@ export default async function ProfileProfileLayout({ children, params }) {
 
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile?.averageRating || 0, // Ensure this is a string
-      bestRating: 5,
-      worstRating: 1,
-      reviewCount: profile?.totalReviews || 0, // Ensure this is a string
+      ratingValue: profile.averageRating.toString() || "0",
+      bestRating: "5",
+      worstRating: "1",
+      reviewCount: profile.totalReviews.toString() || "0",
     },
-    sameAs: profile?.website ? [profile.website] : [], // Profile's external websites
+    sameAs: [
+      "https://www.facebook.com/srikantoa3/", // Add social links dynamically
+    ], // Profile's external websites
     url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
   };
 
