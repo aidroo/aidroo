@@ -7,7 +7,7 @@ export async function getAllProfileReviews(username, page = 1, limit = 10) {
   try {
     // Calculate the offset for pagination
     const offset = (page - 1) * limit;
-
+    console.log("username", page, offset);
     // Define where condition (filter by profileId if provided)
     const whereCondition = username
       ? { profileId: username, status: "approved" }

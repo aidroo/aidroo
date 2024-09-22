@@ -4,13 +4,12 @@ import ThumbSlider from "@/components/ThumbSlider/ThumbSlider";
 import { Switch } from "@/components/ui/switch";
 import { businessOur, font18 } from "@/constant";
 import { TabsContent } from "@radix-ui/react-tabs";
-import { useParams, usePathname } from "next/navigation";
 
-export default function More() {
-  const pathname = usePathname();
-  const { id } = useParams();
-  const dynamicId = id || pathname.split("/").filter(Boolean)[1];
-  console.log(dynamicId);
+export default function MoreContent() {
+  // const pathname = usePathname();
+  // const { id } = useParams();
+  // const dynamicId = id || pathname.split("/").filter(Boolean)[1];
+
   return (
     <TabsContent value="more">
       <div className=" border-2 rounded-md p-10 mx-auto  ">

@@ -11,8 +11,12 @@ import { getAllProfileReviews } from "@/queries/reviews";
 
 // Review is a server component
 export default async function ReviewContent({ username, searchParams }) {
-  const limit = parseInt(searchParams?.limit) || 10;
-  const page = parseInt(searchParams?.page) || 1;
+  const reviewPage = parseInt(searchParams?.reviewPage) || 1;
+  const reviewLimit = parseInt(searchParams?.reviewLimit) || 10;
+
+  // // Job pagination
+  // const jobPage = parseInt(searchParams?.jobPage) || 1;
+  // const jobLimit = parseInt(searchParams?.jobLimit) || 10;
 
   // Fetch data from the server-side function
   const {
@@ -22,10 +26,11 @@ export default async function ReviewContent({ username, searchParams }) {
     totalPages,
     currentPage,
     totalRecords,
-  } = await getAllProfileReviews(username, page, limit);
+  } = await getAllProfileReviews(username, reviewPage, reviewLimit);
 
   const averageRating = Math.floor(rating);
-  const baseUrl = `/business/${username}/reviews`;
+  const baseUrl = `/business/${username}`;
+  console.log(reviews.length);
   return (
     <TabsContent value="review">
       <div className="col-span-1 space-y-6">
@@ -62,11 +67,13 @@ export default async function ReviewContent({ username, searchParams }) {
             <ReviewCard key={review.id} review={review} />
           ))}
 
-        {limit < totalRecords && (
+        {reviewLimit < totalRecords && (
           <PaginationComponent
             currentPage={currentPage}
             totalPages={totalPages}
             baseUrl={baseUrl}
+            pagename="reviewpage"
+            limitname="reviewlimit"
           />
         )}
       </div>

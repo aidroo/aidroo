@@ -16,6 +16,8 @@ export default function PaginationComponent({
   totalPages,
   baseUrl,
   initialLimit = 10, // default limit if not provided
+  pagename = "page",
+  limitname = "limit",
 }) {
   const router = useRouter();
   const [limit] = useState(initialLimit);
@@ -24,8 +26,8 @@ export default function PaginationComponent({
     if (page >= 1 && page <= totalPages) {
       // Construct URL with dynamic query parameters
       const queryParams = new URLSearchParams();
-      queryParams.set("page", page);
-      queryParams.set("limit", limit);
+      queryParams.set(pagename, page);
+      queryParams.set(limitname, limit);
 
       router.push(`${baseUrl}?${queryParams.toString()}`);
     }
