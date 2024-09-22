@@ -4,7 +4,6 @@ import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import Script from "next/script";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
@@ -107,37 +106,57 @@ export default async function ProfileProfileLayout({ children, params }) {
     profile = null;
   }
 
-  const schemaData = {
+  // const schemaData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "LocalBusiness", // Replace with a more specific type if needed
+  //   name: profile?.businessName || "Default Business Name",
+  //   image:
+  //     profile?.profileThumb ||
+  //     " https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
+  //   description: profile?.description || "No description available.",
+
+  //   aggregateRating: {
+  //     "@type": "AggregateRating",
+  //     ratingValue: profile.averageRating.toString() || "0",
+  //     bestRating: "5",
+  //     worstRating: "1",
+  //     reviewCount: profile.totalReviews.toString() || "0",
+  //   },
+  //   sameAs: [
+  //     "https://www.facebook.com/srikantoa3/", // Add social links dynamically
+  //   ], // Profile's external websites
+  //   url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
+  // };
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness", // Replace with a more specific type if needed
-    name: profile?.businessName || "Default Business Name",
-    image:
-      profile?.profileThumb ||
-      " https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
-    description: profile?.description || "No description available.",
-
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: profile.averageRating.toString() || "0",
-      bestRating: "5",
-      worstRating: "1",
-      reviewCount: profile.totalReviews.toString() || "0",
-    },
-    sameAs: [
-      "https://www.facebook.com/srikantoa3/", // Add social links dynamically
-    ], // Profile's external websites
-    url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
+    "@type": "LocalBusiness",
+    name: profile.businessName,
+    image: profile.profileThumb,
+    description: profile.description,
+    // aggregateRating: {
+    //   "@type": "AggregateRating",
+    //   ratingValue: profile.averageRating,
+    //   reviewCount: profile.totalReviews,
+    // },
+    // address: {
+    //   "@type": "PostalAddress",
+    //   streetAddress: profile.address?.street || "",
+    //   addressLocality: profile.address?.city || "",
+    //   addressRegion: profile.address?.state || "",
+    //   postalCode: profile.address?.postalCode || "",
+    //   addressCountry: profile.address?.country || "",
+    // },
+    telephone: profile.phoneNumber,
+    sameAs: profile.website || [], // or any social media links for the business
   };
-
   return (
     <Layout>
-      <Script
-        type="application/ld+json"
-        id={`https://aidroo.com/business/${profile?.username}`}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
       <section>
-        {" "}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         <div className="w-full pb-14">
           <div className="w-full rounded-md dark:bg-dark">
             <div className="max-w-[1280px] mx-auto pb-10">
