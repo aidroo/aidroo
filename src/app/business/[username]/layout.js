@@ -1,11 +1,9 @@
-/* eslint-disable @next/next/no-script-component-in-head */
 import Layout from "@/components/Layout/Layout";
 import { font14 } from "@/constant";
 import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import Head from "next/head";
 import Script from "next/script";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
@@ -108,61 +106,34 @@ export default async function ProfileProfileLayout({ children, params }) {
     console.error("Error fetching profile:", error);
     profile = null;
   }
-  console.log(profile);
-  if (!profile) {
-    profile = {
-      businessName: "Default Business",
-      profileThumb: "https://example.com/default-image.jpg",
-      description: "No description available.",
-      address: "Address not available",
-      city: "City not available",
-      state: "State not available",
-      country: "Country not available",
-      zipCode: "00000",
-      averageRating: 0,
-      totalReviews: 0,
-      website: "",
-    };
-  }
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "Organization", // or "LocalBusiness" depending on your entity
-    name: profile.businessName,
-    image: profile.profileThumb,
-    description: profile.description || "No description available.",
+    "@type": "LocalBusiness", // Replace with a more specific type if needed
+    name: profile?.businessName || "Default Business Name",
+    image:
+      profile?.profileThumb ||
+      " https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
+    description: profile?.description || "No description available.",
+
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile.averageRating.toString() || "0",
-      bestRating: "5",
-      worstRating: "1",
-      reviewCount: profile.totalReviews.toString() || "0",
+      ratingValue: profile?.averageRating || 0, // Ensure this is a string
+      bestRating: 5,
+      worstRating: 1,
+      reviewCount: profile?.totalReviews || 0, // Ensure this is a string
     },
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: profile.address || "No address provided",
-      addressLocality: profile.city || "City not provided",
-      addressRegion: profile.state || "State not provided",
-      postalCode: profile.zipCode || "00000",
-      addressCountry: profile.country || "Country not provided",
-    },
-    sameAs: [
-      "https://facebook.com/business-name", // Add social links dynamically
-      "https://instagram.com/business-name",
-      // Add other social profiles if available
-    ],
+    sameAs: profile?.website ? [profile.website] : [], // Profile's external websites
     url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
   };
+
   return (
     <Layout>
-      <Head>
-        <Script
-          type="application/ld+json"
-          id={`https://aidroo.com/business/${profile?.username}`}
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-        />
-      </Head>
-
+      <Script
+        type="application/ld+json"
+        id={`https://aidroo.com/business/${profile?.username}`}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       <section>
         {" "}
         <div className="w-full pb-14">
