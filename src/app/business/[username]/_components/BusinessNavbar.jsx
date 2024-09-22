@@ -1,25 +1,48 @@
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FaRegStar } from "react-icons/fa";
+"use client";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import { FaRegStar } from "react-icons/fa6";
 import { IoIosArrowDropright } from "react-icons/io";
 import { VscBriefcase } from "react-icons/vsc";
 
 export default function BusinessNavbar() {
+  const pathname = usePathname();
+  const { username } = useParams();
   return (
-    <TabsList className="w-full  grid grid-cols-3 gap-4 h-16 px-4">
-      {/* review */}
-      <TabsTrigger value="review" className=" border h-12">
+    <div className="grid grid-cols-3 gap-4 border items-center mb-10 rounded-md p-2">
+      <Link
+        href={`/business/${username}/reviews`}
+        className={`flex gap-2 justify-center h-10 items-center rounded-md ${
+          pathname === `/business/${username}/reviews`
+            ? "bg-primary_color text-white"
+            : ""
+        }`}
+      >
         <FaRegStar className=" lg:text-[22px]" />
         <span className=" text-sm mg:text-16">Reviews</span>
-      </TabsTrigger>
-      {/* jobs */}
-      <TabsTrigger value="job" className=" border h-12">
+      </Link>
+      <Link
+        href={`/business/${username}/jobs`}
+        className={`flex gap-2 justify-center h-10 items-center rounded-md ${
+          pathname === `/business/${username}/jobs`
+            ? "bg-primary_color text-white"
+            : ""
+        }`}
+      >
         <VscBriefcase className="text-xl lg:text-2xl" />
         <span>Jobs</span>
-      </TabsTrigger>
-      <TabsTrigger value="more" className=" border h-12">
+      </Link>
+      <Link
+        href={`/business/${username}/more`}
+        className={`flex gap-2 justify-center h-10 items-center rounded-md ${
+          pathname === `/business/${username}/more`
+            ? "bg-primary_color text-white"
+            : ""
+        }`}
+      >
         <IoIosArrowDropright className="text-xl lg:text-2xl" />
         <span>More</span>
-      </TabsTrigger>
-    </TabsList>
+      </Link>
+    </div>
   );
 }

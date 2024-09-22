@@ -12,8 +12,8 @@ import BusinessProfileFiltering from "./_components/BusinessProfileFiltering";
 export const metadata = {
   title: "business",
 };
-// Fetch categories or business profiles for static generation
-export default async function BusinessProfiles({ searchParams }) {
+
+export default async function Categories({ searchParams }) {
   const { categories } = await fetchCategoriesWithOutLimit();
   const searchQuery = searchParams.search || "";
   const categoryFilter = searchParams.category || "";
@@ -34,10 +34,11 @@ export default async function BusinessProfiles({ searchParams }) {
       subcategoryFilter,
       countryFilter,
       ratingFilter,
-      claimedStatus,
       searchCity,
+      claimedStatus,
       openNow,
       page,
+      limit,
     });
 
   // console.log(businessProfiles);
