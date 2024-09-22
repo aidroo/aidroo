@@ -1,9 +1,12 @@
+/* eslint-disable @next/next/no-script-component-in-head */
 import Layout from "@/components/Layout/Layout";
 import { font14 } from "@/constant";
 import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
+import Head from "next/head";
+import Script from "next/script";
 import { FaPlus } from "react-icons/fa6";
 import { HiOutlineShare } from "react-icons/hi";
 import { LiaSmsSolid } from "react-icons/lia";
@@ -105,7 +108,7 @@ export default async function ProfileProfileLayout({ children, params }) {
     console.error("Error fetching profile:", error);
     profile = null;
   }
-
+  console.log(profile);
   if (!profile) {
     profile = {
       businessName: "Default Business",
@@ -126,7 +129,7 @@ export default async function ProfileProfileLayout({ children, params }) {
     "@context": "https://schema.org",
     "@type": "Organization", // or "LocalBusiness" depending on your entity
     name: profile.businessName,
-    image: profile.profileThumb || "https://example.com/default-image.jpg",
+    image: profile.profileThumb,
     description: profile.description || "No description available.",
     aggregateRating: {
       "@type": "AggregateRating",
@@ -152,11 +155,14 @@ export default async function ProfileProfileLayout({ children, params }) {
   };
   return (
     <Layout>
-      <script
-        type="application/ld+json"
-        id={`https://aidroo.com/business/${profile?.username}`}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
+      <Head>
+        <Script
+          type="application/ld+json"
+          id={`https://aidroo.com/business/${profile?.username}`}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        />
+      </Head>
+
       <section>
         {" "}
         <div className="w-full pb-14">
