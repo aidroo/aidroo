@@ -258,7 +258,6 @@ export async function fetchPersonalProfiles({
 }
 
 export async function fetchSinglePersonalProfile(username) {
-  console.log("username", username);
   try {
     // Fetch the user profile along with business profile and address
     const user = await db.User.findOne({

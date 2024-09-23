@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 
 export default function BusinessProfileSidebar({ profile }) {
-  const { businessName, category, funds, employees, description } = profile;
+  const { businessName, funds, employees, description, subcategory } = profile;
   return (
     <div className="col-span-2 w-full  mb-8 ">
       <div className="w-full  space-y-4   ">
@@ -34,7 +34,7 @@ export default function BusinessProfileSidebar({ profile }) {
             <div className="flex items-center       ">
               <IconImage src={categories} size={35} alt="notification icon" />
               <Link href="#" className={`${font14} text-gray-500`}>
-                {category}
+                {subcategory}
               </Link>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function BusinessProfileSidebar({ profile }) {
           <h1 className=" text-center text-xl text-primary_color font-semibold">
             Popular listing
           </h1>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center border-b">
             <div className="w-24 md:32">
               <ResponsiveImage src={google} />
             </div>
@@ -171,7 +171,7 @@ export default function BusinessProfileSidebar({ profile }) {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center border-b">
             <div className="w-24 md:32">
               <ResponsiveImage src={tesla} />
             </div>
@@ -188,7 +188,7 @@ export default function BusinessProfileSidebar({ profile }) {
               </div>
             </div>
           </div>
-          <div className="flex gap-4  items-center">
+          <div className="flex gap-4  items-center border-b">
             <div className="w-24 md:32">
               <ResponsiveImage src={srsoft} />
             </div>

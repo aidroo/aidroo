@@ -1,15 +1,12 @@
 import Layout from "@/components/Layout/Layout";
-import { font14 } from "@/constant";
 import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import { FaPlus } from "react-icons/fa6";
-import { HiOutlineShare } from "react-icons/hi";
-import { LiaSmsSolid } from "react-icons/lia";
 import BusinessNavbar from "./_components/BusinessNavbar";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
+import SocialShare from "./_components/SocialShare";
 
 export async function generateMetadata({ params }) {
   const { username } = params;
@@ -86,7 +83,7 @@ export async function generateStaticParams() {
     const { businessProfiles } = await fetchProfiles({ limit: 100 }); // Adjust limit as needed
 
     // Return the static params based on profiles or categories (e.g., usernames)
-    return businessProfiles.map((profile) => ({
+    return businessProfiles.slice(0, 20).map((profile) => ({
       username: profile.username, // Assuming your routes are based on username
     }));
   } catch (error) {
@@ -130,9 +127,9 @@ export default async function ProfileProfileLayout({ children, params }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: profile.businessName,
-    image: profile.profileThumb,
-    description: profile.description,
+    name: profile?.businessName,
+    image: profile?.profileThumb,
+    description: profile?.description,
     // aggregateRating: {
     //   "@type": "AggregateRating",
     //   ratingValue: profile.averageRating,
@@ -146,8 +143,8 @@ export default async function ProfileProfileLayout({ children, params }) {
     //   postalCode: profile.address?.postalCode || "",
     //   addressCountry: profile.address?.country || "",
     // },
-    telephone: profile.phoneNumber,
-    sameAs: profile.website || [], // or any social media links for the business
+    telephone: profile?.phoneNumber,
+    sameAs: profile?.website || [], // or any social media links for the business
   };
   return (
     <Layout>
@@ -170,20 +167,8 @@ export default async function ProfileProfileLayout({ children, params }) {
                         averageRating={profile.averageRating}
                       />
                     )}
-                    <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
-                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                        <LiaSmsSolid className="text-sm md:text-xl" />
-                        <span className={font14}>Chat</span>
-                      </div>
-                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                        <FaPlus className="text-sm" />
-                        <span className={font14}>Follow</span>
-                      </div>
-                      <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
-                        <HiOutlineShare className="text-sm md:text-xl" />
-                        <span className={font14}>Share</span>
-                      </div>
-                    </div>
+                    {/* social linkgs */}
+                    <SocialShare />
                   </div>
                 </div>
               </div>

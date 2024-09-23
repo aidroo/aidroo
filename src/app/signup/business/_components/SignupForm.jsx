@@ -81,7 +81,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
       });
 
       if (response.data.status === 201) {
-        setSuccess("Pending! We're reviewing your request");
+        setSuccess(response.data.message);
 
         // Reset form fields after successful submission
         setUserData({
@@ -223,9 +223,8 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
       )}
       {success && (
-        <p className="p-2 rounded-md text-green-300    ">
-          Pending!{" "}
-          <span className="text-red-400">We're reviewing your request</span>
+        <p className="p-2 rounded-md text-green-300 bg-red-50   ">
+          Pending! <span className="text-red-400">{success}</span>
         </p>
       )}
       <div className="flex items-center justify-center pt-2">

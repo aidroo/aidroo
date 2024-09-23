@@ -37,6 +37,10 @@ const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, // Default to false if users are not verified by default
+    },
     passwordResetToken: {
       type: DataTypes.STRING,
       allowNull: true,

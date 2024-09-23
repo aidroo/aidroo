@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
+import f from "@/asserts/jsonfile/Bellnotifications.json";
+import messageIconjson from "@/asserts/jsonfile/messageicon4.json";
 import { font16, font18 } from "@/constant";
 
 import {
@@ -8,11 +10,9 @@ import {
   claimWithBusiness,
   loginIcon,
   logo,
-  messageIcon,
   myorder,
   myprofile,
   myReview,
-  notificationIcon,
   pricingPlan,
   singoutIcon,
   unclaimed,
@@ -21,6 +21,7 @@ import {
   verifiedIcon,
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
+import Lottie from "lottie-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -61,16 +62,16 @@ export default function DesktopMenu() {
         </div>
 
         <div className="col-span-2  mr-24 flex justify-end items-center gap-4   ">
-          <button
-            href="#_"
-            className=" rounded px-5  h-10  group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-1 hover:ring-white transition-all ease-out duration-300"
+          <Link
+            href="/explore-jobs"
+            className=" rounded px-5 flex items-center  h-10  group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-1 hover:ring-white transition-all ease-out duration-300"
           >
             <span className="absolute -top-2 -right-1  flex h-3 w-3">
               <span className="animate-ping  inline-flex absolute    h-full w-full rounded-full bg-white opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
             </span>
             <span className="relative">Explore Job</span>
-          </button>
+          </Link>
           {/* <div className="px-4  py-2   relative rounded group  font-medium bg-[#1E56AD] text-white inline-block">
             <div className="absolute -top-2 -right-1">
               <span className="relative flex h-3 w-3">
@@ -101,6 +102,11 @@ export default function DesktopMenu() {
                   <ul className=" z-50 shadow rounded-md    p-4 bg-white flex flex-col gap-4 mt-3">
                     <Link href="/">
                       <span className="flex items-center gap-6  border-b pb-2 ">
+                        {/* <Lottie
+                          animationData={f}
+                          autoPlay={false} // Do not autoplay, control via ref
+                          // Control loop based on prop
+                        /> */}
                         <IconImage
                           src={addyourbusiness}
                           size={27}
@@ -179,19 +185,19 @@ export default function DesktopMenu() {
             </Link>
           ) : (
             <>
-              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer">
-                <IconImage
-                  src={messageIcon}
-                  size={32}
-                  alt="message icon"
-                  className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer"
+              <div className="hover:bg-[#1e56ad] w-11   rounded-sm cursor-pointer">
+                <Lottie
+                  animationData={messageIconjson}
+                  autoPlay={false} // Do not autoplay, control via ref
+                  // Control loop based on prop
+                  className="w-full"
                 />
               </div>
-              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer">
-                <IconImage
-                  src={notificationIcon}
-                  size={28}
-                  alt="message icon"
+              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer w-11 p-1">
+                <Lottie
+                  animationData={f}
+                  autoPlay={false} // Do not autoplay, control via ref
+                  // Control loop based on prop
                 />
               </div>
               <Popover>

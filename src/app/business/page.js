@@ -27,19 +27,18 @@ export default async function Categories({ searchParams }) {
   const page = parseInt(searchParams?.page) || 1;
 
   // Fetch the data from your API or database based on the search and filter criteria
-  const { businessProfiles, totalRecords, totalPages, currentPage } =
-    await fetchProfiles({
-      searchQuery,
-      categoryFilter,
-      subcategoryFilter,
-      countryFilter,
-      ratingFilter,
-      searchCity,
-      claimedStatus,
-      openNow,
-      page,
-      limit,
-    });
+  const { businessProfiles, totalRecords, totalPages } = await fetchProfiles({
+    searchQuery,
+    categoryFilter,
+    subcategoryFilter,
+    countryFilter,
+    ratingFilter,
+    searchCity,
+    claimedStatus,
+    openNow,
+    page,
+    limit,
+  });
 
   // console.log(businessProfiles);
   // Loading placeholder
@@ -94,7 +93,7 @@ export default async function Categories({ searchParams }) {
                   /> */}
                   {limit < totalRecords && (
                     <PaginationComponent
-                      currentPage={currentPage}
+                      currentPage={1}
                       totalPages={totalPages}
                       baseUrl="/business"
                     />

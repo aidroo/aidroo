@@ -64,7 +64,8 @@ export default function PersonalSingupForm({ isExit }) {
       const response = await axiosInstance.post("/api/user", userData);
 
       if (response.data.status === 201) {
-        setSuccess("Pending we are reviewing your request");
+        // setSuccess("Pending we are reviewing your request");
+        setSuccess(response.data.message);
       } else {
         setApiError(response?.data?.message || "Something went wrong");
       }
@@ -172,9 +173,8 @@ export default function PersonalSingupForm({ isExit }) {
       )}
 
       {success && (
-        <p className="p-2 rounded-md text-green-300    ">
-          Pending!{" "}
-          <span className="text-red-400">We're reviewing your request</span>
+        <p className="p-2 rounded-md text-green-300 bg-red-50   ">
+          Pending! <span className="text-red-400">{success}</span>
         </p>
       )}
       <div className="flex items-center justify-center pt-2">

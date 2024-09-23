@@ -163,7 +163,9 @@ export default function MobileMenu() {
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
                       </span>
                     </div>
-                    <Heading size="xs">Explore job</Heading>
+                    <Link href="/explore-jobs">
+                      <Heading size="xs">Explore job</Heading>
+                    </Link>
                   </Button>
                 </div>
                 {/* business profile */}

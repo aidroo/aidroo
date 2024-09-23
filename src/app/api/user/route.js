@@ -1,5 +1,6 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
+import { sendVerificationEmail } from "@/utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
@@ -70,12 +71,6 @@ export async function POST(req) {
       role,
     });
 
-    // Send the initial response to the client
-    const response = NextResponse.json({
-      status: 201,
-      message: "User registered successfully.",
-    });
-
     // Perform additional operations asynchronously
     (async () => {
       try {
@@ -117,7 +112,17 @@ export async function POST(req) {
         console.error("Error registering user profiles or address:", error);
       }
     })();
+    //
 
+    // Send the email
+    await sendVerificationEmail(user);
+
+    // Send the initial response to the client
+    const response = NextResponse.json({
+      status: 201,
+      message:
+        "Please confirm your email address to activate your registration",
+    });
     return response;
   } catch (error) {
     console.error("Error registering user:", error);
