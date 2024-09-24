@@ -43,7 +43,7 @@ export default function PersonalSingupForm({ isExit }) {
       shallow: true,
     });
     // Reset subcategory when category is changed
-  }, [router, userData.username]);
+  }, [router, userData?.username]);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });

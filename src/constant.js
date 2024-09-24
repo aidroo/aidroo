@@ -373,8 +373,7 @@ export const adminDashboardSidebarLinks = [
   },
   {
     name: "Jobs",
-    // href: "/admin_dashboard/jobs",
-    href: "#",
+    href: "/admin_dashboard/jobs",
     roles: ["admin", "editor", "moderator"], // Admin and creators can see this
   },
   {

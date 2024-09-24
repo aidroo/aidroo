@@ -41,7 +41,7 @@ export default function PersonalProfileCreatedForm({
         shallow: true,
       }
     );
-  }, [userData.username, isExit, router]);
+  }, [userData?.username, isExit, router]);
 
   const handleCheckboxChange = (checked) => {
     setUserData({ ...userData, userVerified: checked });
@@ -55,7 +55,7 @@ export default function PersonalProfileCreatedForm({
           name="firstName"
           placeholder="First Name"
           className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
-          value={userData.firstName}
+          value={userData?.firstName}
           onChange={handleChange}
         />
         <Input
@@ -63,7 +63,7 @@ export default function PersonalProfileCreatedForm({
           name="lastName"
           placeholder="Last Name"
           className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
-          value={userData.lastName}
+          value={userData?.lastName}
           onChange={handleChange}
         />
       </div>
@@ -74,7 +74,7 @@ export default function PersonalProfileCreatedForm({
           placeholder="Email"
           className="bg-white dark:bg-gray-800 h-10 text-xs md:text-sm"
           required
-          value={userData.email}
+          value={userData?.email}
           onChange={handleChange}
         />
         <div

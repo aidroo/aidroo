@@ -1,59 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../sequalize";
 
-// const Job = sequelize.define(
-//   "Job",
-//   {
-//     id: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     username: {
-//       type: DataTypes.STRING(255), // Explicitly define the length of username
-//       references: {
-//         model: "Users", // Ensure this model name matches your "Users" table
-//         key: "username",
-//       },
-//       allowNull: false,
-//       // onDelete: "CASCADE",
-//     },
-//     title: {
-//       type: DataTypes.STRING(255), // Set a reasonable length for the job title
-//       allowNull: false,
-//     },
-//     description: {
-//       type: DataTypes.TEXT, // Use TEXT for longer descriptions
-//       allowNull: true,
-//     },
-//     price: {
-//       type: DataTypes.FLOAT, // Use DECIMAL for precision (10 digits total, 2 after decimal)
-//       allowNull: true,
-//     },
-//     location: {
-//       type: DataTypes.STRING(255), // Set a reasonable length for location
-//       allowNull: false,
-//     },
-//     images: {
-//       type: DataTypes.JSON, // Allows storing an array or object of images
-//       allowNull: true,
-//     },
-//     tags: {
-//       type: DataTypes.JSON, // Allows storing an array of tags as JSON
-//       allowNull: true,
-//     },
-//     status: {
-//       type: DataTypes.ENUM("approved", "pending"),
-//       defaultValue: "pending",
-//     },
-//   },
-//   {
-//     timestamps: true, // Automatically adds createdAt and updatedAt fields
-//   }
-// );
-
-// export default Job;
-
 const Job = sequelize.define(
   "Job",
   {
@@ -97,7 +44,7 @@ const Job = sequelize.define(
       },
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
-      allowNull: true, // Allow NULL since onDelete is SET NULL
+      allowNull: true,
     },
     subcategory_id: {
       type: DataTypes.INTEGER,
@@ -107,7 +54,7 @@ const Job = sequelize.define(
       },
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
-      allowNull: true, // Allow NULL since onDelete is SET NULL
+      allowNull: true,
     },
     location: {
       type: DataTypes.STRING(255),
@@ -136,6 +83,11 @@ const Job = sequelize.define(
     status: {
       type: DataTypes.ENUM("approved", "pending"),
       defaultValue: "pending",
+    },
+    applications: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0, // Default value set to 0
+      allowNull: false,
     },
   },
   {

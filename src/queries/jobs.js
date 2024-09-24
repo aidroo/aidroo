@@ -6,6 +6,8 @@ async function fetchAllJobsWithUserDetails(
   searchInput,
   category,
   subcategory,
+  country,
+  all = false,
   page = 1,
   limit = 10
 ) {
@@ -16,12 +18,22 @@ async function fetchAllJobsWithUserDetails(
   const offset = (page - 1) * limit;
 
   const whereConditions = {
+    ...(!all && { status: "approved" }),
     ...(searchInput && { title: { [Op.like]: `%${searchInput}%` } }),
+    ...(country && { country: { [Op.like]: `%${country}%` } }),
     ...(category && { category_id: category }),
     ...(subcategory && { subcategory_id: subcategory }),
     // Assuming you have an 'open' field
   };
+  // let order = [["createdAt", "DESC"]]; // Default to latest
 
+  // if (filter === "top") {
+  //   order = [["applications", "DESC"]]; // Top jobs by the number of applications
+  //   // Ensure 'applications' field exists in JobPost or include it in related models
+  // } else if (filter !== "latest") {
+  //   // If the filter is not recognized, default to latest jobs
+  //   console.warn(`Unrecognized filter: ${filter}. Defaulting to latest jobs.`);
+  // }
   try {
     const { rows: jobs, count: totalRecords } =
       await db.JobPost.findAndCountAll({
@@ -50,7 +62,7 @@ async function fetchAllJobsWithUserDetails(
         limit: limit,
       });
     const plainJobs = jobs.map((job) => job.toJSON());
-    // console.log(plainJobs);
+
     const totalPages = Math.ceil(totalRecords / limit);
 
     return { plainJobs, totalRecords, totalPages, currentPage: page };

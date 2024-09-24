@@ -1,23 +1,97 @@
+import IconImage from "@/components/IconImage/IconImage";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Button } from "@/components/ui/button";
 import { font14, font16 } from "@/constant";
-import { profilePic } from "@/exportImage";
+import { locationIcon, moneyBag, profilePic, schedule } from "@/exportImage";
 
 export default function JobsCard({ job }) {
-  const { title, description, images, tags } = job;
+  const {
+    title,
+    description,
+    images,
+    tags,
+    price,
+    priceType,
+    currency,
+    startDate,
+    location,
+    country,
+  } = job;
 
   return (
     <div>
-      <div className="w-full rounded-lg border-2 p-6 flex flex-col space-y-4">
-        <h1 className={` ${font16}text-primary_color flex items-center gap-4`}>
+      <div className="w-full rounded-lg border-2 p-6 flex flex-col space-y-2">
+        <h1
+          className={` ${font16}text-primary_color flex items-center gap-4 text-lg`}
+        >
           {title}
         </h1>
 
         <p className={`  text-gray-400 tracking-tight ${font14}`}>
           {description}
         </p>
+        {/* price */}
+        <div className="flex gap-4 items-start -ml-2">
+          <IconImage
+            src={moneyBag}
+            size={44}
+            alt="moneybag"
+            className="-mt-1"
+          />
+          <div className="text-lg font-sans">
+            <p className="font-sans">
+              <span> {price}</span>
+              <span> {currency}</span>
+            </p>
+            <p className=" ">
+              Price is
+              <span className="text-primary_color font-semibold">
+                {" "}
+                {priceType.charAt(0).toUpperCase() +
+                  priceType.slice(1).toLowerCase()}
+              </span>
+            </p>
+          </div>
+        </div>
+        {/* category */}
+        {/* <div className="flex gap-4 items-start -ml-2">
+          <IconImage
+            src={categories}
+            size={44}
+            alt="moneybag"
+            className="-mt-1"
+          />
 
+          <p className="font-sans">
+             {category}
+          </p>
+        </div> */}
         {/* image */}
+        {/* calender */}
+
+        <div className="flex gap-4 items-start -ml-2">
+          <IconImage
+            src={schedule}
+            size={44}
+            alt="moneybag"
+            className="-mt-1"
+          />
+
+          <p className="font-sans">{startDate}</p>
+        </div>
+        {/* location */}
+        <div className="flex gap-4 items-start -ml-2">
+          <IconImage
+            src={locationIcon}
+            size={44}
+            alt="moneybag"
+            className="-mt-1"
+          />
+
+          <p className="font-sans">
+            {location} ,<span>{country}</span>
+          </p>
+        </div>
         <div className="flex gap-4 ">
           {images.length > 0 &&
             images.map((image) => (
@@ -35,10 +109,11 @@ export default function JobsCard({ job }) {
               </div>
             ))}
         </div>
+        {/* tag */}
         <div className="flex gap-2">
           {tags.map((tag) => (
             <h1 key={tag} className="text-primary_color text-xs">
-              {tag}
+              #{tag}
             </h1>
           ))}
         </div>

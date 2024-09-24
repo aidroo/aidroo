@@ -5,7 +5,7 @@ import {
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import fetchAllJobsWithUserDetails from "../../queries/jobs.js";
-import CreateForm from "./_components/CreateForm";
+import CreateJobsAndProfileForm from "./_components/CreateJobsAndProfileForm.jsx";
 import JobsCard from "./_components/JobsCard";
 import JobsFilterComponents from "./_components/JobsFilterComponents";
 
@@ -13,6 +13,7 @@ export default async function Jobs({ searchParams }) {
   const searchInput = searchParams.search;
   const category = searchParams.category_id;
   const subcategory = searchParams.subcategory_id;
+  const country = searchParams.country;
   const page = searchParams.page || 1;
   const limit = searchParams.limit || 10;
 
@@ -26,6 +27,7 @@ export default async function Jobs({ searchParams }) {
       searchInput,
       category,
       subcategory,
+      country,
       page,
       limit
     );
@@ -35,15 +37,18 @@ export default async function Jobs({ searchParams }) {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto my-14">
+      <div className="max-w-7xl mx-auto my-14 px-4">
         <div className="flex justify-center  w-full">
           <h1 className="text-center text-2xl px-4 py-1 bg-primary_color w-fit text-white rounded-md my-8">
             Explore Jobs
           </h1>
         </div>
-        <div className="grid grid-cols-5 gap-x-10 ">
+        <div className=" flex flex-col-reverse md:grid  md:grid-cols-5 gap-x-10 ">
           <div className="col-span-3 flex flex-col gap-8">
-            <CreateForm categories={categories} subcategories={subcategories} />
+            <CreateJobsAndProfileForm
+              categories={categories}
+              subcategories={subcategories}
+            />
 
             {/* post job card */}
             {plainJobs &&
@@ -60,7 +65,7 @@ export default async function Jobs({ searchParams }) {
             )}
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-2 my-4 md:my-0">
             <JobsFilterComponents
               categories={categories}
               subcategories={subcategories}

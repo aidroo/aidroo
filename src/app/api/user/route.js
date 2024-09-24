@@ -61,9 +61,11 @@ export async function POST(req) {
         message: "User already exists.",
       });
     }
-    const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
 
+    const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
+    await sendVerificationEmail(email, username, role);
     // Create the new user
+
     const user = await db.User.create({
       username: lowercaseUsername,
       email,
@@ -115,11 +117,11 @@ export async function POST(req) {
     //
 
     // Send the email
-    await sendVerificationEmail(user);
 
     // Send the initial response to the client
     const response = NextResponse.json({
       status: 201,
+      user,
       message:
         "Please confirm your email address to activate your registration",
     });
