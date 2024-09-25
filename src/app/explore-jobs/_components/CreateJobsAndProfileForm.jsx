@@ -1,10 +1,6 @@
 "use client";
 import { Combobox } from "@/components/Combobox";
-import FileUploadComponent from "@/components/FileUploadComponent";
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
-import PasswordInput from "@/components/PasswordInput";
-import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
-import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
+import MultipleImageUpload from "@/components/MultipleImageUpload";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -23,21 +19,19 @@ import axiosInstance from "@/lib/axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BsCheckCircleFill } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
-import { LuUser2 } from "react-icons/lu";
-import { MdDelete, MdOutlineMail } from "react-icons/md";
+import PersonalProfileCreatedForm from "../../../components/PersonalProfileCreatedForm";
 
 export default function CreateJobsAndProfileForm({
   categories,
   subcategories,
-  isExit = false,
 }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [inputValue, setInputValue] = useState(""); // for hashtag input
   const [hashtags, setHashtags] = useState([]); // to store hashtags
   const [uploadUrl, setUploadUrl] = useState([]);
+  const [avatar, setAvatar] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState();
   const router = useRouter();
@@ -67,8 +61,6 @@ export default function CreateJobsAndProfileForm({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    phoneNumber: "",
     country: "",
     city: "",
     address: "",
@@ -118,9 +110,7 @@ export default function CreateJobsAndProfileForm({
     setJobData((prevState) => ({ ...prevState, [name]: value }));
   };
   // handle change of profile
-  const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
+
   // Handle category and subcategory changes
   useEffect(() => {
     setJobData((prevState) => ({
@@ -158,25 +148,6 @@ export default function CreateJobsAndProfileForm({
     }
     router.push(`/explore-jobs?${query.toString()}`);
   }, [selectedCategory, router, jobData.username]);
-  const handleUploadUrl = (url) => {
-    setUploadUrl((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
-  };
-  const handledelete = async (url) => {
-    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
-
-    try {
-      await axiosInstance.post(`/api/upload/${avatarId}`, {
-        username: currentUser?.username,
-        avatarId,
-        role: "business",
-      });
-      setUploadUrl((prevUrls) =>
-        prevUrls.filter((currentUrl) => currentUrl !== url)
-      );
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -186,11 +157,10 @@ export default function CreateJobsAndProfileForm({
       setLoading(true);
 
       if (!currentUser?.username) {
-        if (userData.password !== userData.confirmPassword) {
-          setError("Passwords do not match");
-          return;
-        }
-        await axiosInstance.post("/api/user", userData);
+        await axiosInstance.post("/api/user", {
+          ...userData,
+          profileThumb: avatar,
+        });
       }
 
       await axiosInstance.post("/api/jobs", {
@@ -203,16 +173,18 @@ export default function CreateJobsAndProfileForm({
       setSuccess(
         "Pending ! we are review your job and sent email for profile verification!"
       );
-      resetForm();
-      setSelectedCategory(null);
-      setSelectedSubcategory(null);
-      setHashtags([]);
-      setUploadUrl([]);
+
       router.push(`/explore-jobs`);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+      resetForm();
+      setSelectedCategory(null);
+      setSelectedSubcategory(null);
+      setHashtags([]);
+      setUploadUrl([]);
+      setAvatar("");
     }
   };
 
@@ -253,6 +225,7 @@ export default function CreateJobsAndProfileForm({
                   onChange={handleInputChange}
                   className={`${font14}`}
                   placeholder="Enter your job title"
+                  required
                 />
               </div>
               <div className="flex flex-col items-center justify-center">
@@ -262,6 +235,7 @@ export default function CreateJobsAndProfileForm({
                   onChange={handleInputChange}
                   className={`${font14} min-h-32`}
                   placeholder="Enter your job description"
+                  required
                 />
               </div>
 
@@ -281,6 +255,7 @@ export default function CreateJobsAndProfileForm({
                       min={0}
                       placeholder="Amount"
                       className="text-base text-gray-400 flex-grow outline-none px-2"
+                      required
                     />
                     <div className="flex items-center px-1 rounded-lg space-x-4 mx-auto">
                       <select
@@ -288,6 +263,7 @@ export default function CreateJobsAndProfileForm({
                         value={jobData.currency}
                         onChange={handleInputChange}
                         className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg max-h-24"
+                        required
                       >
                         <option value="USD">USD</option>
                         <option value="GBP">GBP</option>
@@ -303,6 +279,7 @@ export default function CreateJobsAndProfileForm({
                       value={jobData.priceType}
                       onChange={handleInputChange}
                       className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg"
+                      required
                     >
                       <option value="negotiable">Negotiate</option>
                       <option value="fixed">Fixed</option>
@@ -354,6 +331,7 @@ export default function CreateJobsAndProfileForm({
                       onChange={handleInputChange}
                       className="text-base text-gray-400 flex-grow outline-none px-2"
                       placeholder="Address"
+                      required
                     />
                     <div className="ms:flex items-center px-1 rounded-lg space-x-4 mx-auto">
                       <select
@@ -361,6 +339,7 @@ export default function CreateJobsAndProfileForm({
                         value={jobData.country}
                         onChange={handleInputChange}
                         className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg"
+                        required
                       >
                         <option value="">Country</option>
                         {countries.map((country, index) => (
@@ -387,6 +366,7 @@ export default function CreateJobsAndProfileForm({
                       value={jobData.startDate}
                       onChange={handleInputChange}
                       className="w-full"
+                      required
                     />
                   </div>
                   <div>
@@ -429,136 +409,21 @@ export default function CreateJobsAndProfileForm({
                 </div>
               </div>
               {/* image */}
-              <div className=" flex  gap-x-2 mt-4   ">
-                {uploadUrl &&
-                  uploadUrl?.map((url) => (
-                    <div
-                      key={url}
-                      className="relative group w-16 h-16 overflow-hidden"
-                    >
-                      <ResponsiveImage
-                        src={url}
-                        className="border rounded-md  "
-                        alt="review image"
-                      />
 
-                      <MdDelete
-                        className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
-                        onClick={() => handledelete(url)}
-                      />
-                    </div>
-                  ))}
-              </div>
-              <FileUploadComponent setUploadUrl={handleUploadUrl} />
+              <MultipleImageUpload
+                setUploadUrl={setUploadUrl}
+                uploadUrl={uploadUrl}
+              />
               {/* Submit Button */}
             </div>
             {/* profile */}
             {!currentUser?.username && (
-              <div className="space-y-4 border-t">
-                <h1 className="text-center text-lg font-semibold my-6 text-primary_color">
-                  Singup Profile
-                </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    type="text"
-                    name="firstName"
-                    placeholder="First Name"
-                    value={userData.firstName}
-                    onChange={handleChange}
-                    className="mb-4"
-                  />
-                  <Input
-                    type="text"
-                    placeholder="Last Name"
-                    name="lastName"
-                    value={userData.lastName}
-                    onChange={handleChange}
-                    className="mb-4"
-                  />
-                </div>
-                <div className="w-full flex items-center border gap-2 h-10 rounded-sm overflow-hidden">
-                  <LuUser2 className="text-2xl bg-gray-100 h-10 p-[10px] w-14 rounded-r-sm" />
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    value={userData.username}
-                    onChange={handleChange}
-                    className="bg-white dark:bg-gray-800 border-none focus-visible:ring-0 flex-grow"
-                    required
-                  />
-                  {!isExit && userData.username !== "" && (
-                    <BsCheckCircleFill className="text-primary_color text-2xl mr-2" />
-                  )}
-                </div>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={userData.email}
-                  onChange={handleChange}
-                  className="mb-4"
-                  icon={MdOutlineMail}
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <PasswordInput
-                    placeholder="Create Password"
-                    name="password"
-                    value={userData.password}
-                    onChange={(e) =>
-                      setUserData({
-                        ...userData,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                  <PasswordInput
-                    placeholder="Confirm Password"
-                    name="confirmPassword"
-                    value={userData.confirmPassword}
-                    onChange={(e) =>
-                      setUserData({
-                        ...userData,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <PhoneCountry
-                    setPhone={(phoneNumber) =>
-                      setUserData({ ...userData, phoneNumber })
-                    }
-                  />
-                  <OptionSelect
-                    label="Country"
-                    options={countries}
-                    className={`text-gray-600 ${font14} h-10`}
-                    onChange={(country) =>
-                      setUserData({ ...userData, country })
-                    }
-                    value={userData.country}
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    type="text"
-                    placeholder="City"
-                    name="city"
-                    value={userData.city}
-                    onChange={handleChange}
-                    className="mb-4"
-                  />
-                  <Input
-                    type="text"
-                    placeholder="Address"
-                    name="address"
-                    value={userData.address}
-                    onChange={handleChange}
-                    className="mb-4"
-                  />
-                </div>
-              </div>
+              <PersonalProfileCreatedForm
+                userData={userData}
+                setUserData={setUserData}
+                avatar={avatar}
+                setAvatar={setAvatar}
+              />
             )}
             {error && (
               <p className="text-red-400 bg-red-100 p-2 rounded-md">{error}</p>

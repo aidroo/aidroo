@@ -4,7 +4,9 @@ import {
   fetchCategoriesWithOutLimit,
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
-import fetchAllJobsWithUserDetails from "../../queries/jobs.js";
+
+import Notfound from "@/components/Notfound.jsx";
+import fetchAllJobsWithUserDetails from "@/queries/jobs.js";
 import CreateJobsAndProfileForm from "./_components/CreateJobsAndProfileForm.jsx";
 import JobsCard from "./_components/JobsCard";
 import JobsFilterComponents from "./_components/JobsFilterComponents";
@@ -14,6 +16,7 @@ export default async function Jobs({ searchParams }) {
   const category = searchParams.category_id;
   const subcategory = searchParams.subcategory_id;
   const country = searchParams.country;
+  const filter = searchParams.filter;
   const page = searchParams.page || 1;
   const limit = searchParams.limit || 10;
 
@@ -21,13 +24,15 @@ export default async function Jobs({ searchParams }) {
     fetchCategoriesWithOutLimit(),
     fetchSubcategories(category || 1),
   ]);
-
+  const all = false;
   const { plainJobs, totalRecords, currentPage, totalPages } =
     await fetchAllJobsWithUserDetails(
       searchInput,
       category,
       subcategory,
       country,
+      all,
+      filter,
       page,
       limit
     );
@@ -55,6 +60,7 @@ export default async function Jobs({ searchParams }) {
               plainJobs.map((job) => {
                 return <JobsCard job={job} key={job.id} />;
               })}
+            {plainJobs.length === 0 && <Notfound />}
 
             {limit < totalRecords && (
               <PaginationComponent

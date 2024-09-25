@@ -32,7 +32,7 @@ export async function GET(request) {
     const user = await db.User.findOne({
       where: { username: decodedToken.username },
     });
-
+    console.log(user);
     if (!user) {
       return new Response(
         JSON.stringify({ success: false, error: "User not found" }),

@@ -1,12 +1,13 @@
 import IconImage from "@/components/IconImage/IconImage";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import Rating from "@/components/Rating/Rating";
-import ReviewCard from "@/components/ReviewCard/ReviewCard";
+
 import { Progress } from "@/components/ui/progress";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import { getAllProfileReviews } from "@/queries/reviews";
+import ReviewCard from "./_components/ReviewCard";
 
 // Review is a server component
 export default async function Review({ params: { username }, searchParams }) {

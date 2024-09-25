@@ -4,6 +4,7 @@ import BusinessProfile from "./business-profile";
 import Category from "./category";
 import Job from "./Job";
 import PersonalProfile from "./personal-profile";
+import ReplyReview from "./replayReview";
 import Review from "./review";
 import Schedule from "./schedule";
 import SubCategory from "./subCategory";
@@ -24,6 +25,7 @@ db.Subcategory = SubCategory;
 db.JobPost = Job;
 db.Review = Review;
 db.Schedule = Schedule;
+db.ReplyReview = ReplyReview;
 
 // Define associations with cascading deletes
 
@@ -120,6 +122,30 @@ db.Category.hasMany(db.Subcategory, {
 db.Subcategory.belongsTo(db.Category, {
   foreignKey: "categoryId",
   as: "category",
+  onDelete: "CASCADE",
+});
+
+// replay review
+db.Review.hasMany(db.ReplyReview, {
+  foreignKey: "reviewId", // Associates replies with a review
+  as: "replies", // Alias for the replies relation
+  onDelete: "CASCADE", // Delete replies when the review is deleted
+});
+db.ReplyReview.belongsTo(db.Review, {
+  foreignKey: "reviewId",
+  as: "review", // Alias for the review that was replied to
+  onDelete: "CASCADE",
+});
+
+// User association with ReplyReview (the user who replies)
+db.User.hasMany(db.ReplyReview, {
+  foreignKey: "username", // Associates replies with the user who created the reply
+  as: "replyReviews", // Alias for the replies relation
+  onDelete: "CASCADE", // Delete replies when the user is deleted
+});
+db.ReplyReview.belongsTo(db.User, {
+  foreignKey: "username",
+  as: "user", // Alias for the user who replied
   onDelete: "CASCADE",
 });
 

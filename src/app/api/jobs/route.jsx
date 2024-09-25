@@ -27,6 +27,7 @@ export async function POST(request) {
       status,
     } = body;
 
+    console.log(username, title, subcategory_id, category_id, priceType, price);
     if (!username || !title || !price || !category_id || !subcategory_id) {
       return NextResponse.json(
         { error: "Missing required fields" },

@@ -4,7 +4,7 @@ import {
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 import fetchAllJobsWithUserDetails from "@/queries/jobs";
-import CreateJobsAndProfileForm from "./_components/JobAndProfileCreate";
+import JobsAndProfileCreatedForm from "./_components/JobAndProfileCreatedForm";
 import JobsFilterForm from "./_components/JobsFilterForm";
 import JobsTable from "./_components/JobsTable";
 
@@ -19,6 +19,7 @@ export default async function Jobs({ searchParams }) {
   // Fetch data from the server-side function
 
   const all = true;
+  const filter = "latest";
   const { plainJobs, totalRecords, currentPage, totalPages } =
     await fetchAllJobsWithUserDetails(
       searchInput,
@@ -26,6 +27,7 @@ export default async function Jobs({ searchParams }) {
       subcategory,
       country,
       all,
+      filter,
       page,
       limit
     );
@@ -40,7 +42,7 @@ export default async function Jobs({ searchParams }) {
   // const baseUrl = `/business/${id}/reviews`;
   return (
     <div className="rounded-lg space-y-6 border p-2">
-      <CreateJobsAndProfileForm
+      <JobsAndProfileCreatedForm
         categories={categories}
         subcategories={subcategories}
       />

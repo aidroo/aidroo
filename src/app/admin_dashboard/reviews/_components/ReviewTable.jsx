@@ -50,6 +50,7 @@ export default function ReviewTable({ reviews }) {
           <TableBody>
             {reviews?.length > 0 &&
               reviews?.map((review) => {
+                console.log(review);
                 return (
                   <TableRow key={review.reviewId}>
                     <TableCell className=" ">
@@ -58,7 +59,23 @@ export default function ReviewTable({ reviews }) {
                           review?.profileDetails?.lastName}
                     </TableCell>
                     <TableCell className=" ">{review?.title}</TableCell>
-                    <TableCell className=" ">{review?.comment}</TableCell>
+                    <TableCell className="">
+                      {/* Display the first 25 characters of the comment */}
+                      {review?.comment.slice(0, 25)}
+
+                      {/* If the comment is longer than 25 characters, show "..." and the "Read More" link */}
+                      {review?.comment.length > 25 && (
+                        <span>
+                          ...{" "}
+                          {/* <Link
+                            href={`/business/${review?.profileDetails?.profileId}`}
+                            className="text-blue-600 hover:text-blue-700"
+                          >
+                            Read More
+                          </Link> */}
+                        </span>
+                      )}
+                    </TableCell>
 
                     <TableCell className=" ">
                       {review?.status === "pending" && (

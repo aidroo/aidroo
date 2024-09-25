@@ -202,3 +202,35 @@ export async function getAllReviews(page = 1, limit = 10, searchQuery = "") {
     return NextResponse.json({ status: 500, error: error.message });
   }
 }
+
+export async function getRepliesWithProfile(reviewId) {
+  try {
+    const replies = await db.ReplyReview.findAll({
+      where: { reviewId }, // Filter by the reviewId
+      include: [
+        {
+          model: db.User,
+          as: "user", // Get the user who created the reply
+          attributes: ["username", "email"], // Include relevant user fields
+          include: [
+            {
+              model: db.PersonalProfile, // Include the PersonalProfile if it exists
+              as: "personalProfile",
+              required: false, // This allows the user to not have a personal profile (optional)
+            },
+            {
+              model: db.BusinessProfile, // Include the BusinessProfile if it exists
+              as: "businessProfile",
+              required: false, // This allows the user to not have a business profile (optional)
+            },
+          ],
+        },
+      ],
+    });
+
+    return replies;
+  } catch (error) {
+    console.error("Error fetching replies with profiles:", error);
+    throw error;
+  }
+}

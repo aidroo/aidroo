@@ -1,25 +1,22 @@
 "use client";
 import FileUploadComponent from "@/components/FileUploadComponent";
-import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { brifcaseIcon } from "@/exportImage";
 import axiosInstance from "@/lib/axios";
 
+import PersonalProfileCreatedForm from "@/components/PersonalProfileCreatedForm";
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
-import PersonalProfileCreatedForm from "./PersonalProfileCreatedForm";
 
-export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
+export default function ReviewAndProfileCreateDialog({ profileId }) {
   const [uploadUrl, setUploadUrl] = useState([]);
-  const [singleImage, setSingleImage] = useState(null);
 
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
@@ -28,6 +25,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState(false);
+  const [avatar, setAvatar] = useState("");
   const router = useRouter();
 
   // Initialize state for user and review data
@@ -74,7 +72,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         images: uploadUrl,
         country: selectedCountry?.name,
         profileId,
-        profileThumb: singleImage,
+        profileThumb: avatar,
       });
 
       if (response.status === 201) {
@@ -88,7 +86,7 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating
         setSelectedCountry(null);
-        setSingleImage(null);
+        setAvatar(null);
 
         router.refresh("/admin_dashboard/business_profile");
 
@@ -227,34 +225,12 @@ export default function ReviewAndProfileCreateDialog({ profileId, isExit }) {
           </div>
         </div>
 
-        {/* Image upload section */}
-        <div className="flex gap-4 items-center border-b-2 pb-4 border p-4">
-          <div className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full w-20 md:w-24 shrink-0 overflow-hidden">
-            <IconImage
-              src={singleImage || brifcaseIcon}
-              alt="profile image"
-              size={100}
-              className="rounded-lg"
-            />
-          </div>
-          <div className="max-w-64 space-y-2">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <FileUploadComponent setUploadUrl={setSingleImage} />
-            </div>
-            <Button variant="hover" onClick={() => handledelete(singleImage)}>
-              Remove Photo
-            </Button>
-          </div>
-        </div>
-
-        {/* Profile created */}
         <PersonalProfileCreatedForm
           userData={userData}
           setUserData={setUserData}
-          handleCheckboxChange={handleCheckboxChange}
-          isExit={isExit}
-          selectedCountry={selectedCountry}
-          setSelectedCountry={setSelectedCountry}
+          avatar={avatar}
+          setAvatar={setAvatar}
+          checked
         />
         {error && <h1 className="p-2 text-red-300">{error}</h1>}
         {success && <div className="text-green-300 ">{success}</div>}

@@ -87,6 +87,7 @@ export async function POST(req) {
           profileThumb: profileThumb,
           description,
           verified: userVerified,
+          status: "approved",
         },
         { transaction }
       ),

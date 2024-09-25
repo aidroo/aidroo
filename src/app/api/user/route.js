@@ -1,5 +1,6 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
+import sequelize from "@/config/sequalize";
 import { sendVerificationEmail } from "@/utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
@@ -36,13 +37,15 @@ export async function POST(req) {
   } = body;
 
   // Validate required fields
-
   if (!username || !email || !password) {
     return NextResponse.json({
       status: 400,
       message: "Username, email, and password are required.",
     });
   }
+
+  // Start a transaction
+  const transaction = await sequelize.transaction();
 
   try {
     // Hash the password
@@ -53,9 +56,11 @@ export async function POST(req) {
       where: {
         [Op.or]: [{ email }, { username }],
       },
+      transaction,
     });
 
     if (existingUser) {
+      await transaction.rollback();
       return NextResponse.json({
         status: 400,
         message: "User already exists.",
@@ -64,69 +69,77 @@ export async function POST(req) {
 
     const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
     await sendVerificationEmail(email, username, role);
+
     // Create the new user
+    const user = await db.User.create(
+      {
+        username: lowercaseUsername,
+        email,
+        password: hashPassword,
+        role,
+      },
+      { transaction }
+    );
 
-    const user = await db.User.create({
-      username: lowercaseUsername,
-      email,
-      password: hashPassword,
-      role,
-    });
-
-    // Perform additional operations asynchronously
-    (async () => {
-      try {
-        if (role === "business") {
-          await db.BusinessProfile.create({
-            username: user.username,
-            businessName,
-            businessType,
-            phoneNumber,
-            category,
-            profileThumb,
-            funds,
-            employees,
-            description,
-            subcategory,
-            status,
-
-            verified,
-          });
-        } else {
-          await db.PersonalProfile.create({
-            username: user.username,
-            firstName,
-            lastName,
-            dob,
-            verified,
-            profileThumb,
-            gender,
-          });
-        }
-
-        await db.Address.create({
+    // Handle role-based profile creation
+    if (role === "business") {
+      await db.BusinessProfile.create(
+        {
           username: user.username,
-          country,
-          city,
-          address,
-        });
-      } catch (error) {
-        console.error("Error registering user profiles or address:", error);
-      }
-    })();
-    //
+          businessName,
+          businessType,
+          phoneNumber,
+          category,
+          profileThumb,
+          funds,
+          employees,
+          description,
+          subcategory,
+          status,
+          verified,
+        },
+        { transaction }
+      );
+    } else {
+      await db.PersonalProfile.create(
+        {
+          username: user.username,
+          firstName,
+          lastName,
+          dob,
+          verified,
+          profileThumb,
+          gender,
+        },
+        { transaction }
+      );
+    }
 
-    // Send the email
+    // Create the address
+    await db.Address.create(
+      {
+        username: user.username,
+        country,
+        city,
+        address,
+      },
+      { transaction }
+    );
 
-    // Send the initial response to the client
-    const response = NextResponse.json({
+    // Commit the transaction
+    await transaction.commit();
+
+    // Send verification email
+
+    return NextResponse.json({
       status: 201,
       user,
       message:
-        "Please confirm your email address to activate your registration",
+        "Please confirm your email address to activate your registration.",
     });
-    return response;
   } catch (error) {
+    // Rollback the transaction if any error occurs
+    await transaction.rollback();
     console.error("Error registering user:", error);
     return NextResponse.json(
       { status: 500, message: "Internal Server Error" },

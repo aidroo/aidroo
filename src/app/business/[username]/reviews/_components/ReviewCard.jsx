@@ -1,29 +1,33 @@
+"use client";
+import replayIcon from "@/asserts/Reply.svg";
 import IconImage from "@/components/IconImage/IconImage";
 import Rating from "@/components/Rating/Rating";
-
+import TitleNameAndVerified from "@/components/TitleNameAndVerified";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { font14, font16, font18 } from "@/constant";
+import { profileImage } from "@/exportImage";
+import { useAuth } from "@/hooks/useAuth";
 import followerIcon from "@/public/icons/follower.svg";
+import replayIcon2 from "@/public/icons/replyreview.svg";
 import reportIcon from "@/public/icons/report-icon.svg";
 import reviewsIcon from "@/public/icons/reviews.svg";
-
-import replayIcon from "@/asserts/Reply.svg";
-import { font14, font16, font18 } from "@/constant";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
-import profileImage from "@/public/images/profile.jpg";
 import Image from "next/image";
+import { useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
-import TitleNameAndVerified from "../TitleNameAndVerified";
+import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review }) {
+  const [active, setActive] = useState(false);
   const { title, comment, rating, love, like, images, verified } = review;
-
+  const { currentUser } = useAuth();
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
 
@@ -136,17 +140,26 @@ export default function ReviewCard({ review }) {
               <span>0</span>
             </div>
           </div>
-          <div className="flex gap-1   items-center text-sm    ">
-            <Image
-              src={replayIcon}
-              className="w-[26px]"
-              alt="bordercategoriesIcon"
-            />
-          </div>
+          {/* replay */}
+          {currentUser?.username && (
+            <button
+              className={`flex gap-1   items-center text-sm  ${
+                active ? "border bg-primary_color/10 px-1 rounded-sm" : " "
+              }   `}
+              onClick={() => setActive(!active)}
+            >
+              <Image
+                src={active ? replayIcon2 : replayIcon}
+                className="w-[26px]"
+                alt="bordercategoriesIcon"
+              />
+            </button>
+          )}
 
           <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
+      {active && <ReplayReviewComponent review={review} />}
     </Card>
   );
 }

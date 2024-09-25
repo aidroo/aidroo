@@ -20,7 +20,7 @@ export default function JobsFilterComponents({
     category: 0,
     subcategory: 0,
   });
-  console.log(formState);
+
   // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
