@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";

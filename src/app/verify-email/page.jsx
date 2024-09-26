@@ -1,8 +1,11 @@
 "use client";
 
+import axiosInstance from "@/lib/axios";
+import ilstraion from "@/public/images/illustration-02.svg";
+import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -13,20 +16,15 @@ export default function VerifyEmailPage() {
     const verifyEmail = async () => {
       if (token) {
         try {
-          const res = await fetch("/api/auth/verify-token", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ token }),
+          // Use Axios to make a GET request with token as query parameter
+          const res = await axiosInstance.get("/api/auth/verify-token", {
+            params: { token },
           });
-
-          const data = await res.json();
-
-          if (res.ok) {
-            setVerified(true);
+          console.log(res);
+          if (res?.data?.success) {
+            setVerified(true); // If the verification is successful, update the state
           } else {
-            setError(data.error || "Invalid or expired token");
+            setError(res?.data?.message || "Invalid or expired token");
           }
         } catch (err) {
           console.error("Error verifying email:", err);
@@ -41,7 +39,32 @@ export default function VerifyEmailPage() {
   return (
     <div>
       {verified ? (
-        <h1>Your email has been successfully verified!</h1>
+        <div>
+          <div className=" w-screen h-screen flex flex-col items-center justify-center ">
+            <Image
+              src={ilstraion}
+              alt=""
+              width={500}
+              height={300}
+              className="-mt-36"
+            />
+            <div className="flex flex-col items-center justify-center gap-4  ">
+              <h1 className="text-2xl text-primary_color font-semibold">
+                Email verification successful!
+              </h1>
+              <p>
+                You can now log in to your account using the email address you
+                provided.
+              </p>
+              <Link
+                href="/login"
+                className="px-8 rounded-md py-2 bg-primary_color text-white"
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+        </div>
       ) : (
         <h1>{error || "Verifying your email..."}</h1>
       )}

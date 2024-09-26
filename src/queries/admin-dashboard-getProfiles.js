@@ -312,3 +312,45 @@ export async function fetchSinglePersonalProfile(username) {
     return NextResponse.json({ error: error.message, status: 500 });
   }
 }
+
+export async function getAllBusinessProfile() {
+  // Ensure page and limit are integers
+
+  // Base condition for fetching approved profiles only
+
+  // Address-related conditions
+
+  try {
+    // Fetch business profiles
+    const businessProfiles = await db.User.findAll({
+      attributes: ["email", "username"],
+      include: [
+        {
+          model: db.BusinessProfile,
+          as: "businessProfile",
+
+          required: true, // Only fetch users with matching business profiles
+        },
+        {
+          model: db.Address,
+          as: "addresses",
+
+          required: true, // Only fetch users with matching addresses
+        },
+      ],
+    });
+
+    // Fetch ratings and total reviews for each profile
+
+    const filteredProfiles = businessProfiles.map((profile) =>
+      profile.toJSON()
+    );
+
+    return {
+      businessProfiles: filteredProfiles, // Return enriched profiles with review data
+    };
+  } catch (error) {
+    console.error("Error fetching profiles:", error);
+    throw new Error("Database query failed");
+  }
+}

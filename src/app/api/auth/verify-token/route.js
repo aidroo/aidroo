@@ -1,6 +1,7 @@
 import db from "@/config/model";
 import { verifyAccessToken } from "@/utils/jwt";
-
+import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 export async function GET(request) {
   try {
     // Extract token from query params
@@ -9,23 +10,25 @@ export async function GET(request) {
 
     // Check if the token is provided
     if (!token) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Token not provided" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Token not provided",
+        status: 400,
+      });
     }
 
     // Verify the token
     let decodedToken;
     try {
       decodedToken = await verifyAccessToken(token);
-      console.log("Decoded Token:", decodedToken);
     } catch (error) {
       console.error("Access token expired or invalid:", error);
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid or expired token" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+
+      return NextResponse.json({
+        success: false,
+        message: "Invalid or expired token",
+        status: 400,
+      });
     }
 
     // Find the user in the database based on the token payload
@@ -34,18 +37,20 @@ export async function GET(request) {
     });
 
     if (!user) {
-      return new Response(
-        JSON.stringify({ success: false, error: "User not found" }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "User not found",
+        status: 400,
+      });
     }
 
     // Check if the user's email is already verified
     if (user.isVerified) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Email already verified" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Email already verified",
+        status: 400,
+      });
     }
 
     // Update the user's email verification status
@@ -53,15 +58,18 @@ export async function GET(request) {
     await user.save();
 
     // Return success response
-    return new Response(
-      JSON.stringify({ success: true, message: "Email verified successfully" }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+
+    return NextResponse.json({
+      success: true,
+      message: "Email verified successfully",
+      status: 201,
+    });
   } catch (error) {
     console.error("Error verifying email:", error);
-    return new Response(
-      JSON.stringify({ success: false, error: "Internal server error" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Internal server error",
+      status: 500,
+    });
   }
 }
