@@ -24,6 +24,10 @@ export default async function Review({ params: { username }, searchParams }) {
     totalRecords,
   } = await getAllProfileReviews(username, page, limit);
 
+  if (!reviews.length > 0) {
+    return <p>No reviews found</p>;
+  }
+
   const averageRating = Math.floor(rating);
   const baseUrl = `/business/${username}/reviews`;
   return (

@@ -49,6 +49,10 @@ export default function ReplayReviewComponent({ review }) {
       setLoading(false);
     }
   };
+
+  if (!review.replies.length) {
+    return <h1>not replay review found</h1>;
+  }
   return (
     <div className="  flex flex-col ml-16    bg-primary_color/5 rounded-md ">
       <div className="flex gap-4 items-start mb-2  py-2 px-2 ">
@@ -96,7 +100,7 @@ export default function ReplayReviewComponent({ review }) {
       </form>
 
       {error && <p className="p-2 bg-red-50 text-red-400">{error}</p>}
-      {review.replies &&
+      {review.replies.length > 0 &&
         review.replies.map((reply) => (
           <ReplyReviewCard key={reply.id} reply={reply} />
         ))}

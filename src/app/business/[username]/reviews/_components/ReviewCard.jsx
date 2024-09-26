@@ -36,9 +36,6 @@ export default function ReviewCard({ review }) {
     " " +
     review?.user?.personalProfile?.lastName;
 
-  // const date = new Date(createdAt);
-
-  // const toLocalTimeString = date.toDateString();
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -164,7 +161,7 @@ export default function ReviewCard({ review }) {
           <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
-      {active && <ReplayReviewComponent review={review} />}
+      {active && review.length > 0 && <ReplayReviewComponent review={review} />}
     </Card>
   );
 }

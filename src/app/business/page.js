@@ -59,6 +59,9 @@ export default async function Categories({ searchParams }) {
   //   </div>
   // );
 
+  if (!businessProfiles) {
+    return <h1>not found</h1>;
+  }
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-2  py-10 ">

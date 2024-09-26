@@ -40,7 +40,8 @@ export default function ReplyReviewCard({ reply }) {
               </div>
 
               <address className={`${font14} text-gray-500`}>
-                {reply.user.addresses?.city}, {reply.user.addresses?.country}{" "}
+                {reply?.user?.addresses?.city},{" "}
+                {reply?.user?.addresses?.country}{" "}
               </address>
             </div>
           </div>

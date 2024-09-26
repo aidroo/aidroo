@@ -20,7 +20,7 @@ export default function VerifyEmailPage() {
           const res = await axiosInstance.get("/api/auth/verify-token", {
             params: { token },
           });
-          console.log(res);
+
           if (res?.data?.success) {
             setVerified(true); // If the verification is successful, update the state
           } else {
