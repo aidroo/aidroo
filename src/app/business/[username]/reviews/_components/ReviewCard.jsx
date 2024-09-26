@@ -55,13 +55,18 @@ export default function ReviewCard({ review }) {
               alt="profile pic"
             />
           </div>
-          <div className="">
-            <div className=" flex gap-x-4  justify-between items-start ">
-              <TitleNameAndVerified
-                title={review?.user?.businessProfile?.businessName || fulName}
-                verified={review?.user?.businessProfile?.verified}
-                personalVerified={review?.user?.personalProfile?.verified}
-              />
+          <div className="w-full">
+            <div className="w-full flex items-start">
+              <div className="w-full flex gap-x-4  justify-between items-start ">
+                <TitleNameAndVerified
+                  title={review?.user?.businessProfile?.businessName || fulName}
+                  verified={review?.user?.businessProfile?.verified}
+                  personalVerified={review?.user?.personalProfile?.verified}
+                />
+              </div>
+              {/* <p className="w-full text-gray-500 text-sm">
+                {moment(new Date(review.createdAt)).fromNow()}
+              </p> */}
             </div>
 
             <p className={`${font14} text-gray-500`}>

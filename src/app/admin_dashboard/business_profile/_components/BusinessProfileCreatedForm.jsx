@@ -181,7 +181,11 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
                   <div>
                     <FileUploadComponent setUploadUrl={setUploadUrl} />
                     {uploadUrl && (
-                      <Button variant="hover" onClick={deleteUploadedFile}>
+                      <Button
+                        variant="hover"
+                        onClick={deleteUploadedFile}
+                        className="mt-2"
+                      >
                         Remove Photo
                       </Button>
                     )}

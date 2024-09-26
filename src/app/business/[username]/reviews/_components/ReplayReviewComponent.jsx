@@ -7,22 +7,21 @@ import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import replayIcon from "@/public/icons/replyreview.svg";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ReplyReviewCard from "./ReplyReviewCard";
 
 export default function ReplayReviewComponent({ review }) {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [replayReview, setReplayReviw] = useState([]);
+
   const { currentUser } = useAuth();
 
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
+  const router = useRouter();
 
-  const fulName =
-    review?.user?.personalProfile?.firstName +
-    " " +
-    review?.user?.personalProfile?.lastName;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,79 +34,72 @@ export default function ReplayReviewComponent({ review }) {
     }
 
     try {
-      const response = await axiosInstance.post("/api/review-replay", {
+      await axiosInstance.post("/api/review-replay", {
         reviewId: review.id,
         content,
         username: currentUser?.username,
       });
-      console.log(response);
-
-      setReplayReviw([response?.data?.data]);
 
       setContent("");
       setLoading(false);
       setError("");
+      router.refresh(`/business/${review?.profileId}/reviews`);
     } catch (error) {
       setError("Failed to reply");
       setLoading(false);
     }
   };
   return (
-    <div>
-      {" "}
-      <>
-        <hr className="  w-11/12   mb-1 ml-16   " />
-        <div className="  flex flex-col ml-16    bg-primary_color/5 rounded-md ">
-          <div className="flex gap-4 items-start mb-2  py-2 px-2 ">
-            <div>
-              <IconImage
-                src={
-                  review?.user?.personalProfile?.profileThumb ||
-                  review?.user?.businessProfile?.profileThumb ||
-                  profileImage
-                }
-                size={60}
-                className="rounded-full ring-1  "
-                alt="profile pic"
-              />
-            </div>
-            <div className="">
-              <div className=" flex gap-x-4  justify-between items-start ">
-                <TitleNameAndVerified
-                  title={review?.user?.businessProfile?.businessName || fulName}
-                  verified={review?.user?.businessProfile?.verified}
-                  personalVerified={review?.user?.personalProfile?.verified}
-                />
-              </div>
-
-              <p className={`${font14} text-gray-500`}>
-                {city}, {country}{" "}
-              </p>
-            </div>
-          </div>
-          {/* <IconImage src={replayIcon} size={32} /> */}
-
-          {replayReview.length === 0 && (
-            <form className="flex justify-end p-2 " onSubmit={handleSubmit}>
-              <Textarea
-                className="min-h-14     bg-white"
-                placeholder="Write your comment "
-                onChange={(e) => setContent(e.target.value)}
-              />
-
-              <button
-                className="   border rounded-md px-4 py-2 ml-2 flex items-center justify-center"
-                type="submit"
-              >
-                <IconImage src={replayIcon} size={32} />
-                {loading ? "submitting..." : <span>Replay</span>}
-              </button>
-            </form>
-          )}
-
-          <p>{replayReview[0]?.content}</p>
+    <div className="  flex flex-col ml-16    bg-primary_color/5 rounded-md ">
+      <div className="flex gap-4 items-start mb-2  py-2 px-2 ">
+        <div>
+          <IconImage
+            src={currentUser?.profile?.profileThumb || profileImage}
+            size={60}
+            className="rounded-full ring-1  "
+            alt="profile pic"
+          />
         </div>
-      </>
+        <div className="">
+          <div className=" flex gap-x-4  justify-between items-start ">
+            <TitleNameAndVerified
+              title={
+                currentUser?.profile?.businessName ||
+                currentUser?.profile?.fullName
+              }
+              verified={currentUser?.profile?.verified}
+              personalVerified={currentUser?.profile?.verified}
+            />
+          </div>
+
+          <p className={`${font14} text-gray-500`}>
+            {city}, {country}{" "}
+          </p>
+        </div>
+      </div>
+      {/* <IconImage src={replayIcon} size={32} /> */}
+
+      <form className="flex justify-end p-2 " onSubmit={handleSubmit}>
+        <Textarea
+          className="min-h-14     bg-white"
+          placeholder="Write your comment "
+          onChange={(e) => setContent(e.target.value)}
+        />
+
+        <button
+          className=" h-12  border border-primary_color rounded-md px-4 py-2 ml-2 flex items-center justify-center"
+          type="submit"
+        >
+          <IconImage src={replayIcon} size={32} />
+          {loading ? "submitting..." : <span>Replay</span>}
+        </button>
+      </form>
+
+      {error && <p className="p-2 bg-red-50 text-red-400">{error}</p>}
+      {review.replies &&
+        review.replies.map((reply) => (
+          <ReplyReviewCard key={reply.id} reply={reply} />
+        ))}
     </div>
   );
 }

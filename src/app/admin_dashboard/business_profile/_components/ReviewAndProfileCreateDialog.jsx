@@ -24,7 +24,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
   const [serviceRating, setServiceRating] = useState(0);
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
-  const [selectedCountry, setSelectedCountry] = useState(false);
+
   const [avatar, setAvatar] = useState("");
   const router = useRouter();
 
@@ -70,7 +70,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
         ...reviewData,
         rating: averageRating, // Include the calculated rating
         images: uploadUrl,
-        country: selectedCountry?.name,
+
         profileId,
         profileThumb: avatar,
       });
@@ -85,7 +85,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
         setServiceRating(0); // Reset service rating
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating
-        setSelectedCountry(null);
+
         setAvatar(null);
 
         router.refresh("/admin_dashboard/business_profile");

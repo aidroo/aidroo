@@ -43,6 +43,8 @@ export async function POST(req) {
       message: "Username, email, and password are required.",
     });
   }
+
+  console.log("country", country);
   // console.log(images, profileThumb);
   // Start a transaction
   const transaction = await db.sequelize.transaction();
