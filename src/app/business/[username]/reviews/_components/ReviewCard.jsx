@@ -25,6 +25,7 @@ import { FcLike } from "react-icons/fc";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review }) {
+  console.log(review);
   const [active, setActive] = useState(false);
   const { title, comment, rating, love, like, images, verified } = review;
   const { currentUser } = useAuth();
@@ -161,7 +162,7 @@ export default function ReviewCard({ review }) {
           <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
-      {active && review.length > 0 && <ReplayReviewComponent review={review} />}
+      {active && <ReplayReviewComponent review={review} />}
     </Card>
   );
 }

@@ -37,10 +37,6 @@ const ReplyReview = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    status: {
-      type: DataTypes.ENUM("approved", "pending"),
-      defaultValue: "pending",
-    },
   },
   {
     timestamps: true,

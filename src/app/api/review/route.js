@@ -1,6 +1,7 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
 import { NextResponse } from "next/server";
+import { Op } from "sequelize";
 
 export async function POST(req) {
   await connectToDatabase();
@@ -64,78 +65,141 @@ export async function POST(req) {
   }
 }
 
-// export async function GET(req) {
-//   try {
-//     const { searchParams } = new URL(req.url);
-//     const page = parseInt(searchParams.get("page")) || 1;
-//     const limit = parseInt(searchParams.get("limit")) || 10;
-//     const profileId = searchParams.get("profileId") || null;
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get("page")) || 1;
+  const limit = parseInt(searchParams.get("limit")) || 10;
+  const username = searchParams.get("profileId") || null;
+  const search = searchParams.get("search");
+  try {
+    // Calculate the offset for pagination
+    const offset = (page - 1) * limit;
+    if (!username) {
+      return [];
+    }
 
-//     await connectToDatabase();
+    // Define where condition (filter by profileId if provided)
+    const whereCondition = username
+      ? { profileId: username, status: "approved" }
+      : {
+          ...(search && { title: { [Op.like]: `%${search}%` } }),
+        };
 
-//     const offset = (page - 1) * limit;
+    // Fetch reviews with pagination, but exclude replies from pagination
+    const { rows: reviews, count: totalRecords } =
+      await db.Review.findAndCountAll({
+        where: whereCondition,
+        include: [
+          {
+            model: db.User,
+            as: "user",
+            attributes: ["username", "email", "role"],
+            include: [
+              {
+                model: db.PersonalProfile,
+                as: "personalProfile",
+                attributes: [
+                  "firstName",
+                  "lastName",
+                  "profileThumb",
+                  "verified",
+                ],
+              },
+              {
+                model: db.BusinessProfile,
+                as: "businessProfile",
+                attributes: ["businessName", "profileThumb", "verified"],
+              },
+              {
+                model: db.Address,
+                as: "addresses",
+                attributes: ["city", "country"],
+              },
+            ],
+          },
+        ],
+        order: [["createdAt", "DESC"]], // Sort reviews in descending order
+        offset: offset,
+        limit: limit,
+      });
 
-//     // Fetch reviews with associated user, profile, and address details
-//     const { rows: reviews, count: totalRecords } =
-//       await db.Review.findAndCountAll({
-//         where: { profileId },
-//         include: [
-//           {
-//             model: db.User,
-//             as: "user",
-//             attributes: ["username", "email", "role"],
-//             include: [
-//               {
-//                 model: db.PersonalProfile,
-//                 as: "personalProfile",
-//                 attributes: [
-//                   "firstName",
-//                   "lastName",
-//                   "profileThumb",
-//                   "verified",
-//                 ],
-//               },
-//               {
-//                 model: db.BusinessProfile,
-//                 as: "businessProfile",
-//                 attributes: ["businessName", "profileThumb", "verified"],
-//               },
-//               {
-//                 model: db.Address,
-//                 as: "addresses",
-//                 attributes: ["city", "country"],
-//               },
-//             ],
-//           },
-//         ],
-//         order: [["createdAt", "DESC"]],
-//         offset: offset,
-//         limit: limit,
-//       });
+    // Fetch replies for each review (sorted in descending order)
+    const reviewsWithReplies = await Promise.all(
+      reviews.map(async (review) => {
+        // Fetch replies for the review, sorted in descending order
+        const replies = await db.ReplyReview.findAll({
+          where: { reviewId: review.id },
+          include: [
+            {
+              model: db.User,
+              as: "user",
+              attributes: ["username", "email", "role"],
+              include: [
+                {
+                  model: db.PersonalProfile,
+                  as: "personalProfile",
+                  attributes: [
+                    "firstName",
+                    "lastName",
+                    "profileThumb",
+                    "verified",
+                  ],
+                },
+                {
+                  model: db.BusinessProfile,
+                  as: "businessProfile",
+                  attributes: ["businessName", "profileThumb", "verified"],
+                },
+                {
+                  model: db.Address,
+                  as: "addresses",
+                  attributes: ["city", "country"],
+                },
+              ],
+            },
+          ],
+          order: [["createdAt", "DESC"]], // Sort replies in descending order
+        });
 
-//     const totalPages = Math.ceil(totalRecords / limit);
+        // Attach the sorted replies to the review object
+        return {
+          ...review.toJSON(),
+          replies: replies.map((reply) => reply.toJSON()),
+        };
+      })
+    );
 
-//     // Fetch overall rating and total reviews
-//     const overallRating = await db.BusinessProfile.findOne({
-//       where: { username: profileId },
-//       attributes: ["rating", "totalReviews"],
-//     });
+    // Calculate total pages for pagination
+    const totalPages = Math.ceil(totalRecords / limit);
 
-//     return NextResponse.json({
-//       status: 201,
-//       message: "Reviews fetched successfully.",
-//       totalRecords,
-//       totalPages,
-//       currentPage: page,
-//       data: reviews,
-//       totalReview: overallRating?.totalReviews || 0,
-//       rating: overallRating?.rating || 0,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching reviews:", error);
-//     return NextResponse.json({
-//       status: 500,
-//       message: "Internal Server Error: " + error.message,
-//     });
-//   }
-// }
+    // Calculate the average rating for the profile from the approved reviews
+    const averageRatingResult = await db.Review.findOne({
+      where: { profileId: username, status: "approved" },
+      attributes: [
+        [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
+      ],
+    });
+
+    // Extract the average rating and convert it to a floating-point number
+    const averageRating = averageRatingResult?.dataValues?.averageRating
+      ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
+      : 0;
+
+    const allreviews = {
+      totalRecords,
+      totalPages,
+      currentPage: page,
+      totalReview: totalRecords,
+      rating: averageRating,
+      reviewsWithReplies,
+    };
+    return NextResponse.json({
+      reviews: allreviews || [],
+      status: 201,
+      message: "reviews fetch successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ status: 500, message: error.message });
+  }
+}

@@ -7,7 +7,7 @@ export async function getAllProfileReviews(username, page = 1, limit = 10) {
   try {
     // Calculate the offset for pagination
     const offset = (page - 1) * limit;
-    console.log("username", page, offset);
+
     // Define where condition (filter by profileId if provided)
     const whereCondition = username
       ? { profileId: username, status: "approved" }
@@ -235,22 +235,62 @@ export async function getRepliesWithProfile(reviewId) {
   }
 }
 // export async function getAllProfileReviews(username, page = 1, limit = 10) {
-//   try {
-//     // Calculate the offset for pagination
-//     const offset = (page - 1) * limit;
-//     if (!username) {
-//       return [];
-//     }
+// try {
+//   // Calculate the offset for pagination
+//   const offset = (page - 1) * limit;
+//   if (!username) {
+//     return [];
+//   }
 
-//     // Define where condition (filter by profileId if provided)
-//     const whereCondition = username
-//       ? { profileId: username, status: "approved" }
-//       : {};
+//   // Define where condition (filter by profileId if provided)
+//   const whereCondition = username
+//     ? { profileId: username, status: "approved" }
+//     : {};
 
-//     // Fetch reviews with pagination, but exclude replies from pagination
-//     const { rows: reviews, count: totalRecords } =
-//       await db.Review.findAndCountAll({
-//         where: whereCondition,
+//   // Fetch reviews with pagination, but exclude replies from pagination
+//   const { rows: reviews, count: totalRecords } =
+//     await db.Review.findAndCountAll({
+//       where: whereCondition,
+//       include: [
+//         {
+//           model: db.User,
+//           as: "user",
+//           attributes: ["username", "email", "role"],
+//           include: [
+//             {
+//               model: db.PersonalProfile,
+//               as: "personalProfile",
+//               attributes: [
+//                 "firstName",
+//                 "lastName",
+//                 "profileThumb",
+//                 "verified",
+//               ],
+//             },
+//             {
+//               model: db.BusinessProfile,
+//               as: "businessProfile",
+//               attributes: ["businessName", "profileThumb", "verified"],
+//             },
+//             {
+//               model: db.Address,
+//               as: "addresses",
+//               attributes: ["city", "country"],
+//             },
+//           ],
+//         },
+//       ],
+//       order: [["createdAt", "DESC"]], // Sort reviews in descending order
+//       offset: offset,
+//       limit: limit,
+//     });
+
+//   // Fetch replies for each review (sorted in descending order)
+//   const reviewsWithReplies = await Promise.all(
+//     reviews.map(async (review) => {
+//       // Fetch replies for the review, sorted in descending order
+//       const replies = await db.ReplyReview.findAll({
+//         where: { reviewId: review.id },
 //         include: [
 //           {
 //             model: db.User,
@@ -280,83 +320,43 @@ export async function getRepliesWithProfile(reviewId) {
 //             ],
 //           },
 //         ],
-//         order: [["createdAt", "DESC"]], // Sort reviews in descending order
-//         offset: offset,
-//         limit: limit,
+//         order: [["createdAt", "DESC"]], // Sort replies in descending order
 //       });
 
-//     // Fetch replies for each review (sorted in descending order)
-//     const reviewsWithReplies = await Promise.all(
-//       reviews.map(async (review) => {
-//         // Fetch replies for the review, sorted in descending order
-//         const replies = await db.ReplyReview.findAll({
-//           where: { reviewId: review.id },
-//           include: [
-//             {
-//               model: db.User,
-//               as: "user",
-//               attributes: ["username", "email", "role"],
-//               include: [
-//                 {
-//                   model: db.PersonalProfile,
-//                   as: "personalProfile",
-//                   attributes: [
-//                     "firstName",
-//                     "lastName",
-//                     "profileThumb",
-//                     "verified",
-//                   ],
-//                 },
-//                 {
-//                   model: db.BusinessProfile,
-//                   as: "businessProfile",
-//                   attributes: ["businessName", "profileThumb", "verified"],
-//                 },
-//                 {
-//                   model: db.Address,
-//                   as: "addresses",
-//                   attributes: ["city", "country"],
-//                 },
-//               ],
-//             },
-//           ],
-//           order: [["createdAt", "DESC"]], // Sort replies in descending order
-//         });
+//       // Attach the sorted replies to the review object
+//       return {
+//         ...review.toJSON(),
+//         replies: replies.map((reply) => reply.toJSON()),
+//       };
+//     })
+//   );
 
-//         // Attach the sorted replies to the review object
-//         return {
-//           ...review.toJSON(),
-//           replies: replies.map((reply) => reply.toJSON()),
-//         };
-//       })
-//     );
+//   // Calculate total pages for pagination
+//   const totalPages = Math.ceil(totalRecords / limit);
 
-//     // Calculate total pages for pagination
-//     const totalPages = Math.ceil(totalRecords / limit);
+//   // Calculate the average rating for the profile from the approved reviews
+//   const averageRatingResult = await db.Review.findOne({
+//     where: { profileId: username, status: "approved" },
+//     attributes: [
+//       [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
+//     ],
+//   });
 
-//     // Calculate the average rating for the profile from the approved reviews
-//     const averageRatingResult = await db.Review.findOne({
-//       where: { profileId: username, status: "approved" },
-//       attributes: [
-//         [db.Sequelize.fn("AVG", db.Sequelize.col("rating")), "averageRating"],
-//       ],
-//     });
+//   // Extract the average rating and convert it to a floating-point number
+//   const averageRating = averageRatingResult?.dataValues?.averageRating
+//     ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
+//     : 0;
 
-//     // Extract the average rating and convert it to a floating-point number
-//     const averageRating = averageRatingResult?.dataValues?.averageRating
-//       ? parseFloat(averageRatingResult.dataValues.averageRating).toFixed(1)
-//       : 0;
-
-//     return {
-//       totalRecords,
-//       totalPages,
-//       currentPage: page,
-//       reviews: reviewsWithReplies, // Return reviews with their replies
-//       totalReview: totalRecords, // Use totalRecords for total reviews
-//       rating: averageRating, // Use the calculated average rating
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return NextResponse.json({ status: 500, error: error.message });
-//   }
+//   return {
+//     totalRecords,
+//     totalPages,
+//     currentPage: page,
+//     reviews: reviewsWithReplies, // Return reviews with their replies
+//     totalReview: totalRecords, // Use totalRecords for total reviews
+//     rating: averageRating, // Use the calculated average rating
+//   };
+// } catch (error) {
+//   console.log(error);
+//   return NextResponse.json({ status: 500, error: error.message });
+// }
 // }

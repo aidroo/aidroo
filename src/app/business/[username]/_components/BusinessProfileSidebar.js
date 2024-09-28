@@ -114,9 +114,9 @@ export default function BusinessProfileSidebar({ profile }) {
         <div className="border rounded-md p-8 space-y-4">
           <IconImage src={claimWithBusiness} />
           <div className="">
-            <h className={`text-primary_color ${font16}`}>
+            <h1 className={`text-primary_color ${font16}`}>
               In this Your Business
-            </h>
+            </h1>
             <p className={`tracking-tighter ${font14}`}>
               Claim listing is the best way to manage and protect your business.
             </p>
@@ -160,7 +160,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </div>
             <div className="space-y-[2px]">
               <div className="flex gap-6">
-                <h className={`${font16}`}>Google</h>
+                <h1 className={`${font16}`}>Google</h1>
                 <div className="w-4 md:w-5 ">
                   <ResponsiveImage src={verifiedIcon} />
                 </div>

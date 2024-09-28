@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
-import { getAllProfileReviews } from "@/queries/reviews";
+import axiosInstance from "@/lib/axios";
 import ReviewCard from "./_components/ReviewCard";
 
 // Review is a server component
@@ -15,20 +15,14 @@ export default async function Review({ params: { username }, searchParams }) {
   const page = parseInt(searchParams?.page) || 1;
 
   // Fetch data from the server-side function
-  const {
-    reviews,
-    totalReview,
-    rating,
-    totalPages,
-    currentPage,
-    totalRecords,
-  } = await getAllProfileReviews(username, page, limit);
 
-  if (!reviews.length > 0) {
-    return <p>No reviews found</p>;
-  }
+  const response = await axiosInstance.get(
+    `/api/review?profileId=${username}&&page=${page}&limit=${limit}`
+  );
 
-  const averageRating = Math.floor(rating);
+  // console.log(response.data?.reviews.user);
+
+  const averageRating = Math.floor(response?.data?.reviews?.rating);
   const baseUrl = `/business/${username}/reviews`;
   return (
     <div className="col-span-1 space-y-6">
@@ -44,7 +38,7 @@ export default async function Review({ params: { username }, searchParams }) {
             <Rating value={averageRating} size={18} />
           </div>
           <h1 className={`${font14}`}>
-            <span>{totalReview}</span> Reviews
+            <span>{response?.data?.reviews?.totalReview}</span> Reviews
           </h1>
         </div>
 
@@ -60,13 +54,15 @@ export default async function Review({ params: { username }, searchParams }) {
       </div>
 
       {/* Review Cards */}
-      {reviews.length > 0 &&
-        reviews.map((review) => <ReviewCard key={review.id} review={review} />)}
+      {response?.data?.reviews?.reviewsWithReplies?.length > 0 &&
+        response?.data?.reviews?.reviewsWithReplies.map((review) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
 
-      {limit < totalRecords && (
+      {limit < response?.data?.reviews?.totalRecords && (
         <PaginationComponent
-          currentPage={currentPage}
-          totalPages={totalPages}
+          currentPage={response?.data?.reviews?.currentPage}
+          totalPages={response?.data?.reviews?.totalPages}
           baseUrl={baseUrl}
         />
       )}
