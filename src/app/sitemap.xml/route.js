@@ -1,6 +1,26 @@
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
 import { NextResponse } from "next/server";
 
+// Helper function to escape special characters for XML
+const escapeXml = (unsafe) => {
+  return unsafe.replace(/[<>&'"]/g, (char) => {
+    switch (char) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case "'":
+        return "&apos;";
+      case '"':
+        return "&quot;";
+      default:
+        return char;
+    }
+  });
+};
+
 export async function GET() {
   // Fetch all approved profiles
   const { businessProfiles } = await fetchProfiles({
@@ -10,9 +30,12 @@ export async function GET() {
 
   // Create the sitemap URL entries
   const sitemapEntries = businessProfiles.map((profile) => {
+    // Ensure the username and other dynamic content is escaped
+    const escapedUsername = escapeXml(profile.username);
+
     return `
       <url>
-        <loc>https://localhost:3000/business/${profile.username}</loc>
+        <loc>https://aidroo.com/business/${escapedUsername}</loc>
         <lastmod>${new Date().toISOString()}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
