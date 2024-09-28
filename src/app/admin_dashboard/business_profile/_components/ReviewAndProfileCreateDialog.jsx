@@ -38,6 +38,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
     role: "personal",
     userVerified: false,
     status: "approved",
+    country: "",
     city: "",
     description: "",
     address: "",

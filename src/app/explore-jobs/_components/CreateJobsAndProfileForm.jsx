@@ -41,7 +41,7 @@ export default function CreateJobsAndProfileForm({
     username: currentUser?.username || "",
     title: "",
     description: "",
-    price: null,
+    price: 0,
     category_id: null,
     subcategory_id: null,
     priceType: "negotiable",
@@ -71,15 +71,15 @@ export default function CreateJobsAndProfileForm({
       username: currentUser?.username || "",
       title: "",
       description: "",
-      price: null,
+      price: 0,
       category_id: null,
       subcategory_id: null,
       priceType: "negotiable",
       currency: "USD",
       location: "",
       country: "",
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
       tags: [],
       status: "pending",
     });
@@ -184,6 +184,7 @@ export default function CreateJobsAndProfileForm({
       setSelectedSubcategory(null);
       setHashtags([]);
       setUploadUrl([]);
+      setJobData({ price: 0 });
       setAvatar("");
     }
   };
@@ -247,7 +248,7 @@ export default function CreateJobsAndProfileForm({
 
                 <div className="w-full">
                   <div className="flex items-center bg-white rounded-lg overflow-hidden border h-10 justify-between">
-                    <input
+                    <Input
                       name="price"
                       type="number"
                       value={jobData.price}
@@ -376,6 +377,7 @@ export default function CreateJobsAndProfileForm({
                       value={jobData.endDate}
                       onChange={handleInputChange}
                       className="w-full"
+                      required
                     />
                   </div>
                 </div>
