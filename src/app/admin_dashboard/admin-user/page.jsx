@@ -23,7 +23,7 @@ export default async function page({ searchParams }) {
         <PaginationComponent
           currentPage={currentPage}
           totalPages={totalPages}
-          baseUrl="/business"
+          baseUrl="/business?"
         />
       )}
     </div>

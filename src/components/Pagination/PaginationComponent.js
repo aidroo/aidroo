@@ -29,7 +29,7 @@ export default function PaginationComponent({
       queryParams.set(pagename, page);
       queryParams.set(limitname, limit);
 
-      router.push(`${baseUrl}?${queryParams.toString()}`);
+      router.push(`${baseUrl}${queryParams.toString()}`);
     }
   };
 

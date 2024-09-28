@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import f from "@/asserts/jsonfile/animation2.json";

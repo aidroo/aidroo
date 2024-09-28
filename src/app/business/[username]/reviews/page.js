@@ -23,7 +23,7 @@ export default async function Review({ params: { username }, searchParams }) {
   // console.log(response.data?.reviews.user);
 
   const averageRating = Math.floor(response?.data?.reviews?.rating);
-  const baseUrl = `/business/${username}/reviews`;
+  const baseUrl = `/business/${username}/reviews?`;
   return (
     <div className="col-span-1 space-y-6">
       {/* Write Review */}

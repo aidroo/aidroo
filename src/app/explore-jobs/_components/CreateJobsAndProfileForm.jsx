@@ -37,6 +37,21 @@ export default function CreateJobsAndProfileForm({
   const router = useRouter();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  // Get today's date
+  const today = new Date();
+
+  // Get the date 7 days ago
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
   const [jobData, setJobData] = useState({
     username: currentUser?.username || "",
     title: "",
@@ -48,8 +63,8 @@ export default function CreateJobsAndProfileForm({
     currency: "USD",
     location: "",
     country: "",
-    startDate: "",
-    endDate: "",
+    startDate: formatDate(today), // Default to today
+    endDate: formatDate(sevenDaysAgo), // Default to 7 days ago
     images: uploadUrl,
     tags: [],
     status: "pending",
@@ -193,8 +208,8 @@ export default function CreateJobsAndProfileForm({
     <>
       <Dialog>
         <DialogTrigger className="w-full">
-          <div className=" bg-[#f5f5f5]  rounded-md w-full flex items-center">
-            <div className="my-2 px-2">
+          <div className=" border  rounded-md w-full flex items-center justify-between  px-4">
+            <div className="my-2 ">
               <Image
                 src={currentUser?.profile?.profileThumb || profileImage}
                 alt="profile iamge"
@@ -203,11 +218,12 @@ export default function CreateJobsAndProfileForm({
                 className="rounded-full h-12 w-12"
               />
             </div>
-            <div className="bg-gray-200 hover:bg-gray-300 h-12 w-full rounded-full mr-4 cursor-pointer flex items-center px-4">
-              write your need{" "}
+            <h1 className="text-lg font-semibold text-primary_color">
+              Post a job{" "}
               {currentUser?.profile?.businessName ||
                 currentUser?.profile?.fullName}
-            </div>
+            </h1>
+            <FaRegEdit className="text-primary_color text-xl" />
           </div>
         </DialogTrigger>
         <DialogContent className="border border-red-500 h-screen overflow-y-auto">

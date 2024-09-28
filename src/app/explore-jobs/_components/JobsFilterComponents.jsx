@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 export default function JobsFilterComponents({
   categories = [],
   subcategories = [],
+  filter,
 }) {
-  const [active, setActive] = useState("latest"); // State to track active button
+  // State to track active button
   const router = useRouter();
 
   // State to hold all form values
@@ -36,11 +37,11 @@ export default function JobsFilterComponents({
     if (formState.searchInput) query.set("search", formState.searchInput);
     if (formState.category) query.set("category_id", formState.category);
     if (formState.country) query.set("country", formState.country);
-    if (active) query.set("filter", active);
+
     if (formState.subcategory)
       query.set("subcategory_id", formState.subcategory);
 
-    router.push(`/explore-jobs?${query.toString()}`, {
+    router.push(`/explore-jobs?${query.toString()}&filter=${filter}`, {
       shallow: true,
     });
   }, [
@@ -49,55 +50,11 @@ export default function JobsFilterComponents({
     formState.searchInput,
     formState.country,
     router,
-    active,
   ]);
-
-  // Handle button click to set active state
-  const handleButtonClick = (buttonName) => {
-    setActive(buttonName);
-  };
 
   return (
     <form className="col-span-3">
-      <div className="border p-4 rounded-md grid grid-cols-4 gap-x-4 bg-gray-200 my-4">
-        {/* Top Feed Button */}
-        <div
-          onClick={() => handleButtonClick("top")}
-          className={`ring-[1px] h-full ring-primary_color py-2 text-center rounded-md cursor-pointer ${
-            active === "top"
-              ? "bg-primary_color text-white"
-              : "hover:bg-primary_color hover:text-white"
-          }`}
-        >
-          Top feed
-        </div>
-
-        {/* Latest Feed Button */}
-        <div
-          onClick={() => handleButtonClick("latest")}
-          className={`ring-[1px] h-full ring-primary_color py-2 text-center rounded-md cursor-pointer ${
-            active === "latest"
-              ? "bg-primary_color text-white"
-              : "hover:bg-primary_color hover:text-white"
-          }`}
-        >
-          Latest feed
-        </div>
-
-        {/* Business Profile Button */}
-        <div
-          onClick={() => handleButtonClick("business")}
-          className={`col-span-2 ring-[1px] h-full ring-primary_color py-2 text-center rounded-md cursor-pointer ${
-            active === "business"
-              ? "bg-primary_color text-white"
-              : "hover:bg-primary_color hover:text-white"
-          }`}
-        >
-          Business profile
-        </div>
-      </div>
-
-      <div className="border rounded-md shadow p-4 space-y-4">
+      <div className="border  rounded-md   p-2 space-y-4">
         {/* Search Input */}
         <Input
           type="text"

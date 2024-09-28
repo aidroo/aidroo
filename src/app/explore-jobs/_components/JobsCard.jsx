@@ -20,16 +20,14 @@ export default function JobsCard({ job }) {
 
   return (
     <div>
-      <div className="w-full rounded-lg border-2 p-6 flex flex-col space-y-2">
+      <div className="w-full rounded-lg border p-6 flex flex-col space-y-2">
         <h1
           className={` ${font16}text-primary_color flex items-center gap-4 text-lg`}
         >
           {title}
         </h1>
 
-        <p className={`  text-gray-400 tracking-tight ${font14}`}>
-          {description}
-        </p>
+        <p className={`  text-gray-400   ${font14}`}>{description}</p>
         {/* price */}
         <div className="flex gap-4 items-start -ml-2">
           <IconImage
@@ -38,8 +36,8 @@ export default function JobsCard({ job }) {
             alt="moneybag"
             className="-mt-1"
           />
-          <div className="text-lg font-sans">
-            <p className="font-sans">
+          <div className=" font-sans">
+            <p>
               <span> {price}</span>
               <span> {currency}</span>
             </p>
@@ -88,7 +86,7 @@ export default function JobsCard({ job }) {
             className="-mt-1"
           />
 
-          <p className="font-sans">
+          <p>
             {location} ,<span>{country}</span>
           </p>
         </div>
@@ -112,7 +110,7 @@ export default function JobsCard({ job }) {
         {/* tag */}
         <div className="flex gap-2">
           {tags.map((tag) => (
-            <h1 key={tag} className="text-primary_color text-xs">
+            <h1 key={tag} className="text-primary_color  ">
               #{tag}
             </h1>
           ))}

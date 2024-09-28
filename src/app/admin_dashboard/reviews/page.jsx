@@ -42,7 +42,7 @@ export default async function Review({ searchParams }) {
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalRecords}
-          baseUrl="/admin_dashboard/reviews"
+          baseUrl="/admin_dashboard/reviews?"
         />
       )}
     </div>

@@ -60,7 +60,7 @@ export default async function BusinessPage({ searchParams }) {
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalRecords}
-          baseUrl="/admin_dashboard/business_profile"
+          baseUrl="/admin_dashboard/business_profile?"
         />
       )}
     </div>

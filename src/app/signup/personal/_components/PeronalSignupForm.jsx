@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PasswordInput from "@/components/PasswordInput";

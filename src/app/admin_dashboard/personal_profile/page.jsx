@@ -34,7 +34,7 @@ export default async function PersonalProfile({ searchParams }) {
             currentPage={currentPage}
             totalPages={totalPages}
             totalRecords={totalRecords}
-            baseUrl="/admin_dashboard/personal_profile"
+            baseUrl="/admin_dashboard/personal_profile?"
           />
         )}
       </div>

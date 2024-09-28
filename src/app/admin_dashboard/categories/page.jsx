@@ -29,7 +29,7 @@ export default async function Categories({ searchParams }) {
             currentPage={currentPage}
             totalPages={totalPages}
             totalRecords={totalRecords}
-            baseUrl="/admin_dashboard/categories"
+            baseUrl="/admin_dashboard/categories?"
           />
         )}
       </div>

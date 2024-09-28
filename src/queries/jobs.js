@@ -3,7 +3,7 @@
 import db from "@/config/model";
 import { Op } from "sequelize";
 async function fetchAllJobsWithUserDetails(
-  searchInput,
+  searchQuery,
   category,
   subcategory,
   country,
@@ -20,7 +20,7 @@ async function fetchAllJobsWithUserDetails(
 
   const whereConditions = {
     ...(!all && { status: "approved" }),
-    ...(searchInput && { title: { [Op.like]: `%${searchInput}%` } }),
+    ...(searchQuery && { title: { [Op.like]: `%${searchQuery}%` } }),
     ...(filter === "top" && { applications: { [Op.gt]: 0 } }),
     ...(country && { country: { [Op.like]: `%${country}%` } }),
     ...(category && { category_id: category }),

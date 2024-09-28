@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
@@ -227,7 +226,7 @@ export function WriteReview2({ profileId }) {
                       <p className="  rounded-md text-primary_color bg-primary_color/10 p-2 text-center  ">
                         Pending!{" "}
                         <span className="text-red-400">
-                          We're reviewing your request
+                          We are reviewing your request
                         </span>
                       </p>
                     )}

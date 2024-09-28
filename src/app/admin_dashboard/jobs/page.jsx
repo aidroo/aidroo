@@ -57,7 +57,7 @@ export default async function Jobs({ searchParams }) {
           currentPage={currentPage}
           totalPages={totalPages}
           totalRecords={totalRecords}
-          baseUrl="/admin_dashboard/jobs"
+          baseUrl="/admin_dashboard/jobs?"
         />
       )}
     </div>

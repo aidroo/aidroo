@@ -99,7 +99,7 @@ export default async function Categories({ searchParams }) {
                     <PaginationComponent
                       currentPage={currentPage}
                       totalPages={totalPages}
-                      baseUrl="/business"
+                      baseUrl="/business?"
                     />
                   )}
                 </div>
