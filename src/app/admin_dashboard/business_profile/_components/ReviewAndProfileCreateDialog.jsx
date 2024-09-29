@@ -24,7 +24,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
   const [serviceRating, setServiceRating] = useState(0);
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
-
+  const [selectedCountry, setSelectedCountry] = useState(false);
   const [avatar, setAvatar] = useState("");
   const router = useRouter();
 
@@ -71,7 +71,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
         ...reviewData,
         rating: averageRating, // Include the calculated rating
         images: uploadUrl,
-
+        country: selectedCountry.name,
         profileId,
         profileThumb: avatar,
       });
@@ -86,7 +86,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
         setServiceRating(0); // Reset service rating
         setValueRating(0); // Reset value rating
         setRecommendRating(0); // Reset recommend rating
-
+        setSelectedCountry(false);
         setAvatar(null);
 
         router.refresh("/admin_dashboard/business_profile");
@@ -133,6 +133,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
       console.error("Error deleting file:", error);
     }
   };
+
   return (
     <DialogContent className="h-screen overflow-hidden overflow-y-auto">
       <DialogTitle></DialogTitle>
@@ -231,6 +232,8 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
           setUserData={setUserData}
           avatar={avatar}
           setAvatar={setAvatar}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
           checked
         />
         {error && <h1 className="p-2 text-red-300">{error}</h1>}

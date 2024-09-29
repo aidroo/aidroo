@@ -36,6 +36,17 @@ export async function POST(req) {
     subcategory,
   } = body;
 
+  console.log(
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+    country,
+    city,
+    address,
+    profileThumb
+  );
   // Validate required fields
   if (!username || !email || !password) {
     return NextResponse.json({

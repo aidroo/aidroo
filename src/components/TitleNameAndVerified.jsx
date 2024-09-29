@@ -26,7 +26,7 @@ export default function TitleNameAndVerified({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <span className="inline-block align-baseline ms-2 ">
+              <span className="inline-block align-baseline ms-2  -mt-1 ">
                 <Image
                   src={verifiedIcon}
                   className="w-[20px] inline-block"
@@ -45,7 +45,7 @@ export default function TitleNameAndVerified({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <span className="inline-block align-baseline ms-2 ">
+              <span className="inline-block align-baseline ms-2 -mt-1 ">
                 <Image
                   src={perosnal_verified}
                   className="w-[18px] inline-block"
@@ -64,7 +64,7 @@ export default function TitleNameAndVerified({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <span className="inline-block align-baseline ms-2 ">
+              <span className="inline-block align-baseline ms-2 -mt-1 ">
                 <Image
                   src={unclaimed}
                   className="w-[16px] inline-block"

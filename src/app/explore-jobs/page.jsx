@@ -4,9 +4,11 @@ import {
   fetchSubcategories,
 } from "@/queries/category-and-subcategory";
 
+import Loading from "@/components/Loading.jsx";
 import { Tabs } from "@/components/ui/tabs.jsx";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles.js";
 import fetchAllJobsWithUserDetails from "@/queries/jobs.js";
+import { Suspense } from "react";
 import BusinessProfileContent from "./_components/BusinessProfileContent.jsx";
 import CreateJobsAndProfileForm from "./_components/CreateJobsAndProfileForm.jsx";
 import JobsFilterComponents from "./_components/JobsFilterComponents";
@@ -109,25 +111,30 @@ export default async function Jobs({ searchParams }) {
             />
             <Tabs defaultValue="latest">
               <TabsTriggerComponent />
-
-              <LatestJobsContent
-                plainJobs={latestJobs}
-                totalRecords={latestJobTotalRecords}
-                totalPages={latestJobTotalPages}
-                currentPage={latestCurrentPage}
-              />
-              <TopJobsContent
-                plainJobs={topJobs}
-                totalRecords={topJobTotalRecords}
-                totalPages={topJobTotalPages}
-                currentPage={topCurrentPage}
-              />
-              <BusinessProfileContent
-                businessProfiles={businessProfiles}
-                totalRecords={businessProfilesTotalRecords}
-                totalPages={businessProfilesTotalPages}
-                currentPage={businessProfilesCurrentPage}
-              />
+              <Suspense fallback={Loading}>
+                <LatestJobsContent
+                  plainJobs={latestJobs}
+                  totalRecords={latestJobTotalRecords}
+                  totalPages={latestJobTotalPages}
+                  currentPage={latestCurrentPage}
+                />
+              </Suspense>
+              <Suspense fallback={Loading}>
+                <TopJobsContent
+                  plainJobs={topJobs}
+                  totalRecords={topJobTotalRecords}
+                  totalPages={topJobTotalPages}
+                  currentPage={topCurrentPage}
+                />
+              </Suspense>
+              <Suspense fallback={Loading}>
+                <BusinessProfileContent
+                  businessProfiles={businessProfiles}
+                  totalRecords={businessProfilesTotalRecords}
+                  totalPages={businessProfilesTotalPages}
+                  currentPage={businessProfilesCurrentPage}
+                />
+              </Suspense>
             </Tabs>
             {/* post job card */}
           </div>

@@ -29,6 +29,7 @@ export default function JobsAndProfileCreatedForm({
 }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(false);
   const [inputValue, setInputValue] = useState(""); // for hashtag input
   const [hashtags, setHashtags] = useState([]); // to store hashtags
   const [uploadUrl, setUploadUrl] = useState([]);
@@ -424,6 +425,8 @@ export default function JobsAndProfileCreatedForm({
               setUserData={setUserData}
               avatar={avatar}
               setAvatar={setAvatar}
+              selectedCountry={selectedCountry}
+              setSelectedCountry={setSelectedCountry}
             />
 
             {error && (

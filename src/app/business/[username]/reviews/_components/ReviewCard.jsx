@@ -25,7 +25,6 @@ import { FcLike } from "react-icons/fc";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review }) {
-  console.log(review);
   const [active, setActive] = useState(false);
   const { title, comment, rating, love, like, images, verified } = review;
   const { currentUser } = useAuth();
@@ -144,25 +143,24 @@ export default function ReviewCard({ review }) {
             </div>
           </div>
           {/* replay */}
-          {currentUser?.username && (
-            <button
-              className={`flex gap-1   items-center text-sm  ${
-                active ? "border bg-primary_color/10 px-1 rounded-sm" : " "
-              }   `}
-              onClick={() => setActive(!active)}
-            >
-              <Image
-                src={active ? replayIcon2 : replayIcon}
-                className="w-[26px]"
-                alt="bordercategoriesIcon"
-              />
-            </button>
-          )}
+
+          <button
+            className={`flex gap-1   items-center text-sm  ${
+              active ? "border bg-primary_color/10 px-1 rounded-sm" : " "
+            }   `}
+            onClick={() => setActive(!active)}
+          >
+            <Image
+              src={active && currentUser?.username ? replayIcon2 : replayIcon}
+              className="w-[26px]"
+              alt="bordercategoriesIcon"
+            />
+          </button>
 
           <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
-      {active && <ReplayReviewComponent review={review} />}
+      <ReplayReviewComponent review={review} active={active} />
     </Card>
   );
 }

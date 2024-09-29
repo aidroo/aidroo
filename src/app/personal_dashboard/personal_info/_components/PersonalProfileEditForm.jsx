@@ -22,7 +22,6 @@ export default function PersonalProfileEditForm() {
     country: "",
   });
 
-  console.log(userData);
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };

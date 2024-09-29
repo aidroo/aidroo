@@ -25,6 +25,7 @@ const Job = sequelize.define(
     price: {
       type: DataTypes.FLOAT,
       allowNull: true,
+      defaultValue: 0,
     },
     currency: {
       type: DataTypes.ENUM("USD", "GBP", "EUR"),
@@ -65,11 +66,11 @@ const Job = sequelize.define(
       allowNull: true,
     },
     startDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     endDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     images: {

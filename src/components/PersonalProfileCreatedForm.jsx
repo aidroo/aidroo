@@ -1,16 +1,18 @@
 "use client";
 import FileUploadComponent from "@/components/FileUploadComponent";
 import IconImage from "@/components/IconImage/IconImage";
-import OptionSelect from "@/components/OptionSelect/OptionSelect";
+
 import PasswordInput from "@/components/PasswordInput";
 import { Input } from "@/components/ui/input";
-import { countries, font14 } from "@/constant";
+import { countries } from "@/constant";
 import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
+
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
+import SelectComponent from "./SelectInput";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 
@@ -20,12 +22,14 @@ export default function PersonalProfileCreatedForm({
   isExit,
   avatar,
   setAvatar,
+  selectedCountry,
+  setSelectedCountry,
   checked = false,
 }) {
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  console.log("userdata", userData);
+
   const { currentUser } = useAuth();
 
   const handledelete = async (url) => {
@@ -126,12 +130,13 @@ export default function PersonalProfileCreatedForm({
             })
           }
         />
-        <OptionSelect
-          label="Country"
+        <SelectComponent
           options={countries}
-          className={`text-gray-600 ${font14} h-10`}
-          onChange={(country) => setUserData({ ...userData, country })}
-          value={userData.country}
+          value={selectedCountry?.name || ""}
+          onChange={(value) =>
+            setSelectedCountry(countries.find((c) => c.name === value))
+          }
+          placeholder="Country"
         />
       </div>
 
