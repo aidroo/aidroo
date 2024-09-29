@@ -15,12 +15,12 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useState } from "react";
-import { FaRegEdit } from "react-icons/fa";
+import ForwardedFaRegEdit from "./ForwardRef";
 import ProfileEditDialog from "./ProfileEditDialog";
 import ReviewAndProfileCreateDialog from "./ReviewAndProfileCreateDialog";
 
 export default function ProfileTable({ profiles, isExit }) {
-  const [currentProfileId, setCurrentProfileId] = useState(null);
+  const [currentProfile, setCurrentProfile] = useState(null);
 
   const { currentUser } = useAuth();
   // const currentUser = {
@@ -30,8 +30,8 @@ export default function ProfileTable({ profiles, isExit }) {
   if (profiles.length === 0) return <Notfound />;
 
   // Function to handle dialog open
-  const handleOpen = (profileId) => {
-    setCurrentProfileId(profileId);
+  const handleOpen = (profile) => {
+    setCurrentProfile(profile);
   };
 
   return (
@@ -134,7 +134,9 @@ export default function ProfileTable({ profiles, isExit }) {
                       }
                     >
                       <DialogTrigger asChild>
-                        <FaRegEdit className="text-lg cursor-pointer" />
+                        <div>
+                          <ForwardedFaRegEdit className="text-lg cursor-pointer" />
+                        </div>
                       </DialogTrigger>
                       <ProfileEditDialog
                         username={profile.username}
@@ -151,17 +153,17 @@ export default function ProfileTable({ profiles, isExit }) {
                   currentUser?.role == "reviewer") && (
                   <TableCell>
                     <Dialog
-                      onOpenChange={(open) =>
-                        open && handleOpen(profile.username)
-                      }
+                      onOpenChange={(open) => open && handleOpen(profile)}
                     >
                       <DialogTrigger asChild>
                         <Button variant="outline">Write</Button>
                       </DialogTrigger>
-                      <ReviewAndProfileCreateDialog
-                        profileId={currentProfileId}
-                        isExit={isExit}
-                      />
+                      {currentProfile && (
+                        <ReviewAndProfileCreateDialog
+                          profile={currentProfile}
+                          isExit={isExit}
+                        />
+                      )}
                     </Dialog>
                   </TableCell>
                 )}

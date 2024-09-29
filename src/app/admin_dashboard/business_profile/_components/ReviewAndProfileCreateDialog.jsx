@@ -11,13 +11,14 @@ import PersonalProfileCreatedForm from "@/components/PersonalProfileCreatedForm"
 import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { generateEmail, generateUsername } from "@/utils/generateusername";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 
-export default function ReviewAndProfileCreateDialog({ profileId }) {
+export default function ReviewAndProfileCreateDialog({ profile }) {
   const [uploadUrl, setUploadUrl] = useState([]);
-
+  console.log(profile);
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
@@ -28,20 +29,22 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
   const [avatar, setAvatar] = useState("");
   const router = useRouter();
 
+  const username = generateUsername();
+  const email = generateEmail(username);
   // Initialize state for user and review data
   const initialUserData = {
     firstName: "",
     lastName: "",
-    username: "",
-    email: "",
-    password: "",
+    username: username,
+    email: email,
+    password: username,
     role: "personal",
     userVerified: false,
     status: "approved",
-    country: "",
-    city: "",
+    country: profile?.addresses?.country,
+    city: profile?.addresses?.city,
     description: "",
-    address: "",
+    address: profile?.addresses?.address,
   };
 
   const initialReviewData = {
@@ -50,7 +53,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
     rating: 0,
 
     verified: false,
-    profileId: profileId,
+    profileId: profile,
   };
 
   const [userData, setUserData] = useState(initialUserData);
@@ -72,7 +75,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
         rating: averageRating, // Include the calculated rating
         images: uploadUrl,
         country: selectedCountry.name,
-        profileId,
+        profileId: profile?.username,
         profileThumb: avatar,
       });
 
@@ -81,7 +84,7 @@ export default function ReviewAndProfileCreateDialog({ profileId }) {
 
         // Clear the form after successful submission
         setUserData(initialUserData); // Reset user data
-        setReviewData({ ...initialReviewData, profileId }); // Reset review data with profileId
+        setReviewData({ ...initialReviewData, profileId: profile.username }); // Reset review data with profileId
         setUploadUrl([]); // Clear uploaded image URL
         setServiceRating(0); // Reset service rating
         setValueRating(0); // Reset value rating
