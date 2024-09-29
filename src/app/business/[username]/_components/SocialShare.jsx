@@ -47,9 +47,7 @@ export default function SocialShare() {
 
       {open && (
         <div className="w-full mt-4 border p-4 -mr-5 rounded-md">
-          <h1 className="font-bold text-primary_color  mb-4">
-            Share on social media.
-          </h1>
+          <h1 className="font-bold text-primary_color  mb-4">Share on</h1>
           <div className="flex gap-2 justify-center ">
             {/* Copy Link button */}
             <div

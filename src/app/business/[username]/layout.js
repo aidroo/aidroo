@@ -79,80 +79,63 @@ export async function generateMetadata({ params }) {
 
 export async function generateStaticParams() {
   try {
-    // Assuming `fetchProfiles` can take a limit and return basic profile data
-    const { businessProfiles } = await fetchProfiles({ limit: 100 }); // Adjust limit as needed
-
-    // Return the static params based on profiles or categories (e.g., usernames)
+    const { businessProfiles } = await fetchProfiles({ limit: 100 });
     return businessProfiles.slice(0, 20).map((profile) => ({
-      username: profile.username, // Assuming your routes are based on username
+      username: profile.username,
     }));
   } catch (error) {
     console.error("Error generating static params:", error);
     return [];
   }
 }
+
 export default async function ProfileProfileLayout({ children, params }) {
   const { username } = params;
 
-  let profile;
+  let profile = null;
   try {
     const response = await fetchSingleProfile({ username });
     profile = response.profile;
   } catch (error) {
     console.error("Error fetching profile:", error);
-    profile = null;
   }
 
-  // const schemaData = {
-  //   "@context": "https://schema.org",
-  //   "@type": "LocalBusiness", // Replace with a more specific type if needed
-  //   name: profile?.businessName || "Default Business Name",
-  //   image:
-  //     profile?.profileThumb ||
-  //     " https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
-  //   description: profile?.description || "No description available.",
+  const schemaData = profile
+    ? {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: profile.businessName || "Default Business Name",
+        url: `https://aidroo.com/${username}`,
+        logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
+        image:
+          profile.profileThumb ||
+          "https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
+        description: profile.description || "No description available.",
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: profile.averageRating?.toString() || "0",
+          bestRating: "5",
+          worstRating: "1",
+          reviewCount: profile.totalReviews?.toString() || "0",
+        },
+        sameAs: [
+          "https://www.facebook.com/Fb.Aidroo",
+          "https://www.instagram.com/aidroo_ig",
+          "https://www.linkedin.com/company/aidroo",
+          "https://youtube.com/@aidroo",
+        ],
+      }
+    : null;
 
-  //   aggregateRating: {
-  //     "@type": "AggregateRating",
-  //     ratingValue: profile.averageRating.toString() || "0",
-  //     bestRating: "5",
-  //     worstRating: "1",
-  //     reviewCount: profile.totalReviews.toString() || "0",
-  //   },
-  //   sameAs: [
-  //     "https://www.facebook.com/srikantoa3/", // Add social links dynamically
-  //   ], // Profile's external websites
-  //   url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
-  // };
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: profile?.businessName,
-    image: profile?.profileThumb,
-    description: profile?.description,
-    // aggregateRating: {
-    //   "@type": "AggregateRating",
-    //   ratingValue: profile.averageRating,
-    //   reviewCount: profile.totalReviews,
-    // },
-    // address: {
-    //   "@type": "PostalAddress",
-    //   streetAddress: profile.address?.street || "",
-    //   addressLocality: profile.address?.city || "",
-    //   addressRegion: profile.address?.state || "",
-    //   postalCode: profile.address?.postalCode || "",
-    //   addressCountry: profile.address?.country || "",
-    // },
-    telephone: profile?.phoneNumber,
-    sameAs: profile?.website || [], // or any social media links for the business
-  };
   return (
     <Layout>
       <section>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {schemaData && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+          />
+        )}
 
         <div className="w-full pb-14">
           <div className="w-full rounded-md dark:bg-dark">
@@ -167,7 +150,6 @@ export default async function ProfileProfileLayout({ children, params }) {
                         averageRating={profile.averageRating}
                       />
                     )}
-                    {/* social linkgs */}
                     <SocialShare />
                   </div>
                 </div>

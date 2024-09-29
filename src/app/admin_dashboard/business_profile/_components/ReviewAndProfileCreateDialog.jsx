@@ -18,13 +18,13 @@ import { MdDelete } from "react-icons/md";
 
 export default function ReviewAndProfileCreateDialog({ profile }) {
   const [uploadUrl, setUploadUrl] = useState([]);
-  console.log(profile);
+
   // const [uploadUrl2, setUploadUrl2] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [serviceRating, setServiceRating] = useState(0);
-  const [valueRating, setValueRating] = useState(0);
-  const [recommendRating, setRecommendRating] = useState(0);
+  // const [valueRating, setValueRating] = useState(0);
+  // const [recommendRating, setRecommendRating] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState(false);
   const [avatar, setAvatar] = useState("");
   const router = useRouter();
@@ -59,8 +59,8 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
   const [userData, setUserData] = useState(initialUserData);
   const [reviewData, setReviewData] = useState(initialReviewData);
 
-  // Calculate the average rating
-  const averageRating = (serviceRating + valueRating + recommendRating) / 3;
+  // // Calculate the average rating
+  // const averageRating = (serviceRating + valueRating + recommendRating) / 3;
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -72,9 +72,9 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
       const response = await axiosInstance.post("/api/profilereview", {
         ...userData,
         ...reviewData,
-        rating: averageRating, // Include the calculated rating
+        rating: serviceRating, // Include the calculated rating
         images: uploadUrl,
-        country: selectedCountry.name,
+        country: selectedCountry.name || profile.addresses.country,
         profileId: profile?.username,
         profileThumb: avatar,
       });
@@ -87,8 +87,8 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
         setReviewData({ ...initialReviewData, profileId: profile.username }); // Reset review data with profileId
         setUploadUrl([]); // Clear uploaded image URL
         setServiceRating(0); // Reset service rating
-        setValueRating(0); // Reset value rating
-        setRecommendRating(0); // Reset recommend rating
+        // setValueRating(0); // Reset value rating
+        // setRecommendRating(0); // Reset recommend rating
         setSelectedCountry(false);
         setAvatar(null);
 
@@ -144,7 +144,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
         <div className="w-full border rounded-md space-y-8 p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4">
             <div>
-              <h1 className="text-xl">Service</h1>
+              <h1 className="text-xl">Total Rating</h1>
               <div className="flex gap-1">
                 <Rating
                   value={serviceRating}
@@ -155,7 +155,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <h1 className="text-xl">Value</h1>
               <div className="flex gap-1">
                 <Rating
@@ -178,7 +178,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                   setRating={setRecommendRating}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 space-y-4 md:gap-x-4">
@@ -189,6 +189,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                 name="title"
                 value={reviewData.title}
                 onChange={handleInputChange}
+                required
               />
               <Textarea
                 placeholder="Type your message here."
@@ -196,6 +197,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                 name="comment"
                 value={reviewData.comment}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -237,6 +239,7 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
           setAvatar={setAvatar}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
+          country={profile?.addresses?.country}
           checked
         />
         {error && <h1 className="p-2 text-red-300">{error}</h1>}

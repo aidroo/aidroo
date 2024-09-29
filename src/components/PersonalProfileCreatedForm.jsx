@@ -24,6 +24,7 @@ export default function PersonalProfileCreatedForm({
   setAvatar,
   selectedCountry,
   setSelectedCountry,
+  country,
   checked = false,
 }) {
   const handleChange = (e) => {
@@ -82,6 +83,7 @@ export default function PersonalProfileCreatedForm({
           value={userData.firstName}
           onChange={handleChange}
           className="mb-4"
+          required
         />
         <Input
           type="text"
@@ -116,6 +118,7 @@ export default function PersonalProfileCreatedForm({
           onChange={handleChange}
           className="mb-4"
           icon={MdOutlineMail}
+          required
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -129,10 +132,11 @@ export default function PersonalProfileCreatedForm({
               [e.target.name]: e.target.value,
             })
           }
+          required
         />
         <SelectComponent
           options={countries}
-          value={selectedCountry?.name || ""}
+          value={selectedCountry?.name || country}
           onChange={(value) =>
             setSelectedCountry(countries.find((c) => c.name === value))
           }
