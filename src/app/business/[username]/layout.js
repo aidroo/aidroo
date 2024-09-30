@@ -3,7 +3,7 @@ import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import Head from "next/head";
+
 import BusinessNavbar from "./_components/BusinessNavbar";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
