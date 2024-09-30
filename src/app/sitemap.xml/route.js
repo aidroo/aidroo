@@ -1,25 +1,8 @@
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
+import { escapeXml } from "@/utils/escapedUsername";
 import { NextResponse } from "next/server";
 
 // Helper function to escape special characters for XML
-const escapeXml = (unsafe) => {
-  return unsafe.replace(/[<>&'"]/g, (char) => {
-    switch (char) {
-      case "<":
-        return "&lt;";
-      case ">":
-        return "&gt;";
-      case "&":
-        return "&amp;";
-      case "'":
-        return "&apos;";
-      case '"':
-        return "&quot;";
-      default:
-        return char;
-    }
-  });
-};
 
 export async function GET() {
   // Fetch all approved profiles

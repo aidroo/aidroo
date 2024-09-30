@@ -92,41 +92,58 @@ export async function generateStaticParams() {
 export default async function ProfileProfileLayout({ children, params }) {
   const { username } = params;
 
-  let profile = null;
-  try {
-    const response = await fetchSingleProfile({ username });
-    profile = response.profile;
-  } catch (error) {
-    console.error("Error fetching profile:", error);
-  }
+  const { profile } = await fetchSingleProfile({ username });
 
-  const schemaData = profile
-    ? {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        name: profile.businessName || "Default Business Name",
-        url: `https://aidroo.com/${username}`,
-        logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
-        image:
-          profile.profileThumb ||
-          "https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
-        description: profile.description || "No description available.",
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: profile.averageRating?.toString() || "0",
-          bestRating: "5",
-          worstRating: "1",
-          reviewCount: profile.totalReviews?.toString() || "0",
-        },
-        sameAs: [
-          "https://www.facebook.com/Fb.Aidroo",
-          "https://www.instagram.com/aidroo_ig",
-          "https://www.linkedin.com/company/aidroo",
-          "https://youtube.com/@aidroo",
-        ],
-      }
-    : null;
+  // console.log(profile);
+  // const schemaData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "LocalBusiness",
+  //   name: profile?.businessName || "Default Business Name",
+  //   // url: `https://aidroo.com/${username}`,
+  //   // logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
+  //   // image:
+  //   //   profile.profileThumb ||
+  //   //   "https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75",
+  //   description: profile.description || "No description available.",
+  //   aggregateRating: {
+  //     "@type": "AggregateRating",
+  //     ratingValue: "4",
+  //     // ratingValue: profile?.averageRating?.toString() || "0",
+  //     bestRating: "5",
+  //     worstRating: "1",
+  //     reviewCount: profile?.totalReviews?.toString() || "0",
+  //   },
+  //   // sameAs: [
+  //   //   "https://www.facebook.com/Fb.Aidroo",
+  //   //   "https://www.instagram.com/aidroo_ig",
+  //   //   "https://www.linkedin.com/company/aidroo",
+  //   //   "https://youtube.com/@aidroo",
+  //   // ],
+  // };
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "${profile.businessName || 'Default Business Name'}",
+    url: "https://aidroo.com/${username}",
+    logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
+    image:
+      "${profile.profileThumb || 'https://aidroo.com/_next/image?url=http%3A%2F%2Fres.cloudinary.com%2Fdtwhrzfwy%2Fimage%2Fupload%2Fv1726672084%2Fugl9w88ey9xy6psv1vyf.png&w=1920&q=75'}",
+    description: "${profile.description || 'No description available.'}",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "${profile.averageRating?.toString() || '0'}",
+      bestRating: "5",
+      worstRating: "1",
+      reviewCount: "${profile.totalReviews?.toString() || '0'}",
+    },
+    sameAs: [
+      "https://www.facebook.com/Fb.Aidroo",
+      "https://www.instagram.com/aidroo_ig",
+      "https://www.linkedin.com/company/aidroo",
+      "https://youtube.com/@aidroo",
+    ],
+  };
   return (
     <Layout>
       <section>
