@@ -111,28 +111,23 @@ export default async function ProfileProfileLayout({ children, params }) {
     <Layout>
       <section>
         <Head>
-          <script type="application/ld+json">
-            {`
-      {
-        "@context": "https://schema.org/",
-        "@type": "Organization",
-        "name": "${profile.businessName || "Business Name"}",
-        "url": "https://aidroo.com/business/${
-          profile.username || "default-username"
-        }",
-        "logo": "${profile.logo || ""}",
-        "sameAs": [
-          "https://www.instagram.com/aidroo_ig",
-          "https://www.facebook.com/Fb.Aidroo"
-        ],
-        "sponsor": {
-          "@type": "Organization",
-          "name": "GloboCorp",
-          "url": "http://www.example.com/"
-        }
-      }
-    `}
-          </script>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                url: "http://www.your-company-site.com",
+                contactPoint: [
+                  {
+                    "@type": "ContactPoint",
+                    telephone: "+1-401-555-1212",
+                    contactType: "customer service",
+                  },
+                ],
+              }),
+            }}
+          />
         </Head>
 
         <div className="w-full pb-14">
