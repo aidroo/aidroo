@@ -38,12 +38,14 @@ const Review = sequelize.define(
       allowNull: true, // Explicitly allow null
     },
     like: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
+      type: DataTypes.JSON, // Store usernames who liked the review
+      allowNull: false,
+      defaultValue: [], // Default to an empty array
     },
     love: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
+      type: DataTypes.JSON, // Store usernames who loved the review
+      allowNull: false,
+      defaultValue: [], // Default to an empty array
     },
     verified: {
       type: DataTypes.BOOLEAN,

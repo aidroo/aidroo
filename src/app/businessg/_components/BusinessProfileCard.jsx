@@ -24,7 +24,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
   } = businessProfile.businessProfile;
   const { country = "", city = "" } = businessProfile.addresses;
 
-  let averageRating = Math.floor(businessProfile.averageRating);
+  let averageRating = Math.floor(businessProfile?.averageRating || 0);
   return (
     <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
       <Link href={`/business/${id}`}>
@@ -58,7 +58,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 <Rating value={averageRating} size={18} />
               </div>
               <h1 className="text-gray-600   ">
-                <span>{businessProfile?.averageRating} </span>
+                <span>{businessProfile?.averageRating || 0} </span>
               </h1>
             </div>
             <div className="flex gap-2 items-center  text-gray-600">

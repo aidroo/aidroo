@@ -12,24 +12,31 @@ import {
 import { font14, font16, font18 } from "@/constant";
 import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
+import axiosInstance from "@/lib/axios";
 import followerIcon from "@/public/icons/follower.svg";
 import replayIcon2 from "@/public/icons/replyreview.svg";
 import reportIcon from "@/public/icons/report-icon.svg";
 import reviewsIcon from "@/public/icons/reviews.svg";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { AiFillLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
+import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
-export default function ReviewCard({ review }) {
+export default function ReviewCard({ review, username }) {
   const [active, setActive] = useState(false);
   const { title, comment, rating, love, like, images, verified } = review;
   const { currentUser } = useAuth();
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const fulName =
     review?.user?.personalProfile?.firstName +
@@ -37,6 +44,8 @@ export default function ReviewCard({ review }) {
     review?.user?.personalProfile?.lastName;
 
   const replayRef = useRef(null);
+
+  const router = useRouter();
 
   const handleClickOutside = (event) => {
     if (replayRef.current && !replayRef.current.contains(event.target)) {
@@ -53,6 +62,31 @@ export default function ReviewCard({ review }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleUpdate = async (id, type) => {
+    setLoading(true);
+
+    try {
+      const response = await axiosInstance.put(`/api/review/${id}`, {
+        id,
+        type,
+        username: currentUser?.username,
+      });
+      console.log(response);
+
+      router.refresh(`/business2/${username}`);
+    } catch (error) {
+      //   console.log(error?.response?.data?.message);
+
+      setError(error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const islike =
+    like !== 0 && like.length > 0 && like.includes(currentUser?.username);
+  const islove =
+    love !== 0 && love.length > 0 && love.includes(currentUser?.username);
 
   return (
     <Card className="">
@@ -142,14 +176,30 @@ export default function ReviewCard({ review }) {
       <CardFooter>
         <div className=" w-full  flex justify-between  items-center  ">
           <div className="flex gap-2 md:gap-4  ">
-            <div className="flex gap-1   items-center border hover:border-primary_color py-[2px] px-1 rounded hover:shadow-lg">
-              <AiFillLike />
-              <span>{like}</span>
-            </div>
-            <div className="flex gap-1 py-[2px] px-1 items-center border hover:border-red-500   rounded  first-line: hover:shadow-lg">
-              <FcLike />
-              <span>{love}</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                handleUpdate(review.id, "like");
+              }}
+              className="flex gap-1   items-center border hover:border-primary_color py-[2px] px-1 rounded hover:shadow-lg"
+            >
+              {islike ? (
+                <AiFillLike className="text-primary_color" />
+              ) : (
+                <AiOutlineLike />
+              )}
+              {<span>{like?.length || 0}</span>}
+            </button>
+            <button
+              disabled={!currentUser?.username}
+              onClick={() => {
+                handleUpdate(review.id, "love");
+              }}
+              className="flex gap-1 py-[2px] px-1 items-center border hover:border-red-500   rounded  first-line: hover:shadow-lg"
+            >
+              {islove ? <FcLike /> : <FaRegHeart />}
+              {<span>{love?.length || 0}</span>}
+            </button>
             <div className="flex gap-1   items-center border py-[2px] px-1 hover:border-primary_color rounded   hover:shadow-lg">
               <CiShare2 />
               <span>0</span>
@@ -157,11 +207,12 @@ export default function ReviewCard({ review }) {
           </div>
 
           <button
+            disabled={!currentUser?.username}
             className={`flex gap-1   items-center text-sm  ${
               active ? "border bg-primary_color/10 px-1 rounded-sm" : " "
             }`}
             onClick={() => setActive(!active)}
-            ref={replayRef} // Attach the ref to the button
+            // Attach the ref to the button
           >
             <Image
               src={active && currentUser?.username ? replayIcon2 : replayIcon}
@@ -173,7 +224,11 @@ export default function ReviewCard({ review }) {
           <IconImage src={reportIcon} size={24} />
         </div>
       </CardFooter>
-      <ReplayReviewComponent review={review} active={active} />
+      <ReplayReviewComponent
+        review={review}
+        active={active}
+        replayRef={replayRef}
+      />
     </Card>
   );
 }

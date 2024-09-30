@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
-import f from "@/asserts/jsonfile/Bellnotifications.json";
 import messageIconjson from "@/asserts/jsonfile/messageicon4.json";
+import f from "@/asserts/jsonfile/notificationnew.json";
 import { font16, font18 } from "@/constant";
 
 import {
@@ -55,7 +55,7 @@ export default function DesktopMenu() {
         <div className="flex   items-start col-span-2  text-lg text-gray-700 ms-12  ">
           <DynamicSearchInput
           // title={title}
-          // verified={verified}
+          // verified={verified}sr
           // baseUrl=""
           // searchQuery={searchQuery}
           />
@@ -193,7 +193,7 @@ export default function DesktopMenu() {
                   className="w-full"
                 />
               </div>
-              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer w-11 p-1">
+              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer w-12 p-1">
                 <Lottie
                   animationData={f}
                   autoPlay={false} // Do not autoplay, control via ref

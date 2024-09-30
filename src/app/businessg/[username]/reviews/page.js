@@ -56,7 +56,7 @@ export default async function Review({ params: { username }, searchParams }) {
       {/* Review Cards */}
       {response?.data?.reviews?.reviewsWithReplies?.length > 0 &&
         response?.data?.reviews?.reviewsWithReplies.map((review) => (
-          <ReviewCard key={review.id} review={review} />
+          <ReviewCard key={review.id} review={review} username={username} />
         ))}
 
       {limit < response?.data?.reviews?.totalRecords && (

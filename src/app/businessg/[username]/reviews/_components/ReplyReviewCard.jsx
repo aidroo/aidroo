@@ -10,11 +10,11 @@ export default function ReplyReviewCard({ reply }) {
     " " +
     reply?.user?.personalProfile?.lastName;
   return (
-    <div className="flex items-center my-2 pr-1">
-      <IconImage src={replayIcon} size={32} className="-ml-11 " />
-      <div className="p-2 w-full border rounded-sm">
+    <div className="flex items-center my-2 w-full ">
+      <IconImage src={replayIcon} size={32} className=" -ml-8 " />
+      <div className="p-2 w-full border rounded-sm -ml-8 bg-primary_color/5">
         <div className="  flex flex-col        rounded-md ">
-          <div className="flex gap-4 items-start   py-2 px-2 ">
+          <div className="flex gap-4 items-start   py-2  ">
             <div>
               <IconImage
                 src={
@@ -44,8 +44,22 @@ export default function ReplyReviewCard({ reply }) {
               </p>
             </div>
           </div>
-
-          <p className="ml-[84px] text-gray-500 -mt-8">{reply?.content}</p>
+          <p className="ml-[84px] text-gray-500 -mt-8">
+            {reply?.content.slice(0, 100)}
+            {reply?.content.length > 25 && (
+              <>
+                <span>
+                  ...{" "}
+                  <button
+                    type="button"
+                    className="text-blue-600 hover:text-blue-700"
+                  >
+                    Read More
+                  </button>
+                </span>
+              </>
+            )}
+          </p>
         </div>
       </div>
     </div>

@@ -50,7 +50,6 @@ export default function ReviewTable({ reviews }) {
           <TableBody>
             {reviews?.length > 0 &&
               reviews?.map((review) => {
-                console.log(review);
                 return (
                   <TableRow key={review.reviewId}>
                     <TableCell className=" ">

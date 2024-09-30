@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
 import IconImage from "@/components/IconImage/IconImage";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
@@ -11,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReplyReviewCard from "./ReplyReviewCard";
 
-export default function ReplayReviewComponent({ review, active }) {
+export default function ReplayReviewComponent({ review, active, replayRef }) {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -62,9 +64,9 @@ export default function ReplayReviewComponent({ review, active }) {
       : false;
 
   return (
-    <div className="  flex flex-col ml-16    bg-primary_color/5 rounded-md ">
+    <div className="  flex flex-col ml-16     rounded-md mr-2 ">
       {active && currentUser?.username && (
-        <>
+        <div className="bg-primary_color/5 w-full " ref={replayRef}>
           <div className="flex gap-4 items-start mb-2  py-2 px-2 ">
             <div>
               <IconImage
@@ -101,14 +103,14 @@ export default function ReplayReviewComponent({ review, active }) {
             />
 
             <button
-              className=" h-12  border border-primary_color rounded-md px-4 py-2 ml-2 flex items-center justify-center"
+              className=" h-12  border border-primary_color rounded-md px-2 py-2 ml-2 flex items-center justify-center"
               type="submit"
             >
               <IconImage src={replayIcon} size={32} />
               {loading ? "submitting..." : <span>Replay</span>}
             </button>
           </form>
-        </>
+        </div>
       )}
 
       {error && <p className="p-2 bg-red-50 text-red-400">{error}</p>}
