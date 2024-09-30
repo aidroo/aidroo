@@ -18,7 +18,7 @@ import reportIcon from "@/public/icons/report-icon.svg";
 import reviewsIcon from "@/public/icons/reviews.svg";
 import reviewVerifiedIcon from "@/public/icons/reviewverified.svg";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
@@ -35,6 +35,24 @@ export default function ReviewCard({ review }) {
     review?.user?.personalProfile?.firstName +
     " " +
     review?.user?.personalProfile?.lastName;
+
+  const replayRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (replayRef.current && !replayRef.current.contains(event.target)) {
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for clicks
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Card className="">
@@ -61,9 +79,6 @@ export default function ReviewCard({ review }) {
                   personalVerified={review?.user?.personalProfile?.verified}
                 />
               </div>
-              {/* <p className="w-full text-gray-500 text-sm">
-                {moment(new Date(review.createdAt)).fromNow()}
-              </p> */}
             </div>
 
             <p className={`${font14} text-gray-500`}>
@@ -101,8 +116,6 @@ export default function ReviewCard({ review }) {
               </div>
             )}
           </div>
-
-          {/* <p className={`${font14} mr-0 `}>{toLocalTimeString}</p> */}
         </div>
         <div className="space-y-1">
           <h1 className={`${font18}`}>{title}</h1>
@@ -142,13 +155,13 @@ export default function ReviewCard({ review }) {
               <span>0</span>
             </div>
           </div>
-          {/* replay */}
 
           <button
             className={`flex gap-1   items-center text-sm  ${
               active ? "border bg-primary_color/10 px-1 rounded-sm" : " "
-            }   `}
+            }`}
             onClick={() => setActive(!active)}
+            ref={replayRef} // Attach the ref to the button
           >
             <Image
               src={active && currentUser?.username ? replayIcon2 : replayIcon}

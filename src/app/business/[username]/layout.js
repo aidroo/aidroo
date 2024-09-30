@@ -95,48 +95,45 @@ export default async function ProfileProfileLayout({ children, params }) {
 
   const { profile } = await fetchSingleProfile({ username });
 
-  const jsonLdData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: " profile.businessName",
-    url: `https://aidroo.com`,
-    logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
-    image:
-      "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
-    description: "No description available.",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4",
-      bestRating: "5",
-      worstRating: "1",
-      reviewCount: "14",
-    },
-    sameAs: [
-      "https://www.facebook.com/Fb.Aidroo",
-      "https://www.instagram.com/aidroo_ig",
-      "https://www.linkedin.com/company/aidroo",
-      "https://youtube.com/@aidroo",
-    ],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "123 Main St",
-      addressLocality: "City",
-      addressRegion: "State",
-      postalCode: "12345",
-      addressCountry: "Country",
-    },
-  };
+  // const jsonLdData = {
+  //   "@context": "https://schema.org",
+  //   "@type": "Organization",
+  //   name: "businessname",
+  //   url: "https://aidroo.com/business/mcscleaningservicesinc",
+  //   logo: "",
+  //   sameAs: [
+  //     "https://www.instagram.com/aidroo_ig",
+  //     "https://www.facebook.com/Fb.Aidroo",
+  //   ],
+  // };
 
   return (
     <Layout>
       <section>
-        {jsonLdData && (
-          <Head>
-            <script type="application/ld+json">
-              {JSON.stringify(jsonLdData)}
-            </script>
-          </Head>
-        )}
+        <Head>
+          <script type="application/ld+json">
+            {`
+      {
+        "@context": "https://schema.org/",
+        "@type": "Organization",
+        "name": "${profile.businessName || "Business Name"}",
+        "url": "https://aidroo.com/business/${
+          profile.username || "default-username"
+        }",
+        "logo": "${profile.logo || ""}",
+        "sameAs": [
+          "https://www.instagram.com/aidroo_ig",
+          "https://www.facebook.com/Fb.Aidroo"
+        ],
+        "sponsor": {
+          "@type": "Organization",
+          "name": "GloboCorp",
+          "url": "http://www.example.com/"
+        }
+      }
+    `}
+          </script>
+        </Head>
 
         <div className="w-full pb-14">
           <div className="w-full rounded-md dark:bg-dark">
