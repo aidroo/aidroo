@@ -117,7 +117,7 @@ export default async function ProfileProfileLayout({ children, params }) {
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                url: "http://www.your-company-site.com",
+                url: "https://aidroo.com",
                 contactPoint: [
                   {
                     "@type": "ContactPoint",
