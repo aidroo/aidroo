@@ -98,19 +98,18 @@ export default async function ProfileProfileLayout({ children, params }) {
   const jsonLdData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: profile.businessName || "Default Business Name",
-    url: `https://aidroo.com/${username}`,
+    name: " profile.businessName",
+    url: `https://aidroo.com`,
     logo: "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
     image:
-      profile.profileThumb ||
       "https://res.cloudinary.com/dtwhrzfwy/image/upload/v1727358446/mayq4hjctoaebnzsvejm.jpg",
-    description: profile.description || "No description available.",
+    description: "No description available.",
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile.averageRating?.toString() || "0",
+      ratingValue: "4",
       bestRating: "5",
       worstRating: "1",
-      reviewCount: profile.totalReviews?.toString() || "0",
+      reviewCount: "14",
     },
     sameAs: [
       "https://www.facebook.com/Fb.Aidroo",

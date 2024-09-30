@@ -32,6 +32,11 @@ export default function ReplayReviewComponent({ review, active }) {
       setLoading(false);
       return;
     }
+    if (content.length > 250) {
+      setError("Reply content cannot exceed 250 characters");
+      setLoading(false);
+      return;
+    }
 
     try {
       await axiosInstance.post("/api/review-replay", {

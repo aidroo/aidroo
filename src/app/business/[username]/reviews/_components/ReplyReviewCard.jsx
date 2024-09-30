@@ -10,10 +10,10 @@ export default function ReplyReviewCard({ reply }) {
     " " +
     reply?.user?.personalProfile?.lastName;
   return (
-    <div className="flex items-center ml-12">
-      <IconImage src={replayIcon} size={32} />
-      <div className="p-2 w-full">
-        <div className="  flex flex-col      bg-primary_color/5 rounded-md ">
+    <div className="flex items-center my-2 pr-1">
+      <IconImage src={replayIcon} size={32} className="-ml-11 " />
+      <div className="p-2 w-full border rounded-sm">
+        <div className="  flex flex-col        rounded-md ">
           <div className="flex gap-4 items-start   py-2 px-2 ">
             <div>
               <IconImage
@@ -27,7 +27,7 @@ export default function ReplyReviewCard({ reply }) {
                 alt="profile pic"
               />
             </div>
-            <div className=" w-full">
+            <div className=" w-full -mt-1">
               <div className=" flex     items-start ">
                 <TitleNameAndVerified
                   title={reply?.user?.businessProfile?.businessName || fulName}
@@ -40,13 +40,12 @@ export default function ReplyReviewCard({ reply }) {
               </div>
 
               <p className={`${font14} text-gray-500`}>
-                {reply?.user?.addresses?.city},{" "}
-                {reply?.user?.addresses?.country}{" "}
+                {reply?.user?.addresses?.city} {reply?.user?.addresses?.country}{" "}
               </p>
             </div>
           </div>
 
-          <p className="ml-20 text-gray-500">{reply?.content}</p>
+          <p className="ml-[84px] text-gray-500 -mt-8">{reply?.content}</p>
         </div>
       </div>
     </div>
