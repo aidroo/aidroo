@@ -110,25 +110,23 @@ export default async function ProfileProfileLayout({ children, params }) {
   return (
     <Layout>
       <section>
-        <Head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                url: "https://aidroo.com",
-                contactPoint: [
-                  {
-                    "@type": "ContactPoint",
-                    telephone: "+1-401-555-1212",
-                    contactType: "customer service",
-                  },
-                ],
-              }),
-            }}
-          />
-        </Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              url: "https://aidroo.com",
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+1-401-555-1212",
+                  contactType: "customer service",
+                },
+              ],
+            }),
+          }}
+        />
 
         <div className="w-full pb-14">
           <div className="w-full rounded-md dark:bg-dark">
