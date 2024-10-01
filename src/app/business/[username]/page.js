@@ -8,8 +8,6 @@ import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import Head from "next/head";
-import Script from "next/script";
 import { Suspense } from "react";
 import BusinessNavbar from "./_components/BusinessNavbar";
 
@@ -59,10 +57,12 @@ export async function generateMetadata({ params }) {
     )}&verified=${verified}&totalReviews=${totalReviews}`;
 
     return {
-      title: `${businessName} is rated ${ratingLabel}`,
-      description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
+      title: `${businessName} - is    ${ratingLabel} Rating on aidroo`, // Updated Title
+      description: `${businessName} - has received ${totalReviews} reviews with an average rating of ${averageRating} out of 5, categorized as ${ratingLabel}.`, // Updated Description
       url: `https://aidroo.com/${username}`,
       site_name: "Aidroo",
+      canonical: `https://aidroo.com/business/${username}`,
+      keywords: ["aidroo", "business"],
       openGraph: {
         title: `${businessName} is rated ${ratingLabel}`,
         description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
@@ -124,61 +124,43 @@ export default async function Business({ searchParams, params }) {
   const response = await axiosInstance.get(
     `/api/review?profileId=${username}&&page=${page}&limit=${limit}`
   );
-  console.log(response.data);
+
   // json ld
   if (!profile) {
     profile = {
       businessName: "Default Business",
       profileThumb: "https://example.com/default-image.jpg",
       description: "No description available.",
-      address: "Address not available",
-      city: "City not available",
-      state: "State not available",
-      country: "Country not available",
-      zipCode: "00000",
-      averageRating: 0,
       totalReviews: 0,
-      website: "",
+      averageRating: "0",
     };
   }
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "Organization", // or "LocalBusiness" depending on your entity
-    name: profile.businessName,
-    image: profile.profileThumb || "https://example.com/default-image.jpg",
-    description: profile.description || "No description available.",
+    "@type": "Organization",
+    name: profile.businessName || "Aidroo Business",
+    description:
+      profile.description ||
+      "Aidroo offers top-notch business services, ensuring customer satisfaction and great value.",
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile.averageRating.toString() || "0",
+      ratingValue: profile.averageRating?.toString() || "0", // Ensuring a fallback value
       bestRating: "5",
       worstRating: "1",
-      reviewCount: profile.totalReviews.toString() || "0",
+      reviewCount: profile.totalReviews?.toString() || "0", // Consistent fallback for total reviews
     },
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: profile.address || "No address provided",
-      addressLocality: profile.city || "City not provided",
-      addressRegion: profile.state || "State not provided",
-      postalCode: profile.zipCode || "00000",
-      addressCountry: profile.country || "Country not provided",
-    },
-    sameAs: [
-      "https://facebook.com/business-name", // Add social links dynamically
-      "https://instagram.com/business-name",
-      // Add other social profiles if available
-    ],
-    url: `https://aidroo.com/business/${profile?.username}`, // Profile URL
+    url: `https://aidroo.com/business/${profile.username}`,
   };
 
   return (
     <Layout>
-      <Head>
-        <Script
+      <section>
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
         />
-      </Head>
+      </section>
 
       <div className="w-full pb-14">
         <div className="w-full rounded-md dark:bg-dark">
