@@ -5,10 +5,10 @@ import { VscBriefcase } from "react-icons/vsc";
 
 export default function BusinessNavbar() {
   return (
-    <TabsList className="w-full  grid grid-cols-3 gap-4 h-16 px-4">
+    <TabsList className="w-full  grid grid-cols-3 gap-1 lg:gap-4 h-16 px-4">
       {/* review */}
-      <TabsTrigger value="review" className=" border h-12">
-        <FaRegStar className=" lg:text-[22px] mr-2" />
+      <TabsTrigger value="review" className=" px-1 border h-12 flex gap-x-1">
+        <FaRegStar className=" text-lg lg:text-[22px]  " />
         <span className=" text-sm mg:text-16">Reviews</span>
       </TabsTrigger>
       {/* jobs */}

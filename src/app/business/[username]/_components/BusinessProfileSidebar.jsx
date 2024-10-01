@@ -160,7 +160,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </div>
             <div className="space-y-[2px] border-gray-900">
               <div className="flex gap-6">
-                <h1 className={`${font16} border`}>Google</h1>
+                <h1 className={`${font16} `}>Google</h1>
                 <div className="w-4 md:w-5 ">
                   <ResponsiveImage src={verifiedIcon} />
                 </div>

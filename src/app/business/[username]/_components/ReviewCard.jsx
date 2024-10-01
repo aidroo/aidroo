@@ -64,7 +64,9 @@ export default function ReviewCard({ review, username }) {
 
   const handleUpdate = async (id, type) => {
     setLoading(true);
-
+    if (!currentUser?.username) {
+      alert("login  first ");
+    }
     try {
       const response = await axiosInstance.put(`/api/review/${id}`, {
         id,
@@ -73,7 +75,7 @@ export default function ReviewCard({ review, username }) {
       });
       console.log(response);
 
-      router.refresh(`/business2/${username}`);
+      router.refresh(`/business/${username}`);
     } catch (error) {
       //   console.log(error?.response?.data?.message);
 

@@ -6,7 +6,7 @@ export async function PUT(request, { params }) {
   const body = await request.json();
 
   const { verified, status, type, username } = body;
-
+  console.log(type, username);
   try {
     const review = await db.Review.findByPk(id);
     if (review.like === 0) {

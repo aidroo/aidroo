@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
     const imageURL = `${
       process.env.NEXT_PUBLIC_API_BASE_URL
     }/api/og?rating=${parseFloat(averageRating).toFixed(
-      2
+      1 // Changed to 1 decimal to match industry standards
     )}&profileThumb=${encodeURIComponent(
       profileThumb
     )}&title=${encodeURIComponent(
@@ -58,15 +58,17 @@ export async function generateMetadata({ params }) {
     )}&verified=${verified}&totalReviews=${totalReviews}`;
 
     return {
-      title: `${businessName} - is    ${ratingLabel} Rating on aidroo`, // Updated Title
-      description: `${businessName} - has received ${totalReviews} reviews with an average rating of ${averageRating} out of 5, categorized as ${ratingLabel}.`, // Updated Description
-      url: `https://aidroo.com/${username}`,
+      title: `${businessName} - is ${ratingLabel} Rating on Aidroo`,
+      description: `${businessName} has received ${totalReviews} reviews with an average rating of ${averageRating} out of 5. Rated as ${ratingLabel}.`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
       site_name: "Aidroo",
-      canonical: `https://aidroo.com/business/${username}`,
-      keywords: ["aidroo", "business"],
+
+      keywords: ["aidroo", "business", businessName], // Added dynamic keyword generation
       openGraph: {
-        title: `${businessName} is rated ${ratingLabel}`,
+        type: "website", // Added type
+        title: `${businessName} - ${ratingLabel}`,
         description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
+        url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
         images: [
           {
             url: imageURL,
@@ -82,6 +84,9 @@ export async function generateMetadata({ params }) {
         description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
         image: profileThumb,
         image_alt: `${businessName} profile image`,
+      },
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
       },
     };
   } catch (error) {
@@ -146,17 +151,19 @@ export default async function Business({ searchParams, params }) {
       "Aidroo offers top-notch business services, ensuring customer satisfaction and great value.",
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: profile.averageRating?.toString() || "0", // Ensuring a fallback value
+      ratingValue: profile.averageRating?.toString() || "0",
       bestRating: "5",
       worstRating: "1",
-      reviewCount: profile.totalReviews?.toString() || "0", // Consistent fallback for total reviews
+      reviewCount: profile.totalReviews?.toString() || "0",
     },
-    url: `https://aidroo.com/business/${profile.username}`,
+    url: `https://aidroo.com/business/${profile.username || "unknown"}`,
+    logo: profile.profileThumb || "https://example.com/default-image.jpg",
   };
 
   return (
     <Layout>
       <Script
+        id={`https://aidroo.com/business/#schema/${profile.username}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
