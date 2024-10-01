@@ -6,7 +6,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
-import ReviewCard from "../../_components/ReviewCard";
+import ReviewCard from "./ReviewCard";
 
 // Review is a server component
 export default async function ReviewContent({

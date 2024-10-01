@@ -25,7 +25,7 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
-import ReplayReviewComponent from "../[username]/_components/ReplayReviewComponent";
+import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review, username }) {
   const [active, setActive] = useState(false);

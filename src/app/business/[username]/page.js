@@ -11,6 +11,7 @@ import {
 import { Suspense } from "react";
 import BusinessNavbar from "./_components/BusinessNavbar";
 
+import Script from "next/script";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
 import JobsContent from "./_components/JobsContent";
@@ -155,12 +156,10 @@ export default async function Business({ searchParams, params }) {
 
   return (
     <Layout>
-      <section>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-        />
-      </section>
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
 
       <div className="w-full pb-14">
         <div className="w-full rounded-md dark:bg-dark">
