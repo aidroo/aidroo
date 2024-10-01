@@ -159,7 +159,9 @@ export default function BusinessProfileCreateForm({ categories, isExit }) {
 
   return (
     <>
-      {(currentUser?.role === "admin" || currentUser?.role === "becreator") && (
+      {(currentUser?.role === "admin" ||
+        currentUser?.role === "becreator" ||
+        currentUser?.role === "editor") && (
         <div className="border p-4 rounded-md w-fit h-auto">
           <Dialog>
             <DialogTrigger asChild>

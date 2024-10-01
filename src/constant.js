@@ -359,7 +359,7 @@ export const adminDashboardSidebarLinks = [
   {
     name: "Categories",
     href: "/admin_dashboard/categories",
-    roles: ["admin", "editor", ""],
+    roles: ["admin", "editor"],
   },
   {
     name: "Business Profile",
@@ -369,7 +369,7 @@ export const adminDashboardSidebarLinks = [
   {
     name: "Personal Profile",
     href: "/admin_dashboard/personal_profile",
-    roles: ["admin", "reviewer"], // Both admin and reviewers can see this
+    roles: ["admin", "editor"], // Both admin and reviewers can see this
   },
   {
     name: "Jobs",

@@ -51,7 +51,6 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
     title: "",
     comment: "",
     rating: 0,
-
     verified: false,
     profileId: profile,
   };
@@ -189,7 +188,6 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                 name="title"
                 value={reviewData.title}
                 onChange={handleInputChange}
-                required
               />
               <Textarea
                 placeholder="Type your message here."
@@ -197,7 +195,6 @@ export default function ReviewAndProfileCreateDialog({ profile }) {
                 name="comment"
                 value={reviewData.comment}
                 onChange={handleInputChange}
-                required
               />
             </div>
 

@@ -5,7 +5,7 @@ import IconImage from "@/components/IconImage/IconImage";
 import { font14 } from "@/constant";
 import { facebook, instagram, linkedin, twitter } from "@/exportImage";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiLink } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import { HiOutlineShare } from "react-icons/hi";
@@ -16,6 +16,7 @@ export default function SocialShare() {
   const pathname = usePathname();
   const pageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${pathname}`;
   const [copied, setCopied] = useState(false);
+  const dropdownRef = useRef(null); // Ref for the dropdown element
 
   // Copy URL to clipboard
   const copyToClipboard = () => {
@@ -24,6 +25,26 @@ export default function SocialShare() {
       setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  // Close the dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false); // Close the dropdown when clicking outside
+      }
+    };
+
+    // Add event listener only when the dropdown is open
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   return (
     <div>
@@ -37,7 +58,7 @@ export default function SocialShare() {
           <span className={font14}>Follow</span>
         </div>
         <button
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen((prev) => !prev)} // Toggle between open and close
           className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2"
         >
           <HiOutlineShare className="text-sm md:text-xl" />
@@ -46,8 +67,13 @@ export default function SocialShare() {
       </div>
 
       {open && (
-        <div className="w-full mt-4 border p-4 -mr-5 rounded-md">
-          <h1 className="font-bold text-primary_color  mb-4">Share on</h1>
+        <div
+          className="w-full mt-4 border p-2 -mr-5 rounded-md"
+          ref={dropdownRef} // Attach the ref to the dropdown
+        >
+          <h1 className="font-bold text-primary_color  mb-4 text-center">
+            Share on
+          </h1>
           <div className="flex gap-2 justify-center ">
             {/* Copy Link button */}
             <div
@@ -56,8 +82,6 @@ export default function SocialShare() {
             >
               <CiLink className="text-2xl" />
             </div>
-
-            {/* Show "Copied!" when the link is copied */}
 
             {/* Facebook share */}
             <a

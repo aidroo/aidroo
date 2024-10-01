@@ -4,6 +4,7 @@ import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +24,8 @@ export default function ProfileEditDialog({
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const { currentUser } = useAuth();
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -99,9 +102,11 @@ export default function ProfileEditDialog({
         <Button onClick={handleUpdate} disabled={loading}>
           {loading ? <Spinner /> : "Update Profile"}
         </Button>
-        <Button onClick={handleDelete} disabled={loading}>
-          {deleteLoading ? <Spinner /> : "Delete Profile"}
-        </Button>
+        {currentUser?.role === "admin" && (
+          <Button onClick={handleDelete} disabled={loading}>
+            {deleteLoading ? <Spinner /> : "Delete Profile"}
+          </Button>
+        )}
       </div>
     </DialogContent>
   );

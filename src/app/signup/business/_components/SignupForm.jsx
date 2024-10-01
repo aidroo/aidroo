@@ -222,8 +222,8 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         <p className="text-red-400 bg-red-100 p-2 rounded-md">{apiError}</p>
       )}
       {success && (
-        <p className="p-2 rounded-md text-green-300 bg-red-50   ">
-          Pending! <span className="text-red-400">{success}</span>
+        <p className="p-2 rounded-md text-primary_color bg-slate-100   ">
+          {success}
         </p>
       )}
       <div className="flex items-center justify-center pt-2">

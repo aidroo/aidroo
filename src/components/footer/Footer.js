@@ -150,7 +150,12 @@ export default function Footer() {
               </span>
               <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-primary_color/20 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
               <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white flex items-center justify-center gap-x-2 px-1">
-                <Image src={googlePlay} alt="" className="w-6" />
+                <Image
+                  src={googlePlay}
+                  alt=""
+                  className="w-6"
+                  priority={true}
+                />
                 <h1 className="text-sm">Play Store</h1>
               </span>
             </Link>
@@ -208,7 +213,7 @@ export default function Footer() {
         </div>
         <div className=" flex flex-col justify-center items-center space-y-4  ">
           <div className="w-24  ">
-            <Image src={logo} alt="image" />
+            <Image src={logo} alt="image"  priority={true} />
           </div>
           <Heading className="font-semibold  text-sm text-center pb-4">
             Copyrights © Aidroo All rights reserved 2024

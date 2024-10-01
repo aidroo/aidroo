@@ -201,6 +201,7 @@ export default function JobsAndProfileCreatedForm({
                 alt="profile iamge"
                 width={500}
                 height={300}
+                priority={true}
                 className="rounded-full h-12 w-12"
               />
             </div>
@@ -244,7 +245,7 @@ export default function JobsAndProfileCreatedForm({
               {/* Pricing Section */}
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
-                  <Image src={moneyBag} alt="moneyBag" />
+                  <Image src={moneyBag} alt="moneyBag" priority={true} />
                 </div>
 
                 <div className="w-full">
@@ -323,7 +324,13 @@ export default function JobsAndProfileCreatedForm({
               {/* Location and Country */}
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
-                  <Image src={locationIcon} alt="locationIcon" />
+                  <Image
+                    src={locationIcon}
+                    alt="locationIcon"
+                    priority={true}
+                    width={500}
+                    height={300}
+                  />
                 </div>
                 <div className="w-full">
                   <div className="flex items-center bg-white rounded-lg overflow-hidden border h-10 justify-between">
@@ -358,7 +365,7 @@ export default function JobsAndProfileCreatedForm({
               {/* calendar */}
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
-                  <Image src={schedule} alt="scheduleIcon" />
+                  <Image src={schedule} alt="scheduleIcon" priority={true} />
                 </div>
                 <div className="w-full grid md:grid-cols-2 gap-4">
                   <div>
@@ -386,7 +393,7 @@ export default function JobsAndProfileCreatedForm({
               {/* Hashtag Section */}
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
-                  <Image src={hashtag} alt="hashtag" />
+                  <Image src={hashtag} alt="hashtag" priority={true} />
                 </div>
                 <div className="w-full">
                   <div className="flex items-center">

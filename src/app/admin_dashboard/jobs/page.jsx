@@ -42,10 +42,12 @@ export default async function Jobs({ searchParams }) {
   // const baseUrl = `/business/${id}/reviews`;
   return (
     <div className="rounded-lg space-y-6 border p-2">
-      <JobsAndProfileCreatedForm
-        categories={categories}
-        subcategories={subcategories}
-      />
+      {
+        <JobsAndProfileCreatedForm
+          categories={categories}
+          subcategories={subcategories}
+        />
+      }
 
       <div className="flex flex-col justify-center items-center space-y-8 p-2">
         <JobsFilterForm categories={categories} subcategories={subcategories} />

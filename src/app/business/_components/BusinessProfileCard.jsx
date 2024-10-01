@@ -96,7 +96,12 @@ export default function BusinessProfileCard({ businessProfile, id }) {
           </Link>
         </Link>
         <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
-          <Image src={myReview} className="w-5" alt="bordercategoriesIcon" />
+          <Image
+            src={myReview}
+            className="w-5"
+            alt="bordercategoriesIcon"
+            priority={true}
+          />
           <Link href={`/business/${id}/reviews`} className="text-sm">
             Review
           </Link>

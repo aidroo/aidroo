@@ -58,16 +58,27 @@ export default function BusinessProfileHeader({
             {averageRating < 1 ? 0 : averageRating}
           </p>
           {starImage && (
-            <Image src={starImage} alt="Star Rating" width={24} height={24} />
+            <Image
+              src={starImage}
+              alt="Star Rating"
+              width={24}
+              height={24}
+              priority={true}
+            />
           )}
         </div>
 
         {/* Claimed Badge */}
         {profile.verified && (
-          <Image src={verified_badge} alt="Claimed" className="w-24  " />
+          <Image src={verified_badge} alt="Claimed" className="w-24  "  priority={true} />
         )}
         {!profile.verified && (
-          <Image src={unverified_badge} alt="Claimed" className="w-24  " />
+          <Image
+            src={unverified_badge}
+            alt="Claimed"
+            className="w-24  "
+            priority={true}
+          />
         )}
       </div>
     </div>

@@ -120,7 +120,11 @@ export default function JobsCreatedForm({
       {/* Category and Subcategory */}
       <div className="flex gap-x-4 items-start">
         <div className="w-14 -mt-2">
-          <Image src={bordercategoriesIcon} alt="bordercategoriesIcon" />
+          <Image
+            src={bordercategoriesIcon}
+            alt="bordercategoriesIcon"
+            priority={true}
+          />
         </div>
         <div className="w-full grid md:grid-cols-2 gap-4">
           <div>
@@ -153,7 +157,7 @@ export default function JobsCreatedForm({
       {/* Location and Country */}
       <div className="flex gap-x-4 items-start">
         <div className="w-14 -mt-2">
-          <Image src={locationIcon} alt="locationIcon" />
+          <Image src={locationIcon} alt="locationIcon" priority={true} />
         </div>
         <div className="w-full">
           <div className="flex items-center bg-white rounded-lg overflow-hidden border h-10 justify-between">
@@ -181,7 +185,7 @@ export default function JobsCreatedForm({
       {/* calendar */}
       <div className="flex gap-x-4 items-start">
         <div className="w-14 -mt-2">
-          <Image src={Schedule} alt="scheduleIcon" />
+          <Image src={Schedule} alt="scheduleIcon" priority={true} />
         </div>
         <div className="w-full grid md:grid-cols-2 gap-4">
           <div>
@@ -208,7 +212,7 @@ export default function JobsCreatedForm({
       {/* Hashtag Section */}
       <div className="flex gap-x-4 items-start">
         <div className="w-14 -mt-2">
-          <Image src={hashtag} alt="hashtag" />
+          <Image src={hashtag} alt="hashtag" priority={true} />
         </div>
         <div className="w-full">
           <div className="flex items-center">

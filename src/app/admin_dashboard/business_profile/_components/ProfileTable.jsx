@@ -150,7 +150,8 @@ export default function ProfileTable({ profiles, isExit }) {
                 )}
                 {/* Profile and review create dialog */}
                 {(currentUser?.role == "admin" ||
-                  currentUser?.role == "reviewer") && (
+                  currentUser?.role == "reviewer" ||
+                  currentUser?.role == "editor") && (
                   <TableCell>
                     <Dialog
                       onOpenChange={(open) => open && handleOpen(profile)}

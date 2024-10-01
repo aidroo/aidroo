@@ -1,4 +1,3 @@
-import ReviewCard from "@/app/businessg/[username]/reviews/_components/ReviewCard";
 import IconImage from "@/components/IconImage/IconImage";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 
@@ -7,6 +6,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
+import ReviewCard from "../../_components/ReviewCard";
 
 // Review is a server component
 export default async function ReviewContent({

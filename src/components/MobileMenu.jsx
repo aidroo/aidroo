@@ -69,7 +69,12 @@ export default function MobileMenu() {
               className=" w-9 h-9 rounded-md border-gray-500   flex justify-center items-center   bg-primary_color"
             >
               {!open ? (
-                <Image src={whitesearch} className="w-5" alt="image" />
+                <Image
+                  src={whitesearch}
+                  className="w-5"
+                  alt="image"
+                  priority={true}
+                />
               ) : (
                 <IoClose className="text-white text-3xl transition ease transform duration-300" />
               )}

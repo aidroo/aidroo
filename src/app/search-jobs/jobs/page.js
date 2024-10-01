@@ -21,7 +21,12 @@ export default function page() {
           />
 
           <div className=" flex items-center justify-center  bg-primary_color p-1 rounded-md   cursor-pointer w-[42px] h-10 ">
-            <Image src={whitesearch} alt="Icon 1" className="w-6 " />
+            <Image
+              src={whitesearch}
+              alt="Icon 1"
+              className="w-6 "
+              priority={true}
+            />
           </div>
         </div>
       </form>

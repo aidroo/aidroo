@@ -133,7 +133,6 @@ export function WriteReview2({ profileId }) {
                                 size={18}
                                 rating={serviceRating}
                                 setRating={setServiceRating}
-                                required
                               />
                             </div>
                             {/* <JsonComponent
@@ -188,7 +187,6 @@ export function WriteReview2({ profileId }) {
                           placeholder="Title"
                           className=" h-10 "
                           onChange={(e) => setTitle(e.target.value)}
-                          required
                         />
 
                         <Textarea
