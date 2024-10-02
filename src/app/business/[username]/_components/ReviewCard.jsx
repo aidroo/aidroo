@@ -108,9 +108,9 @@ export default function ReviewCard({ review, username }) {
     }
   };
   const islike =
-    like !== 0 && like.length > 0 && like.includes(currentUser?.username);
+    like !== 0 && like?.length > 0 && like?.includes(currentUser?.username);
   const islove =
-    love !== 0 && love.length > 0 && love.includes(currentUser?.username);
+    love !== 0 && love?.length > 0 && love?.includes(currentUser?.username);
 
   return (
     <Card className="">
