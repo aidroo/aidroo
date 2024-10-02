@@ -45,14 +45,7 @@ const Review = sequelize.define(
       type: DataTypes.JSON, // Array of usernames who loved the review
       defaultValue: [], // Default to an empty array
     },
-    bylikes: {
-      type: DataTypes.JSON, // Array of usernames who liked the review by
-      defaultValue: ["k"], // Default value is an array with a single empty string
-    },
-    byloves: {
-      type: DataTypes.JSON, // Array of usernames who loved the review by
-      defaultValue: ["k"], // Default value is an array with a single empty string
-    },
+
     verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
