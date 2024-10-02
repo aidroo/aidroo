@@ -88,21 +88,16 @@ export async function middleware(request) {
     const userRole = decodedToken.role;
     // console.log("peros", userRole);
     // Prevent business users from accessing personal_dashboard and vice versa
-    if (path.startsWith("/admin_dashboard")) {
-      if (userRole !== "admin") {
-        return NextResponse.redirect(new URL("/login", request.nextUrl));
-      }
-    }
 
     // Prevent logged-in users from accessing login/signup pages
     if (isPublicPath) {
       // Redirect based on user role
-      if (userRole === "business" || userRole !== "admin") {
+      if (userRole === "business") {
         return NextResponse.redirect(
           new URL("/business_dashboard", request.nextUrl)
         );
       }
-      if (userRole === "personal" || userRole !== "admin") {
+      if (userRole === "personal") {
         return NextResponse.redirect(
           new URL("/personal_dashboard", request.nextUrl)
         );
@@ -127,7 +122,6 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    "/admin_dashboard/:path*",
     "/business_dashboard/:path*",
     "/personal_dashboard/:path*",
     "/login",

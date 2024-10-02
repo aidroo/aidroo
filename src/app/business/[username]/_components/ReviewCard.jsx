@@ -28,6 +28,7 @@ import { FcLike } from "react-icons/fc";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review, username }) {
+  console.log("review", review);
   const [active, setActive] = useState(false);
   const { title, comment, rating, love, like, images, verified } = review;
   const { currentUser } = useAuth();
@@ -62,20 +63,42 @@ export default function ReviewCard({ review, username }) {
     };
   }, []);
 
-  const handleUpdate = async (id, type) => {
+  const handlelike = async (id) => {
     setLoading(true);
     if (!currentUser?.username) {
       alert("login  first ");
     }
+
     try {
       const response = await axiosInstance.put(`/api/review/${id}`, {
         id,
-        type,
+        type: "like",
         username: currentUser?.username,
       });
       console.log(response);
+      router.refresh(`/business`);
+    } catch (error) {
+      //   console.log(error?.response?.data?.message);
 
-      router.refresh(`/business/${username}`);
+      setError(error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleLove = async (id) => {
+    setLoading(true);
+    if (!currentUser?.username) {
+      alert("login  first ");
+    }
+
+    try {
+      const response = await axiosInstance.put(`/api/review/${id}`, {
+        id,
+        type: "love",
+        username: currentUser?.username,
+      });
+      console.log(response);
+      router.refresh(`/business`);
     } catch (error) {
       //   console.log(error?.response?.data?.message);
 
@@ -180,7 +203,7 @@ export default function ReviewCard({ review, username }) {
             <button
               type="button"
               onClick={() => {
-                handleUpdate(review.id, "like");
+                handlelike(review.id, "like");
               }}
               className="flex gap-1   items-center border hover:border-primary_color py-[2px] px-1 rounded hover:shadow-lg"
             >
@@ -194,7 +217,7 @@ export default function ReviewCard({ review, username }) {
             <button
               disabled={!currentUser?.username}
               onClick={() => {
-                handleUpdate(review.id, "love");
+                handleLove(review.id, "love");
               }}
               className="flex gap-1 py-[2px] px-1 items-center border hover:border-red-500   rounded  first-line: hover:shadow-lg"
             >

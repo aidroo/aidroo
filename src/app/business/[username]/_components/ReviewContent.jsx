@@ -54,7 +54,7 @@ export default async function ReviewContent({
         </div>
 
         {/* Review Cards */}
-        {reviewWithReplies.length > 0 &&
+        {reviewWithReplies?.length > 0 &&
           reviewWithReplies.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}

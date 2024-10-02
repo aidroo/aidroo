@@ -10,7 +10,7 @@ const Review = sequelize.define(
       primaryKey: true,
     },
     username: {
-      type: DataTypes.STRING(255), // Explicitly set length for username
+      type: DataTypes.STRING(255),
       references: {
         model: "Users",
         key: "username",
@@ -18,7 +18,7 @@ const Review = sequelize.define(
       allowNull: false,
     },
     profileId: {
-      type: DataTypes.STRING(255), // Explicitly set length for username
+      type: DataTypes.STRING(255),
       references: {
         model: "Users",
         key: "username",
@@ -26,26 +26,32 @@ const Review = sequelize.define(
       allowNull: false,
     },
     rating: {
-      type: DataTypes.FLOAT, // More efficient for storing small integers (1-5)
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     title: {
-      type: DataTypes.STRING(2000), // Long titles allowed
-      allowNull: true, // Explicitly allow null
+      type: DataTypes.STRING(2000),
+      allowNull: true,
     },
     comment: {
-      type: DataTypes.TEXT, // Long comments allowed
-      allowNull: true, // Explicitly allow null
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     like: {
-      type: DataTypes.JSON, // Store usernames who liked the review
-      allowNull: false,
+      type: DataTypes.JSON, // Array of usernames who liked the review
       defaultValue: [], // Default to an empty array
     },
     love: {
-      type: DataTypes.JSON, // Store usernames who loved the review
-      allowNull: false,
+      type: DataTypes.JSON, // Array of usernames who loved the review
       defaultValue: [], // Default to an empty array
+    },
+    bylikes: {
+      type: DataTypes.JSON, // Array of usernames who liked the review by
+      defaultValue: ["k"], // Default value is an array with a single empty string
+    },
+    byloves: {
+      type: DataTypes.JSON, // Array of usernames who loved the review by
+      defaultValue: ["k"], // Default value is an array with a single empty string
     },
     verified: {
       type: DataTypes.BOOLEAN,
@@ -56,7 +62,7 @@ const Review = sequelize.define(
       defaultValue: "pending",
     },
     images: {
-      type: DataTypes.JSON, // Allows storing an array or object of images
+      type: DataTypes.JSON,
       allowNull: false,
     },
   },

@@ -1,21 +1,14 @@
 import db from "@/config/model";
 import { NextResponse } from "next/server";
-
 export async function PUT(request, { params }) {
   const { id } = params; // Fetch the review ID from the URL
   const body = await request.json();
-
   const { verified, status, type, username } = body;
-  console.log(type, username);
+
   try {
     const review = await db.Review.findByPk(id);
-    if (review.like === 0) {
-      review.like = [];
-    }
-    if (review.love === 0) {
-      review.love = [];
-    }
 
+    // Check if review exists
     if (!review) {
       return NextResponse.json(
         { status: 404, message: "Review not found" },
@@ -23,38 +16,61 @@ export async function PUT(request, { params }) {
       );
     }
 
+    // Initialize likes and loves if they are null
+    review.likes = review.likes || [];
+    review.loves = review.loves || [];
+
     // Update verified and status only if provided
     if (verified !== undefined) {
-      review.verified = verified; // Update verified only if it exists in the request
+      review.verified = verified;
     }
     if (status !== undefined) {
-      review.status = status; // Update status only if it exists in the request
+      review.status = status;
     }
 
     // Handle likes and loves
     if (type && username) {
       if (type === "like") {
-        if (!review.like.includes(username)) {
-          review.like.push(username); // Add username if not already in the array
+        // Add username to likes array if not already present, otherwise remove it
+        if (!review.likes.includes(username)) {
+          review.likes.push(username); // Add username to the array
         } else {
           // Remove username if already exists
-          review.like = review.like.filter((user) => user !== username);
+          review.likes = review.likes.filter((user) => user !== username);
         }
       } else if (type === "love") {
-        if (!review.love.includes(username)) {
-          review.love.push(username); // Add username if not already in the array
+        // Add username to loves array if not already present, otherwise remove it
+        if (!review.loves.includes(username)) {
+          review.loves.push(username); // Add username to the array
         } else {
           // Remove username if already exists
-          review.love = review.love.filter((user) => user !== username);
+          review.loves = review.loves.filter((user) => user !== username);
         }
       }
     }
 
+    // Log the changes before saving
+    console.log("Before save:", {
+      likes: review.likes,
+      loves: review.loves,
+      verified: review.verified,
+      status: review.status,
+    });
+
     await review.save(); // Save the updated review
+
+    // Log the saved state after save
+    console.log("After save:", {
+      likes: review.likes,
+      loves: review.loves,
+      verified: review.verified,
+      status: review.status,
+    });
+
     return NextResponse.json({
       status: 200,
       message: "Review updated successfully",
-      review, // Optional: include the updated review in the response
+      review,
     });
   } catch (error) {
     console.error(error); // Log error for debugging
