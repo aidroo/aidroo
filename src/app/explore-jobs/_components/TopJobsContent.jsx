@@ -5,7 +5,7 @@ import JobsCard from "./JobsCard";
 export default function TopJobsContent({ plainJobs = [] }) {
   return (
     <TabsContent value="top">
-      <div>
+      <div className="flex flex-col gap-4">
         {plainJobs?.length > 0 &&
           plainJobs?.map((job) => {
             return <JobsCard job={job} key={job.id} />;

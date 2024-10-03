@@ -75,7 +75,7 @@ export default function ReviewCard({ review, username }) {
         type: "like",
         username: currentUser?.username,
       });
-      console.log(response);
+
       router.refresh(`/business`);
     } catch (error) {
       //   console.log(error?.response?.data?.message);

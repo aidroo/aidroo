@@ -27,12 +27,12 @@ export async function POST(request) {
       status,
     } = body;
 
-    if (!username || !title) {
-      return NextResponse.json(
-        { message: "Missing username or title required fields" },
-        { status: 400 }
-      );
-    }
+    // if (!username || !title) {
+    //   return NextResponse.json(
+    //     { message: "Missing username or title required fields" },
+    //     { status: 400 }
+    //   );
+    // }
 
     // Save the job data to the database
     const job = await db.JobPost.create({

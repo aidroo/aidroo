@@ -10,7 +10,7 @@ export default function BusinessProfileContent({
 }) {
   return (
     <TabsContent value="business">
-      <div className=" w-full">
+      <div className="flex flex-col ">
         {businessProfiles.length > 0 &&
           businessProfiles.map((businessProfile) => (
             <BusinessProfileCard

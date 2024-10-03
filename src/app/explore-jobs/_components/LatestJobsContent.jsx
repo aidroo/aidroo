@@ -11,7 +11,7 @@ export default function LatestJobsContent({
 }) {
   return (
     <TabsContent value="latest">
-      <div>
+      <div className="flex flex-col gap-4">
         {plainJobs &&
           plainJobs.map((job) => {
             return <JobsCard job={job} key={job.id} />;
