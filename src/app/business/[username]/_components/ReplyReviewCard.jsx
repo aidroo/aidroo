@@ -39,12 +39,12 @@ export default function ReplyReviewCard({ reply }) {
                 </p> */}
               </div>
 
-              <p className={`${font14} text-gray-500`}>
+              <p className={`  text-gray-500`}>
                 {reply?.user?.addresses?.city} {reply?.user?.addresses?.country}{" "}
               </p>
             </div>
           </div>
-          <p className="ml-[84px] text-gray-500 -mt-8">
+          <p className="ml-[84px] text-gray-500 -mt-3">
             {reply?.content.slice(0, 100)}
             {reply?.content.length > 25 && (
               <>

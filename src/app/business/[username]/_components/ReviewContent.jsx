@@ -7,21 +7,20 @@ import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import ReviewCard from "./ReviewCard";
+import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
+import Notfound from "@/components/Notfound";
+import Rating from "@/components/Rating/Rating";
 
 // Review is a server component
 export default async function ReviewContent({
   username,
-  reviews,
-  searchParams,
+  page = 1,
+  limit = 10,
+  averageRating,
 }) {
-  const reviewLimit = parseInt(searchParams?.reviewLimit) || 10;
-  const reviewWithReplies = reviews?.reviewsWithReplies;
-
-  // // Job pagination
-  // const jobPage = parseInt(searchParams?.jobPage) || 1;
-  // const jobLimit = parseInt(searchParams?.jobLimit) || 10;
-
-  // Fetch data from the server-side function
+  const { reviews, totalRecords, totalPages, currentPage } =
+    await getBusinessProfileWithReviewsAndReactions(username, page, limit);
+  const rating = Math.floor(parseInt(averageRating));
 
   return (
     <TabsContent value="review">
@@ -35,10 +34,10 @@ export default async function ReviewContent({
             <IconImage src={topplacementBadge} size={70} alt="image" />
             <h1 className={`${font18}`}>Overall Rating</h1>
             <div className="flex gap-1">
-              {/* <Rating value={averageRating} size={18} /> */}
+              <Rating value={rating} size={18} />
             </div>
             <h1 className={`${font14}`}>
-              {/* <span>{totalReview}</span> Reviews */}
+              <span>{totalRecords}</span> Reviews
             </h1>
           </div>
 
@@ -54,16 +53,19 @@ export default async function ReviewContent({
         </div>
 
         {/* Review Cards */}
-        {reviewWithReplies?.length > 0 &&
-          reviewWithReplies.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <ReviewCard key={review.id} review={review} username={username} />
+          ))
+        ) : (
+          <Notfound />
+        )}
 
-        {reviewLimit < reviews?.totalRecords && (
+        {10 < totalRecords && (
           <PaginationComponent
-            currentPage={reviews?.currentPage}
-            totalPages={reviews?.totalPages}
-            baseUrl={`/business2/${username}?`}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            baseUrl={`/business/${username}?`}
           />
         )}
       </div>

@@ -4,6 +4,7 @@ import BusinessProfile from "./business-profile";
 import Category from "./category";
 import Job from "./Job";
 import PersonalProfile from "./personal-profile";
+import Reaction from "./reaction";
 import ReplyReview from "./replayReview";
 import Review from "./review";
 import Schedule from "./schedule";
@@ -26,6 +27,7 @@ db.JobPost = Job;
 db.Review = Review;
 db.Schedule = Schedule;
 db.ReplyReview = ReplyReview;
+db.Reaction = Reaction;
 
 // Define associations with cascading deletes
 
@@ -146,6 +148,33 @@ db.User.hasMany(db.ReplyReview, {
 db.ReplyReview.belongsTo(db.User, {
   foreignKey: "username",
   as: "user", // Alias for the user who replied
+  onDelete: "CASCADE",
+});
+// Association Setup
+
+// Reaction Model
+db.Review.hasMany(db.Reaction, {
+  foreignKey: "reviewId",
+  as: "reactions",
+  onDelete: "CASCADE",
+});
+
+db.Reaction.belongsTo(db.Review, {
+  foreignKey: "reviewId",
+  as: "review",
+  onDelete: "CASCADE",
+});
+
+// User association with Reaction (Ensure the key is consistent)
+db.User.hasMany(db.Reaction, {
+  foreignKey: "profileId", // Should match the Reaction model's profileId
+  as: "reactions",
+  onDelete: "CASCADE",
+});
+
+db.Reaction.belongsTo(db.User, {
+  foreignKey: "profileId", // Should match the Reaction model's profileId
+  as: "user",
   onDelete: "CASCADE",
 });
 

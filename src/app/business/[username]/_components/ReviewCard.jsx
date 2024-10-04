@@ -28,15 +28,25 @@ import { FcLike } from "react-icons/fc";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review, username }) {
-  console.log("review", review);
   const [active, setActive] = useState(false);
-  const { title, comment, rating, love, like, images, verified } = review;
+  const { title, comment, rating, images, verified } = review;
   const { currentUser } = useAuth();
   const city = review?.user?.addresses.city;
   const country = review?.user?.addresses.country;
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState("");
+  //
+  const likes = review.reactions.filter((like) => like.type === "like");
+  const loves = review.reactions.filter((love) => love.type === "love");
+  const hasUserLiked = review.reactions.some(
+    (reaction) =>
+      reaction.createdBy === currentUser?.username && reaction.type === "like"
+  );
+
+  const hasUserLoved = review.reactions.some(
+    (reaction) =>
+      reaction.createdBy === currentUser?.username && reaction.type === "love"
+  );
 
   const fulName =
     review?.user?.personalProfile?.firstName +
@@ -63,54 +73,33 @@ export default function ReviewCard({ review, username }) {
     };
   }, []);
 
-  const handlelike = async (id) => {
+  const handleReaction = async (reactionType) => {
     setLoading(true);
     if (!currentUser?.username) {
-      alert("login  first ");
+      setLoading(false);
+      router.push("/login");
+      return;
     }
 
     try {
-      const response = await axiosInstance.put(`/api/review/${id}`, {
-        id,
-        type: "like",
-        username: currentUser?.username,
+      const response = await axiosInstance.post("/api/reaction", {
+        reviewId: review.id,
+        reactionType,
+        profileId: username,
+        createdBy: currentUser?.username,
       });
 
-      router.refresh(`/business`);
+      if (response.status === 201) {
+        router.refresh(`/business/${username}`);
+      } else {
+        router.refresh(`/business/${username}`);
+      }
     } catch (error) {
-      //   console.log(error?.response?.data?.message);
-
-      setError(error?.response?.data?.message);
+      console.error("Error adding reaction:", error);
     } finally {
       setLoading(false);
     }
   };
-  const handleLove = async (id) => {
-    setLoading(true);
-    if (!currentUser?.username) {
-      alert("login  first ");
-    }
-
-    try {
-      const response = await axiosInstance.put(`/api/review/${id}`, {
-        id,
-        type: "love",
-        username: currentUser?.username,
-      });
-      console.log(response);
-      router.refresh(`/business`);
-    } catch (error) {
-      //   console.log(error?.response?.data?.message);
-
-      setError(error?.response?.data?.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const islike =
-    like !== 0 && like?.length > 0 && like?.includes(currentUser?.username);
-  const islove =
-    love !== 0 && love?.length > 0 && love?.includes(currentUser?.username);
 
   return (
     <Card className="">
@@ -142,6 +131,11 @@ export default function ReviewCard({ review, username }) {
             <p className={`${font14} text-gray-500`}>
               {city}, {country}{" "}
             </p>
+            {username == review?.username && (
+              <p className="px-2 bg-green-200 w-fit rounded-md text-blue-700">
+                owner
+              </p>
+            )}
             <span className="flex gap-4">
               <div className="flex gap-2 items-center text-[18px]">
                 <IconImage src={followerIcon} size={18} />{" "}
@@ -202,27 +196,24 @@ export default function ReviewCard({ review, username }) {
           <div className="flex gap-2 md:gap-4  ">
             <button
               type="button"
-              onClick={() => {
-                handlelike(review.id, "like");
-              }}
+              onClick={() => handleReaction("like")}
+              disabled={loading}
               className="flex gap-1   items-center border hover:border-primary_color py-[2px] px-1 rounded hover:shadow-lg"
             >
-              {islike ? (
+              {likes?.length > 0 && hasUserLiked ? (
                 <AiFillLike className="text-primary_color" />
               ) : (
                 <AiOutlineLike />
               )}
-              {<span>{like?.length || 0}</span>}
+              {<span>{likes?.length || 0}</span>}
             </button>
             <button
-              disabled={!currentUser?.username}
-              onClick={() => {
-                handleLove(review.id, "love");
-              }}
+              onClick={() => handleReaction("love")}
+              disabled={loading}
               className="flex gap-1 py-[2px] px-1 items-center border hover:border-red-500   rounded  first-line: hover:shadow-lg"
             >
-              {islove ? <FcLike /> : <FaRegHeart />}
-              {<span>{love?.length || 0}</span>}
+              {loves?.length > 0 && hasUserLoved ? <FcLike /> : <FaRegHeart />}
+              {<span>{loves?.length || 0}</span>}
             </button>
             <div className="flex gap-1   items-center border py-[2px] px-1 hover:border-primary_color rounded   hover:shadow-lg">
               <CiShare2 />

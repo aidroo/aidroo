@@ -18,6 +18,7 @@ import JobsContent from "./_components/JobsContent";
 import MoreContent from "./_components/MoreContent";
 import ReviewContent from "./_components/ReviewContent";
 import SocialShare from "./_components/SocialShare";
+import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
 
 export async function generateMetadata({ params }) {
   const { username } = params;
@@ -127,19 +128,9 @@ export default async function Business({ searchParams, params }) {
   }
   // Fetch data from the server-side function
 
-  const response = await axiosInstance.get(
-    `/api/review?profileId=${username}&&page=${page}&limit=${limit}`
-  );
-
   // json ld
   if (!profile) {
-    profile = {
-      businessName: "Default Business",
-      profileThumb: "https://example.com/default-image.jpg",
-      description: "No description available.",
-      totalReviews: 0,
-      averageRating: "0",
-    };
+    return null;
   }
 
   const schemaData = {
@@ -159,7 +150,7 @@ export default async function Business({ searchParams, params }) {
     url: `https://aidroo.com/business/${profile.username || "unknown"}`,
     logo: profile.profileThumb || "https://example.com/default-image.jpg",
   };
-
+  console.log(profile.averageRating);
   return (
     <Layout>
       <Script
@@ -196,7 +187,9 @@ export default async function Business({ searchParams, params }) {
                   <Suspense fallback={<Loading />}>
                     <ReviewContent
                       username={username}
-                      reviews={response.data?.reviews}
+                      page={page}
+                      limit={limit}
+                      averageRating={profile?.averageRating}
                     />
                   </Suspense>
 
