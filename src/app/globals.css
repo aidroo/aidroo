@@ -85,7 +85,9 @@
     animation-play-state: paused;
   }
 }
-
+.zindex {
+  z-index: 1000;
+}
 .slide_card {
   display: block;
   position: relative;
@@ -228,7 +230,7 @@
   font-size: 17px;
   color: #4c5656;
   margin-top: 30px;
-  z-index: 1000;
+
   transition: color 0.3s ease-out;
 }
 

@@ -1,7 +1,5 @@
 import db from "@/config/model";
 
-import { NextResponse } from "next/server";
-import { Op } from "sequelize";
 
 // // This function retrieves all reviews with pagination and additional details.
 // export async function getAllProfileReviews(username, page = 1, limit = 10) {
@@ -310,7 +308,9 @@ export async function getBusinessProfileWithReviewsAndReactions(
         ],
         limit,
         offset,
+         order: [["createdAt", "DESC"]],
         distinct: true,
+
       });
 
     const plainReviews = reviews.map((review) => review.toJSON());

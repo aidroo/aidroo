@@ -115,7 +115,7 @@ export default function BusinessProfileSidebar({ profile }) {
           <IconImage src={claimWithBusiness} />
           <div className="">
             <h1 className={`text-primary_color ${font16}`}>
-              In this Your Business
+              Is this Your Business
             </h1>
             <p className={`tracking-tighter ${font14}`}>
               Claim listing is the best way to manage and protect your business.
@@ -154,25 +154,9 @@ export default function BusinessProfileSidebar({ profile }) {
           <h1 className=" text-center text-xl text-primary_color font-semibold">
             Popular listing
           </h1>
-          <div className="flex gap-4 border-2 items-center">
-            <div className="w-24 md:32">
-              <ResponsiveImage src={google} />
-            </div>
-            <div className="space-y-[2px] border-gray-900">
-              <div className="flex gap-6">
-                <h1 className={`${font16} `}>Google</h1>
-                <div className="w-4 md:w-5 ">
-                  <ResponsiveImage src={verifiedIcon} />
-                </div>
-              </div>
-              <p className={`${font14}`}>Tech Company</p>
-              <div className="flex gap-1">
-                <Rating value={5} size={18} />
-              </div>
-            </div>
-          </div>
+         
 
-          <div className="flex gap-4 border-b items-center">
+          <Link  href={`https://aidroo.com/business/tesla`} className="flex gap-4 border-b items-center">
             <div className="w-24 md:32">
               <ResponsiveImage src={tesla} />
             </div>
@@ -188,14 +172,14 @@ export default function BusinessProfileSidebar({ profile }) {
                 <Rating value={5} size={18} />
               </div>
             </div>
-          </div>
-          <div className="flex gap-4 border-b  items-center">
+          </Link>
+          <Link  href={`https://aidroo.com/business/srfsoft`} className="flex gap-4 border-b  items-center">
             <div className="w-24 md:32">
               <ResponsiveImage src={srsoft} />
             </div>
             <div className="space-y-[2px]">
               <div className="flex gap-10">
-                <h1 className={`${font16}`}>Srsoft</h1>
+                <h1 className={`${font16}`}>Srf Soft</h1>
                 <div className="w-4 md:w-5 ">
                   <ResponsiveImage src={verifiedIcon} />
                 </div>
@@ -205,7 +189,24 @@ export default function BusinessProfileSidebar({ profile }) {
                 <Rating value={5} size={18} />
               </div>
             </div>
-          </div>
+          </Link>
+           <Link  href={`https://aidroo.com/business/google`} className="flex gap-4  border-b items-center">
+            <div className="w-24 md:32">
+              <ResponsiveImage src={google} />
+            </div>
+            <div className="space-y-[2px] border-gray-900">
+              <div className="flex gap-6">
+                <h1 className={`${font16} `}>Google</h1>
+                <div className="w-4 md:w-5 ">
+                  <ResponsiveImage src={verifiedIcon} />
+                </div>
+              </div>
+              <p className={`${font14}`}>Tech Company</p>
+              <div className="flex gap-1">
+                <Rating value={5} size={18} />
+              </div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

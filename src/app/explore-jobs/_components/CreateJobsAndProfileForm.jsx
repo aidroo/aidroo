@@ -1,6 +1,7 @@
 "use client";
 
-import MultipleImageUpload from "@/components/MultipleImageUpload";
+ 
+import MultiFileUpload from "@/components/MultiFileUpload";
 import PersonalProfileCreatedForm from "@/components/PersonalProfileCreatedForm";
 import SelectComponent from "@/components/SelectInput";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,6 @@ import { generateEmail, generateUsername } from "@/utils/generateusername";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CiEdit } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";
 
 export default function JobsAndProfileCreatedForm({
@@ -421,7 +421,7 @@ export default function JobsAndProfileCreatedForm({
               </div>
               {/* image */}
 
-              <MultipleImageUpload
+              <MultiFileUpload
                 setUploadUrl={setUploadUrl}
                 uploadUrl={uploadUrl}
               />

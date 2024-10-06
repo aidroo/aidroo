@@ -36,7 +36,7 @@ export default function DesktopMenu() {
   const { currentUser, logout } = useAuth();
 
   return (
-    <div className=" h-[72px] place-content-center hidden lg:block">
+    <div className=" h-[72px] place-content-center hidden lg:block zindex ">
       <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  h-11  items-start justify-center max-w-[1260px] mx-auto    ">
         {/* logo */}
         <div className=" col-span-1   ">

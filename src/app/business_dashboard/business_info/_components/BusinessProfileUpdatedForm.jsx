@@ -1,16 +1,15 @@
 "use client";
 
 import { Combobox } from "@/components/Combobox";
-import FileUploadComponent from "@/components/FileUploadComponent";
+
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
-import ResponsiveImage from "@/components/ResponsiveImage/ResponsiveImage";
+import SingleFileUpload from "@/components/SingleFileUpload";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { countries, font14 } from "@/constant";
-import { brifcaseIcon } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
@@ -63,30 +62,6 @@ export default function BusinessProfileUpdatedForm({
   }, [selectedCategory, router, username]);
   // Initialize state with an object to hold form values
 
-  const filenameWithExtension =
-    formState.profileThumb?.substring(
-      formState.profileThumb.lastIndexOf("/") + 1
-    ) || formState.profileThumb?.substring(uploadUrl?.lastIndexOf("/") + 1);
-
-  const avatarId = filenameWithExtension?.split(".")?.slice(0, -1)?.join(".");
-
-  const deleteUploadedFile = async () => {
-    try {
-      if (avatarId) {
-        await axiosInstance.post(`/api/upload/${avatarId}`, {
-          username: currentUser?.username,
-          avatarId,
-          role: "business",
-        });
-      }
-      router.refresh("/business_dashboard/business_info");
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    } finally {
-      setUploadUrl(null);
-    }
-  };
-
   const handleInputChange = (field, value) => {
     setFormState({
       ...formState,
@@ -112,29 +87,18 @@ export default function BusinessProfileUpdatedForm({
   };
 
   return (
-    <div className="border rounded-lg p-10 space-y-6">
+    <div className="border rounded-lg p-6 space-y-6">
       {/* image uploaded */}
-      <div className="flex gap-4 items-center">
-        <div className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full w-20 md:w-24 shrink-0 overflow-hidden">
-          <ResponsiveImage
-            src={uploadUrl || brifcaseIcon}
-            alt="profile image"
-            width={500}
-            height={300}
-            className="rounded-lg"
-          />
-        </div>
-        <div className="max-w-64 space-y-2">
-          <FileUploadComponent
-            profileThumb={profile?.profileThumb || uploadUrl}
-            setUploadUrl={setUploadUrl}
-          />
-          {/* */}
-          <Button variant="hover" onClick={deleteUploadedFile}>
-            Remove Photo
-          </Button>
+
+      <h1 className="text-xl text-gray-700">Profile Details</h1>
+       <hr   />
+      <div className=" flex gap-8  ">
+        <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl} />
+        <div className="-mt-2">
+          <h1>{formState?.businessName}</h1>
         </div>
       </div>
+     
 
       {/* profile update */}
       <div>

@@ -10,7 +10,7 @@ export async function POST(req) {
     const body = await req.json();
     const { profileId, username, title, images, comment, rating } = body;
 
-    if (!profileId || !username || !title || !comment || !rating) {
+    if (!profileId || !username || !title || !comment  ) {
       return NextResponse.json(
         { message: "All fields are required." },
         { status: 400 }

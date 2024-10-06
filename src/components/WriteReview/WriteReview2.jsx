@@ -8,14 +8,12 @@ import axiosInstance from "@/lib/axios";
 import userIcon from "@/public/icons/customer-review.gif";
 import Link from "next/link";
 import { useState } from "react";
-import { MdDelete } from "react-icons/md";
-import FileUploadComponent from "../FileUploadComponent";
 import IconImage from "../IconImage/IconImage";
 import JsonComponent from "../JonImg";
+import MultiFileUpload from "../MultiFileUpload";
 import Rating from "../Rating/Rating";
-import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 import Star from "../Star/Star";
-import { Textarea } from "../ui/textarea";
+import Tiptap from "./Tiptap";
 
 export function WriteReview2({ profileId }) {
   const { currentUser } = useAuth();
@@ -27,7 +25,7 @@ export function WriteReview2({ profileId }) {
   const [serviceRating, setServiceRating] = useState(0);
   const [valueRating, setValueRating] = useState(0);
   const [recommendRating, setRecommendRating] = useState(0);
-  const [uploadUrl, setUploadUrl] = useState([]);
+  const [uploadUrls, setUploadUrls] = useState([]);
 
   const [success, setSuccess] = useState("");
   const averageRating = (serviceRating + valueRating + recommendRating) / 3;
@@ -38,9 +36,13 @@ export function WriteReview2({ profileId }) {
     profileId,
     username: currentUser?.username,
     title,
-    images: uploadUrl,
+    images: uploadUrls,
     comment,
     rating,
+  };
+
+  const handleContentChange = (reason) => {
+    setComment(reason);
   };
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -59,13 +61,14 @@ export function WriteReview2({ profileId }) {
       if (review?.status === 200) {
         setTitle("");
         setComment("");
+        setUploadUrls([])
         setSuccess("Pending we are reviewing your request");
         // 2000ms = 2 seconds
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
     } finally {
-      setUploadUrl([]);
+      setUploadUrls([]);
 
       setRecommendRating(0);
       setServiceRating(0);
@@ -77,25 +80,6 @@ export function WriteReview2({ profileId }) {
     setOpen(!open);
   };
 
-  const handleUploadUrl = (url) => {
-    setUploadUrl((prevUrls) => [...prevUrls, url]); // Append the new URL to the array
-  };
-  const handledelete = async (url) => {
-    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
-
-    try {
-      await axiosInstance.post(`/api/upload/${avatarId}`, {
-        username: currentUser?.username,
-        avatarId,
-        role: "business",
-      });
-      setUploadUrl((prevUrls) =>
-        prevUrls.filter((currentUrl) => currentUrl !== url)
-      );
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
   return (
     <>
       {profileId !== currentUser?.username && (
@@ -181,44 +165,33 @@ export function WriteReview2({ profileId }) {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3      md:gap-x-4   ">
-                      <div className=" col-span-2 lg:space-y-4 ">
-                        <Input
-                          placeholder="Title"
-                          className=" h-10 "
-                          onChange={(e) => setTitle(e.target.value)}
-                        />
+                    <div className=" w-full lg:space-y-4 ">
+                      <Input
+                        placeholder="Title"
+                        className=" h-10 "
+                        onChange={(e) => setTitle(e.target.value)}
+                      />
 
-                        <Textarea
-                          placeholder="Type your message here."
-                          className="min-h-28"
-                          onChange={(e) => setComment(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <FileUploadComponent setUploadUrl={handleUploadUrl} />
-                        <div className=" flex  justify-between gap-x-2 mt-4   ">
-                          {uploadUrl &&
-                            uploadUrl.map((url) => (
-                              <div
-                                key={url}
-                                className="relative group w-24 h-24"
-                              >
-                                <ResponsiveImage
-                                  src={url}
-                                  className="border rounded-md  "
-                                  alt="review image"
-                                />
+                      {/* <Textarea
+                        placeholder="Type your message here."
+                        className="min-h-28 mb-32"
+                        onChange={(e) => setComment(e.target.value)}
+                        required
+                      /> */}
+                      <Tiptap
+                        content={comment}
+                        onChange={(newContent) =>
+                          handleContentChange(newContent)
+                        }
+                      />
+                    </div>
+                    <div></div>
 
-                                <MdDelete
-                                  className="absolute top-1 right-0 text-xl text-red-500 hidden group-hover:block"
-                                  onClick={() => handledelete(url)}
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      </div>
+                    <div className="w-full flex justify-center">
+                      <MultiFileUpload
+                        uploadUrls={uploadUrls}
+                        setUploadUrls={setUploadUrls}
+                      />
                     </div>
                     {success && (
                       <p className="  rounded-md text-primary_color bg-primary_color/10 p-2 text-center  ">

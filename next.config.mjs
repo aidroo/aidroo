@@ -21,6 +21,20 @@ const nextConfig = {
       {
         hostname: "cdn.builder.io",
       },
+      {
+        hostname: "aidroo.com",
+      },
+      {
+        hostname: "www.aidroo.com",
+      },
+      {
+        hostname: "admin.aidroo.com",
+        
+      },
+      {
+        hostname: "localhost",
+
+      },
     ],
   },
 };

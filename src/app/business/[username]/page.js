@@ -3,7 +3,6 @@
 import Layout from "@/components/Layout/Layout";
 import Loading from "@/components/Loading";
 import { Tabs } from "@/components/ui/tabs";
-import axiosInstance from "@/lib/axios";
 import {
   fetchProfiles,
   fetchSingleProfile,
@@ -18,7 +17,6 @@ import JobsContent from "./_components/JobsContent";
 import MoreContent from "./_components/MoreContent";
 import ReviewContent from "./_components/ReviewContent";
 import SocialShare from "./_components/SocialShare";
-import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
 
 export async function generateMetadata({ params }) {
   const { username } = params;

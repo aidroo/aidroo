@@ -1,15 +1,16 @@
+
 import IconImage from "@/components/IconImage/IconImage";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 
+import Notfound from "@/components/Notfound";
+import Rating from "@/components/Rating/Rating";
 import { Progress } from "@/components/ui/progress";
 import { TabsContent } from "@/components/ui/tabs";
 import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
-import ReviewCard from "./ReviewCard";
 import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
-import Notfound from "@/components/Notfound";
-import Rating from "@/components/Rating/Rating";
+import ReviewCard from "./ReviewCard";
 
 // Review is a server component
 export default async function ReviewContent({
