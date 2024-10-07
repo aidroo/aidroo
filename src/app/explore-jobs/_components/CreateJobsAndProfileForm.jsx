@@ -263,18 +263,27 @@ export default function JobsAndProfileCreatedForm({
                   <Image src={moneyBag} alt="moneyBag" priority={true} />
                 </div>
 
-                <div className="w-full">
-                  <div className="flex items-center bg-white rounded-lg overflow-hidden border h-10 justify-between">
+                <div className="w-full flex border py-1 rounded-md">
+                  
                     <input
                       name="price"
                       type="number"
                       value={jobData.price}
                       onChange={handleInputChange}
                       min={0}
-                      
+
                       placeholder="Amount"
-                      className="text-base text-gray-400 flex-grow outline-none px-2"
+                      className="w-24  md:w-full  text-base text-gray-400   outline-none px-2"
                     />
+                     <select
+                      name="priceType"
+                      value={jobData.priceType}
+                      onChange={handleInputChange}
+                      className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg"
+                    >
+                      <option value="negotiable">Negotiate</option>
+                      <option value="fixed">Fixed</option>
+                    </select>
                     <div className="flex items-center px-1 rounded-lg space-x-4 mx-auto">
                       <select
                         name="currency"
@@ -287,20 +296,10 @@ export default function JobsAndProfileCreatedForm({
                         <option value="EUR">EUR</option>
                       </select>
                     </div>
-                  </div>
+                   
+              
 
-                  <div className="flex mt-4 items-center bg-white rounded-lg overflow-hidden border h-10 justify-between px-4">
-                    <label htmlFor="priceType">Price Type</label>
-                    <select
-                      name="priceType"
-                      value={jobData.priceType}
-                      onChange={handleInputChange}
-                      className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg"
-                    >
-                      <option value="negotiable">Negotiate</option>
-                      <option value="fixed">Fixed</option>
-                    </select>
-                  </div>
+                 
                 </div>
               </div>
 
