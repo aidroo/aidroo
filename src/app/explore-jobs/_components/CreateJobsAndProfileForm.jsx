@@ -14,7 +14,7 @@ import {
   locationIcon,
   moneyBag,
   profileImage,
-  schedule,
+  schedule
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
@@ -59,7 +59,7 @@ export default function JobsAndProfileCreatedForm({
     username: currentUser?.username,
     title: " ",
     description: " ",
-    price: 0,
+    price: null,
     category_id: null,
     subcategory_id: null,
     priceType: "negotiable",
@@ -171,14 +171,14 @@ export default function JobsAndProfileCreatedForm({
 
         if (user?.data?.status !== 201) {
           setError(user?.data?.message);
-          return
+          return;
         }
       }
 
       await axiosInstance.post("/api/jobs", {
         ...jobData,
 
-        country:selectedCountry?.name,
+        country: selectedCountry?.name,
 
         username: currentUser?.username || userData?.username,
         images: uploadUrls,
@@ -253,54 +253,58 @@ export default function JobsAndProfileCreatedForm({
                   onChange={handleInputChange}
                   className={`${font14} min-h-32`}
                   placeholder="Enter your job description"
-                    required
+                  required
                 />
               </div>
 
               {/* Pricing Section */}
               <div className="flex gap-x-4 items-start">
-                <div className="w-14 -mt-2">
-                  <Image src={moneyBag} alt="moneyBag" priority={true} />
+                <ImageComponent
+                  src={moneyBag}
+                  alt="moneyBag"
+                  priority={true}
+                  width="55px"
+                  height="55px"
+                />
+
+               <div className="w-full grid grid-cols-  md:grid-cols-2  gap-6  ">
+                 <Input
+                  name="price"
+                  type="number"
+                  value={jobData.price}
+                  onChange={handleInputChange}
+                  min={0}
+                  placeholder="Amount"
+                  className="w-full  text-base text-gray-400 h-10  outline-none px-2"
+                />
+                <div className=" flex justify-between">
+                   <select
+                  name="currency"
+                  value={jobData.currency}
+                  onChange={handleInputChange}
+                  className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg  "
+                >
+                  <option value="USD">
+                    
+                    
+                     {/* <ImageComponent src={usd} width="40px" height="40px" alt="usd" /> */}
+                    <span>USD</span></option>
+                  <option value="GBP">GBP</option>
+                  <option value="EUR">EUR</option>
+                </select>
+                <select
+                  name="priceType"
+                  value={jobData.priceType}
+                  onChange={handleInputChange}
+                  className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg"
+                >
+                  <option value="negotiable">Negotiate</option>
+                  <option value="fixed">Fixed</option>
+                </select>
                 </div>
 
-                <div className="w-full flex border py-1 rounded-md">
-                  
-                    <input
-                      name="price"
-                      type="number"
-                      value={jobData.price}
-                      onChange={handleInputChange}
-                      min={0}
-
-                      placeholder="Amount"
-                      className="w-24  md:w-full  text-base text-gray-400   outline-none px-2"
-                    />
-                     <select
-                      name="priceType"
-                      value={jobData.priceType}
-                      onChange={handleInputChange}
-                      className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg"
-                    >
-                      <option value="negotiable">Negotiate</option>
-                      <option value="fixed">Fixed</option>
-                    </select>
-                    <div className="flex items-center px-1 rounded-lg space-x-4 mx-auto">
-                      <select
-                        name="currency"
-                        value={jobData.currency}
-                        onChange={handleInputChange}
-                        className="text-base text-gray-800 outline-none border-2 px-1 py-1 rounded-lg max-h-24"
-                      >
-                        <option value="USD">USD</option>
-                        <option value="GBP">GBP</option>
-                        <option value="EUR">EUR</option>
-                      </select>
-                    </div>
-                   
-              
-
-                 
-                </div>
+               
+               </div>
               </div>
 
               {/* Category and Subcategory */}
@@ -350,16 +354,16 @@ export default function JobsAndProfileCreatedForm({
                     height={300}
                   />
                 </div>
-                <div className="w-full">
-                  <div className="flex items-center bg-white rounded-lg overflow-hidden border h-10 justify-between">
-                    <input
+                <div className="w-full grid grid-cols-2 gap-4">
+                  
+                    <Input
                       name="location"
                       value={jobData.location}
                       onChange={handleInputChange}
-                      className="text-base text-gray-400 flex-grow outline-none px-2"
+                      className="text-base text-gray-400 flex-grow outline-none px-2  "
                       placeholder="Address"
                     />
-                    <div className="ms:flex items-center px-1 rounded-lg space-x-4 mx-auto">
+                     
                       <SelectComponent
                         options={countries}
                         value={selectedCountry?.name || ""}
@@ -370,8 +374,8 @@ export default function JobsAndProfileCreatedForm({
                         }
                         placeholder="Country"
                       />
-                    </div>
-                  </div>
+                    
+                 
                 </div>
               </div>
 

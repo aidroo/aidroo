@@ -34,7 +34,7 @@ export default function SelectComponent({
         </SelectTrigger>
         <SelectContent>
           {placeholder !== "Subcategory" && (
-            <SelectItem value="default">All {placeholder}</SelectItem>
+            <SelectItem value="default"> {placeholder}</SelectItem>
           )}
           {options.map((option) => (
             <SelectItem key={option.name} value={option.name}>

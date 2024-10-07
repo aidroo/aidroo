@@ -1,7 +1,8 @@
 "use client";
 
 import { profilePic } from "@/exportImage";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { FaCloudUploadAlt } from "react-icons/fa";
 import ImageComponent from "./ImageComponent";
 import { Button } from "./ui/button";
 
@@ -9,7 +10,7 @@ export default function SingleFileUpload({ uploadUrl, setUploadUrl }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
-   // State for preview URL
+  const fileInputRef = useRef(null); // Ref for file input element
 
   const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
   const ALLOWED_FILE_TYPES = [
@@ -53,7 +54,6 @@ export default function SingleFileUpload({ uploadUrl, setUploadUrl }) {
 
       const result = await response.json();
       setUploadUrl(result?.data?.url);
-       // Set preview URL
     } catch (err) {
       setError(err.message || "An unexpected error occurred.");
     } finally {
@@ -104,7 +104,6 @@ export default function SingleFileUpload({ uploadUrl, setUploadUrl }) {
       }
 
       setUploadUrl(null);
-       // Reset preview URL
       setError("");
     } catch (error) {
       setError(
@@ -114,69 +113,51 @@ export default function SingleFileUpload({ uploadUrl, setUploadUrl }) {
   };
 
   return (
-    <div className="flex gap-4">
-      
-        <div className="relative flex gap-4 items-start">
-          <ImageComponent
-            src={uploadUrl || profilePic}
-            alt="profile image"
-            width="100px"
-            height="100px"
-            className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full shrink-0 overflow-hidden"
-          />
-         
-        </div>
-       <div>
+    <div className="flex gap-8">
+      <div className="relative flex gap-4 items-start">
+        <ImageComponent
+          src={uploadUrl || profilePic}
+          alt="profile image"
+          width="100px"
+          height="100px"
+          className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full shrink-0 overflow-hidden"
+        />
+      </div>
+      <div>
         <button
           type="button"
-          className={`max-w-80 flex flex-col items-center justify-center p-2 border-2 h-fit mb-1 shadow-lg rounded-lg ${
+          className={`max-w-80 flex flex-col items-center justify-center p-2 border-2 border-dashed h-fit mb-1   rounded-lg ${
             isDragging ? "border-blue-500" : "border-gray-300"
           } ${loading ? "opacity-50 cursor-wait" : ""}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          onClick={() => document.querySelector("input[type='file']").click()}
+          onClick={() => fileInputRef.current?.click()} // Use ref to trigger input click
         >
-          <div className="w-full flex flex-col items-center">
-            <svg
-              className="w-10 h-10 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 16l-4-4-4 4m4-4v8m4-8a4 4 0 11-8 0 4 4 0 018 0z"
-              />
-            </svg>
-            <p className="text-gray-500 mt-2">Upload image</p>
+          <div className="  flex flex-col items-center justify-center w-28 h-16">
+            <FaCloudUploadAlt size={28} className="text-primary_color"  />
           </div>
 
           <input
+            ref={fileInputRef} // Ref for input element
             type="file"
             className="hidden"
             onChange={handleChange}
-            accept=".png,.jpg,.jpeg,.svg" 
+            accept=".png,.jpg,.jpeg,.svg"
             disabled={loading}
           />
 
           {loading && "Uploading..."}
-
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {error && <p className="text-red-500 mt-4">{error}</p>}
         </button>
         <Button
-            type="button"
-            className="max-w-44 bg-red-100 text-red-500 hover:bg-red-200"
-            onClick={removeFile}
-          >
-            Remove Photo
-          </Button>
-        
-       </div>
-    
+          type="button"
+          className="max-w-44 bg-red-100 text-red-500 hover:bg-red-200"
+          onClick={removeFile}
+        >
+          Remove Photo
+        </Button>
+      </div>
     </div>
   );
 }

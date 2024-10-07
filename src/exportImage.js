@@ -1,4 +1,5 @@
 import logo from "@/asserts/aidroo-logo.svg";
+import businessProfilePic from "@/asserts/briefcase_business.svg";
 import filter from "@/asserts/filter.svg";
 import humber from "@/asserts/mobile-icons/Hamburger-l1.svg";
 import categoryImage from "@/asserts/mobile-icons/categories.svg";
@@ -61,7 +62,6 @@ import verifiedIcon from "@/public/icons/verified.svg";
 import verified_badge from "@/public/icons/verified_badge.svg";
 import whitesearch from "@/public/icons/whitesearch.svg";
 import workerIcon from "@/public/icons/worker.svg";
-import businessProfilePic from "@/public/images/business.svg";
 import google from "@/public/images/google.svg";
 import profileImage, {
   default as profilePic,
@@ -137,5 +137,6 @@ export {
   verifiedIcon,
   whitesearch,
   workerIcon,
-  youtube,
+  youtube
 };
+

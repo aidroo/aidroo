@@ -61,11 +61,9 @@ export default function BusinessProfileCard({ businessProfile, id }) {
                 <span>{businessProfile?.averageRating} </span>
               </h1>
             </div>
-            <div className="flex gap-2 items-center  text-gray-600">
-              <FaRegPaperPlane className="text-[14px]" />
-              <h1 className="text-sm  ">
-                {city} , {country}
-              </h1>
+            <div className="flex gap-1 items-start flex-wrap text-sm  text-gray-600">
+              <FaRegPaperPlane size={12} className="mt-[4px]" />
+              <span>{city} </span>,<span>{country}</span>
             </div>
             {/* 
       category
