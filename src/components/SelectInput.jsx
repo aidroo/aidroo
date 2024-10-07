@@ -15,7 +15,10 @@ export default function SelectComponent({
   name,
   disabled = false,
   label,
+  required = false, // If true, the select field will be required
 }) {
+
+   
   return (
     <div className="w-full space-y-2">
       {label && <label className="text-sm font-medium">{label}</label>}
@@ -24,6 +27,7 @@ export default function SelectComponent({
         onValueChange={onChange}
         disabled={disabled}
         name={name}
+        required={required}
       >
         <SelectTrigger className="w-full h-10">
           <SelectValue placeholder={placeholder} />

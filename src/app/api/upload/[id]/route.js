@@ -1,32 +1,29 @@
-
-import fs from 'fs';
+import cloudinary from '@/utils/cloudinary';
 import { NextResponse } from 'next/server';
-import path from 'path';
 
 export async function DELETE(req, { params }) {
   try {
     const { id } = params;
-    console.log(id)
+    console.log(`Attempting to delete Cloudinary resource with public ID: ${id}`);
 
     if (!id) {
-      return NextResponse.json({ message: 'File ID is required.' }, { status: 400 });
+      return NextResponse.json({ message: 'Public ID is required.' }, { status: 400 });
     }
 
-    // Assuming the ID corresponds to the file name or unique identifier
-    const fileName = id;  // In this case, the ID will be the file name
-    const filePath = path.join(process.cwd(), 'public/uploads', fileName);
+    // Delete the image from Cloudinary using the public ID
+    const result = await cloudinary.uploader.destroy(id);
+    console.log('Cloudinary delete result:', result);
 
-    // Check if the file exists
-    if (fs.existsSync(filePath)) {
-      // Delete the file
-      fs.unlinkSync(filePath);
-      return NextResponse.json({ message: 'File deleted successfully.' }, { status: 200 });
+    if (result.result === 'ok') {
+      return NextResponse.json({ message: 'Image deleted successfully.' }, { status: 200 });
+    } else if (result.result === 'not found') {
+      return NextResponse.json({ message: 'Image not found in Cloudinary.', status: 404 });
     } else {
-      return NextResponse.json({ message: 'File not found.' }, { status: 404 });
+      return NextResponse.json({ message: 'Failed to delete image.', details: result }, { status: 500 });
     }
   } catch (error) {
-    console.log(error)
-    return NextResponse.json({ message: 'Error deleting file.', error: error.message }, { status: 500 });
+    console.error('Error deleting Cloudinary image:', error);
+    return NextResponse.json({ message: 'Error deleting image.', error: error.message }, { status: 500 });
   }
 }
 

@@ -1,18 +1,14 @@
 "use client";
-import FileUploadComponent from "@/components/FileUploadComponent";
-import IconImage from "@/components/IconImage/IconImage";
 
 import PasswordInput from "@/components/PasswordInput";
 import { Input } from "@/components/ui/input";
 import { countries } from "@/constant";
-import { profileImage } from "@/exportImage";
-import { useAuth } from "@/hooks/useAuth";
-import axiosInstance from "@/lib/axios";
 
 import { BsCheckCircleFill } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { MdOutlineMail } from "react-icons/md";
 import SelectComponent from "./SelectInput";
+import SingleFileUpload from "./SingleFileUpload";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 
@@ -20,8 +16,8 @@ export default function PersonalProfileCreatedForm({
   userData,
   setUserData,
   isExit,
-  avatar,
-  setAvatar,
+  uploadUrl,
+  setUploadUrl,
   selectedCountry,
   setSelectedCountry,
   country,
@@ -31,23 +27,9 @@ export default function PersonalProfileCreatedForm({
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const { currentUser } = useAuth();
+ 
 
-  const handledelete = async (url) => {
-    const avatarId = url?.substring(url.lastIndexOf("/") + 1)?.split(".")?.[0];
-
-    try {
-      await axiosInstance.post(`/api/upload/${avatarId}`, {
-        username: currentUser?.username,
-        avatarId,
-        role: "business",
-      });
-      setAvatar("");
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-  };
-
+   
   const handleCheckboxChange = (checked) => {
     setUserData({ ...userData, userVerified: checked });
   };
@@ -58,21 +40,9 @@ export default function PersonalProfileCreatedForm({
         Singup Profile
       </h1>
       <div className="flex gap-4 items-center border-b-2 pb-4 border p-4">
-        <div className="ring-2 ring-primary_color ring-offset-8 dark:ring-offset-slate-700 rounded-full w-20 md:w-24 shrink-0 overflow-hidden">
-          <IconImage
-            src={avatar || profileImage}
-            alt="profile image"
-            size={100}
-            className="rounded-lg"
-          />
-        </div>
+       
         <div className="max-w-64 space-y-2">
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <FileUploadComponent setUploadUrl={setAvatar} />
-          </div>
-          <button type="button" onClick={() => handledelete(avatar)}>
-            Remove Photo
-          </button>
+          <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl}/>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -137,6 +107,7 @@ export default function PersonalProfileCreatedForm({
         <SelectComponent
           options={countries}
           value={selectedCountry?.name || country}
+          required
           onChange={(value) =>
             setSelectedCountry(countries.find((c) => c.name === value))
           }

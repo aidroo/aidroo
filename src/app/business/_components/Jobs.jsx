@@ -22,6 +22,7 @@ export default function Jobs() {
             src={brifcaseIcon}
             className="w-6"
             alt="bordercategoriesIcon"
+            
           />
           <h1 className="text-sm">Job feed</h1>
         </div>

@@ -1,11 +1,10 @@
 "use client";
 
- 
+import ImageComponent from "@/components/ImageComponent";
 import MultiFileUpload from "@/components/MultiFileUpload";
 import PersonalProfileCreatedForm from "@/components/PersonalProfileCreatedForm";
 import SelectComponent from "@/components/SelectInput";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { countries, font14, font16 } from "@/constant";
@@ -19,7 +18,6 @@ import {
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
-import { generateEmail, generateUsername } from "@/utils/generateusername";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,22 +32,22 @@ export default function JobsAndProfileCreatedForm({
   const [selectedCountry, setSelectedCountry] = useState(false);
   const [inputValue, setInputValue] = useState(""); // for hashtag input
   const [hashtags, setHashtags] = useState([]); // to store hashtags
-  const [uploadUrl, setUploadUrl] = useState([]);
-  const [avatar, setAvatar] = useState("");
+  const [uploadUrls, setUploadUrls] = useState([]);
+  const [uploadUrl, setUploadUrl] = useState("");
+
   const [success, setSuccess] = useState("");
   const [error, setError] = useState();
   const router = useRouter();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const username = generateUsername();
-  const email = generateEmail(username);
+  const [open, setOpen] = useState(false);
 
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
-    username: username || "",
-    email: email || "",
+    username: "",
+    email: "",
     password: "",
     country: "",
     city: "",
@@ -58,7 +56,7 @@ export default function JobsAndProfileCreatedForm({
     role: "personal",
   });
   const [jobData, setJobData] = useState({
-    username: currentUser?.username || username,
+    username: currentUser?.username,
     title: " ",
     description: " ",
     price: 0,
@@ -70,7 +68,7 @@ export default function JobsAndProfileCreatedForm({
     country: "",
     startDate: "",
     endDate: "",
-    images: uploadUrl,
+    images: uploadUrls,
     tags: [],
     status: "pending",
   });
@@ -110,7 +108,7 @@ export default function JobsAndProfileCreatedForm({
     setSelectedCategory(null);
     setSelectedSubcategory(null);
     setHashtags([]);
-    setUploadUrl([]);
+    setUploadUrls([]);
   };
 
   // Handle input change for text fields jobs
@@ -140,7 +138,7 @@ export default function JobsAndProfileCreatedForm({
       setInputValue(""); // Clear input after adding the hashtag
     }
   };
-  console.log(jobData);
+
   // Update tags in jobData when hashtags change
   useEffect(() => {
     setJobData((prevState) => ({ ...prevState, tags: hashtags }));
@@ -166,59 +164,70 @@ export default function JobsAndProfileCreatedForm({
       setLoading(true);
 
       if (!currentUser?.username) {
-        await axiosInstance.post("/api/user", {
+        const user = await axiosInstance.post("/api/user", {
           ...userData,
-          profileThumb: avatar,
+          profileThumb: uploadUrl,
         });
+
+        if (user?.data?.status !== 201) {
+          setError(user?.data?.message);
+          return
+        }
       }
 
-      const response = await axiosInstance.post("/api/jobs", {
+      await axiosInstance.post("/api/jobs", {
         ...jobData,
 
+        country:selectedCountry?.name,
+
         username: currentUser?.username || userData?.username,
-        images: uploadUrl,
+        images: uploadUrls,
       });
 
       setSuccess("Pending! we wre reviewing your jobs");
-
+      resetForm();
+      setSelectedCategory(null);
+      setSelectedSubcategory(null);
+      setHashtags([]);
+      setUploadUrls([]);
+      setUploadUrl("");
       router.refresh(`/explore-jobs`);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      resetForm();
-      setSelectedCategory(null);
-      setSelectedSubcategory(null);
-      setHashtags([]);
-      setUploadUrl([]);
-      setAvatar("");
     }
   };
 
   return (
-    <>
-      <Dialog>
-        <DialogTrigger className="w-full">
-          <div className="w-full grid grid-cols-3 items-center bg-slate-100 rounded-full">
-            <div className="my-2 px-2">
-              <Image
-                src={currentUser?.profile?.profileThumb || profileImage}
-                alt="profile image"
-                width={500}
-                height={300}
-                priority={true}
-                className="rounded-full h-12 w-12"
-              />
-            </div>
-            <div className=" text-primary_color h-12 w-full rounded-full mr-4 cursor-pointer flex items-center px-4">
-              Post a job{" "}
-              {currentUser?.profile?.businessName ||
-                currentUser?.profile?.fullName}
-            </div>
-            <FaRegEdit className="justify-self-end mr-4 text-primary_color" />
-          </div>
-        </DialogTrigger>
-        <DialogContent className="border  h-screen overflow-y-auto">
+    <div className=" border rounded-md p-2">
+      <button
+        className="w-full  flex justify-between items-center bg-slate-100 rounded-full"
+        onClick={() => setOpen(!open)}
+      >
+        <div className="my-2 px-2">
+          <ImageComponent
+            src={currentUser?.profile?.profileThumb || profileImage}
+            alt="profile image"
+            width="60px"
+            height="60px"
+            priority={true}
+            className="rounded-full  "
+          />
+        </div>
+        <div className=" text-primary_color  rounded-full mr-4 cursor-pointer flex items-center px-4">
+          Post a job{" "}
+          {/* {currentUser?.profile?.businessName ||
+              currentUser?.profile?.fullName} */}
+        </div>
+        <FaRegEdit
+          size={24}
+          className="justify-self-end mr-4  text-primary_color"
+        />
+      </button>
+
+      {open && (
+        <div className=" ">
           <form onSubmit={handleSubmit}>
             <div className="w-full rounded-lg mt-4 flex flex-col space-y-4 mb-8">
               <h1
@@ -244,6 +253,7 @@ export default function JobsAndProfileCreatedForm({
                   onChange={handleInputChange}
                   className={`${font14} min-h-32`}
                   placeholder="Enter your job description"
+                    required
                 />
               </div>
 
@@ -261,6 +271,7 @@ export default function JobsAndProfileCreatedForm({
                       value={jobData.price}
                       onChange={handleInputChange}
                       min={0}
+                      
                       placeholder="Amount"
                       className="text-base text-gray-400 flex-grow outline-none px-2"
                     />
@@ -422,8 +433,8 @@ export default function JobsAndProfileCreatedForm({
               {/* image */}
 
               <MultiFileUpload
-                setUploadUrl={setUploadUrl}
-                uploadUrl={uploadUrl}
+                uploadUrls={uploadUrls}
+                setUploadUrls={setUploadUrls}
               />
               {/* Submit Button */}
             </div>
@@ -433,8 +444,8 @@ export default function JobsAndProfileCreatedForm({
               <PersonalProfileCreatedForm
                 userData={userData}
                 setUserData={setUserData}
-                avatar={avatar}
-                setAvatar={setAvatar}
+                uploadUrl={uploadUrl}
+                setUploadUrl={setUploadUrl}
                 selectedCountry={selectedCountry}
                 setSelectedCountry={setSelectedCountry}
               />
@@ -452,8 +463,8 @@ export default function JobsAndProfileCreatedForm({
               </Button>
             </div>
           </form>
-        </DialogContent>
-      </Dialog>
-    </>
+        </div>
+      )}
+    </div>
   );
 }

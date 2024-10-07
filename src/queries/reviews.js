@@ -243,7 +243,7 @@ export async function getBusinessProfileWithReviewsAndReactions(
   try {
     const { rows: reviews, count: totalRecords } =
       await db.Review.findAndCountAll({
-        where: { profileId: username },
+        where: { profileId: username,status:"approved" },
         include: [
           {
             model: db.User,
@@ -308,7 +308,7 @@ export async function getBusinessProfileWithReviewsAndReactions(
         ],
         limit,
         offset,
-         order: [["createdAt", "DESC"]],
+        order: [["createdAt", "DESC"]],
         distinct: true,
 
       });

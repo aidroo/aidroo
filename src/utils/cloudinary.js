@@ -8,3 +8,4 @@ cloudinary.config({
 
 // Export the configured cloudinary instance
 export default cloudinary;
+ 

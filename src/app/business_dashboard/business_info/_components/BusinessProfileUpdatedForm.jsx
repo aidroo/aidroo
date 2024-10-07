@@ -1,9 +1,8 @@
 "use client";
 
-import { Combobox } from "@/components/Combobox";
-
 import OptionSelect from "@/components/OptionSelect/OptionSelect";
 import PhoneCountry from "@/components/PhoneNumberInput/PhoneCountry";
+import SelectComponent from "@/components/SelectInput";
 import SingleFileUpload from "@/components/SingleFileUpload";
 
 import { Button } from "@/components/ui/button";
@@ -19,15 +18,17 @@ export default function BusinessProfileUpdatedForm({
   categories,
   subcategories,
   profile,
-  username,
+  
 }) {
   const router = useRouter();
   const { currentUser } = useAuth();
 
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(
+    categories.find((cat) => cat.name === profile?.category) || null
+  );
   const [selectedSubcategory, setSelectedSubcategory] = useState();
   const [uploadUrl, setUploadUrl] = useState(profile?.profileThumb);
-
+ 
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
 
@@ -44,7 +45,6 @@ export default function BusinessProfileUpdatedForm({
     employees: profile?.employees || "",
     profileThumb: uploadUrl || "",
   });
-  // Fetch user data
 
   const query = new URLSearchParams();
 
@@ -52,15 +52,17 @@ export default function BusinessProfileUpdatedForm({
     if (selectedCategory) {
       query.set("category_id", selectedCategory?.id);
     }
-    if (!username) {
+
+    // Check if username is provided, and if not, use current user's username
+    if (!currentUser?.usaername) {
       query.set("username", currentUser?.username);
+      // Push the updated URL only if the username was not already provided
       router.push(`/business_dashboard/business_info?${query.toString()}`, {
         shallow: true,
       });
     }
     // Reset subcategory when category is changed
-  }, [selectedCategory, router, username]);
-  // Initialize state with an object to hold form values
+  }, [selectedCategory, router,   currentUser?.username]);
 
   const handleInputChange = (field, value) => {
     setFormState({
@@ -89,16 +91,10 @@ export default function BusinessProfileUpdatedForm({
   return (
     <div className="border rounded-lg p-6 space-y-6">
       {/* image uploaded */}
-
       <h1 className="text-xl text-gray-700">Profile Details</h1>
-       <hr   />
-      <div className=" flex gap-8  ">
-        <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl} />
-        <div className="-mt-2">
-          <h1>{formState?.businessName}</h1>
-        </div>
-      </div>
-     
+      <hr />
+
+      <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl} username={currentUser?.username} />
 
       {/* profile update */}
       <div>
@@ -116,18 +112,24 @@ export default function BusinessProfileUpdatedForm({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Combobox
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
+            <SelectComponent
               options={categories}
-              className="border-none"
+              value={selectedCategory?.name || ""}
+              onChange={(value) =>
+                setSelectedCategory(
+                  categories.find((cat) => cat.name === value)
+                )
+              }
               placeholder="Category"
-              value={formState.category}
             />
-            <Combobox
-              selectedCategory={selectedSubcategory}
-              setSelectedCategory={setSelectedSubcategory}
+            <SelectComponent
               options={subcategories}
+              value={selectedSubcategory?.name || ""}
+              onChange={(value) =>
+                setSelectedSubcategory(
+                  subcategories.find((sub) => sub.name === value)
+                )
+              }
               placeholder="Subcategory"
             />
           </div>

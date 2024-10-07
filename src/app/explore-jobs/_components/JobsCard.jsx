@@ -17,7 +17,7 @@ export default function JobsCard({ job }) {
     location,
     country,
   } = job;
-  console.log(job);
+  
   return (
     <div>
       <div className="w-full rounded-lg border p-6 flex flex-col space-y-2">

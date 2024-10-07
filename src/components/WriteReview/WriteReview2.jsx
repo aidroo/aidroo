@@ -13,6 +13,7 @@ import JsonComponent from "../JonImg";
 import MultiFileUpload from "../MultiFileUpload";
 import Rating from "../Rating/Rating";
 import Star from "../Star/Star";
+import { Label } from "../ui/label";
 import Tiptap from "./Tiptap";
 
 export function WriteReview2({ profileId }) {
@@ -21,6 +22,7 @@ export function WriteReview2({ profileId }) {
 
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
+  const [showContent, setShowContent] = useState(false); // New state for delayed content
   const [comment, setComment] = useState("");
   const [serviceRating, setServiceRating] = useState(0);
   const [valueRating, setValueRating] = useState(0);
@@ -44,6 +46,7 @@ export function WriteReview2({ profileId }) {
   const handleContentChange = (reason) => {
     setComment(reason);
   };
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,7 +64,7 @@ export function WriteReview2({ profileId }) {
       if (review?.status === 200) {
         setTitle("");
         setComment("");
-        setUploadUrls([])
+        setUploadUrls([]);
         setSuccess("Pending we are reviewing your request");
         // 2000ms = 2 seconds
       }
@@ -69,27 +72,35 @@ export function WriteReview2({ profileId }) {
       console.log(error?.response?.data?.message);
     } finally {
       setUploadUrls([]);
-
       setRecommendRating(0);
       setServiceRating(0);
       setValueRating(0);
       setClicked(false);
     }
   };
+
   const handleChange = () => {
     setOpen(!open);
+
+    if (!open) {
+      // Show content after a delay when opening
+      setTimeout(() => {
+        setShowContent(true);
+      }, 200); // Adjust delay time as needed
+    } else {
+      // Hide content instantly when closing
+      setShowContent(false);
+    }
   };
 
   return (
     <>
       {profileId !== currentUser?.username && (
-        <div className="w-full">
+        <div className="w-full border rounded-md">
           <div onClick={handleChange}>
-            <div className="w-full border-2   rounded-md p-4 text-32 flex justify-between items-center cursor-pointer">
+            <div className="w-full rounded-md p-4 text-32 flex justify-between items-center cursor-pointer">
               <IconImage src={userIcon} size={50} alt="user" />
-
               <h1 className="text-primary">Write Review</h1>
-
               <div className="flex gap-1">
                 <Star colorClass="initial" />
                 <Star colorClass="initial" />
@@ -98,125 +109,101 @@ export function WriteReview2({ profileId }) {
             </div>
           </div>
           {open && (
-            <div>
+            <div
+              className={`transition-opacity duration-300 ${
+                showContent ? "opacity-100" : "opacity-0"
+              }`}
+            >
               {currentUser?.username ? (
-                <div className="   py-10">
+                <div className="py-10">
                   <form
-                    className="w-full  border    rounded-md   space-y-8 p-4 "
+                    className="w-full rounded-md space-y-8 p-4"
                     onSubmit={handleReviewSubmit}
                   >
                     <div>
-                      <div className=" grid grid-cols-1 md:grid-cols-3 gap-y-4 ">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4">
                         <div>
                           <h1 className="text-xl flex">Service</h1>
-                          <div className="flex">
-                            <div className="flex gap-1">
-                              <Rating
-                                value={serviceRating}
-                                isEditable
-                                size={18}
-                                rating={serviceRating}
-                                setRating={setServiceRating}
-                              />
-                            </div>
-                            {/* <JsonComponent
-                              className=" -mt-2"
-                              number={serviceRating}
-                            /> */}
+                          <div className="flex gap-1">
+                            <Rating
+                              value={serviceRating}
+                              isEditable
+                              size={18}
+                              rating={serviceRating}
+                              setRating={setServiceRating}
+                            />
                           </div>
                         </div>
                         <div>
-                          <h1 className="text-xl  ">Value</h1>
-                          <div className="flex">
-                            <div className="flex gap-1">
-                              <Rating
-                                value={valueRating}
-                                isEditable
-                                size={18}
-                                rating={valueRating}
-                                setRating={setValueRating}
-                              />
-                            </div>
-
-                            {/* <JsonComponent
-                              className=" -mt-2"
-                              number={valueRating}
-                            /> */}
+                          <h1 className="text-xl">Value</h1>
+                          <div className="flex gap-1">
+                            <Rating
+                              value={valueRating}
+                              isEditable
+                              size={18}
+                              rating={valueRating}
+                              setRating={setValueRating}
+                            />
                           </div>
                         </div>
                         <div>
                           <h1 className="text-xl">Recommended</h1>
-                          <div className="flex">
-                            <div className="flex gap-1">
-                              <Rating
-                                value={recommendRating}
-                                isEditable
-                                size={18}
-                                rating={recommendRating}
-                                setRating={setRecommendRating}
-                              />
-                            </div>
-                            {/* <JsonComponent
-                              className=" -mt-2"
-                              number={recommendRating}
-                            /> */}
+                          <div className="flex gap-1">
+                            <Rating
+                              value={recommendRating}
+                              isEditable
+                              size={18}
+                              rating={recommendRating}
+                              setRating={setRecommendRating}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className=" w-full lg:space-y-4 ">
-                      <Input
-                        placeholder="Title"
-                        className=" h-10 "
-                        onChange={(e) => setTitle(e.target.value)}
-                      />
-
-                      {/* <Textarea
-                        placeholder="Type your message here."
-                        className="min-h-28 mb-32"
-                        onChange={(e) => setComment(e.target.value)}
-                        required
-                      /> */}
-                      <Tiptap
-                        content={comment}
-                        onChange={(newContent) =>
-                          handleContentChange(newContent)
-                        }
-                      />
+                    <div className="w-full lg:space-y-4">
+                      <div>
+                        <Label>Title</Label>
+                        <Input
+                          className="h-10 border-primary_color"
+                          onChange={(e) => setTitle(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Label>Description</Label>
+                        <Tiptap
+                          content={comment}
+                          onChange={(newContent) =>
+                            handleContentChange(newContent)
+                          }
+                        />
+                      </div>
                     </div>
-                    <div></div>
-
-                    <div className="w-full flex justify-center">
+                    <div className="w-full flex justify-start">
                       <MultiFileUpload
                         uploadUrls={uploadUrls}
                         setUploadUrls={setUploadUrls}
                       />
                     </div>
                     {success && (
-                      <p className="  rounded-md text-primary_color bg-primary_color/10 p-2 text-center  ">
+                      <p className="rounded-md text-primary_color bg-primary_color/10 p-2 text-center">
                         Pending!{" "}
                         <span className="text-red-400">
                           We are reviewing your request
                         </span>
                       </p>
                     )}
-
-                    {/* personal user create */}
-                    <div className="relative">
+                    <div className="relative w-full flex justify-center">
                       <button
                         type="submit"
-                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border  text-white    items-center ${
+                        className={`flex gap-4 px-4 py-2 rounded-md h-12 border text-white items-center ${
                           clicked ? "bg-primary_color" : "bg-primary_color"
                         }`}
                       >
                         {"Submit Review"}
                       </button>
                       {showAnimation && (
-                        <div className=" absolute -top-12 -left-8">
-                          <JsonComponent
-                            shouldLoop={true} // Set to true to loop the animation
-                          />
+                        <div className="absolute -top-12 -left-8">
+                          <JsonComponent shouldLoop={true} />
                         </div>
                       )}
                     </div>
