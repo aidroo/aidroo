@@ -1,4 +1,3 @@
-// models/user.js
 import { DataTypes } from "sequelize";
 import sequelize from "../sequalize";
 
@@ -6,7 +5,6 @@ const User = sequelize.define(
   "User",
   {
     // Define attributes
-
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -46,6 +44,15 @@ const User = sequelize.define(
       allowNull: true,
     },
     passwordResetTokenExpire: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    // New FCM token fields
+    fcmToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    fcmTokenExpire: {
       type: DataTypes.DATE,
       allowNull: true,
     },

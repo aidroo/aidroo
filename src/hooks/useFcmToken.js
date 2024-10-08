@@ -2,75 +2,106 @@
 
 import { fetchToken, messaging } from "@/app/firebase";
 import { useToast } from "@/components/ui/use-toast";
+import axiosInstance from "@/lib/axios";
 import { onMessage } from "firebase/messaging";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
-// Step 1: Get notification permission and token
-async function getNotificationPermissionAndToken() {
-  if (!("Notification" in window)) {
-    console.info("This browser does not support desktop notification");
-    return null;
-  }
-
-  if (Notification.permission === "granted") {
-    return await fetchToken();
-  }
-
-  if (Notification.permission !== "denied") {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      await fetchToken();
-      return;
-    }
-  }
-
-  console.log("Notification permission not granted.");
-  return null;
-}
+import { useAuth } from "./useAuth";
 
 const useFcmToken = () => {
-  const { toast } = useToast(); // Initialize the Shadcn toast hook
-  const router = useRouter();
+  const { currentUser } = useAuth(); // Access current user context
+  const { toast } = useToast(); // Initialize the toast hook
+  const router = useRouter(); // For navigation
   const [notificationPermissionStatus, setNotificationPermissionStatus] =
     useState(null);
   const [token, setToken] = useState(null);
-  const retryLoadToken = useRef(0);
   const isLoading = useRef(false);
 
-  // Load token from Firebase and check permissions
+  const saveTokenToLocalStorage = (token) => {
+    localStorage.setItem("fcmToken", token);
+    localStorage.setItem("fcmTokenTimestamp", Date.now().toString());
+  };
+
+  let tokenAge;
+  const checkIfTokenExpired = () => {
+    const tokenTimestamp = localStorage.getItem("fcmTokenTimestamp");
+
+    if (!tokenTimestamp) {
+      return true; // If no timestamp exists, consider the token expired
+    }
+
+    tokenAge = Date.now() - parseInt(tokenTimestamp, 10);
+    const tokenExpiryDuration = 7 * 24 * 60 * 60 * 1000; // Example: 7 days in milliseconds
+
+    // Return true if token is older than the expiry duration
+    return tokenAge > tokenExpiryDuration;
+  };
+
+  const getNotificationPermissionAndToken = async () => {
+    if (!("Notification" in window)) {
+      console.info("This browser does not support desktop notifications");
+      return null;
+    }
+
+    if (Notification.permission === "granted") {
+      return await fetchToken();
+    }
+
+    if (Notification.permission !== "denied") {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        return await fetchToken();
+      }
+    }
+
+    console.log("Notification permission not granted.");
+    return null;
+  };
+
+  const saveTokenToDatabase = async (token, username) => {
+    if (currentUser) {
+      try {
+        const response = await axiosInstance.put(`/api/user/${username}`, {
+          fcmToken: token,
+          fcmTokenExpire: tokenAge,
+          role: currentUser?.role,
+          username,
+        });
+        console.log("Token saved to database:", response);
+      } catch (error) {
+        console.error("Error saving token to database:", error);
+      }
+    }
+  };
+
+  const checkLocalStorageToken = () => {
+    return localStorage.getItem("fcmToken");
+  };
+
   const loadToken = async () => {
     if (isLoading.current) return;
 
     isLoading.current = true;
-    const token = await getNotificationPermissionAndToken();
 
-    if (Notification.permission === "denied") {
-      setNotificationPermissionStatus("denied");
-      console.info(
-        "%cPush Notifications issue - permission denied",
-        "color: green; background: #c7c7c7; padding: 8px; font-size: 20px"
-      );
-      isLoading.current = false;
-      return;
+    let token = checkLocalStorageToken();
+
+    // Check if the token is expired
+    if (checkIfTokenExpired()) {
+      console.log("Token is expired, fetching a new one...");
+      token = await getNotificationPermissionAndToken();
+      if (token) {
+        saveTokenToLocalStorage(token); // Save new token and timestamp
+      }
+    } else {
+      console.log("Using existing token.");
     }
 
-    if (!token) {
-      if (retryLoadToken.current >= 3) {
-        alert("Unable to load token, refresh the browser");
-        console.info(
-          "%cPush Notifications issue - unable to load token after 3 retries",
-          "color: green; background: #c7c7c7; padding: 8px; font-size: 20px"
-        );
-        isLoading.current = false;
-        return;
-      }
-
-      retryLoadToken.current += 1;
-      console.error("An error occurred while retrieving token. Retrying...");
-      isLoading.current = false;
-      await loadToken();
-      return;
+    // Save the token to the database if a username exists
+    if (currentUser?.username) {
+      await saveTokenToDatabase(token, currentUser?.username);
+    } else {
+      console.log("Username does not exist, saving token in local storage.");
     }
 
     setNotificationPermissionStatus(Notification.permission);
@@ -78,14 +109,29 @@ const useFcmToken = () => {
     isLoading.current = false;
   };
 
-  // Initialize token loading on component mount
   useEffect(() => {
     if ("Notification" in window) {
       loadToken();
     }
   }, []);
 
-  // Setup listener for FCM messages
+  // Watch for changes to the currentUser and save token to database
+  useEffect(() => {
+    const updateTokenInDatabase = async () => {
+      const token = checkLocalStorageToken();
+
+      if (token && currentUser?.username) {
+        console.log("Updating token in database for new user.");
+        await saveTokenToDatabase(token, currentUser?.username);
+      }
+    };
+
+    // Only update if currentUser exists
+    if (currentUser) {
+      updateTokenInDatabase();
+    }
+  }, [currentUser]);
+
   useEffect(() => {
     const setupListener = async () => {
       if (!token) return;
@@ -99,41 +145,23 @@ const useFcmToken = () => {
 
         console.log("Foreground push notification received:", payload);
 
-        const link = payload.fcmOptions?.link || payload.data?.link;
-
-        // Display the notification in the Shadcn UI Toast
+        const notificationUrl = payload.fcmOptions?.link || "/"; // Default URL if no link in payload
+        console.log(notificationUrl);
+        // Display the notification using Shadcn toast
         toast({
           title: payload.notification?.title || "Notification",
-          description: payload.notification?.body || "You have a new message.",
-          action: link ? (
-            <button
-              className="text-blue-500 underline"
-              onClick={() => router.push(link)}
-            >
-              Visit
-            </button>
-          ) : null,
+          description: (
+            <div>
+              {payload.notification?.body || "You have a new message."}
+              <Link
+                href={notificationUrl}
+                className="ml-2 text-blue-500 underline"
+              >
+                View
+              </Link>
+            </div>
+          ),
         });
-
-        // Create native browser notification
-        const nativeNotification = new Notification(
-          payload.notification?.title || "New message",
-          {
-            body: payload.notification?.body || "This is a new message",
-            data: { url: link },
-          }
-        );
-
-        nativeNotification.onclick = (event) => {
-          event.preventDefault();
-          const link = event.target.data?.url;
-          if (link) {
-            router.push(link);
-          }
-        };
-
-        // Optionally, save the notification in local state or to a server
-        saveNotification(payload);
       });
 
       return unsubscribe;
@@ -149,14 +177,6 @@ const useFcmToken = () => {
 
     return () => unsubscribe?.();
   }, [token, router, toast]);
-
-  // Function to save notifications (you can adjust this as needed)
-  const saveNotification = (payload) => {
-    // Here you can save the notification to local state, context, or send it to a server
-    console.log("Saving notification:", payload);
-    // Example: You can store notifications in localStorage or a global state
-    // localStorage.setItem('notifications', JSON.stringify([...existingNotifications, payload]));
-  };
 
   return { token, notificationPermissionStatus };
 };

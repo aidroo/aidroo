@@ -33,7 +33,11 @@ export async function PUT(req) {
       verified,
       top,
       guaranteed,
+      fcmToken,
+      fcmTokenExpire,
     } = body;
+
+    console.log(fcmToken);
 
     // Validate required fields
     if (!username) {
@@ -44,7 +48,10 @@ export async function PUT(req) {
     }
 
     // Find the existing user
-    const user = await db.User.findOne({ where: { username }, transaction });
+    const user = await db.User.findOne({
+      where: { username, role },
+      transaction,
+    });
 
     if (!user) {
       await transaction.rollback();
@@ -57,6 +64,8 @@ export async function PUT(req) {
     // Update user fields
     if (email) user.email = email;
 
+    if (fcmToken) user.fcmToken = fcmToken;
+    if (fcmTokenExpire) user.fcmTokenExpire = fcmTokenExpire;
     // if (role) user.role = role;
 
     await user.save({ transaction });
