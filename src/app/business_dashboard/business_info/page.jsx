@@ -8,7 +8,7 @@ import BusinessProfileUpdatedForm from "./_components/BusinessProfileUpdatedForm
 export default async function BusinessProfile({ searchParams }) {
   const selectedCategoryId = searchParams.category_id;
   const username = searchParams.username;
-
+ 
   const [categoriesData, subcategoriesData, profile] = await Promise.all([
     fetchCategoriesWithOutLimit(),
     fetchSubcategories(selectedCategoryId || {}),

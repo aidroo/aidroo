@@ -90,6 +90,10 @@ const BusinessProfile = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    gallery: {
+      type: DataTypes.JSON, // Storing gallery as a JSON field
+      allowNull: true,
+    },
   },
   {
     timestamps: true,

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { countries, font14 } from "@/constant";
-import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,18 +17,19 @@ export default function BusinessProfileUpdatedForm({
   categories,
   subcategories,
   profile,
-  
+  username
 }) {
   const router = useRouter();
-  const { currentUser } = useAuth();
+ 
 
   const [selectedCategory, setSelectedCategory] = useState(
     categories.find((cat) => cat.name === profile?.category) || null
   );
-  const [selectedSubcategory, setSelectedSubcategory] = useState();
+  const [selectedSubcategory, setSelectedSubcategory] = useState( subcategories.find((subcat) => subcat.name === profile?.subcategory) || null);
   const [uploadUrl, setUploadUrl] = useState(profile?.profileThumb);
  
   const [loading, setLoading] = useState(false);
+  const [apiSuccess, setApiSuccess] = useState("");
   const [apiError, setApiError] = useState("");
 
   const [formState, setFormState] = useState({
@@ -54,15 +54,15 @@ export default function BusinessProfileUpdatedForm({
     }
 
     // Check if username is provided, and if not, use current user's username
-    if (!currentUser?.usaername) {
-      query.set("username", currentUser?.username);
+    if (username) {
+      query.set("username", username);
       // Push the updated URL only if the username was not already provided
       router.push(`/business_dashboard/business_info?${query.toString()}`, {
         shallow: true,
       });
     }
     // Reset subcategory when category is changed
-  }, [selectedCategory, router,   currentUser?.username]);
+  }, [selectedCategory, router, username]);
 
   const handleInputChange = (field, value) => {
     setFormState({
@@ -73,14 +73,22 @@ export default function BusinessProfileUpdatedForm({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setApiError("");
+    setApiSuccess("");
     try {
       setLoading(true);
-      await axiosInstance.put(`/api/user/${currentUser?.username}`, {
+   const response=   await axiosInstance.put(`/api/user/${username}`, {
         ...formState,
-        username: currentUser?.username,
+        username: username,
         role: "business",
         profileThumb: uploadUrl,
+        category:selectedCategory.name,
+        subcategory:selectedSubcategory.name
       });
+ 
+      if(response?.data?.status===201){
+        setApiSuccess(response?.data?.message)
+      }
     } catch (error) {
       setApiError(error.message);
     } finally {
@@ -94,7 +102,7 @@ export default function BusinessProfileUpdatedForm({
       <h1 className="text-xl text-gray-700">Profile Details</h1>
       <hr />
 
-      <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl} username={currentUser?.username} />
+      <SingleFileUpload uploadUrl={uploadUrl} setUploadUrl={setUploadUrl} username={username} />
 
       {/* profile update */}
       <div>
@@ -186,6 +194,7 @@ export default function BusinessProfileUpdatedForm({
             onChange={(e) => handleInputChange("description", e.target.value)}
           />
           {apiError && <h1 className="text-red-300">{apiError}</h1>}
+          {apiSuccess && <h1 className="text-green-300">{apiSuccess}</h1>}
 
           <Button
             type="submit"

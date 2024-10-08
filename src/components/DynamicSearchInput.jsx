@@ -82,7 +82,7 @@ export default function DynamicSearchInput() {
           value={selectedValue}
           onValueChange={handleValueChange}
           className="focus:ring-ring"
-          align="start"
+          align="end"
         >
           <SelectTrigger className="w-fit px-2 h-10 rounded-none focus:ring-0 bg-gray-50 border-none shadow-none">
             {selectedValue === "business" && (
@@ -100,7 +100,7 @@ export default function DynamicSearchInput() {
               />
             )}
           </SelectTrigger>
-          <SelectContent className="">
+          <SelectContent className="" align="end">
             <SelectGroup>
               <SelectItem value="business">
                 <div className="flex items-center gap-6 border-b pb-2">

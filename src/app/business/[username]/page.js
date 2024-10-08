@@ -24,6 +24,8 @@ export async function generateMetadata({ params }) {
   try {
     const { profile } = await fetchSingleProfile({ username });
 
+     
+
     if (!profile) {
       return {
         title: "Profile Not Found",
@@ -148,7 +150,7 @@ export default async function Business({ searchParams, params }) {
     url: `https://aidroo.com/business/${profile.username || "unknown"}`,
     logo: profile.profileThumb || "https://example.com/default-image.jpg",
   };
-  console.log(profile.averageRating);
+ 
   return (
     <Layout>
       <Script
@@ -196,7 +198,7 @@ export default async function Business({ searchParams, params }) {
                   </Suspense>
 
                   <Suspense fallback={<Loading />}>
-                    <MoreContent />
+                    <MoreContent gallery={profile?.gallery} />
                   </Suspense>
                 </Tabs>
               </div>

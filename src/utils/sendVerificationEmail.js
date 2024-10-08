@@ -1,4 +1,4 @@
-import { default as VerificationEmail } from "@/components/AccountVerificaitonEmail";
+import AccountVerificationEmail from "@/components/AccountVerificaitonEmail";
 import { Resend } from "resend";
 import { generateAccessToken } from "./jwt";
 
@@ -22,7 +22,7 @@ export async function sendVerificationEmail(email, username, role) {
       from: "support@aidroo.com",
       to: email, // Recipient email
       subject: "Please verify your email",
-      react: VerificationEmail({ username, verificationLink }),
+      react: AccountVerificationEmail({ username, verificationLink }),
     });
 
     console.log("Verification email sent successfully:", emailResponse);

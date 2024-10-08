@@ -13,10 +13,10 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ResponsiveImage from "../ResponsiveImage/ResponsiveImage";
 
-export default function ThumbSlider() {
+export default function ThumbSlider({gallery}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const number = [1, 2, 3, 4, 5];
+  
 
   return (
     <>
@@ -27,11 +27,11 @@ export default function ThumbSlider() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        {number.map((idex) => (
-          <SwiperSlide key={idex}>
+        {gallery.map((img,index) => (
+          <SwiperSlide key={index}>
             <div className="w-full lg:h-96">
               <ResponsiveImage
-                src={`https://swiperjs.com/demos/images/nature-${idex}.jpg`}
+                src={img}
                 width={500}
                 height={300}
                 alt="slider"
@@ -44,17 +44,17 @@ export default function ThumbSlider() {
         onSwiper={setThumbsSwiper}
         loop={true}
         spaceBetween={10}
-        slidesPerView={4}
+        slidesPerView={gallery.length}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper mt-6"
       >
-        {number.map((idex) => (
-          <SwiperSlide key={idex}>
+        {gallery.map((img,index) => (
+          <SwiperSlide key={index}>
             <div className="h-24">
               <ResponsiveImage
-                src={`https://swiperjs.com/demos/images/nature-${idex}.jpg`}
+                src={img}
                 width={500}
                 height={300}
                 alt="slider"

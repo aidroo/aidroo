@@ -181,42 +181,44 @@ export const footerLinks = [
 ];
 
 export const businessOur = [
-  {
-    day: "Sat",
-    time: " 9.00 AM - 10.00 PM",
+   {
+    day: "Friday",
+    time: "9.00 AM - 10.00 PM",
     open: false,
   },
   {
-    day: "Sun",
-    time: " 9.00 AM - 10.00 PM",
-    open: true,
-  },
-  {
-    day: "Mon",
-    time: " 9.00 AM - 10.00 PM",
-    open: true,
-  },
-  {
-    day: "Tues",
-    time: " 9.00 AM - 10.00 PM",
-    open: true,
-  },
-  {
-    day: "Wed",
-    time: " 9.00 AM - 10.00 PM",
-    open: true,
-  },
-  {
-    day: "Thur",
-    time: " 9.00 AM - 10.00 PM",
-    open: true,
-  },
-  {
-    day: "Fri",
-    time: " 9.00 AM - 10.00 PM",
+    day: "Saturday",
+    time: "9.00 AM - 10.00 PM",
     open: false,
   },
+  {
+    day: "Sunday",
+    time: "9.00 AM - 10.00 PM",
+    open: true,
+  },
+  {
+    day: "Monday",
+    time: "9.00 AM - 10.00 PM",
+    open: true,
+  },
+  {
+    day: "Tuesday",
+    time: "9.00 AM - 10.00 PM",
+    open: true,
+  },
+  {
+    day: "Wednesday",
+    time: "9.00 AM - 10.00 PM",
+    open: true,
+  },
+  {
+    day: "Thursday",
+    time: "9.00 AM - 10.00 PM",
+    open: true,
+  },
+ 
 ];
+
 export const faqContent = [
   {
     title: "Satur",
@@ -288,7 +290,7 @@ export const businessSidebarOptions = [
   },
   {
     name: "Security",
-    href: "#",
+     href: "/business_dashboard/security",
     roles: ["admin", "business"],
   },
   {
@@ -614,3 +616,4 @@ export const font14 = "text-[14px] ";
 export const font12 = "text-[12px] ";
 
 export { applePlay, googlePlay };
+

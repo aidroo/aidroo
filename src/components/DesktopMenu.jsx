@@ -397,7 +397,7 @@ export default function DesktopMenu() {
                           alt="notification icon"
                         />
                         {
-                          <Link href="/business_dashboard/business_info">
+                          <Link href={`/business_dashboard/business_info?username=${currentUser?.username}`}>
                             <span
                               className={`${font16} text-gray-700 hover:text-primary_color`}
                             >
