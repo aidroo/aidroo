@@ -88,19 +88,19 @@ export const footerLinks = [
       },
       {
         title: "Trust & Safety",
-        link: "#",
+        link: "/terms-service/privacy-policy",
       },
       {
         title: "Terms & Service",
-        link: "#",
+        link: "/terms-service/privacy-policy",
       },
       {
         title: "Privacy Policy",
-        link: "#",
+        link: "/terms-service/privacy-policy",
       },
       {
         title: "Our Pricing Plan",
-        link: "#",
+        link: "/pricing_plan",
       },
     ],
   },
@@ -110,7 +110,7 @@ export const footerLinks = [
       {
         title: "Join Aidrooo",
 
-        link: "#",
+        link: "/signup/business",
       },
       {
         title: "Aidroo Blogs",
@@ -140,11 +140,11 @@ export const footerLinks = [
       {
         title: "Business Login",
 
-        link: "#",
+        link: "/signup/business",
       },
       {
         title: "Claim your Business Profile",
-        link: "#",
+        link: "/business",
       },
       {
         title: "Ads on Aidroo",
@@ -152,11 +152,11 @@ export const footerLinks = [
       },
       {
         title: "Profile Guidlines",
-        link: "#",
+        link: "/terms-service/business-profile",
       },
       {
         title: "Business Support",
-        link: "#",
+        link: "/terms-service/business-profile",
       },
       {
         title: "Business Blogs",
@@ -181,7 +181,7 @@ export const footerLinks = [
 ];
 
 export const businessOur = [
-   {
+  {
     day: "Friday",
     time: "9.00 AM - 10.00 PM",
     open: false,
@@ -216,7 +216,6 @@ export const businessOur = [
     time: "9.00 AM - 10.00 PM",
     open: true,
   },
- 
 ];
 
 export const faqContent = [
@@ -290,7 +289,7 @@ export const businessSidebarOptions = [
   },
   {
     name: "Security",
-     href: "/business_dashboard/security",
+    href: "/business_dashboard/security",
     roles: ["admin", "business"],
   },
   {
@@ -616,4 +615,3 @@ export const font14 = "text-[14px] ";
 export const font12 = "text-[12px] ";
 
 export { applePlay, googlePlay };
-

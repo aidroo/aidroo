@@ -42,7 +42,7 @@ export default function Carosul() {
         </span>{" "}
         businesses globally
       </h1>
-      <div className="flex overflow-hidden   group mt-14">
+      <div className="flex overflow-hidden mx-20 md:mx-0   group mt-14">
         <div className="flex  space-x-16  px-2 animate-loop-scroll group-hover:paused">
           {carosulImag.map((img) => (
             <Image

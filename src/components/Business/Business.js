@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 
 const Business = () => {
   return (
-    <div className="background-gradient bannerBackgroundImage  px-2 lg:px-4  py-20  ">
+    <div className="background-gradient bannerBackgroundImage  px-4 lg:px-4  py-20  ">
       <div className="max-w-[1280px]  mx-auto  ">
         <div className="  mx-auto text-center    rounded-lg">
           <h1 className={`  mb-1 text-2xl font-semibold`}>

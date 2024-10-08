@@ -182,7 +182,7 @@
 
 .card {
   padding-top: 2px;
-  width: 220px;
+  width: 320px;
   height: 180px;
   background: #fff;
   border-radius: 10px;
@@ -272,8 +272,9 @@
   height: 118px;
   border-radius: 50%;
   background: var(--bg-color);
-  top: 6px;
-  left: 50px;
+  display: flex;
+  justify-content: center;
+  top: 5px;
   z-index: 0;
   transition: transform 0.3s ease-out;
 }
