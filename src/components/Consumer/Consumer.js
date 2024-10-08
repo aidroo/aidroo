@@ -61,14 +61,14 @@ export default function Consumer() {
               <div className="circle text-gray-800">
                 <div className="svg">
                   <div>
-                    <span className="text-2xl md:text-3xl font-bold">
+                    <span className="text-2xl md:text-xl font-bold">
                       +
                       <CountUp duration={5} className="counter" end={93} /> %
                     </span>
                   </div>{" "}
                 </div>
               </div>
-              <p>93% of consumers trust Aidroo</p>
+              <p className="text-xs">93% of trust on Aidroo</p>
             </a>
           </div>
 
