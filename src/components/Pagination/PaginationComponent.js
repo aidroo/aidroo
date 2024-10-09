@@ -18,6 +18,7 @@ export default function PaginationComponent({
   initialLimit = 10, // default limit if not provided
   pagename = "page",
   limitname = "limit",
+  lastShow = false,
 }) {
   const router = useRouter();
   const [limit] = useState(initialLimit);
@@ -109,7 +110,7 @@ export default function PaginationComponent({
         )}
 
         {/* Last Page and Ellipsis */}
-        {currentPage < totalPages - 1 && (
+        {currentPage < totalPages - 1 && !lastShow && (
           <>
             {currentPage < totalPages - 2 && (
               <PaginationItem>

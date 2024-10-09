@@ -9,7 +9,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SideBarLinks({ options, userRole }) {
+export default function SideBarLinks({ options }) {
   const pathname = usePathname();
 
   return (
@@ -30,27 +30,25 @@ export default function SideBarLinks({ options, userRole }) {
             <ul role="list">
               <li>
                 <ul className="space-y-4">
-                  {options
-                    .filter((option) => option.roles.includes(userRole)) // Filter links based on role
-                    .map((option) => {
-                      const isActive = pathname === option.href;
+                  {options.map((option) => {
+                    const isActive = pathname === option?.href;
 
-                      return (
-                        <li key={option.name} className="w-full h-8">
-                          <Link
-                            href={option.href}
-                            className={classNames(
-                              isActive
-                                ? "bg-primary_color text-white dark:bg-dark dark:text-gray-300"
-                                : "text-gray-500 hover:text-white border-b hover:border-0 hover:bg-primary_color dark:hover:bg-dark",
-                              "group flex gap-x-3 rounded-sm p-2 text-sm leading-6 font-semibold"
-                            )}
-                          >
-                            {option.name}
-                          </Link>
-                        </li>
-                      );
-                    })}
+                    return (
+                      <li key={option?.name} className="w-full h-8">
+                        <Link
+                          href={option?.href}
+                          className={classNames(
+                            isActive
+                              ? "bg-primary_color text-white dark:bg-dark dark:text-gray-300"
+                              : "text-gray-500 hover:text-white border-b hover:border-0 hover:bg-primary_color dark:hover:bg-dark",
+                            "group flex gap-x-3 rounded-sm p-2 text-sm leading-6 font-semibold"
+                          )}
+                        >
+                          {option?.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             </ul>

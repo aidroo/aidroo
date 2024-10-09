@@ -80,7 +80,7 @@ export const footerLinks = [
     links: [
       {
         title: "About Aidroo",
-        link: "#",
+        link: "/about-aidroo",
       },
       {
         title: "Contact Us",

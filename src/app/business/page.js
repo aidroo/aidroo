@@ -96,6 +96,7 @@ export default async function BusinessProfiles({ searchParams }) {
                       currentPage={currentPage}
                       totalPages={totalPages}
                       baseUrl="/business?"
+                      lastShow
                     />
                   )}
                 </div>

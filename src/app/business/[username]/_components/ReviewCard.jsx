@@ -100,7 +100,7 @@ export default function ReviewCard({ review, username }) {
       setLoading(false);
     }
   };
-
+  console.log(review?.user);
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -123,6 +123,7 @@ export default function ReviewCard({ review, username }) {
                 <TitleNameAndVerified
                   title={review?.user?.businessProfile?.businessName || fulName}
                   verified={review?.user?.businessProfile?.verified}
+                  // personalVerified={true}
                   personalVerified={review?.user?.personalProfile?.verified}
                 />
               </div>
@@ -171,11 +172,11 @@ export default function ReviewCard({ review, username }) {
         </div>
         <div className="space-y-1">
           <h1 className={`${font18}`}>{title}</h1>
-         <div
-                className="ProseMirror whitespace-pre-line    "
-                style={{ whiteSpace: "pre-line" }}
-                dangerouslySetInnerHTML={{ __html: comment }}
-              />
+          <div
+            className="ProseMirror whitespace-pre-line    "
+            style={{ whiteSpace: "pre-line" }}
+            dangerouslySetInnerHTML={{ __html: comment }}
+          />
         </div>
         {images && images[0] !== null && (
           <div className="flex gap-2 mt-3">

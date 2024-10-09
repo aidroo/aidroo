@@ -1,3 +1,10 @@
+export const helpfullSidebarLinks = [
+  {
+    name: "Business privacy policy",
+    href: "/terms-service/terms-and-conditions",
+  },
+];
+
 export const businessPrivacyPolicy = [
   {
     section: "Introduction",
