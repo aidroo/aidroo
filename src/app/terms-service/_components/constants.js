@@ -277,3 +277,29 @@ export const onlineJobsPrivacyPolicy = [
     content: `If you have questions about this Privacy Policy, please contact us at support@aidroo.com.`,
   },
 ];
+
+// about aidroo
+export const aboutAidroo = [
+  {
+    section: "Introduction",
+    content: `Welcome to Aidroo, a Europe-based jobs and reviews platform headquartered in Glasgow, United Kingdom. We connect freelancers, clients, businesses, and customers, offering a space for users to provide services, hire talent, and share feedback through reviews. Our platform fosters transparency and trust between job providers, freelancers, and businesses by enabling users to post job listings, bid on projects, and leave reviews. These Terms and Conditions ("Terms") govern your access to and use of our website at https://aidroo.com, including all associated sub-domains, directories, and services (collectively, the "Platform"). By using our Platform, you agree to these Terms, as well as our Privacy Policy, Community Guidelines, and any other policies we may reference here. Please read these Terms carefully before using the Platform. If you do not agree to these Terms, you must stop using the Platform immediately.`,
+  },
+
+  {
+    section: "Contact Us",
+    subsections: [
+      {
+        title: "Company Name",
+        content: `Aidroo Ltd.`,
+      },
+      {
+        title: "Address",
+        content: `[Company Address: Glasgow, United Kingdom]`,
+      },
+      {
+        title: "Email",
+        content: `privacy@aidroo.com`,
+      },
+    ],
+  },
+];
