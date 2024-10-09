@@ -2,15 +2,17 @@
 /* eslint-disable @next/next/no-script-component-in-head */
 import Layout from "@/components/Layout/Layout";
 import Loading from "@/components/Loading";
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
 import { Suspense } from "react";
-import BusinessNavbar from "./_components/BusinessNavbar";
 
 import Script from "next/script";
+import { FaRegStar } from "react-icons/fa";
+import { IoIosArrowDropright } from "react-icons/io";
+import { VscBriefcase } from "react-icons/vsc";
 import BusinessProfileHeader from "./_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "./_components/BusinessProfileSidebar";
 import JobsContent from "./_components/JobsContent";
@@ -24,8 +26,6 @@ export async function generateMetadata({ params }) {
   try {
     const { profile } = await fetchSingleProfile({ username });
 
-     
-
     if (!profile) {
       return {
         title: "Profile Not Found",
@@ -37,6 +37,7 @@ export async function generateMetadata({ params }) {
       businessName,
       profileThumb,
       totalReviews,
+      description,
       verified,
       averageRating,
     } = profile;
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }) {
 
     return {
       title: `${businessName} - is ${ratingLabel} Rating on Aidroo`,
-      description: `${businessName} has received ${totalReviews} reviews with an average rating of ${averageRating} out of 5. Rated as ${ratingLabel}.`,
+      description: { description },
       url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
       site_name: "Aidroo",
 
@@ -118,6 +119,7 @@ export default async function Business({ searchParams, params }) {
   const { username } = params;
   const limit = parseInt(searchParams?.limit) || 10;
   const page = parseInt(searchParams?.page) || 1;
+  const defaultTab = searchParams?.tab || "reviews";
   let profile;
   try {
     const response = await fetchSingleProfile({ username });
@@ -150,7 +152,7 @@ export default async function Business({ searchParams, params }) {
     url: `https://aidroo.com/business/${profile.username || "unknown"}`,
     logo: profile.profileThumb || "https://example.com/default-image.jpg",
   };
- 
+
   return (
     <Layout>
       <Script
@@ -181,8 +183,26 @@ export default async function Business({ searchParams, params }) {
               <div className="col-span-5">
                 {/* tabs */}
 
-                <Tabs defaultValue="review" className="w-full">
-                  <BusinessNavbar />
+                <Tabs defaultValue={defaultTab} className="w-full">
+                  <TabsList className="w-full  grid grid-cols-3 gap-1 lg:gap-4 h-16 px-4">
+                    {/* review */}
+                    <TabsTrigger
+                      value="reviews"
+                      className=" px-1 border h-12 flex gap-x-1 bg-white"
+                    >
+                      <FaRegStar className=" text-lg lg:text-[22px]  " />
+                      <span className=" text-sm mg:text-16">Reviews</span>
+                    </TabsTrigger>
+                    {/* jobs */}
+                    <TabsTrigger value="jobs" className=" border h-12 bg-white">
+                      <VscBriefcase className="text-xl lg:text-2xl mr-2 " />
+                      <span>Jobs</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="more" className=" border h-12 bg-white">
+                      <IoIosArrowDropright className="text-xl lg:text-2xl mr-2" />
+                      <span>More</span>
+                    </TabsTrigger>
+                  </TabsList>
 
                   <Suspense fallback={<Loading />}>
                     <ReviewContent

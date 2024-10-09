@@ -80,19 +80,16 @@ export default function BusinessProfileCard({ businessProfile, id }) {
           />
           <h1 className="text-sm">{category}</h1>
         </div>
-        <Link
-          href=""
-          className="flex gap-2 items-center cursor-pointer text-primary_color "
-        >
+        <div className="flex gap-2 items-center cursor-pointer text-primary_color ">
           <Image
             src={brifcaseIcon}
             className="w-6"
             alt="bordercategoriesIcon"
           />
-          <Link href={`/business/${id}/jobs`} className="text-sm">
+          <Link href={`/business/${id}?tab=jobs`} className="text-sm">
             Job feed
           </Link>
-        </Link>
+        </div>
         <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
           <Image
             src={myReview}
@@ -100,7 +97,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
             alt="bordercategoriesIcon"
             priority={true}
           />
-          <Link href={`/business/${id}/reviews`} className="text-sm">
+          <Link href={`/business/${id}?tab=reviews`} className="text-sm">
             Review
           </Link>
         </div>

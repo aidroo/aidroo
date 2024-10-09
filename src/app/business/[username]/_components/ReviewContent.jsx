@@ -1,4 +1,3 @@
-
 import IconImage from "@/components/IconImage/IconImage";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 
@@ -24,7 +23,7 @@ export default async function ReviewContent({
   const rating = Math.floor(parseInt(averageRating));
 
   return (
-    <TabsContent value="review">
+    <TabsContent value="reviews">
       <div className="col-span-1 space-y-6">
         {/* Write Review */}
         <WriteReview2 profileId={username} />

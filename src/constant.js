@@ -80,7 +80,7 @@ export const footerLinks = [
     links: [
       {
         title: "About Aidroo",
-        link: "/about-aidroo",
+        link: "/terms-service",
       },
       {
         title: "Contact Us",
@@ -88,15 +88,15 @@ export const footerLinks = [
       },
       {
         title: "Trust & Safety",
-        link: "/terms-service/privacy-policy",
+        link: "/terms-service",
       },
       {
         title: "Terms & Service",
-        link: "/terms-service/privacy-policy",
+        link: "/terms-service",
       },
       {
         title: "Privacy Policy",
-        link: "/terms-service/privacy-policy",
+        link: "/terms-service",
       },
       {
         title: "Our Pricing Plan",
@@ -170,7 +170,7 @@ export const footerLinks = [
       {
         title: "Aidroo, a Europe-based job and directory company",
 
-        link: "#",
+        link: "/terms-service",
       },
       {
         image: " ",

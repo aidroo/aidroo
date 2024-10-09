@@ -17,7 +17,7 @@ export default async function JobsContent() {
   // const subcategories = subcategoriesData.subcategories;
 
   return (
-    <TabsContent value="job">
+    <TabsContent value="jobs">
       <h1>0 Jobs Posted</h1>
       {/* <CreateForm categories={categories} subcategories={subcategories} /> */}
       {/* post job card */}
