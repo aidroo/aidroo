@@ -94,7 +94,7 @@ db.JobPost.belongsTo(db.User, {
 // Reviews association with User (the creator of the review)
 db.User.hasMany(db.Review, {
   foreignKey: "username", // This refers to the user who created the review
-  as: "reviews",
+  as: "review",
   onDelete: "CASCADE", // Automatically delete Reviews when User is deleted
 });
 db.Review.belongsTo(db.User, {

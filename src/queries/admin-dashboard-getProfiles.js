@@ -10,7 +10,7 @@ export async function fetchProfiles({
   countryFilter,
   ratingFilter,
   searchCity,
-  claimedStatus,
+  verifiedStatus,
   openNow,
   page = 1,
   limit = 10,
@@ -29,7 +29,7 @@ export async function fetchProfiles({
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
-    ...(claimedStatus !== null && { claimed: claimedStatus === "true" }),
+    ...(verifiedStatus !== null && { verified: verifiedStatus === "true" }),
     ...(openNow && { open: openNow }), // Assuming you have an 'open' field
   };
 
@@ -38,7 +38,7 @@ export async function fetchProfiles({
     ...(countryFilter && { country: countryFilter }),
     ...(searchCity && { city: { [Op.like]: `%${searchCity}%` } }),
   };
-
+  console.log(ratingFilter);
   try {
     // Fetch business profiles
     const { rows: businessProfiles, count: totalRecords } =
@@ -49,23 +49,6 @@ export async function fetchProfiles({
             model: db.BusinessProfile,
             as: "businessProfile",
             where: whereConditions,
-            // attributes: [
-            //   "username",
-            //   "email",
-            //   "businessName",
-            //   "profileThumb",
-            //   "description",
-            //   "phoneNumber",
-            //   "category",
-            //   "subcategory",
-            //   "status",
-            //   "verified",
-            //   "claimed",
-            //   "funds",
-            //   "employees",
-            //   "spent",
-            //   "workwith",
-            // ], // Select only the needed fields from
             required: true, // Only fetch users with matching business profiles
           },
           {
@@ -83,10 +66,12 @@ export async function fetchProfiles({
     // Fetch ratings and total reviews for each profile
     const plainProfiles = await Promise.all(
       businessProfiles.map(async (profile) => {
+        // Get the total number of approved reviews for the profile
         const totalReviews = await db.Review.count({
           where: { profileId: profile.username, status: "approved" },
         });
 
+        // Get the average rating for approved reviews
         const averageRatingResult = await db.Review.findOne({
           where: { profileId: profile.username, status: "approved" },
           attributes: [
@@ -98,21 +83,30 @@ export async function fetchProfiles({
           raw: true,
         });
 
-        const averageRating = averageRatingResult?.averageRating || 0;
-        if (ratingFilter && averageRating < ratingFilter) {
-          return null;
+        // Parse the average rating or default to 0 if not available
+        const averageRating = parseFloat(
+          averageRatingResult?.averageRating || 0
+        );
+
+        // Check if the profile meets the rating filter criteria (if it exists)
+        if (ratingFilter && averageRating < parseFloat(ratingFilter)) {
+          return null; // Skip profiles that don't meet the filter criteria
         }
 
+        // Return the profile as a plain object, along with total reviews and average rating
         return {
-          ...profile.toJSON(), // Convert the Sequelize instance to a plain object
+          ...profile.toJSON(), // Convert Sequelize instance to a plain object
           totalReviews,
-          averageRating: parseFloat(averageRating).toFixed(1), // Format to one decimal place
+          averageRating: averageRating.toFixed(1), // Format average rating to one decimal place
         };
       })
     );
+
+    // Filter out any null profiles (those that didn't meet the rating filter)
     const filteredProfiles = plainProfiles.filter(
       (profile) => profile !== null
     );
+
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalRecords / limit);
 

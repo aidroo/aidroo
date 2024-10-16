@@ -1,8 +1,6 @@
 "use client";
 import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { countries, font14, font16 } from "@/constant";
 import axiosInstance from "@/lib/axios";
@@ -11,7 +9,6 @@ import greenStr from "@/public/images/star/green.svg";
 import yellowStr from "@/public/images/star/yellow.svg";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AiOutlineClockCircle } from "react-icons/ai";
 
 export default function BusinessProfileFiltering({
   categories,
@@ -19,7 +16,8 @@ export default function BusinessProfileFiltering({
   categoryFilter,
   countryFilter,
   subcategoryFilter,
-  claimedStatus,
+
+  verifiedStatus,
   searchCity,
   openNowFilter,
 }) {
@@ -33,11 +31,13 @@ export default function BusinessProfileFiltering({
   const [country, setCountry] = useState(countryFilter || "");
   const [rating, setRating] = useState(0);
   const [city, setCity] = useState(searchCity || "");
-  const [claimedStatues, setClaimedStatus] = useState(claimedStatus || false);
+  const [verified, setVerified] = useState(verifiedStatus || false);
   const [openNow, setOpenNow] = useState(openNowFilter || false);
   const [selectedCategory, setSelectedCategory] = useState(
     categoryFilter || null
   );
+
+  console.log(verified);
   // Effect to fetch subcategories based on selected category name
   useEffect(() => {
     if (selectedCategory?.name) {
@@ -69,7 +69,7 @@ export default function BusinessProfileFiltering({
     if (rating) query.set("rating", rating);
     if (rating) query.set("rating", rating);
     if (city) query.set("city", city);
-    if (claimedStatues) query.set("claimed", claimedStatues);
+    if (verified) query.set("verified", verifiedStatus);
     if (openNow) query.set("openNow", openNow);
 
     router.push(`/business?${query.toString()}`, {
@@ -82,7 +82,7 @@ export default function BusinessProfileFiltering({
     country,
     rating,
     city,
-    claimedStatues,
+    verified,
     // openNow,
   ]);
 
@@ -237,18 +237,18 @@ export default function BusinessProfileFiltering({
       </div>
 
       {/* Profile Status Filter */}
-      <div className="flex gap-4 justify-between">
+      {/* <div className="flex gap-4 justify-between">
         <div className="space-y-2">
           <h1 className={`${font16} font-medium`}>Profile Status</h1>
           <div className="flex items-center justify-between space-x-2 w-44">
             <label htmlFor="claimed" className="text-sm font-medium">
-              Claimed
+              Verified
             </label>
             <Checkbox
               className="w-5 h-5 rounded-full"
               id="claimed"
-              onCheckedChange={setClaimedStatus}
-              checked={claimedStatues}
+              checked={verified}
+              onChange={() => setVerified(!verified)}
             />
           </div>
         </div>
@@ -270,7 +270,7 @@ export default function BusinessProfileFiltering({
             <span className="text-xs md:text-[16px] font-bold">Open Now</span>
           </Button>
         </div>
-      </div>
+      </div> */}
     </form>
   );
 }

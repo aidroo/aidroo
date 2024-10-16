@@ -45,10 +45,10 @@ export default function TitleNameAndVerified({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <span className="inline-block align-baseline ms-2 -mt-1 ">
+              <span className="inline-block align-baseline ms-2   ">
                 <Image
                   src={perosnal_verified}
-                  className="w-[18px] inline-block"
+                  className="w-[18px] inline-block mb-2"
                   alt="bordercategoriesIcon"
                 />
               </span>

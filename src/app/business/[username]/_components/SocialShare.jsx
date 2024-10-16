@@ -48,7 +48,7 @@ export default function SocialShare() {
 
   return (
     <div className="-mr-16 w-fit">
-      <div className="lg:border-s mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
+      <div className=" mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
         <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
           <LiaSmsSolid className="text-sm md:text-xl" />
           <span className={font14}>Chat</span>

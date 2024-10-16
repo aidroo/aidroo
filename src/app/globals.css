@@ -234,7 +234,7 @@
 .card p {
   font-size: 15px;
   color: #4c5656;
-  margin-top: 30px;
+  margin-top: 20px;
 
   transition: color 0.3s ease-out;
 }
@@ -278,7 +278,7 @@
   background: var(--bg-color);
   display: flex;
   justify-content: center;
-  top: 5px;
+  top: 10px;
   z-index: 0;
   transition: transform 0.3s ease-out;
 }
@@ -304,12 +304,12 @@
 }
 
 .card2 .mail svg {
-  stroke: #002C69;
+  stroke: #002c69;
   stroke-width: 3px;
 }
 
 .card2 .mail svg:hover {
-  stroke: #0084FF;
+  stroke: #0084ff;
 }
 
 .card2 .profile-pic {
@@ -320,7 +320,7 @@
   left: 3px;
   border-radius: 29px;
   z-index: 1;
-  border: 0px solid #002C69;
+  border: 0px solid #002c69;
   overflow: hidden;
   transition: all 0.5s ease-in-out 0.2s, z-index 0.5s ease-in-out 0.2s;
 }
@@ -351,7 +351,7 @@
   bottom: 3px;
   left: 3px;
   right: 3px;
-  background: #002C69;
+  background: #002c69;
   top: 80%;
   border-radius: 29px;
   z-index: 2;
@@ -404,13 +404,13 @@
 }
 
 .card2 .bottom .bottom-bottom .social-links-container svg:hover {
-  fill: #0084FF;
+  fill: #0084ff;
   transform: scale(1.2);
 }
 
 .card2 .bottom .bottom-bottom .button {
   background: white;
-  color: #002C69;
+  color: #002c69;
   border: none;
   border-radius: 20px;
   font-size: 0.7rem;
@@ -420,7 +420,7 @@
 }
 
 .card2 .bottom .bottom-bottom .button:hover {
-  background: #0084FF;
+  background: #0084ff;
   color: white;
 }
 
@@ -442,7 +442,7 @@
   left: 10px;
   border-radius: 50%;
   z-index: 3;
-  border: 7px solid #0084FF;
+  border: 7px solid #0084ff;
   box-shadow: rgba(96, 75, 74, 0.1882352941) 0px 5px 5px 0px;
   transition: all 0.5s ease-in-out, z-index 0.5s ease-in-out 0.1s;
 }

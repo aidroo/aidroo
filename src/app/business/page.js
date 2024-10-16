@@ -20,7 +20,7 @@ export default async function BusinessProfiles({ searchParams }) {
   const subcategoryFilter = searchParams.subcategory || "";
   const countryFilter = searchParams.country || "";
   const ratingFilter = searchParams.rating || "";
-  const claimedStatus = searchParams.claimed || false;
+  const verifiedStatus = searchParams.verified || false;
   const searchCity = searchParams.city || "";
   const openNow = searchParams.openNow || "";
   const limit = searchParams.limit || 10;
@@ -34,7 +34,7 @@ export default async function BusinessProfiles({ searchParams }) {
       subcategoryFilter,
       countryFilter,
       ratingFilter,
-      claimedStatus,
+      verifiedStatus,
       searchCity,
       openNow,
       page,

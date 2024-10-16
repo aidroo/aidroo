@@ -5,7 +5,7 @@ export default function Consumer() {
   return (
     <div className="max-w-[1360px] flex justify-center mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 my-14 px-8  text-center  h-fit justify-center">
-        <div className="body relative">
+        <div className="body relative min-w-[210px]">
           <Link className="card human-resources " href="#">
             <div className="overlay"></div>
             <div className="circle text-gray-800">
@@ -18,11 +18,11 @@ export default function Consumer() {
                 </div>{" "}
               </div>
             </div>
-            <p>Total Business Profile</p>
+            <p className=""> Business Profile</p>
           </Link>
         </div>
         {/* totla post a jobs */}
-        <div className="body relative">
+        <div className="body relative min-w-[210px]">
           <Link className="card human-resources " href="#">
             <div className="overlay"></div>
             <div className="circle text-gray-800">
@@ -35,11 +35,11 @@ export default function Consumer() {
                 </div>{" "}
               </div>
             </div>
-            <p>Total job post</p>
+            <p> job post</p>
           </Link>
         </div>
         {/* review we are written */}
-        <div className="body relative">
+        <div className="body relative min-w-[210px]">
           <Link className="card human-resources " href="#">
             <div className="overlay"></div>
             <div className="circle text-gray-800">
@@ -52,10 +52,10 @@ export default function Consumer() {
                 </div>{" "}
               </div>
             </div>
-            <p className="-mt-2 text-gray-950">Reviews were written</p>
+            <p className="-mt-2 text-gray-950">Reviews written</p>
           </Link>
         </div>
-        <div className="body relative">
+        <div className="body relative min-w-[210px]">
           <Link className="card human-resources " href="#">
             <div className="overlay"></div>
             <div className="circle text-gray-800">
@@ -67,7 +67,7 @@ export default function Consumer() {
                 </div>{" "}
               </div>
             </div>
-            <p>Consumers trust Aidroo</p>
+            <p>Consumers trust </p>
           </Link>
         </div>
         {/* <div className="body relative">

@@ -21,7 +21,7 @@ import Link from "next/link";
 export default function BusinessProfileSidebar({ profile }) {
   const { businessName, category, funds, employees, description } = profile;
   return (
-    <div className="col-span-2 w-full  mb-8 ">
+    <div className="col-span-2 w-full  ">
       <div className="w-full  space-y-4   ">
         {/* qr code  */}
 
@@ -154,9 +154,11 @@ export default function BusinessProfileSidebar({ profile }) {
           <h1 className=" text-center text-xl text-primary_color font-semibold">
             Popular listing
           </h1>
-         
 
-          <Link  href={`https://aidroo.com/business/tesla`} className="flex gap-4 border-b items-center">
+          <Link
+            href={`https://aidroo.com/business/tesla`}
+            className="flex gap-4 border-b items-center"
+          >
             <div className="w-24 md:32">
               <ResponsiveImage src={tesla} />
             </div>
@@ -173,7 +175,10 @@ export default function BusinessProfileSidebar({ profile }) {
               </div>
             </div>
           </Link>
-          <Link  href={`https://aidroo.com/business/srfsoft`} className="flex gap-4 border-b  items-center">
+          <Link
+            href={`https://aidroo.com/business/srfsoft`}
+            className="flex gap-4 border-b  items-center"
+          >
             <div className="w-24 md:32">
               <ResponsiveImage src={srsoft} />
             </div>
@@ -190,7 +195,10 @@ export default function BusinessProfileSidebar({ profile }) {
               </div>
             </div>
           </Link>
-           <Link  href={`https://aidroo.com/business/google`} className="flex gap-4  border-b items-center">
+          <Link
+            href={`https://aidroo.com/business/google`}
+            className="flex gap-4  border-b items-center"
+          >
             <div className="w-24 md:32">
               <ResponsiveImage src={google} />
             </div>

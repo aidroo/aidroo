@@ -21,7 +21,7 @@ export default function BusinessProfileHeader({
     averageRating < 3.5 ? "Poor" : averageRating <= 4.5 ? "Good" : "Excellent";
 
   return (
-    <div className="flex gap-8 items-start lg:justify-center col-span-3">
+    <div className="flex gap-8 items-start lg:justify-center col-span-3 h-auto lg:border-r">
       {/* Profile Image */}
 
       <div className="w-28 h-28  rounded-md p-1  flex  ">
@@ -70,7 +70,12 @@ export default function BusinessProfileHeader({
 
         {/* Claimed Badge */}
         {profile.verified && (
-          <Image src={verified_badge} alt="Claimed" className="w-24  "  priority={true} />
+          <Image
+            src={verified_badge}
+            alt="Claimed"
+            className="w-24  "
+            priority={true}
+          />
         )}
         {!profile.verified && (
           <Image

@@ -60,8 +60,8 @@ export function WriteReview2({ profileId }) {
         setShowAnimation(false);
       }, 700);
       const review = await axiosInstance.post("/api/review", reviewData);
-
-      if (review?.status === 200) {
+      console.log(review);
+      if (review?.data?.status === 201) {
         setTitle("");
         setComment("");
         setUploadUrls([]);
@@ -165,13 +165,14 @@ export function WriteReview2({ profileId }) {
                         <Label>Title</Label>
                         <Input
                           className="h-10 border-primary_color"
+                          value={title}
                           onChange={(e) => setTitle(e.target.value)}
                         />
                       </div>
                       <div>
                         <Label>Description</Label>
                         <Tiptap
-                          content={comment}
+                          value={comment}
                           onChange={(newContent) =>
                             handleContentChange(newContent)
                           }
@@ -192,7 +193,7 @@ export function WriteReview2({ profileId }) {
                         </span>
                       </p>
                     )}
-                    <div className="relative w-full flex justify-center">
+                    <div className="relative w-full flex ">
                       <button
                         type="submit"
                         className={`flex gap-4 px-4 py-2 rounded-md h-12 border text-white items-center ${
