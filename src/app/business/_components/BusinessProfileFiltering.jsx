@@ -87,7 +87,7 @@ export default function BusinessProfileFiltering({
   ]);
 
   return (
-    <form className=" col-span-3 border-2 rounded-md shadow p-4 space-y-4">
+    <form className=" col-span-3 border rounded-md shadow p-4 space-y-4 h-fit">
       {/* <h1 className={`${font16} font-medium`}>Search Listings</h1> */}
 
       <div className="space-y-3 md:space-y-6">
@@ -124,7 +124,7 @@ export default function BusinessProfileFiltering({
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           options={categories}
-          placeholder=" Selected Category"
+          placeholder=" Category"
         />
 
         {/* Subcategory Filter */}

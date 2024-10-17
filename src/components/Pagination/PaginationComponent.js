@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function PaginationComponent({
@@ -21,15 +21,19 @@ export default function PaginationComponent({
   lastShow = false,
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [limit] = useState(initialLimit);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
-      // Construct URL with dynamic query parameters
-      const queryParams = new URLSearchParams();
+      // Create a new URLSearchParams object from existing query parameters
+      const queryParams = new URLSearchParams(searchParams.toString());
+
+      // Set the pagination-related query parameters
       queryParams.set(pagename, page);
       queryParams.set(limitname, limit);
 
+      // Construct the new URL and push it to the router
       router.push(`${baseUrl}${queryParams.toString()}`);
     }
   };

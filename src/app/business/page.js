@@ -70,7 +70,7 @@ export default async function BusinessProfiles({ searchParams }) {
           <BusinessProfileFiltering categories={categories} />
 
           {/* Business Profile Section */}
-          <div className="col-span-5  lg:border-2 rounded-md lg:p-6 space-y-4">
+          <div className="col-span-5  lg:border rounded-md lg:p-6 space-y-4">
             {businessProfiles.length > 0 && (
               <>
                 <div className=" w-full">
