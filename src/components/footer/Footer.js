@@ -21,7 +21,7 @@ import {
 
 export default function Footer() {
   return (
-    <div className="patenBackgroundImage h-fit pt-14 bg-[#f3fcff] dark:bg-dark">
+    <div className="patenBackgroundImage h-fit pt-14 bg-[#f3fcff] dark:bg-dark px-4">
       <div className="max-w-[1280px] mx-auto px-2">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {footerLinks.length > 0 &&
@@ -98,12 +98,12 @@ export default function Footer() {
                   <Accordion
                     type="single"
                     collapsible
-                    className="w-full  space-y-2 mt-4"
+                    className="w-full  space-y-2 "
                   >
                     <AccordionItem value="item-1">
-                      <AccordionTrigger>
+                      <AccordionTrigger className="hover:no-underline">
                         <div
-                          className={` text-primary_color font-semibold pb-1 ${font16} `}
+                          className={` text-primary_color font-semibold pb-1 ${font16}  hover:no-underline `}
                         >
                           {footerLink.title}
                         </div>

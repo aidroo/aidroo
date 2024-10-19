@@ -29,7 +29,7 @@ const AccordionTrigger = React.forwardRef(
         {...props}
       >
         {children}
-        <ChevronDownIcon className="h-6  w-6 rounded-sm shrink-0 text-muted-foreground transition-transform duration-200 border border-gray-300" />
+        <ChevronDownIcon className="shrink-0 text-muted-foreground transition-transform duration-200" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
@@ -50,3 +50,4 @@ const AccordionContent = React.forwardRef(
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };
+

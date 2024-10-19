@@ -49,10 +49,10 @@ export default function MobileMenu() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className=" w-full lg:hidden  block    bg-[#002A64]    space-y-4   ">
+    <div className=" w-full lg:hidden  block    bg-[#002A64]    space-y-4  border-0  ">
       {/* sidebar */}
 
-      <Sheet onOpenChange={() => setHumberOpen(!humberOpen)}>
+      <Sheet onOpenChange={() => setHumberOpen(!humberOpen)} className="px-0">
         <div className="flex   justify-between  h-[72px] items-center text-lg     ">
           <div className=" w-24 ps-2 ">
             <Link href="/">
@@ -111,8 +111,8 @@ export default function MobileMenu() {
           </div>
         </div>
 
-        <SheetContent className="w-[260px] ">
-          <SheetHeader className=" w-full flex  justify-center items-center h-24 bg-[#002A64]">
+        <SheetContent className="w-[260px] px-0 ">
+          <SheetHeader className=" w-full flex  justify-center items-center h-24 bg-[#002A64]   ">
             <div className="w-32">
               <Link href="/">
                 <ResponsiveImage
@@ -151,7 +151,7 @@ export default function MobileMenu() {
 
           <ScrollArea className="  h-screen bg-slate-100 ">
             <Accordion type="single" collapsible className="w-full ">
-              <div className="w-full px-4 space-y-4   text-sm    py-4 border  ">
+              <div className="w-full px-4 space-y-4   text-sm    py-4    ">
                 <div className="flex justify-center items-center">
                   <Button variant="hoverButton" size="md">
                     <div className="absolute -top-2 -right-1">
@@ -173,7 +173,7 @@ export default function MobileMenu() {
                   >
                     <IconImage src={addyourbusiness} size={20} alt="icon" />
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
                       My profile
                     </h1>
@@ -187,7 +187,7 @@ export default function MobileMenu() {
                   >
                     <IconImage src={addyourbusiness} size={20} alt="icon" />
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
                       My profile
                     </h1>
@@ -201,7 +201,7 @@ export default function MobileMenu() {
                   >
                     <IconImage src={myReview} size={20} alt="icon" />
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
                       Review
                     </h1>
@@ -218,7 +218,7 @@ export default function MobileMenu() {
                       <LottePlayer animationData={messageIcon} loop={true} />
                     </div>
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out -ml-1 `}
+                      className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out -ml-1 `}
                     >
                       Messages
                     </h1>
@@ -237,7 +237,7 @@ export default function MobileMenu() {
                       />
                     </div>
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
                       Notification
                     </h1>
@@ -251,7 +251,7 @@ export default function MobileMenu() {
                   >
                     <IconImage src={myReview} size={20} alt="icon" />
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16}  hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
                       My Order
                     </h1>
@@ -265,31 +265,33 @@ export default function MobileMenu() {
                         <LottePlayer animationData={brifcaseIcon} loop={true} />
                       </div>
                       <h1
-                        className={`${font16} font-serif mt-1 hover:text-primary_color transition-all duration-300 ease-in-out -ml-2 `}
+                        className={`${font16}   mt-1 hover:text-primary_color transition-all duration-300 ease-in-out -ml-2 `}
                       >
                         For Business
                       </h1>
+
+                      
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pl-8 transition-all duration-300 ease-in-out ">
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-3">
                       <Link href="/signup/business">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Add Business
                         </li>
                       </Link>
                       <Link href={`/business/${currentUser?.username}`}>
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Claim Business
                         </li>
                       </Link>
                       <Link href="#">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
                           Request Review
                         </li>
                       </Link>
                       <Link href="/pricing-plan">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
+                        <li className="text-[15px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
                           Pricing Plan
                         </li>
                       </Link>
@@ -304,7 +306,7 @@ export default function MobileMenu() {
                 >
                   <IconImage src={categoryImage} size={20} alt="icon" />
                   <h1
-                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                   >
                     Categories
                   </h1>
@@ -316,7 +318,7 @@ export default function MobileMenu() {
                     <div className="flex items-center gap-2  no-underline">
                       <IconImage src={pageIcon} size={20} alt="icon" />
                       <h1
-                        className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                        className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                       >
                         Pages
                       </h1>
@@ -325,22 +327,22 @@ export default function MobileMenu() {
                   <AccordionContent className="pl-8 transition-all duration-300 ease-in-out">
                     <ul className="flex flex-col gap-2">
                       <Link href="/terms-service">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Terms of service
                         </li>
                       </Link>
                       <Link href="/terms-service">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Privacy Policy
                         </li>
                       </Link>
                       <Link href="#">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Events
                         </li>
                       </Link>
                       <Link href="#">
-                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Blogs
                         </li>
                       </Link>
@@ -354,7 +356,7 @@ export default function MobileMenu() {
                     <LottePlayer animationData={pricingIcon} loop={true} />
                   </div>
                   <h1
-                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out  cursor-pointer `}
+                    className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out  cursor-pointer `}
                   >
                     Pricing Plan
                   </h1>
@@ -365,7 +367,7 @@ export default function MobileMenu() {
                     <LottePlayer animationData={helpIcon} loop={true} />
                   </div>
                   <h1
-                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out cursor-pointer `}
+                    className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out cursor-pointer `}
                   >
                     {" "}
                     Help and Support
