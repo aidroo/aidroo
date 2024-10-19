@@ -265,18 +265,16 @@ export default function MobileMenu() {
                         <LottePlayer animationData={brifcaseIcon} loop={true} />
                       </div>
                       <h1
-                        className={`${font16}   mt-1 hover:text-primary_color transition-all duration-300 ease-in-out -ml-2 `}
+                        className={`${font16}  mt-1 hover:text-primary_color transition-all duration-300 ease-in-out -ml-2 `}
                       >
                         For Business
                       </h1>
-
-                      
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pl-8 transition-all duration-300 ease-in-out ">
                     <ul className="flex flex-col gap-3">
                       <Link href="/signup/business">
-                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Add Business
                         </li>
                       </Link>
@@ -325,7 +323,7 @@ export default function MobileMenu() {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pl-8 transition-all duration-300 ease-in-out">
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-3">
                       <Link href="/terms-service">
                         <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Terms of service
