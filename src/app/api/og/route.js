@@ -48,9 +48,9 @@ export async function GET(request) {
           alt="hello"
         />
 
-        <div tw="flex flex-col   justify-center -mt-28 ">
-          <div tw="flex mt-8  items-center  ">
-            <span tw="text-7xl mr-2 text ">{title}...</span>
+        <div tw="flex flex-col   justify-center    ">
+          <div tw="flex   items-center  ">
+            <span tw="text-7xl mr-2 text ">{title.length > 15 ? `${title.slice(0, 15)}...` : title}</span>
 
             {verified ? (
               <img
@@ -66,14 +66,14 @@ export async function GET(request) {
               />
             )}
           </div>
-          <div tw="flex items-center mt-6">
+          <div tw="flex items-center ">
             <span tw="text-6xl mr-4">
               {totalReviews === "null" ? 0 : totalReviews} Reviews
             </span>
             <GoDotFill tw="text-primary_color text-7xl  " />
             <span tw="text-6xl ml-2">{rating.slice(0, 3)}</span>
           </div>
-          <div tw="flex gap-4 items-center  w-full my-2 mt-8 ">
+          <div tw="flex gap-4 items-center  w-full my-2  ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={`${50 * totalStars}px`} // Adjust width to fit all stars

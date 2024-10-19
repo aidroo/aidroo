@@ -13,7 +13,6 @@ import {
   myReview,
   notificationIcon,
   pageIcon,
-  user,
   whitesearch,
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
@@ -26,14 +25,12 @@ import Heading from "./Heading";
 import IconImage from "./IconImage/IconImage";
 import LogOutSvg from "./logoutIcon/LogOutSvg";
 import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
-import TitleNameAndVerified from "./TitleNameAndVerified";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
@@ -47,11 +44,11 @@ export default function MobileMenu() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className=" w-full lg:hidden  block   bg-[#002A64]    space-y-4  z-50">
+    <div className=" w-full lg:hidden  block    bg-[#002A64]    space-y-4   ">
       {/* sidebar */}
 
       <Sheet onOpenChange={() => setHumberOpen(!humberOpen)}>
-        <div className="flex   justify-between  h-24 items-center text-lg   max-h-[72px] ">
+        <div className="flex   justify-between  h-[72px] items-center text-lg     ">
           <div className=" w-24 ps-2 ">
             <Link href="/">
               <ResponsiveImage
@@ -98,40 +95,29 @@ export default function MobileMenu() {
           </div>
         </div>
         <div
-          className={`absolute top-[48px] w-full transition-all duration-500 bg-[#002A64] p-4 ${
-            open
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-8 pointer-events-none "
+          className={`absolute top-[48px] w-full bg-[#002A64] p-4 transition-all duration-500 ease-in-out ${
+            open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0 pointer-events-none"
           }`}
         >
-          <div className="flex w-full gap-x-4   items-start col-span-2  text-lg text-gray-700    ">
-            <DynamicSearchInput
-            // title={title}
-            // verified={verified}
-            // baseUrl=""
-            // searchQuery={searchQuery}
-            />
-            {/* <div className=" flex items-center justify-center  h-9    bg-primary_color p-1 rounded-md   cursor-pointer w-10 md:w-[42px] ">
-              <Image src={whitesearch} alt="Icon 1" className="w-5" />
-            </div> */}
+          <div className="flex w-full gap-x-4 justify-center items-center text-lg text-gray-700">
+            <DynamicSearchInput />
           </div>
         </div>
 
-        <SheetContent>
+        <SheetContent className="w-[260px] ">
           <SheetHeader className=" w-full flex  justify-center items-center h-24 bg-[#002A64]">
-            {!currentUser ? (
-              <div className="w-32">
-                <Link href="/">
-                  <ResponsiveImage
-                    src={logo}
-                    alt="aidroo logo image"
-                    width={500}
-                    height={300}
-                  />
-                </Link>
-              </div>
-            ) : (
-              <div className="bg-[#002A64] p-4 flex items-start gap-4 ">
+            <div className="w-32">
+              <Link href="/">
+                <ResponsiveImage
+                  src={logo}
+                  alt="aidroo logo image"
+                  width={500}
+                  height={300}
+                />
+              </Link>
+            </div>
+
+            {/* <div className="bg-[#002A64] p-4 flex items-start gap-4 ">
                 <Avatar className="w-16 h-16">
                   <AvatarImage
                     src={currentUser?.profile?.profileThumb || user}
@@ -150,16 +136,15 @@ export default function MobileMenu() {
 
                   <p>{currentUser?.username}</p>
 
-                  {/* <IconImage src={ver} /> */}
+                  
                 </div>
-              </div>
-            )}
+              </div> */}
           </SheetHeader>
           {/* menu */}
 
-          <Accordion type="single" collapsible>
-            <ScrollArea className="  h-screen ">
-              <div className="w-full px-8 space-y-4   text-sm  pb-96 py-4 border bg-gray-100 ">
+          <ScrollArea className="  h-screen bg-slate-100 ">
+            <Accordion type="single" collapsible className="w-full ">
+              <div className="w-full px-4 space-y-4   text-sm    py-4 border  ">
                 <div className="flex justify-center items-center">
                   <Button variant="hoverButton" size="md">
                     <div className="absolute -top-2 -right-1">
@@ -176,107 +161,195 @@ export default function MobileMenu() {
                 {/* business profile */}
                 {currentUser?.role === "business" && (
                   <Link
-                    href={`/business/${currentUser?.username}`}
-                    className="flex items-center gap-4 border-b pb-4"
+                    href={`/business_dashboard`}
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={addyourbusiness} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>My profile</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      My profile
+                    </h1>
                   </Link>
                 )}
                 {/* personal profile */}
                 {currentUser?.role === "personal" && (
                   <Link
                     href={`/personal_dashboard `}
-                    className="flex items-center gap-4 border-b pb-4"
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={addyourbusiness} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>My profile</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      My profile
+                    </h1>
                   </Link>
                 )}
                 {/* business review */}
                 {currentUser?.role === "business" && (
                   <Link
-                    href={`/business/${currentUser?.username}`}
-                    className="flex items-center gap-4 border-b pb-4"
+                    href={`/business_dashboard`}
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={myReview} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>Review</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      Review
+                    </h1>
                   </Link>
                 )}
                 {/* messages */}
 
-                {(currentUser?.role === "business" ||
-                  currentUser?.role === "personal") && (
+                {currentUser?.username && (
                   <Link
                     href={`#`}
-                    className="flex items-center gap-4 border-b pb-4"
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={messageIcon} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>Messages</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      Messages
+                    </h1>
                   </Link>
                 )}
                 {/* notification */}
-                {(currentUser?.role === "personal" ||
-                  currentUser?.role === "business") && (
+                {currentUser?.username && (
                   <Link
                     href={`#`}
-                    className="flex items-center gap-4 border-b pb-4"
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={notificationIcon} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>Notification</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      Notification
+                    </h1>
                   </Link>
                 )}
                 {/* my order */}
-                {(currentUser?.role === "personal" ||
-                  currentUser?.role === "business") && (
+                {currentUser?.username && (
                   <Link
                     href={`#`}
-                    className="flex items-center gap-4 border-b pb-4"
+                    className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
                     <IconImage src={myReview} size={20} alt="icon" />
-                    <h1 className={`${font16}`}>My Order</h1>
+                    <h1
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    >
+                      My Order
+                    </h1>
                   </Link>
                 )}
 
-                <div className="flex items-center gap-4 border-b pb-4">
-                  <IconImage src={brifcaseIcon} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>For Business</h1>
-                </div>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="flex items-center gap-4  hover:no-underline py-0 pb-2">
+                    <div className="flex   gap-2">
+                      <IconImage src={brifcaseIcon} size={24} alt="icon" />
+                      <h1
+                        className={`${font16} font-serif mt-1 hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      >
+                        For Business
+                      </h1>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-8 transition-all duration-300 ease-in-out ">
+                    <ul className="flex flex-col gap-2">
+                      <Link href="/signup/business">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Add Business
+                        </li>
+                      </Link>
+                      <Link href={`/business/${currentUser?.username}`}>
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Claim Business
+                        </li>
+                      </Link>
+                      <Link href="#">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
+                          Request Review
+                        </li>
+                      </Link>
+                      <Link href="/pricing-plan">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out  ">
+                          Pricing Plan
+                        </li>
+                      </Link>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
 
                 {/* category */}
                 <Link
                   href="/category"
-                  className="flex items-center gap-4 border-b pb-4"
+                  className="flex items-center gap-2 border-b border-gray-300 pb-4"
                 >
                   <IconImage src={categoryImage} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>Categories</h1>
+                  <h1
+                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                  >
+                    Categories
+                  </h1>
                 </Link>
                 {/* pages */}
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>
-                    <div className="flex items-center gap-4 no-underline  ">
+
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="flex items-center gap-4  hover:no-underline py-0 pb-2">
+                    <div className="flex items-center gap-2  no-underline">
                       <IconImage src={pageIcon} size={20} alt="icon" />
-                      <h1 className={`${font16}`}>Pages</h1>
+                      <h1
+                        className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      >
+                        Pages
+                      </h1>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-10">
-                    <ul className="collapse-content space-y-2   ">
-                      <li className="text-sm"> Terms of service</li>
-                      <li className="text-sm"> Privacy Policy </li>
-                      <li className="text-sm"> Events</li>
-                      <li className="text-sm">Blogs</li>
+                  <AccordionContent className="pl-8 transition-all duration-300 ease-in-out">
+                    <ul className="flex flex-col gap-2">
+                      <Link href="/terms-service">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Terms of service
+                        </li>
+                      </Link>
+                      <Link href="/terms-service">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Privacy Policy
+                        </li>
+                      </Link>
+                      <Link href="#">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Events
+                        </li>
+                      </Link>
+                      <Link href="#">
+                        <li className="text-[16px] font-sans hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                          Blogs
+                        </li>
+                      </Link>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
+
                 {/* pricing plan */}
-                <div className="flex items-center gap-4 border-b pb-4 ">
+                <div className="flex items-center gap-2 border-b border-gray-300 pb-4 ">
                   <IconImage src={businessIcon} size={20} alt="icon" />
-                  <h1 className={`${font16}`}>Business Pricing Plan</h1>
+                  <h1
+                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out  cursor-pointer `}
+                  >
+                    Business Pricing Plan
+                  </h1>
                 </div>
 
-                <div className="flex items-center gap-4 collapse-content border-b pb-4 ">
+                <div className="flex items-center gap-2 border-b border-gray-300 pb-4 ">
                   <IconImage src={helpIcon} size={20} alt="icon" />
-                  <h1 className={`${font16}`}> Help and Support</h1>
+                  <h1
+                    className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out cursor-pointer `}
+                  >
+                    {" "}
+                    Help and Support
+                  </h1>
                 </div>
                 <div className="flex justify-center   ">
                   <div
@@ -303,9 +376,9 @@ export default function MobileMenu() {
                   </div>
                 </div>
               </div>
-              <ScrollBar orientation="vertical" />
-            </ScrollArea>
-          </Accordion>
+            </Accordion>
+            <ScrollBar orientation="vertical" />
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     </div>

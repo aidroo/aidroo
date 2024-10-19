@@ -14,7 +14,7 @@ import { FaRegPaperPlane } from "react-icons/fa";
 
 export const works = [1, 2, 3, 4, 5, 6];
 
-export default function BusinessProfileCard({ businessProfile, id }) {
+export default function BusinessProfileCard({ businessProfile, username }) {
   const {
     businessName = "",
 
@@ -25,9 +25,11 @@ export default function BusinessProfileCard({ businessProfile, id }) {
   const { country = "", city = "" } = businessProfile.addresses;
 
   let averageRating = Math.floor(businessProfile.averageRating);
+  const slugBusinessName = businessName.replace(/\s+/g, "-") 
+  console.log(slugBusinessName);
   return (
     <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
-      <Link href={`/business/${id}`}>
+      <Link href={`/business/${username}/reviews/${slugBusinessName}`}>
         <CardContent className="flex gap-4 items-start  p-3   ">
           {/* image */}
           <div className=" rounded-md ring-1 p-2">
@@ -86,7 +88,7 @@ export default function BusinessProfileCard({ businessProfile, id }) {
             className="w-6"
             alt="bordercategoriesIcon"
           />
-          <Link href={`/business/${id}?tab=jobs`} className="text-sm">
+          <Link href={`/business/${username}/jobs`} className="text-sm">
             Job feed
           </Link>
         </div>
@@ -97,7 +99,10 @@ export default function BusinessProfileCard({ businessProfile, id }) {
             alt="bordercategoriesIcon"
             priority={true}
           />
-          <Link href={`/business/${id}?tab=reviews`} className="text-sm">
+          <Link
+            href={`/business/${username}/reviews/${slugBusinessName}`}
+            className="text-sm"
+          >
             Review
           </Link>
         </div>

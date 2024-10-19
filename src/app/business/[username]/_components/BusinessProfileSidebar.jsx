@@ -43,7 +43,7 @@ export default function BusinessProfileSidebar({ profile }) {
           <div className="border-2 rounded-md p-8 space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-14 ">
-                <ResponsiveImage src={earningIcon} />
+                <ResponsiveImage src={earningIcon} alt="earning icon" />
               </div>
               <div className="">
                 <h1 className={` text-primary_color ${font16}`}>
@@ -54,7 +54,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-14 ">
-                <ResponsiveImage src={workerIcon} />
+                <ResponsiveImage src={workerIcon} alt="worker icon" />
               </div>
               <div className="">
                 <h1 className={` text-primary_color ${font16}`}>Employees</h1>
@@ -82,7 +82,7 @@ export default function BusinessProfileSidebar({ profile }) {
           </div> */}
           <div className="flex items-center gap-2 px-8">
             <div className="w-14 ">
-              <ResponsiveImage src={brifcaseIcon2} />
+              <ResponsiveImage src={brifcaseIcon2} alt="bag icon"   />
             </div>
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
@@ -112,7 +112,7 @@ export default function BusinessProfileSidebar({ profile }) {
 
         {/* claim business */}
         <div className="border rounded-md p-8 space-y-4">
-          <IconImage src={claimWithBusiness} />
+          <IconImage src={claimWithBusiness} alt="claim with business icon" />
           <div className="">
             <h1 className={`text-primary_color ${font16}`}>
               Is this Your Business

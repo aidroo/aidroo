@@ -5,8 +5,9 @@ import { FaRegStar } from "react-icons/fa";
 import { IoIosArrowDropright } from "react-icons/io";
 import { VscBriefcase } from "react-icons/vsc";
 
-export default function ProfileNavbar({ username }) {
+export default function ProfileNavbar({ username, businessName }) {
   const pathname = usePathname();
+  const slugBusinessName = businessName.replace(/\s+/g, "-");
 
   const isActive = (path) => {
     return pathname === `/business/${username}${path}`;
@@ -21,22 +22,22 @@ export default function ProfileNavbar({ username }) {
   return (
     <div className="grid grid-cols-3 gap-4 mb-4">
       <Link
-        href={`/business/${username}/reviews`}
-        className={getLinkClassName("/reviews")}
+        href={`/business/${username}/reviews/${slugBusinessName}`}
+        className={getLinkClassName(`/reviews/${slugBusinessName}`)}
       >
         <FaRegStar className="text-lg lg:text-[22px]" />
         <span className="text-sm mg:text-16">Reviews</span>
       </Link>
       <Link
         href={`/business/${username}/jobs`}
-        className={getLinkClassName("/jobs")}
+        className={getLinkClassName(`/jobs`)}
       >
         <VscBriefcase className="text-xl lg:text-2xl mr-2" />
         <span>Jobs</span>
       </Link>
       <Link
         href={`/business/${username}/more`}
-        className={getLinkClassName("/more")}
+        className={getLinkClassName(`/more`)}
       >
         <IoIosArrowDropright className="text-xl lg:text-2xl mr-2" />
         <span>More</span>

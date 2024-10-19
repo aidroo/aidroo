@@ -7,7 +7,10 @@ import { WriteReview2 } from "@/components/WriteReview/WriteReview2";
 import { font14, font16, font18 } from "@/constant";
 import { topplacementBadge } from "@/exportImage";
 import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
-import ReviewCard from "../_components/ReviewCard";
+import ReviewCard from "../../_components/ReviewCard";
+
+ 
+ 
 
 export default async function page({ params, searchParams }) {
   const { username } = params;

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ResponsiveImage = ({
   src,
-  alt,
+  alt = "image",
   layout = "responsive",
   objectFit = "cover",
   ...rest

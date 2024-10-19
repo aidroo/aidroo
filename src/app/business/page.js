@@ -78,7 +78,7 @@ export default async function BusinessProfiles({ searchParams }) {
                     <BusinessProfileCard
                       key={businessProfile?.username}
                       businessProfile={businessProfile}
-                      id={businessProfile?.username}
+                      username={businessProfile?.username}
                     />
                   ))}
                 </div>
