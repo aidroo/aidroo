@@ -1,10 +1,11 @@
 "use client";
-import loaderImage from "@/public/images/loaderaidroo.gif";
-import IconImage from "./IconImage/IconImage";
+import loaderImage from "@/asserts/jsonfile/loader1.json";
+ 
+import LottePlayer from "./LottePlayer";
 export default function Loading() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <IconImage src={loaderImage} size={130} />
+      <LottePlayer animationData={loaderImage} loop={true} />
     </div>
   );
 }

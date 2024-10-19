@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout/Layout";
 import { fetchSingleProfile } from "@/queries/admin-dashboard-getProfiles";
-import BusinessProfileHeader from "../business/[username]/_components/BusinessProfileHeader";
+ 
+import BusinessProfileHeader from "../business/_components/BusinessProfileHeader";
 import ClaimPageForm from "./_components/Claimform";
 
 export default async function ClaimPage({ searchParams }) {

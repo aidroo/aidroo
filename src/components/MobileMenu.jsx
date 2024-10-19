@@ -1,19 +1,23 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
+import notificationIcon from "@/asserts/jsonfile/BellNotificationMObile.json";
+import brifcaseIcon from "@/asserts/jsonfile/briefcase.json";
+import helpIcon from "@/asserts/jsonfile/HelpSupport.json";
+import messageIcon from "@/asserts/jsonfile/MessageiconMObile.json";
+import pricingIcon from "@/asserts/jsonfile/PricingPlan.json";
 import { font16 } from "@/constant";
+
 import {
   addyourbusiness,
-  brifcaseIcon,
-  businessIcon,
   categoryImage,
-  helpIcon,
+
   logo,
-  messageIcon,
+
   myReview,
-  notificationIcon,
+
   pageIcon,
-  whitesearch,
+  whitesearch
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
@@ -24,6 +28,7 @@ import DynamicSearchInput from "./DynamicSearchInput";
 import Heading from "./Heading";
 import IconImage from "./IconImage/IconImage";
 import LogOutSvg from "./logoutIcon/LogOutSvg";
+import LottePlayer from "./LottePlayer";
 import ResponsiveImage from "./ResponsiveImage/ResponsiveImage";
 import {
   Accordion,
@@ -96,7 +101,9 @@ export default function MobileMenu() {
         </div>
         <div
           className={`absolute top-[48px] w-full bg-[#002A64] p-4 transition-all duration-500 ease-in-out ${
-            open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0 pointer-events-none"
+            open
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-0 pointer-events-none"
           }`}
         >
           <div className="flex w-full gap-x-4 justify-center items-center text-lg text-gray-700">
@@ -207,9 +214,11 @@ export default function MobileMenu() {
                     href={`#`}
                     className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
-                    <IconImage src={messageIcon} size={20} alt="icon" />
+                    <div className="-ml-1 w-8 h-8">
+                      <LottePlayer animationData={messageIcon} loop={true} />
+                    </div>
                     <h1
-                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
+                      className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out -ml-1 `}
                     >
                       Messages
                     </h1>
@@ -221,7 +230,12 @@ export default function MobileMenu() {
                     href={`#`}
                     className="flex items-center gap-2 border-b border-gray-300 pb-4"
                   >
-                    <IconImage src={notificationIcon} size={20} alt="icon" />
+                    <div className=" w-6 h-6">
+                      <LottePlayer
+                        animationData={notificationIcon}
+                        loop={true}
+                      />
+                    </div>
                     <h1
                       className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out `}
                     >
@@ -247,9 +261,11 @@ export default function MobileMenu() {
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="flex items-center gap-4  hover:no-underline py-0 pb-2">
                     <div className="flex   gap-2">
-                      <IconImage src={brifcaseIcon} size={24} alt="icon" />
+                      <div className="-ml-2 w-8 h-8">
+                        <LottePlayer animationData={brifcaseIcon} loop={true} />
+                      </div>
                       <h1
-                        className={`${font16} font-serif mt-1 hover:text-primary_color transition-all duration-300 ease-in-out `}
+                        className={`${font16} font-serif mt-1 hover:text-primary_color transition-all duration-300 ease-in-out -ml-2 `}
                       >
                         For Business
                       </h1>
@@ -334,16 +350,20 @@ export default function MobileMenu() {
 
                 {/* pricing plan */}
                 <div className="flex items-center gap-2 border-b border-gray-300 pb-4 ">
-                  <IconImage src={businessIcon} size={20} alt="icon" />
+                  <div className=" w-5  h-5">
+                    <LottePlayer animationData={pricingIcon} loop={true} />
+                  </div>
                   <h1
                     className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out  cursor-pointer `}
                   >
-                    Business Pricing Plan
+                    Pricing Plan
                   </h1>
                 </div>
 
                 <div className="flex items-center gap-2 border-b border-gray-300 pb-4 ">
-                  <IconImage src={helpIcon} size={20} alt="icon" />
+                  <div className=" w-5  h-5">
+                    <LottePlayer animationData={helpIcon} loop={true} />
+                  </div>
                   <h1
                     className={`${font16} font-serif hover:text-primary_color transition-all duration-300 ease-in-out cursor-pointer `}
                   >

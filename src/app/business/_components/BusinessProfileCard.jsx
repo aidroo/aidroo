@@ -25,11 +25,11 @@ export default function BusinessProfileCard({ businessProfile, username }) {
   const { country = "", city = "" } = businessProfile.addresses;
 
   let averageRating = Math.floor(businessProfile.averageRating);
-  const slugBusinessName = businessName.replace(/\s+/g, "-") 
-  console.log(slugBusinessName);
+  
+   
   return (
     <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
-      <Link href={`/business/${username}/reviews/${slugBusinessName}`}>
+      <Link href={`/business/reviews/${username}`}>
         <CardContent className="flex gap-4 items-start  p-3   ">
           {/* image */}
           <div className=" rounded-md ring-1 p-2">
@@ -88,8 +88,8 @@ export default function BusinessProfileCard({ businessProfile, username }) {
             className="w-6"
             alt="bordercategoriesIcon"
           />
-          <Link href={`/business/${username}/jobs`} className="text-sm">
-            Job feed
+          <Link href={`/business/jobs/${username}`} className="text-sm">
+            Jobs feed
           </Link>
         </div>
         <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
@@ -100,10 +100,10 @@ export default function BusinessProfileCard({ businessProfile, username }) {
             priority={true}
           />
           <Link
-            href={`/business/${username}/reviews/${slugBusinessName}`}
+            href={`/business/reviews/${username}`}
             className="text-sm"
           >
-            Review
+            Reviews
           </Link>
         </div>
         {/* <Jobs />

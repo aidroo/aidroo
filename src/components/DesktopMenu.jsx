@@ -36,7 +36,7 @@ export default function DesktopMenu() {
   const { currentUser, logout } = useAuth();
 
   return (
-    <div className=" h-[72px] place-content-center hidden lg:block zindex ">
+    <div className=" h-[72px] place-content-center hidden lg:block  z-30 ">
       <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  h-11  items-start justify-center max-w-[1260px] mx-auto    ">
         {/* logo */}
         <div className=" col-span-1   ">
@@ -245,65 +245,7 @@ export default function DesktopMenu() {
                     </AvatarFallback>
                   </Avatar> */}
                   </div>
-                  {currentUser.role === "admin" && (
-                    <div className="flex flex-col     space-y-3 p-4 ">
-                      <span className="flex items-center gap-6  border-b pb-2  ">
-                        <IconImage
-                          src={myprofile}
-                          size={27}
-                          alt="notification icon"
-                        />
-                        <Link href="#">
-                          <span
-                            className={`${font16} text-gray-700 hover:text-primary_color`}
-                          >
-                            My Profile
-                          </span>
-                        </Link>
-                      </span>
-
-                      <span className="flex items-center gap-6 border-b pb-2    ">
-                        <IconImage
-                          src={myorder}
-                          size={27}
-                          alt="notification icon"
-                        />
-                        <Link href="#">
-                          <span className={`${font16} text-gray-600  `}>
-                            My Order
-                          </span>
-                        </Link>
-                      </span>
-                      <span className="flex items-center gap-6 border-b pb-2   ">
-                        <IconImage
-                          src={userdashboard}
-                          size={27}
-                          alt="notification icon"
-                        />
-                        {
-                          <Link href="/admin_dashboard">
-                            <span
-                              className={`${font16} text-gray-700 hover:text-primary_color`}
-                            >
-                              Dashboard
-                            </span>
-                          </Link>
-                        }
-                      </span>
-                      <div onClick={logout}>
-                        <div className="flex items-center gap-6 cursor-pointer     ">
-                          <IconImage
-                            src={singoutIcon}
-                            size={27}
-                            alt="notification icon"
-                          />
-                          <span className={`${font16} text-gray-700`}>
-                            Logout
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                 
                   {currentUser.role === "personal" && (
                     <div className="flex flex-col     space-y-3 p-4 ">
                       <span className="flex items-center gap-6  border-b pb-2  ">
@@ -369,7 +311,7 @@ export default function DesktopMenu() {
                           size={27}
                           alt="notification icon"
                         />
-                        <Link href={`/business/${currentUser.username}`}>
+                        <Link href={`/business/reviews/${currentUser.username}`}>
                           <span
                             className={`${font16} text-gray-700 hover:text-primary_color`}
                           >

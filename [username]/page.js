@@ -49,7 +49,7 @@ export async function generateMetadata({ params }) {
     )}&verified=${verified}&totalReviews=${totalReviews}`;
 
     return {
-      title: `${businessName} - is ${ratingLabel} Rating on Aidroo`,
+      title: `${businessName} is ${ratingLabel} Rated`,
       description: { description },
       url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
       site_name: "Aidroo",
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }) {
       keywords: ["aidroo", "business", businessName], // Added dynamic keyword generation
       openGraph: {
         type: "website", // Added type
-        title: `${businessName} - is ${ratingLabel} Rating on Aidroo`,
+        title: `${businessName} is ${ratingLabel} Rated`,
         description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
         url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/business/${username}`,
         images: [
@@ -71,7 +71,7 @@ export async function generateMetadata({ params }) {
       },
       twitter: {
         card: "summary_large_image",
-        title: `${businessName} is ${ratingLabel} Rating on Aidroo`,
+        title: `${businessName} is ${ratingLabel} Rated`,
         description: `Based on ${totalReviews} reviews with an average rating of ${averageRating} out of 5.`,
         image: profileThumb,
         image_alt: `${businessName} profile image`,
@@ -104,7 +104,7 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function BusinessLayout({ children, params }) {
+export default async function BusinessLayout({ params }) {
   const { username } = params;
 
   let profile;
@@ -168,7 +168,7 @@ export default async function BusinessLayout({ children, params }) {
             <div className="grid grid-cols-1 lg:grid-cols-7 gap-y-14 lg:gap-10 bg-slate-50 px-2 lg:p-10 rounded-md mb-4">
               <div className="col-span-5 ">
                 <ProfileNavbar username={username} businessName={profile?.businessName} />
-                {children}
+                 
               </div>
               {profile && <BusinessProfileSidebar profile={profile} />}
             </div>

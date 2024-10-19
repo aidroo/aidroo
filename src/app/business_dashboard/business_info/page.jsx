@@ -17,11 +17,13 @@ export default async function BusinessProfile({ searchParams }) {
   ]);
 
   return (
-    <BusinessProfileUpdatedForm
-      categories={categoriesData.categories}
-      subcategories={subcategoriesData.subcategories}
-      profile={profile.profile}
-      username={username}
-    />
+   
+      <BusinessProfileUpdatedForm
+        categories={categoriesData.categories}
+        subcategories={subcategoriesData.subcategories}
+        profile={profile.profile}
+        username={username}
+      />
+     
   );
 }
