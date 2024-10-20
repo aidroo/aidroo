@@ -41,7 +41,7 @@ export default function BusinessProfileCard({ businessProfile, username }) {
             />
           </div>
           {/* details */}
-          <div className="flex flex-col lg:space-y-1 -mt-2 ">
+          <div className="flex flex-col lg:space-y-1  ">
             <div className="flex gap-2 items-center">
               {businessName && (
                 <TitleNameAndVerified

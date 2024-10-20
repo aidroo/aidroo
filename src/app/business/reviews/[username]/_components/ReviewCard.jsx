@@ -100,7 +100,7 @@ export default function ReviewCard({ review, username }) {
       setLoading(false);
     }
   };
-  console.log(review?.user);
+ 
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -173,8 +173,8 @@ export default function ReviewCard({ review, username }) {
         <div className="space-y-1">
           <h1 className={`${font18}`}>{title}</h1>
           <div
-            className="ProseMirror whitespace-pre-line    "
-            style={{ whiteSpace: "pre-line" }}
+            className="ProseMirror whitespace-pre-line font-extralight   "
+            style={{ whiteSpace: "pre-line", fontWeight: "light" }}
             dangerouslySetInnerHTML={{ __html: comment }}
           />
         </div>
