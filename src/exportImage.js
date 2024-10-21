@@ -1,6 +1,8 @@
 import logo from "@/asserts/aidroo-logo.svg";
 import businessProfilePic from "@/asserts/briefcase_business.svg";
 import filter from "@/asserts/filter.svg";
+import more from "@/asserts/jsonfile/more.json";
+import paperplan from "@/asserts/jsonfile/paperplane.json";
 import humber from "@/asserts/mobile-icons/Hamburger-l1.svg";
 import categoryImage from "@/asserts/mobile-icons/categories.svg";
 import pageIcon from "@/asserts/mobile-icons/page_icon.svg";
@@ -70,8 +72,7 @@ import srsoft from "@/public/images/srsoft.svg";
 import tesla from "@/public/images/tesla.svg";
 import unclaimed from "@/public/images/unverified.svg";
 export {
-  addyourbusiness,
-  bagIcon,
+  addyourbusiness, bagIcon,
   bordercategoriesIcon,
   brifcaseIcon,
   brifcaseIcon2,
@@ -104,14 +105,12 @@ export {
   logo,
   logoutIcon,
   messageIcon,
-  moneyBag,
-  myorder,
+  moneyBag, more, myorder,
   myprofile,
   myReview,
   notFound,
   notificationIcon,
-  pageIcon,
-  perosnal_verified,
+  pageIcon, paperplan, perosnal_verified,
   photoadd,
   plaimedbadge,
   pricingPlan,

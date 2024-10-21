@@ -10,13 +10,16 @@ import { font16 } from "@/constant";
 
 import {
   addyourbusiness,
-  categoryImage,
-
   logo,
+
+  more,
 
   myReview,
 
-  pageIcon,
+
+  paperplan,
+
+
   whitesearch
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
@@ -300,9 +303,11 @@ export default function MobileMenu() {
                 {/* category */}
                 <Link
                   href="/category"
-                  className="flex items-center gap-2 border-b border-gray-300 pb-4"
+                  className="flex items-center gap-3 border-b ml-2 border-gray-300 pb-4"
                 >
-                  <IconImage src={categoryImage} size={20} alt="icon" />
+                  <div className="-ml-2 w-3  h-3">
+                    <LottePlayer animationData={more} loop={true} />
+                  </div>
                   <h1
                     className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
                   >
@@ -313,10 +318,12 @@ export default function MobileMenu() {
 
                 <AccordionItem value="item-2">
                   <AccordionTrigger className="flex items-center gap-4  hover:no-underline py-0 pb-2">
-                    <div className="flex items-center gap-2  no-underline">
-                      <IconImage src={pageIcon} size={20} alt="icon" />
+                    <div className="flex items-center gap-2 -ml-1  no-underline">
+                      <div className="-ml-2 w-10 h-10">
+                        <LottePlayer animationData={paperplan} loop={true} />
+                      </div>
                       <h1
-                        className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
+                        className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out -ml-2  `}
                       >
                         Pages
                       </h1>
