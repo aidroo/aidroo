@@ -43,7 +43,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "embla-carousel-autoplay": "^8.2.0",
-    "embla-carousel-react": "^8.2.0",
+    "embla-carousel-react": "^8.3.0",
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
     "jose": "^5.6.3",
@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.6",
+    "@types/react": "18.3.11",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "daisyui": "^4.12.2",

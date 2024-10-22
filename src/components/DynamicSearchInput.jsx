@@ -63,7 +63,7 @@ export default function DynamicSearchInput() {
 
   return (
     <div
-      className="w-full max-w-md bg-gray-50 shadow-md rounded-md border overflow-hidden"
+      className="w-full  bg-gray-50 shadow-md rounded-md border overflow-hidden"
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
@@ -130,14 +130,15 @@ export default function DynamicSearchInput() {
       {show &&
         results.length > 0 &&
         results.map((profile) => {
+        
           const roundedRating =
-            Math.floor(profile.businessProfile.rating * 10) / 10;
-
+            Math.floor(profile.averageRating * 10) / 10;
+     console.log(roundedRating)
           return (
             <div className=" text-sm border-b" key={profile.username}>
               <div className="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-1 my-2">
                 <div className="  font-medium px-2 flex flex-col">
-                  <Link href={`/business/${profile.username}`}>
+                  <Link href={`/business/reviews/${profile.username}`}>
                     <TitleNameAndVerified
                       title={profile.businessProfile.businessName}
                       verified={profile.businessProfile.verified}
@@ -157,8 +158,8 @@ export default function DynamicSearchInput() {
                             ? "bg-red-400"
                             : roundedRating < 4
                             ? "bg-yellow-300"
-                            : roundedRating < 5
-                            ? "bg-primary_color"
+                            : roundedRating <= 5
+                            ? "bg-primary_color text-white"
                             : "  "
                         } px-1 flex rounded-sm`}
                       >

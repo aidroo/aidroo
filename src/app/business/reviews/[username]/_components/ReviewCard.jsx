@@ -171,10 +171,10 @@ export default function ReviewCard({ review, username }) {
           </div>
         </div>
         <div className="space-y-1">
-          <h1 className={`${font18}`}>{title}</h1>
+          <h1 className={`${font18} font-medium`}>{title}</h1>
           <div
             className="ProseMirror whitespace-pre-line font-extralight   "
-            style={{ whiteSpace: "pre-line", fontWeight: "light" }}
+            style={{ whiteSpace: "pre-line", fontWeight: "light" ,fontSize:"16px" }}
             dangerouslySetInnerHTML={{ __html: comment }}
           />
         </div>

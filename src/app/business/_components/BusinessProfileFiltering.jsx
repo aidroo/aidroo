@@ -88,7 +88,7 @@ export default function BusinessProfileFiltering({
   ]);
 
   return (
-    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit sticky top-20">
+    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit sticky top-20 z-10 bg-white">
       {/* Search Input */}
       <Input
         type="text"
@@ -99,20 +99,22 @@ export default function BusinessProfileFiltering({
       />
 
       {/* Category Filter */}
-      <Combobox
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        options={categories}
-        placeholder="Category"
-      />
+      <div className="flex items-center gap-4">
+        <Combobox
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          options={categories}
+          placeholder="Category"
+        />
 
-      {/* Subcategory Filter */}
-      <Combobox
-        selectedCategory={selectedSubcategory}
-        setSelectedCategory={setSelectedSubcategory}
-        options={subcategories}
-        placeholder="Subcategory"
-      />
+        {/* Subcategory Filter */}
+        <Combobox
+          selectedCategory={selectedSubcategory}
+          setSelectedCategory={setSelectedSubcategory}
+          options={subcategories}
+          placeholder="Subcategory"
+        />
+      </div>
 
       {/* Rating Filter */}
       <div>
