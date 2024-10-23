@@ -130,10 +130,8 @@ export default function DynamicSearchInput() {
       {show &&
         results.length > 0 &&
         results.map((profile) => {
-        
-          const roundedRating =
-            Math.floor(profile.averageRating * 10) / 10;
-     console.log(roundedRating)
+          const roundedRating = Math.floor(profile.averageRating * 10) / 10;
+          console.log(roundedRating);
           return (
             <div className=" text-sm border-b" key={profile.username}>
               <div className="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-1 my-2">
@@ -144,29 +142,29 @@ export default function DynamicSearchInput() {
                       verified={profile.businessProfile.verified}
                       isShown={true}
                     />
-                  </Link>
 
-                  <div className="flex items-center text-[16px] gap-x-4  mt-1">
-                    <div className="flex gap-x-4 items-center">
-                      {profile.totalReviews || 0} Reviews
+                    <div className="flex items-center text-[16px] gap-x-4  mt-1">
+                      <div className="flex gap-x-4 items-center">
+                        {profile.totalReviews || 0} Reviews
+                      </div>
+                      <div className="flex  gap-x-2">
+                        <GoDotFill className={` text-primary_color`} />
+                        <span
+                          className={`${
+                            roundedRating < 3
+                              ? "bg-red-400"
+                              : roundedRating < 4
+                              ? "bg-yellow-300"
+                              : roundedRating <= 5
+                              ? "bg-primary_color text-white"
+                              : "  "
+                          } px-1 flex rounded-sm`}
+                        >
+                          {profile.averageRating || 0}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex  gap-x-2">
-                      <GoDotFill className={` text-primary_color`} />
-                      <span
-                        className={`${
-                          roundedRating < 3
-                            ? "bg-red-400"
-                            : roundedRating < 4
-                            ? "bg-yellow-300"
-                            : roundedRating <= 5
-                            ? "bg-primary_color text-white"
-                            : "  "
-                        } px-1 flex rounded-sm`}
-                      >
-                        {profile.averageRating || 0}
-                      </span>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
                 {/* {profile.businessProfile.verified && (
                   <div className="text-sm font-normal text-gray-500 tracking-wide">

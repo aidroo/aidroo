@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { font14, font18 } from "@/constant";
+import { font14 } from "@/constant";
 import { profileImage } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
@@ -171,7 +171,7 @@ export default function ReviewCard({ review, username }) {
           </div>
         </div>
         <div className="space-y-1">
-          <h1 className={`${font18} font-medium`}>{title}</h1>
+          <h1 className={`text-[18px] text-gray-700  font-[550]`}>{title}</h1>
           <div
             className="ProseMirror whitespace-pre-line font-extralight   "
             style={{ whiteSpace: "pre-line", fontWeight: "light" ,fontSize:"16px" }}

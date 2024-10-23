@@ -5,7 +5,7 @@ import IconImage from "@/components/IconImage/IconImage";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { countries, font14, font16 } from "@/constant";
+import { countries, font14, font16, font18bold } from "@/constant";
 import axiosInstance from "@/lib/axios";
 import blueStr from "@/public/images/star/blue.svg";
 import greenStr from "@/public/images/star/green.svg";
@@ -88,8 +88,11 @@ export default function BusinessProfileFiltering({
   ]);
 
   return (
-    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit sticky top-20 z-10 bg-white">
+    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit sticky top-16 z-10 bg-white">
       {/* Search Input */}
+      <h1 className={`text-primary_color ${font18bold} text-center py-4`}>
+        Find your best company
+      </h1>
       <Input
         type="text"
         placeholder="What are you looking for?"
@@ -192,7 +195,7 @@ export default function BusinessProfileFiltering({
       </div>
 
       {/* Profile Status Filter */}
-      <div className="flex gap-4 justify-between">
+      <div className="  gap-4 justify-between hidden lg:block">
         <div className="space-y-2">
           <h1 className={`${font16} font-medium`}>Profile Status</h1>
           <div className="flex items-center justify-between space-x-2 w-44">
@@ -210,7 +213,7 @@ export default function BusinessProfileFiltering({
         </div>
 
         {/* Open Now Filter */}
-        <div className="space-y-2">
+        <div className="space-y-2  ">
           <h1 className={`${font16} font-medium`}>Open Now</h1>
           <Button
             className={`flex items-center gap-1 ${

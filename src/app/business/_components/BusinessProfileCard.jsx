@@ -28,7 +28,7 @@ export default function BusinessProfileCard({ businessProfile, username }) {
   
    
   return (
-    <Card className="mb-10 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
+    <Card className="mb-4 cursor-pointer    hover:shadow-xl transform   transition duration-500 ">
       <Link href={`/business/reviews/${username}`}>
         <CardContent className="flex gap-4 items-start  p-3   ">
           {/* image */}

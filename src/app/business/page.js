@@ -1,6 +1,5 @@
 import Layout from "@/components/Layout/Layout";
 
-import { font18bold } from "@/constant";
 
 import Notfound from "@/components/Notfound";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
@@ -61,16 +60,14 @@ export default async function BusinessProfiles({ searchParams }) {
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-2  py-10 ">
-        <h1 className={`text-primary_color ${font18bold} text-center py-8`}>
-          Find your best company
-        </h1>
+       
 
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-y-10   lg:gap-x-4">
           {/* Filter Section */}
           <BusinessProfileFiltering categories={categories} />
 
           {/* Business Profile Section */}
-          <div className="col-span-5  lg:border rounded-md lg:p-6 space-y-4">
+          <div className="col-span-5  lg:border rounded-md lg:p-6 space-y-2">
             {businessProfiles.length > 0 && (
               <>
                 <div className=" w-full">

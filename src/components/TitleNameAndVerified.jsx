@@ -48,7 +48,7 @@ export default function TitleNameAndVerified({
               <span className="inline-block align-baseline ms-2   ">
                 <Image
                   src={perosnal_verified}
-                  className="w-[18px] inline-block mb-2"
+                  className="w-[18px] inline-block mb-1"
                   alt="bordercategoriesIcon"
                 />
               </span>
