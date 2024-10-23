@@ -9,8 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupText } from "@/components/ui/input-group";
 import { Icon } from "@iconify/react";
+import { Search } from "lucide-react";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 
 const MyProfileHeader = ({ profile }) => {
   return (
@@ -37,12 +38,9 @@ const MyProfileHeader = ({ profile }) => {
                 type="button"
                 color="secondary"
                 size="icon"
-                className="rounded-full"
+                className="rounded-full bg-slate-300 hover:bg-primary_color"
               >
-                <Icon
-                  icon="heroicons:ellipsis-horizontal-20-solid"
-                  className=" h-5 w-5"
-                />
+                <MdOutlineMoreHoriz size={24} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -69,31 +67,34 @@ const MyProfileHeader = ({ profile }) => {
         </div>
       </div>
       {/* search */}
-      <InputGroup merged className="hidden lg:flex">
-        <InputGroupText>
-          <Icon icon="heroicons:magnifying-glass" />
-        </InputGroupText>
-        <Input type="text" placeholder="Search by name" />
-      </InputGroup>
+      <div className="hidden lg:flex border border-default-200 lg:items-center px-2 focus-within:border-blue-500 focus-within:text-primary_color">
+        <Search size={16} className="text-slate-400  " />
+        <Input
+          type="text"
+          placeholder="Search by name"
+          className="border-0 focus-visible:outline-none focus-visible:ring-0"
+        />
+      </div>
+
       {/* actions */}
       <div className="hidden lg:flex flex-wrap justify-between py-4 border-b border-default-200">
-        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-default-500 hover:text-default-900">
+        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-slate-400 hover:text-primary_color shadow-none">
           <span className="text-xl mb-1">
-            <Icon icon="gala:chat" />
+            <Icon icon="gala:chat" className="" />
           </span>
-          <span className="text-xs">Chats</span>
+          <span className="text-xs text-slate-600">Chats</span>
         </Button>
-        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-default-500 hover:text-default-900">
+        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-slate-400 hover:text-primary_color shadow-none">
           <span className="text-xl mb-1">
             <Icon icon="material-symbols:group" />
           </span>
-          <span className="text-xs">Groups</span>
+          <span className="text-xs text-slate-600">Groups</span>
         </Button>
-        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-default-500 hover:text-default-900">
+        <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-slate-400 hover:text-primary_color shadow-none">
           <span className="text-xl mb-1">
             <Icon icon="ci:bell-ring" />
           </span>
-          <span className="text-xs">Notification</span>
+          <span className="text-xs text-slate-600">Notification</span>
         </Button>
       </div>
     </>

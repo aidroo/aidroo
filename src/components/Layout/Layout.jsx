@@ -15,7 +15,7 @@ export default function Layout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head> */}
       <Header />
-      <main className="w-full">{children}</main>
+      <main className="w-full  ">{children}</main>
       <Footer />
     </div>
   );

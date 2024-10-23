@@ -134,9 +134,12 @@ export default function DynamicSearchInput() {
           console.log(roundedRating);
           return (
             <div className=" text-sm border-b" key={profile.username}>
-              <div className="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-1 my-2">
+              <Link
+                href={`/business/reviews/${profile.username}`}
+                className="flex justify-start cursor-pointer text-gray-700 hover:text-blue-400 hover:bg-blue-100 rounded-md px-2 py-1 my-2"
+              >
                 <div className="  font-medium px-2 flex flex-col">
-                  <Link href={`/business/reviews/${profile.username}`}>
+                  
                     <TitleNameAndVerified
                       title={profile.businessProfile.businessName}
                       verified={profile.businessProfile.verified}
@@ -164,7 +167,7 @@ export default function DynamicSearchInput() {
                         </span>
                       </div>
                     </div>
-                  </Link>
+                   
                 </div>
                 {/* {profile.businessProfile.verified && (
                   <div className="text-sm font-normal text-gray-500 tracking-wide">
@@ -173,7 +176,7 @@ export default function DynamicSearchInput() {
                     </span>
                   </div>
                 )} */}
-              </div>
+              </Link>
             </div>
           );
         })}

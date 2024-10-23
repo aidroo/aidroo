@@ -19,7 +19,7 @@ const MessageHeader = ({
   const isLg = useMediaQuery("(max-width: 1024px)");
 
   return (
-    <div className="flex  items-center">
+    <div className="flex  items-center ">
       <div className="flex flex-1 gap-3 items-center">
         {isLg && (
           <Menu
@@ -41,7 +41,7 @@ const MessageHeader = ({
           <div className="text-sm font-medium text-default-900 ">
             <span className="relative">{profile?.fullName}</span>
           </div>
-          <span className="text-xs text-default-500">
+          <span className="text-xs text-gray-500">
             {active ? "Active Now" : "Offline"}
           </span>
         </div>
@@ -53,16 +53,16 @@ const MessageHeader = ({
               <Button
                 type="button"
                 size="icon"
-                className="bg-transparent rounded-full hover:bg-default-50"
+                className="bg-transparent rounded-full hover:bg-slate-100"
               >
-                <span className="text-xl text-primary">
+                <span className="text-xl text-primary text-primary_color">
                   <Icon icon="solar:phone-linear" />
                 </span>
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end">
               <p>Start a voice call</p>
-              <TooltipArrow className="fill-primary" />
+               <TooltipArrow className="fill-primary_color" />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -73,16 +73,16 @@ const MessageHeader = ({
               <Button
                 type="button"
                 size="icon"
-                className="bg-transparent rounded-full hover:bg-default-50"
+                className="bg-transparent rounded-full hover:bg-slate-100"
               >
-                <span className="text-xl text-primary">
+                <span className="text-xl text-primary_color">
                   <Icon icon="mdi:video-outline" />
                 </span>
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end">
               <p>Start a video call</p>
-              <TooltipArrow className="fill-primary" />
+               <TooltipArrow className="fill-primary_color" />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -94,14 +94,14 @@ const MessageHeader = ({
                 type="button"
                 size="icon"
                 className={cn(
-                  "bg-transparent hover:bg-default-50 rounded-full",
+                  "bg-transparent hover:bg-slate-100 rounded-full",
                   {
                     "text-primary": !showInfo,
                   }
                 )}
                 onClick={handleShowInfo}
               >
-                <span className="text-xl text-primary ">
+                <span className="text-xl text-primary_color ">
                   {showInfo ? (
                     <Icon icon="material-symbols:info" />
                   ) : (
@@ -112,7 +112,7 @@ const MessageHeader = ({
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end">
               <p>Conversation information</p>
-              <TooltipArrow className="fill-primary" />
+              <TooltipArrow className="fill-primary_color" />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

@@ -25,7 +25,7 @@ const ContactInfo = ({ handleSetIsOpenSearch, handleShowInfo, contact }) => {
     setShowDrawer(itemKey);
   };
   return (
-    <div className="flex-none w-[285px] absolute xl:relative  right-0 h-full z-50 ">
+    <div className="flex-none w-[285px] absolute xl:relative  right-0 h-full  ">
       {showDrawer !== null && (
         <MediaSheet showDrawer={showDrawer} handleDrawer={handleDrawer} />
       )}

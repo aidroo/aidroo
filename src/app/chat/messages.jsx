@@ -36,9 +36,10 @@ const Messages = ({
   const { senderId, message: chatMessage, time, replayMetadata } = message;
   const { avatar } = contact;
   // State to manage pin status
-  const isMessagePinned = pinnedMessages.some(
-    (pinnedMessage) => pinnedMessage.index === index
-  );
+  // const isMessagePinned = pinnedMessages.some(
+  //   (pinnedMessage) => pinnedMessage.index === index
+  // );
+  const isMessagePinned=false
 
   const handlePinMessageLocal = (note) => {
     const obj = {
@@ -59,7 +60,7 @@ const Messages = ({
                   <Undo2 className="w-4 h-4 text-default-600" />{" "}
                   <span className="text-xs text-default-700">
                     You replied to
-                    <span className="ml-1 text-default-800">
+                    <span className="ml-1 text-gray-800">
                       {replayData?.contact?.fullName}
                     </span>
                   </span>
@@ -97,7 +98,7 @@ const Messages = ({
                     </DropdownMenu>
                   </div>
                   <div className="whitespace-pre-wrap break-all">
-                    <div className="bg-primary/70 text-primary-foreground  text-sm  py-2 px-3 rounded-2xl  flex-1  ">
+                    <div className="bg-gray-400 text-primary-foreground  text-sm  py-2 px-3 rounded-2xl  flex-1  ">
                       {chatMessage}
                     </div>
                   </div>
@@ -139,7 +140,7 @@ const Messages = ({
                       />
                     )}
 
-                    <div className="bg-default-200  text-sm  py-2 px-3 rounded-2xl  flex-1  ">
+                    <div className="bg-primary_color text-gray-200  text-sm  py-2 px-3 rounded-2xl  flex-1  ">
                       {chatMessage}
                     </div>
                   </div>
@@ -182,7 +183,7 @@ const Messages = ({
                     </DropdownMenu>
                   </div>
                 </div>
-                <span className="text-xs   text-default-500">
+                <span className="text-xs   text-gray-500">
                   {formatTime(time)}
                 </span>
               </div>

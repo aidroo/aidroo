@@ -38,7 +38,7 @@ import Image from "next/image";
 import SearchMessages from "./contact-info/search-messages";
 
 export const ChatPage = () => {
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState(1);
 
   const [showInfo, setShowInfo] = useState(true);
   const queryClient = useQueryClient();
@@ -64,6 +64,7 @@ export const ChatPage = () => {
     queryFn: () => getContacts(),
     keepPreviousData: true,
   });
+ 
   const {
     isLoading: messageLoading,
     isError: messageIsError,
@@ -75,6 +76,7 @@ export const ChatPage = () => {
     queryFn: () => getMessagesCallback(selectedChatId),
     keepPreviousData: true,
   });
+ 
   const {
     isLoading: profileLoading,
     isError: profileIsError,
@@ -154,7 +156,7 @@ export const ChatPage = () => {
     console.log(pinnedMessages);
   };
   return (
-    <div className="flex gap-5 app-height  relative rtl:space-x-reverse">
+    <div className="flex gap-5 app-height    relative rtl:space-x-reverse my-4">
       <div className="transition-all duration-150 flex-none  lg:w-[260px]">
         <Card className="h-full pb-0">
           <CardHeader className="border-none pb-0 mb-0">
@@ -185,7 +187,7 @@ export const ChatPage = () => {
           <div className=" flex space-x-5 h-full rtl:space-x-reverse">
             <div className="flex-1">
               <Card className="h-full flex flex-col ">
-                <CardHeader className="flex-none mb-1">
+                <CardHeader className="flex-none mb-2 border-b">
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
@@ -227,14 +229,14 @@ export const ChatPage = () => {
                         )}
                       </>
                     )}
-                    {pinnedMessages.length > 0 && (
+                    {pinnedMessages?.length > 0 && (
                       <div>
                         {pinnedMessages?.map((msg, i) => (
                           <div key={i} className="text-xs text-default-700">
                             You pinned a message.{" "}
                             <Dialog>
                               <DialogTrigger asChild>
-                                <span className=" font-bold   text-primary cursor-pointer">
+                                <span className=" font-bold   text-primary_color cursor-pointer">
                                   See All
                                 </span>
                               </DialogTrigger>
@@ -242,7 +244,7 @@ export const ChatPage = () => {
                                 <DialogHeader>
                                   <DialogTitle>Pinned messages</DialogTitle>
                                   <DialogDescription>
-                                    {pinnedMessages.map(
+                                    {pinnedMessages?.map(
                                       (pinnedMessage, index) => (
                                         <div key={index}>
                                           <div className="h-10 w-10">
@@ -267,7 +269,7 @@ export const ChatPage = () => {
                     )}
                   </div>
                 </CardContent>
-                <CardFooter className="flex-none flex-col px-0 py-0 pb-6">
+                <CardFooter className="flex-none flex-col px-0 pt-4 pb-6 border-t border-border">
                   <MessageFooter
                     handleSendMessage={handleSendMessage}
                     replay={replay}

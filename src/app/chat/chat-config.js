@@ -1,14 +1,13 @@
-import { api } from "@/config/axios.config";
 import axiosInstance from "@/lib/axios";
 
 export const getContacts = async () => {
-  const response = await api.get("/chat");
+  const response = await axiosInstance.get("api/chat");
   return response.data;
 };
 
 export const getMessages = async (id) => {
   try {
-    const response = await axiosInstance.get(`/api/chat/${id}`);
+    const response = await axiosInstance.get(`/api/chat/messages/${id}`);
     console.log("Response from getMessages:", response.data);
     return response.data;
   } catch (error) {

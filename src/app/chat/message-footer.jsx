@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,12 +63,12 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
               </span>
             </div>
           </div>
-          <button className="cursor-pointer " onClick={() => setReply(false)}>
+          <span className="cursor-pointer " onClick={() => setReply(false)}>
             <Icon
               icon="heroicons:x-mark-20-solid"
-              className="text-2xl text-default-900"
+              className="text-2xl text-primary_color"
             />
-          </button>
+          </span>
         </div>
       )}
 
@@ -86,19 +88,16 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                       <Button
                         type="button"
                         size="icon"
-                        className="bg-transparent rounded-full hover:bg-default-50"
+                        className="bg-transparent rounded-full  hover:bg-primary_color "
                       >
-                        <span className="h-6 w-6 rounded-full bg-primary">
-                          <Icon
-                            icon="mdi:plus"
-                            className="text-2xl text-primary-foreground "
-                          />
+                        <span className="h-6 w-6 rounded-full bg-primary_color hover:bg-primary_color/20">
+                          <Icon icon="mdi:plus" className="text-2xl  " />
                         </span>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="top" align="start">
                       <p>Open More Actions </p>
-                      <TooltipArrow className="fill-primary" />
+                      <TooltipArrow className="fill-primary_color" />
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -113,7 +112,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                 <div className="flex items-center gap-1">
                   <Icon
                     icon="material-symbols:mic"
-                    className="text-xl text-primary"
+                    className="text-xl text-primary_color"
                   />
                   <span className="text-sm font-medium text-default-900">
                     Send a voice clip
@@ -126,7 +125,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                     <Label htmlFor="attachement" className="flex items-center">
                       <Icon
                         icon="tabler:file-filled"
-                        className="text-xl text-primary "
+                        className="text-xl text-primary_color "
                       />
                       <Input type="file" className="hidden" id="attachement" />
                       <span className="text-sm font-medium text-defualt-900 inline-block ml-1">
@@ -138,7 +137,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                     <div className="flex items-center gap-1">
                       <Icon
                         icon="fluent:sticker-12-filled"
-                        className="text-xl text-primary"
+                        className="text-2xl text-primary_color"
                       />
                       <span className="text-sm font-medium text-defualt-900 inline-block ml-1">
                         Choose a sticker
@@ -159,7 +158,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                         <span className="h-10 w-10 rounded-full hover:bg-default-50 flex justify-center items-center ">
                           <Icon
                             icon="tabler:file-filled"
-                            className="text-2xl text-primary/80 "
+                            className="text-2xl text-primary_color"
                           />
                         </span>
                         <Input
@@ -171,29 +170,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                     </TooltipTrigger>
                     <TooltipContent align="start">
                       <p>Attach a file</p>
-                      <TooltipArrow className="fill-primary" />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-              <div className="hidden lg:block">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        size="icon"
-                        className="bg-transparent rounded-full hover:bg-default-50 cursor-pointer"
-                      >
-                        <Icon
-                          icon="fluent:sticker-12-filled"
-                          className="text-2xl text-primary/80"
-                        />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent align="start">
-                      <p> Choose a sticker </p>
-                      <TooltipArrow className="fill-primary" />
+                      <TooltipArrow className="fill-primary_color" />
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -208,7 +185,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
                 value={message}
                 onChange={handleChange}
                 placeholder="Type your message..."
-                className="bg-background border border-default-200 outline-none focus:border-primary  rounded-xl break-words pl-8  md:pl-3 px-3 flex-1 h-10 pt-2 p-1 pr-8 no-scrollbar "
+                className="bg-background border border-slate-200 outline-none focus:border-primary_color  rounded-xl break-words pl-8  md:pl-3 px-3 flex-1 h-10 pt-2 p-1 pr-8 no-scrollbar "
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -225,11 +202,15 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
 
               <Popover>
                 <PopoverTrigger asChild>
-                  <span className="absolute ltr:right-12 rtl:left-12 bottom-1.5 h-7 w-7 rounded-full cursor-pointer  ">
+                  <span className="absolute ltr:right-12 right-12 bottom-1.5 h-7 w-7 rounded-full cursor-pointer  ">
                     <Annoyed className="w-6 h-6 text-primary" />
                   </span>
                 </PopoverTrigger>
-                <PopoverContent side="top" className="w-fit p-0 shadow-none border-none bottom-0 rtl:left-5 ltr:-left-[110px]">
+                <PopoverContent
+                  side="top"
+                  align="end"
+                  className="w-fit p-0 shadow-none border-none bottom-0 rtl:left-5 ltr:-left-[110px]"
+                >
                   <Picker
                     data={data}
                     onEmojiSelect={handleSelectEmoji}
@@ -239,7 +220,7 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
               </Popover>
               <Button
                 type="submit"
-                className="rounded-full bg-default-200 hover:bg-default-300 h-[42px] w-[42px] p-0 self-end"
+                className="rounded-full bg-slate-100 hover:bg-slate-200 h-[42px] w-[42px] p-0 self-end"
               >
                 <SendHorizontal className="w-5 h-8 text-primary rtl:rotate-180" />
               </Button>
