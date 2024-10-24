@@ -2,7 +2,9 @@ import sequelize from "../sequalize";
 import Address from "./address";
 import BusinessProfile from "./business-profile";
 import Category from "./category";
+import Conversation from "./conversation";
 import Job from "./Job";
+import Message from "./message";
 import PersonalProfile from "./personal-profile";
 import Reaction from "./reaction";
 import ReplyReview from "./replayReview";
@@ -28,6 +30,8 @@ db.Review = Review;
 db.Schedule = Schedule;
 db.ReplyReview = ReplyReview;
 db.Reaction = Reaction;
+db.Conversation= Conversation;
+db.Message = Message;
 
 // Define associations with cascading deletes
 
@@ -177,5 +181,63 @@ db.Reaction.belongsTo(db.User, {
   as: "user",
   onDelete: "CASCADE",
 });
+
+
+// chating association
+// User associations with Message
+User.hasMany(Message, {
+  foreignKey: "senderUser",
+  as: "sentMessages",
+  onDelete: "CASCADE",
+});
+User.hasMany(Message, {
+  foreignKey: "receiverUser",
+  as: "receivedMessages",
+  onDelete: "CASCADE",
+});
+Message.belongsTo(User, {
+  foreignKey: "senderUser",
+  as: "sender",
+});
+Message.belongsTo(User, {
+  foreignKey: "receiverUser",
+  as: "receiver",
+});
+
+// Conversation associations with User
+Conversation.belongsTo(User, {
+  foreignKey: "senderUser",
+  as: "sender",
+  onDelete: "CASCADE",
+});
+Conversation.belongsTo(User, {
+  foreignKey: "receiverUser",
+  as: "receiver",
+  onDelete: "CASCADE",
+});
+
+// Conversation associations with Message
+Conversation.hasMany(Message, {
+  foreignKey: "conversationId", // Add this foreign key in Message
+  as: "messages",
+});
+Message.belongsTo(Conversation, {
+  foreignKey: "conversationId",
+  as: "conversation",
+});
+
+// To track the last message in a conversation
+Conversation.hasOne(Message, {
+  foreignKey: "conversationId",
+  as: "lastMessage",
+  onDelete: "CASCADE",
+});
+
+// Self-reference for replyTo in Message
+Message.belongsTo(Message, {
+  foreignKey: "replyTo",
+  as: "parentMessage",
+});
+
 
 export default db;

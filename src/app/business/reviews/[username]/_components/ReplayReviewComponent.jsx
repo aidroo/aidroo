@@ -20,10 +20,10 @@ export default function ReplayReviewComponent({ review, active, replayRef }) {
 
   const { currentUser } = useAuth();
 
-  const city = review?.user?.addresses.city;
+  const city = review?.user?.addresses?.city;
   const country = review?.user?.addresses.country;
   const router = useRouter();
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 

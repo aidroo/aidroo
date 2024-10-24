@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 "use client";
 import {
   Card,
@@ -5,19 +7,16 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useCallback, useEffect, useRef } from "react";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { isObjectNotEmpty } from "@/lib/utils";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useRef, useState } from "react";
+
+import { useState } from "react";
 import Blank from "./blank";
+import ContactList from "./contact-list";
+import MessageFooter from "./message-footer";
+import MessageHeader from "./message-header";
+
 import {
   deleteMessage,
   getContacts,
@@ -25,22 +24,23 @@ import {
   getProfile,
   sendMessage,
 } from "./chat-config";
-import ContactInfo from "./contact-info";
-import ContactList from "./contact-list";
-import EmptyMessage from "./empty-message";
-import Loader from "./loader";
-import MessageFooter from "./message-footer";
-import MessageHeader from "./message-header";
 import Messages from "./messages";
-import MyProfileHeader from "./my-profile-header";
- 
-import Image from "next/image";
+
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn, isObjectNotEmpty } from "@/lib/utils";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ContactInfo from "./contact-info";
 import SearchMessages from "./contact-info/search-messages";
+import EmptyMessage from "./empty-message";
+import ForwardMessage from "./forward-message";
+import Loader from "./loader";
+import MyProfileHeader from "./my-profile-header";
+import PinnedMessages from "./pin-messages";
+const ChatPage = () => {
+  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [showContactSidebar, setShowContactSidebar] = useState(false);
 
-export const ChatPage = () => {
-  const [selectedChatId, setSelectedChatId] = useState(1);
-
-  const [showInfo, setShowInfo] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
   const queryClient = useQueryClient();
   // Memoize getMessages using useCallback
   const getMessagesCallback = useCallback((chatId) => getMessages(chatId), []);
@@ -52,6 +52,8 @@ export const ChatPage = () => {
   const [isOpenSearch, setIsOpenSearch] = useState(false);
 
   const [pinnedMessages, setPinnedMessages] = useState([]);
+  // Forward State
+  const [isForward, setIsForward] = useState(false);
 
   const {
     isLoading,
@@ -64,7 +66,6 @@ export const ChatPage = () => {
     queryFn: () => getContacts(),
     keepPreviousData: true,
   });
- 
   const {
     isLoading: messageLoading,
     isError: messageIsError,
@@ -76,7 +77,6 @@ export const ChatPage = () => {
     queryFn: () => getMessagesCallback(selectedChatId),
     keepPreviousData: true,
   });
- 
   const {
     isLoading: profileLoading,
     isError: profileIsError,
@@ -105,11 +105,21 @@ export const ChatPage = () => {
   const onDelete = (selectedChatId, index) => {
     const obj = { selectedChatId, index };
     deleteMutation.mutate(obj);
+
+    // Remove the deleted message from pinnedMessages if it exists
+    const updatedPinnedMessages = pinnedMessages.filter(
+      (msg) => msg.selectedChatId !== selectedChatId && msg.index !== index
+    );
+
+    setPinnedMessages(updatedPinnedMessages);
   };
 
   const openChat = (chatId) => {
     setSelectedChatId(chatId);
     setReply(false);
+    if (showContactSidebar) {
+      setShowContactSidebar(false);
+    }
   };
   const handleShowInfo = () => {
     setShowInfo(!showInfo);
@@ -145,24 +155,92 @@ export const ChatPage = () => {
       });
     }
   }, [handleSendMessage, contacts]);
+  useEffect(() => {
+    if (chatHeightRef.current) {
+      chatHeightRef.current.scrollTo({
+        top: chatHeightRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [pinnedMessages]);
 
   // handle search bar
+
   const handleSetIsOpenSearch = () => {
     setIsOpenSearch(!isOpenSearch);
   };
   // handle pin note
-  const handlePinNote = (note) => {
-    setPinnedMessages([...pinnedMessages, note]);
-    console.log(pinnedMessages);
+
+  const handlePinMessage = (note) => {
+    const updatedPinnedMessages = [...pinnedMessages];
+
+    const existingIndex = updatedPinnedMessages.findIndex(
+      (msg) => msg.note === note.note
+    );
+
+    if (existingIndex !== -1) {
+      updatedPinnedMessages.splice(existingIndex, 1); // Remove the message
+      //setIsPinned(false);
+    } else {
+      updatedPinnedMessages.push(note); // Add the message
+      // setIsPinned(true);
+    }
+
+    setPinnedMessages(updatedPinnedMessages);
   };
+
+  const handleUnpinMessage = (pinnedMessage) => {
+    // Create a copy of the current pinned messages array
+    const updatedPinnedMessages = [...pinnedMessages];
+
+    // Find the index of the message to unpin in the updatedPinnedMessages array
+    const index = updatedPinnedMessages.findIndex(
+      (msg) =>
+        msg.note === pinnedMessage.note && msg.avatar === pinnedMessage.avatar
+    );
+
+    if (index !== -1) {
+      // If the message is found in the array, remove it (unpin)
+      updatedPinnedMessages.splice(index, 1);
+      // Update the state with the updated pinned messages array
+      setPinnedMessages(updatedPinnedMessages);
+    }
+  };
+
+  // Forward handle
+  const handleForward = () => {
+    setIsForward(!isForward);
+  };
+  const isLg = useMediaQuery("(max-width: 1024px)");
   return (
-    <div className="flex gap-5 app-height    relative rtl:space-x-reverse my-4">
-      <div className="transition-all duration-150 flex-none  lg:w-[260px]">
+    <div className="flex gap-5  lg:h-[90vh]  relative rtl:space-x-reverse mx-2 ">
+      {isLg && showContactSidebar && (
+        <div
+          className=" bg-background/60 backdrop-filter
+         backdrop-blur-sm absolute w-full flex-1 inset-0 z-[99] rounded-md"
+          onClick={() => setShowContactSidebar(false)}
+        ></div>
+      )}
+      {isLg && showInfo && (
+        <div
+          className=" bg-background/60 backdrop-filter
+         backdrop-blur-sm absolute w-full flex-1 inset-0  rounded-md"
+          onClick={() => setShowInfo(false)}
+        ></div>
+      )}
+      <div
+        className={cn("transition-all duration-150 flex-none  ", {
+          "absolute h-full top-0 md:w-[260px] w-[200px] z-[999]": isLg,
+          "flex-none min-w-[260px]": !isLg,
+          "left-0": isLg && showContactSidebar,
+          "-left-full": isLg && !showContactSidebar,
+        })}
+      >
         <Card className="h-full pb-0">
-          <CardHeader className="border-none pb-0 mb-0">
+          <CardHeader className="border-none pb-0 mb-0  ">
             <MyProfileHeader profile={profileData} />
           </CardHeader>
-          <CardContent className="pt-0 px-0   h-[calc(100%-170px)] ">
+          <CardContent className="pt-0 px-0   lg:h-[calc(100%-180px)] h-[calc(100%-70px)]   ">
             <ScrollArea className="h-full">
               {isLoading ? (
                 <Loader />
@@ -187,11 +265,14 @@ export const ChatPage = () => {
           <div className=" flex space-x-5 h-full rtl:space-x-reverse">
             <div className="flex-1">
               <Card className="h-full flex flex-col ">
-                <CardHeader className="flex-none mb-2 border-b">
+                <CardHeader className="flex-none mb-0 border-b">
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
                     profile={profileData}
+                    mblChatHandler={() =>
+                      setShowContactSidebar(!showContactSidebar)
+                    }
                   />
                 </CardHeader>
                 {isOpenSearch && (
@@ -200,9 +281,9 @@ export const ChatPage = () => {
                   />
                 )}
 
-                <CardContent className="px-0 relative flex-1 overflow-y-auto">
+                <CardContent className=" !p-0 relative flex-1 overflow-y-auto">
                   <div
-                    className="h-full overflow-y-auto no-scrollbar"
+                    className="h-full py-4 p-6 overflow-y-auto no-scrollbar"
                     ref={chatHeightRef}
                   >
                     {messageLoading ? (
@@ -223,53 +304,21 @@ export const ChatPage = () => {
                               selectedChatId={selectedChatId}
                               handleReply={handleReply}
                               replayData={replayData}
-                              handlePinNote={handlePinNote}
+                              handleForward={handleForward}
+                              handlePinMessage={handlePinMessage}
+                              pinnedMessages={pinnedMessages}
                             />
                           ))
                         )}
                       </>
                     )}
-                    {pinnedMessages?.length > 0 && (
-                      <div>
-                        {pinnedMessages?.map((msg, i) => (
-                          <div key={i} className="text-xs text-default-700">
-                            You pinned a message.{" "}
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <span className=" font-bold   text-primary_color cursor-pointer">
-                                  See All
-                                </span>
-                              </DialogTrigger>
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle>Pinned messages</DialogTitle>
-                                  <DialogDescription>
-                                    {pinnedMessages?.map(
-                                      (pinnedMessage, index) => (
-                                        <div key={index}>
-                                          <div className="h-10 w-10">
-                                            <Image
-                                              src={pinnedMessage.avatar}
-                                              alt=""
-                                              className="w-full h-full rounded-full object-cover"
-                                            />
-                                          </div>
-
-                                          {pinnedMessage.note}
-                                        </div>
-                                      )
-                                    )}
-                                  </DialogDescription>
-                                </DialogHeader>
-                              </DialogContent>
-                            </Dialog>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    <PinnedMessages
+                      pinnedMessages={pinnedMessages}
+                      handleUnpinMessage={handleUnpinMessage}
+                    />
                   </div>
                 </CardContent>
-                <CardFooter className="flex-none flex-col px-0 pt-4 pb-6 border-t border-border">
+                <CardFooter className="flex-none flex-col px-0 py-4 border-t border-border">
                   <MessageFooter
                     handleSendMessage={handleSendMessage}
                     replay={replay}
@@ -281,13 +330,27 @@ export const ChatPage = () => {
             </div>
 
             {showInfo && (
-              <ContactInfo handleSetIsOpenSearch={handleSetIsOpenSearch} />
+              <ContactInfo
+                handleSetIsOpenSearch={handleSetIsOpenSearch}
+                handleShowInfo={handleShowInfo}
+                contact={contacts?.contacts?.find(
+                  (contact) => contact.id === selectedChatId
+                )}
+              />
             )}
           </div>
         </div>
       ) : (
-        <Blank />
+        <Blank mblChatHandler={() => setShowContactSidebar(true)} />
       )}
+      <ForwardMessage
+        open={isForward}
+        contact={"s"}
+        setIsOpen={setIsForward}
+        contacts={contacts}
+      />
     </div>
   );
 };
+
+export default ChatPage;

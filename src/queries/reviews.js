@@ -288,7 +288,7 @@ export async function getBusinessProfileWithReviewsAndReactions(
                   {
                     model: db.Address,
                     as: "addresses",
-                    attributes: ["country"],
+                    attributes: ["country","city"],
                   },
                 ],
               },

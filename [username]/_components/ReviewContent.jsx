@@ -46,7 +46,11 @@ export default async function ReviewContent({
             {[1, 2, 3, 4, 5].reverse().map((index) => (
               <div key={index} className="flex gap-8 items-center">
                 <h1 className={`${font16}`}>{index} Stars</h1>
-                <Progress value={(index / 5) * 100} className="w-[60%]" />
+                <Progress
+                  variants="info"
+                  value={(index / 5) * 100}
+                  className="w-[60%] bg-primary_color "
+                />
               </div>
             ))}
           </div>

@@ -1,14 +1,16 @@
 import IconImage from "@/components/IconImage/IconImage";
 import TitleNameAndVerified from "@/components/TitleNameAndVerified";
-import { font14 } from "@/constant";
 import { profileImage } from "@/exportImage";
 import replayIcon from "@/public/icons/replyreview.svg";
 
 export default function ReplyReviewCard({ reply }) {
+
+  console.log(reply);
   const fulName =
     reply?.user?.personalProfile?.firstName +
     " " +
     reply?.user?.personalProfile?.lastName;
+
   return (
     <div className="flex items-center my-2 w-full ">
       <IconImage src={replayIcon} size={32} className=" -ml-8 " />
@@ -40,7 +42,7 @@ export default function ReplyReviewCard({ reply }) {
               </div>
 
               <p className={`  text-gray-500`}>
-                {reply?.user?.addresses?.city} {reply?.user?.addresses?.country}{" "}
+                {reply?.user?.addresses?.city} , {reply?.user?.addresses?.country}{" "}
               </p>
             </div>
           </div>
