@@ -6,13 +6,8 @@ const Job = sequelize.define(
   {
     username: {
       type: DataTypes.STRING(255),
-      references: {
-        model: "Users",
-        key: "username",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
       allowNull: false,
+      // Removed references
     },
     title: {
       type: DataTypes.STRING(255),

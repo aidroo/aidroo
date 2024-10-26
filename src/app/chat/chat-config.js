@@ -1,7 +1,9 @@
 import axiosInstance from "@/lib/axios";
 
 export const getContacts = async () => {
-  const response = await axiosInstance.get("api/chat");
+  const response = await axiosInstance.get(
+    "api/chat/conversation?senderUser=google&receiverUser=aidroo"
+  );
   return response.data;
 };
 

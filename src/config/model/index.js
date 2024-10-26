@@ -183,61 +183,43 @@ db.Reaction.belongsTo(db.User, {
 });
 
 
-// chating association
-// User associations with Message
-User.hasMany(Message, {
-  foreignKey: "senderUser",
-  as: "sentMessages",
-  onDelete: "CASCADE",
-});
-User.hasMany(Message, {
-  foreignKey: "receiverUser",
-  as: "receivedMessages",
-  onDelete: "CASCADE",
-});
-Message.belongsTo(User, {
-  foreignKey: "senderUser",
-  as: "sender",
-});
-Message.belongsTo(User, {
-  foreignKey: "receiverUser",
-  as: "receiver",
-});
-
-// Conversation associations with User
-Conversation.belongsTo(User, {
-  foreignKey: "senderUser",
-  as: "sender",
-  onDelete: "CASCADE",
-});
-Conversation.belongsTo(User, {
-  foreignKey: "receiverUser",
-  as: "receiver",
+ // Use userId as the foreign key for associations instead of username
+db.User.hasOne(db.Conversation, {
+  foreignKey: "senderUser",  // Assuming this is the correct foreign key in the Conversation model
+  as: "sentConversations",
   onDelete: "CASCADE",
 });
 
-// Conversation associations with Message
-Conversation.hasMany(Message, {
-  foreignKey: "conversationId", // Add this foreign key in Message
-  as: "messages",
-});
-Message.belongsTo(Conversation, {
-  foreignKey: "conversationId",
-  as: "conversation",
-});
-
-// To track the last message in a conversation
-Conversation.hasOne(Message, {
-  foreignKey: "conversationId",
-  as: "lastMessage",
+db.User.hasOne(db.Conversation, {
+  foreignKey: "receiverUser", // Assuming this is the correct foreign key in the Conversation model
+  as: "receivedConversations",
   onDelete: "CASCADE",
 });
 
-// Self-reference for replyTo in Message
-Message.belongsTo(Message, {
-  foreignKey: "replyTo",
-  as: "parentMessage",
+db.Conversation.belongsTo(db.User, {
+  foreignKey: "senderUser",  // Use the same foreign key as above
+  as: "sender",  // Alias for the sender of the conversation
+  onDelete: "CASCADE",
 });
+
+db.Conversation.belongsTo(db.User, {
+  foreignKey: "receiverUser",  // Use the same foreign key as above
+  as: "receiver",  // Alias for the receiver of the conversation
+  onDelete: "CASCADE",
+});
+
+// Associations for Conversation and Message
+db.Conversation.hasMany(db.Message, {
+  foreignKey: "conversationId",  // Foreign key in the Message model
+  as: "messages",                 // Correct alias for messages
+});
+
+db.Message.belongsTo(db.Conversation, {
+  foreignKey: "conversationId",   // Foreign key in the Message model
+  as: "conversation",              // Alias for the associated conversation
+});
+
+
 
 
 export default db;

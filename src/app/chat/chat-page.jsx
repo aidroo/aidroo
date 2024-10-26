@@ -33,7 +33,9 @@ import ContactInfo from "./contact-info";
 import SearchMessages from "./contact-info/search-messages";
 import EmptyMessage from "./empty-message";
 import ForwardMessage from "./forward-message";
-import Loader from "./loader";
+ 
+ 
+import Loading from "../business/_components/Loading";
 import MyProfileHeader from "./my-profile-header";
 import PinnedMessages from "./pin-messages";
 const ChatPage = () => {
@@ -63,9 +65,11 @@ const ChatPage = () => {
     refetch: refetchContact,
   } = useQuery({
     queryKey: ["contacts"],
-    queryFn: () => getContacts(),
+    queryFn: () => getContacts( ),
     keepPreviousData: true,
   });
+
+  console.log(contacts?.data[0]?.receiver?.businessProfile)
   const {
     isLoading: messageLoading,
     isError: messageIsError,
@@ -243,9 +247,9 @@ const ChatPage = () => {
           <CardContent className="pt-0 px-0   lg:h-[calc(100%-180px)] h-[calc(100%-70px)]   ">
             <ScrollArea className="h-full">
               {isLoading ? (
-                <Loader />
+                <h1>loading...</h1>
               ) : (
-                contacts?.contacts?.map((contact) => (
+                contacts?.data?.map((contact) => (
                   <ContactList
                     key={contact.id}
                     contact={contact}
@@ -287,7 +291,7 @@ const ChatPage = () => {
                     ref={chatHeightRef}
                   >
                     {messageLoading ? (
-                      <Loader />
+                      <Loading />
                     ) : (
                       <>
                         {messageIsError ? (

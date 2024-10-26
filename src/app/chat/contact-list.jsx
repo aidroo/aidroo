@@ -3,8 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
+import moment from "moment";
 
 const ContactList = ({ contact, openChat, selectedChatId }) => {
+  console.log(contact);
   const { avatar, id, fullName, status, about, chat, unreadmessage, date } =
     contact;
 
@@ -21,9 +23,11 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
       <div className="flex-1 flex  gap-3 ">
         <div className="relative inline-block ">
           <Avatar>
-            <AvatarImage src={avatar.src} />
+            <AvatarImage
+              src={contact?.receiver?.businessProfile?.profileThumb}
+            />
             <AvatarFallback className="uppercase">
-              {fullName.slice(0, 2)}
+              {contact?.receiver?.businessProfile?.businessName.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
           <Badge
@@ -36,19 +40,21 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
           <div className="truncate max-w-[120px]">
             <span className="text-sm text-default-900 font-medium">
               {" "}
-              {fullName}
+              {contact?.receiver?.businessProfile?.businessName}
             </span>
           </div>
           <div className="truncate  max-w-[120px]">
             <span className=" text-xs  text-default-600 ">
-              {chat?.lastMessage ? chat?.lastMessage : about}
+              {contact?.messages[0]?.content}
             </span>
           </div>
         </div>
       </div>
       <div className="flex-none  flex-col items-end  gap-2 hidden lg:flex">
-        <span className="text-xs text-default-600 text-end uppercase">
-          {date}
+        <span className="text-xs text-default-600 text-end lowercase">
+          {contact?.messages[0]?.createdAt
+            ? moment(contact.messages[0].createdAt).fromNow()
+            : "No date available"}
         </span>
         <span
           className={cn(

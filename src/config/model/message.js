@@ -11,6 +11,28 @@ const Message = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    senderUser: {
+      type: DataTypes.STRING(255),
+      references: {
+        model: "Users",
+        key: "username",
+      },
+    },
+    receiverUser: {
+      type: DataTypes.STRING(255),
+      references: {
+        model: "Users",
+        key: "username",
+      },
+    },
+    conversationId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Conversations",
+        key: "id",
+      },
+      allowNull: false,
+    },
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -34,8 +56,7 @@ const Message = sequelize.define(
   },
   {
     timestamps: true,
-    charset: "utf8mb4",
-    collate: "utf8mb4_unicode_ci",
+     
   }
 );
 
