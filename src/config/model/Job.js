@@ -4,10 +4,9 @@ import sequelize from "../sequalize";
 const Job = sequelize.define(
   "Job",
   {
-    username: {
+    profileUsername: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      // Removed references
+      allowNull: false, // Keeping this field mandatory
     },
     title: {
       type: DataTypes.STRING(255),
@@ -82,7 +81,7 @@ const Job = sequelize.define(
     },
     applications: {
       type: DataTypes.INTEGER,
-      defaultValue: 0, // Default value set to 0
+      defaultValue: 0,
       allowNull: false,
     },
   },

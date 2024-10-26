@@ -13,10 +13,10 @@ import { LiaSmsSolid } from "react-icons/lia";
 
 export default function SocialShare() {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
-  const pageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${pathname}`;
   const [copied, setCopied] = useState(false);
   const dropdownRef = useRef(null); // Ref for the dropdown element
+  const pathname = usePathname();
+  const pageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${pathname}`;
 
   // Copy URL to clipboard
   const copyToClipboard = () => {
@@ -36,6 +36,7 @@ export default function SocialShare() {
 
     // Add event listener only when the dropdown is open
     if (open) {
+      console.log(open)
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -46,9 +47,11 @@ export default function SocialShare() {
     };
   }, [open]);
 
+
+
   return (
     <div className="-mr-16 w-fit">
-      <div className=" mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
+      <div className="mt-4 border-primary_color items-center justify-center flex gap-2 lg:gap-4 col-span-2">
         <div className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2">
           <LiaSmsSolid className="text-sm md:text-xl" />
           <span className={font14}>Chat</span>
@@ -59,9 +62,11 @@ export default function SocialShare() {
         </div>
         <button
           onClick={() => setOpen((prev) => !prev)} // Toggle between open and close
-          className="bg-primary_color p-2 rounded-sm text-white flex items-center gap-2"
+          className={`bg-primary_color p-2 rounded-sm text-white flex items-center gap-2 ${
+            open ? "ring-1 ring-offset-1 ring-red-500" : ""
+          }`}
         >
-          <HiOutlineShare className="text-sm md:text-xl" />
+          <HiOutlineShare className={`text-sm md:text-xl`} />
           <span className={font14}>Share</span>
         </button>
       </div>
@@ -71,7 +76,7 @@ export default function SocialShare() {
           className="w-full mt-4 border p-2 -mr-5 rounded-md"
           ref={dropdownRef} // Attach the ref to the dropdown
         >
-          <h1 className="font-bold text-primary_color  mb-4 text-center">
+          <h1 className="font-bold text-primary_color mb-4 text-center">
             Share on
           </h1>
           <div className="flex gap-2 justify-center ">

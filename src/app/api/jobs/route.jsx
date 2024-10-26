@@ -35,6 +35,7 @@ export async function POST(request) {
     // }
 
     // Save the job data to the database
+
     const job = await db.JobPost.create({
       username,
       title,
@@ -52,6 +53,8 @@ export async function POST(request) {
       tags,
       status: status || "pending",
     });
+
+    
 
     // Return success response
     return NextResponse.json({

@@ -56,7 +56,7 @@ export default function JobsAndProfileCreatedForm({
     role: "personal",
   });
   const [jobData, setJobData] = useState({
-    username: currentUser?.username,
+    username:"jkkkkkddkdk",
     title: " ",
     description: " ",
     price: null,
@@ -180,7 +180,7 @@ export default function JobsAndProfileCreatedForm({
 
         country: selectedCountry?.name,
 
-        username: currentUser?.username || userData?.username,
+        username:"11l",
         images: uploadUrls,
       });
 
