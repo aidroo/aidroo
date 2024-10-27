@@ -88,7 +88,7 @@ export default function BusinessProfileFiltering({
   ]);
 
   return (
-    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit sticky top-16 z-10 bg-white">
+    <form className="col-span-3 border rounded-md shadow p-4 space-y-4 h-fit lg:sticky top-16 z-10 bg-white">
       {/* Search Input */}
       <h1 className={`text-primary_color ${font18bold} text-center py-4`}>
         Find your best company

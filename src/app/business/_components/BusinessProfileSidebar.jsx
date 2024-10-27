@@ -82,7 +82,7 @@ export default function BusinessProfileSidebar({ profile }) {
           </div> */}
           <div className="flex items-center gap-2 px-8">
             <div className="w-14 ">
-              <ResponsiveImage src={brifcaseIcon2} alt="bag icon"   />
+              <ResponsiveImage src={brifcaseIcon2} alt="bag icon" />
             </div>
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
@@ -122,7 +122,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </p>
             <Link
               href={`/claim?username=${profile.username} `}
-              className="relative inline-flex items-center justify-center h-12 px-4 py-3 mt-4 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-full shadow-md group"
+              className="relative inline-flex items-center justify-center h-12 px-4 py-3 mt-4 overflow-hidden font-medium rounded-lg text-indigo-600 transition duration-300 ease-out border-2 border-primary_color  shadow-md group"
             >
               <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
                 <svg
@@ -140,13 +140,14 @@ export default function BusinessProfileSidebar({ profile }) {
                   ></path>
                 </svg>
               </span>
-              <span className="absolute flex items-center justify-center w-full h-full text-primary_color transition-all duration-300 transform group-hover:translate-x-full ease">
+              <span className="absolute flex items-center text-sm justify-center w-full h-full text-primary_color transition-all duration-300 transform group-hover:translate-x-full ease">
                 Access my Business
               </span>
               <span className="relative invisible text-sm">
                 Access my Business
               </span>
             </Link>
+            
           </div>
         </div>
         {/* popular listing  */}
@@ -156,7 +157,7 @@ export default function BusinessProfileSidebar({ profile }) {
           </h1>
 
           <Link
-            href={`https://aidroo.com/business/tesla`}
+            href={`https://aidroo.com/business/reviews/tesla`}
             className="flex gap-4 border-b items-center"
           >
             <div className="w-24 md:32">
@@ -176,7 +177,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </div>
           </Link>
           <Link
-            href={`https://aidroo.com/business/srfsoft`}
+            href={`https://aidroo.com/business/reviews/srfsoft`}
             className="flex gap-4 border-b  items-center"
           >
             <div className="w-24 md:32">
@@ -196,7 +197,7 @@ export default function BusinessProfileSidebar({ profile }) {
             </div>
           </Link>
           <Link
-            href={`https://aidroo.com/business/google`}
+            href={`https://aidroo.com/business/reviews/google`}
             className="flex gap-4  border-b items-center"
           >
             <div className="w-24 md:32">

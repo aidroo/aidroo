@@ -82,7 +82,7 @@ export default function BusinessProfileSidebar({ profile }) {
           </div> */}
           <div className="flex items-center gap-2 px-8">
             <div className="w-14 ">
-              <ResponsiveImage src={brifcaseIcon2} alt="bag icon"   />
+              <ResponsiveImage src={brifcaseIcon2} alt="bag icon" />
             </div>
             <div className="">
               <h1 className={`${font16} text-primary_color`}>
@@ -120,13 +120,10 @@ export default function BusinessProfileSidebar({ profile }) {
             <p className={`tracking-tighter ${font14}`}>
               Claim listing is the best way to manage and protect your business.
             </p>
-            <Link
-              href={`/claim?username=${profile.username} `}
-              className="relative inline-flex items-center justify-center h-12 px-4 py-3 mt-4   font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-full shadow-md group"
-            >
-              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
+            <button className="group relative inline-flex items-center justify-center overflow-hidden border-2 border-purple-500 p-4 px-6 py-3 font-medium text-indigo-600 shadow-md transition duration-300 ease-out hover:border-4 hover:border-double">
+              <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-purple-500 text-white duration-300 group-hover:translate-x-0">
                 <svg
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -140,13 +137,11 @@ export default function BusinessProfileSidebar({ profile }) {
                   ></path>
                 </svg>
               </span>
-              <span className="absolute flex items-center justify-center w-full h-full text-primary_color transition-all duration-300 transform group-hover:translate-x-full ease">
-                Access my Business
+              <span className="ease absolute flex h-full w-full transform items-center justify-center text-purple-500 transition-all duration-300 group-hover:translate-x-full">
+                Button Text
               </span>
-              <span className="relative invisible text-sm">
-                Access my Business
-              </span>
-            </Link>
+              <span className="invisible relative">Button Text</span>
+            </button>
           </div>
         </div>
         {/* popular listing  */}
