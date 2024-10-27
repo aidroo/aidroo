@@ -1,5 +1,6 @@
 "use client";
-
+ 
+import { Combobox } from "@/components/Combobox";
 import ImageComponent from "@/components/ImageComponent";
 import MultiFileUpload from "@/components/MultiFileUpload";
 import PersonalProfileCreatedForm from "@/components/PersonalProfileCreatedForm";
@@ -19,14 +20,13 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 
-export default function JobsAndProfileCreatedForm({
-  categories,
-  subcategories,
-}) {
+export default function JobsCreatedForm( ) {
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(false);
@@ -56,7 +56,7 @@ export default function JobsAndProfileCreatedForm({
     role: "personal",
   });
   const [jobData, setJobData] = useState({
-    username:"jkkkkkddkdk",
+    
     title: " ",
     description: " ",
     price: null,
@@ -119,6 +119,37 @@ export default function JobsAndProfileCreatedForm({
   // handle change of profile
 
   // Handle category and subcategory changes
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/category`);
+
+        setCategories(response?.data?.data); // Set categories here after the response is fetched
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategory();
+  }, []); // Re-fetch categories only when selectedCountry changes
+ 
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/subcategory`, {
+          params: { categoryId: selectedCategory?.id },
+        });
+
+        setSubCategories(response?.data?.data); // Set categories here after the response is fetched
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategory();
+  }, [selectedCategory]); // Re-fetch categories only when selectedCountry changes
+
   useEffect(() => {
     setJobData((prevState) => ({
       ...prevState,
@@ -143,18 +174,9 @@ export default function JobsAndProfileCreatedForm({
   useEffect(() => {
     setJobData((prevState) => ({ ...prevState, tags: hashtags }));
   }, [hashtags]);
-
+  const pathname = usePathname(); // Detects the current URL pathname
   // Update query string in URL
-  const query = new URLSearchParams();
-  useEffect(() => {
-    if (selectedCategory) {
-      query.set("category_id", selectedCategory?.id);
-    }
-    if (jobData.username) {
-      query.set("username", jobData.username);
-    }
-    router.push(`/explore-jobs?${query.toString()}`);
-  }, [selectedCategory, router, jobData.username]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -177,10 +199,10 @@ export default function JobsAndProfileCreatedForm({
 
       await axiosInstance.post("/api/jobs", {
         ...jobData,
-
+ profileUsername: currentUser?.username || userData?.username,
         country: selectedCountry?.name,
-
-        username:"11l",
+ 
+        profile: "11l",
         images: uploadUrls,
       });
 
@@ -191,7 +213,7 @@ export default function JobsAndProfileCreatedForm({
       setHashtags([]);
       setUploadUrls([]);
       setUploadUrl("");
-      router.refresh(`/explore-jobs`);
+      router.refresh(pathname);
     } catch (error) {
       console.log(error);
     } finally {
@@ -257,6 +279,7 @@ export default function JobsAndProfileCreatedForm({
                 />
               </div>
 
+            
               {/* Pricing Section */}
               <div className="flex gap-x-4 items-start">
                 <ImageComponent
@@ -267,82 +290,75 @@ export default function JobsAndProfileCreatedForm({
                   height="55px"
                 />
 
-               <div className="w-full grid grid-cols-  md:grid-cols-2  gap-6  ">
-                 <Input
-                  name="price"
-                  type="number"
-                  value={jobData.price}
-                  onChange={handleInputChange}
-                  min={0}
-                  placeholder="Amount"
-                  className="w-full  text-base text-gray-400 h-10  outline-none px-2"
-                />
-                <div className=" flex justify-between">
-                   <select
-                  name="currency"
-                  value={jobData.currency}
-                  onChange={handleInputChange}
-                  className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg  "
-                >
-                  <option value="USD">
-                    
-                    
-                     {/* <ImageComponent src={usd} width="40px" height="40px" alt="usd" /> */}
-                    <span>USD</span></option>
-                  <option value="GBP">GBP</option>
-                  <option value="EUR">EUR</option>
-                </select>
-                <select
-                  name="priceType"
-                  value={jobData.priceType}
-                  onChange={handleInputChange}
-                  className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg"
-                >
-                  <option value="negotiable">Negotiate</option>
-                  <option value="fixed">Fixed</option>
-                </select>
+                <div className="w-full grid grid-cols-  md:grid-cols-2  gap-6  ">
+                  <Input
+                    name="price"
+                    type="number"
+                    value={jobData.price}
+                    onChange={handleInputChange}
+                    min={0}
+                    placeholder="Amount"
+                    className="w-full  text-base text-gray-400 h-10  outline-none px-2"
+                  />
+                  <div className=" flex justify-between">
+                    <select
+                      name="currency"
+                      value={jobData.currency}
+                      onChange={handleInputChange}
+                      className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg  "
+                    >
+                      <option value="USD">
+                        {/* <ImageComponent src={usd} width="40px" height="40px" alt="usd" /> */}
+                        <span>USD</span>
+                      </option>
+                      <option value="GBP">GBP</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                    <select
+                      name="priceType"
+                      value={jobData.priceType}
+                      onChange={handleInputChange}
+                      className="text-base text-gray-800 outline-none border px-1 py-1 h-10 rounded-lg"
+                    >
+                      <option value="negotiable">Negotiate</option>
+                      <option value="fixed">Fixed</option>
+                    </select>
+                  </div>
                 </div>
-
-               
-               </div>
               </div>
 
               {/* Category and Subcategory */}
+
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
                   <Image
                     src={bordercategoriesIcon}
-                    alt="bordercategoriesIcon"
+                    alt="locationIcon"
+                    priority={true}
+                    width={500}
+                    height={300}
                   />
                 </div>
-                <div className="w-full grid md:grid-cols-2 gap-4">
-                  <div>
-                    <SelectComponent
+                <div className="w-full grid grid-cols-2 gap-4">
+                  {categories?.length > 0 && (
+                    <Combobox
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
                       options={categories}
-                      value={selectedCategory?.name || ""}
-                      onChange={(value) =>
-                        setSelectedCategory(
-                          categories.find((cat) => cat.name === value)
-                        )
-                      }
                       placeholder="Category"
                     />
-                  </div>
-                  <div>
-                    <SelectComponent
-                      options={subcategories}
-                      value={selectedSubcategory?.name || ""}
-                      onChange={(value) =>
-                        setSelectedSubcategory(
-                          subcategories.find((sub) => sub.name === value)
-                        )
-                      }
-                      placeholder="Subcategory"
-                    />
-                  </div>
+                  )}
+
+                  {/* Subcategory Filter */}
+
+                  <Combobox
+                    selectedCategory={selectedSubcategory}
+                    setSelectedCategory={setSelectedSubcategory}
+                    options={subcategories}
+                    placeholder="Subcategory"
+                  />
                 </div>
               </div>
-
               {/* Location and Country */}
               <div className="flex gap-x-4 items-start">
                 <div className="w-14 -mt-2">
@@ -355,27 +371,24 @@ export default function JobsAndProfileCreatedForm({
                   />
                 </div>
                 <div className="w-full grid grid-cols-2 gap-4">
-                  
-                    <Input
-                      name="location"
-                      value={jobData.location}
-                      onChange={handleInputChange}
-                      className="text-base text-gray-400 flex-grow outline-none px-2  "
-                      placeholder="Address"
-                    />
-                     
-                      <SelectComponent
-                        options={countries}
-                        value={selectedCountry?.name || ""}
-                        onChange={(value) =>
-                          setSelectedCountry(
-                            countries.find((c) => c.name === value)
-                          )
-                        }
-                        placeholder="Country"
-                      />
-                    
-                 
+                  <Input
+                    name="location"
+                    value={jobData.location}
+                    onChange={handleInputChange}
+                    className="text-base text-gray-400 flex-grow outline-none px-2  "
+                    placeholder="Address"
+                  />
+
+                  <SelectComponent
+                    options={countries}
+                    value={selectedCountry?.name || ""}
+                    onChange={(value) =>
+                      setSelectedCountry(
+                        countries.find((c) => c.name === value)
+                      )
+                    }
+                    placeholder="Country"
+                  />
                 </div>
               </div>
 

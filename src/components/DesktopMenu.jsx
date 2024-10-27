@@ -63,7 +63,7 @@ export default function DesktopMenu() {
 
         <div className="col-span-2  mr-24 flex justify-end items-center gap-4   ">
           <Link
-            href="/explore-jobs"
+            href="/latest-jobs"
             className=" rounded px-5 flex items-center  h-10  group bg-[#1E56AD] relative hover:bg-gradient-to-r hover:from-primary_color hover:to-primary_color text-white hover:ring-1 hover:ring-offset-1 hover:ring-white transition-all ease-out duration-300"
           >
             <span className="absolute -top-2 -right-1  flex h-3 w-3">

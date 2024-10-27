@@ -44,7 +44,7 @@ const Job = sequelize.define(
     subcategory_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Subcategories",
+        model: "SubCategories",
         key: "id",
       },
       onUpdate: "CASCADE",

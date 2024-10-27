@@ -103,20 +103,21 @@ export default function BusinessProfileFiltering({
 
       {/* Category Filter */}
       <div className="flex items-center gap-4">
-        <Combobox
+      {categories?.length>0&&  <Combobox
+      
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           options={categories}
           placeholder="Category"
-        />
+        />}
 
         {/* Subcategory Filter */}
-        <Combobox
+       {subcategories?.length>0&& <Combobox
           selectedCategory={selectedSubcategory}
           setSelectedCategory={setSelectedSubcategory}
           options={subcategories}
           placeholder="Subcategory"
-        />
+        />}
       </div>
 
       {/* Rating Filter */}

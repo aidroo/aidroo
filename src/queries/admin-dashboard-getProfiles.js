@@ -21,7 +21,7 @@ export async function fetchProfiles({
   limit = parseInt(limit, 10);
 
   // Default offset calculation
-  const offset = (page - 1) * limit;
+  
 
   // Base condition for fetching approved profiles only
   const whereConditions = {

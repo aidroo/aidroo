@@ -30,7 +30,7 @@ db.Review = Review;
 db.Schedule = Schedule;
 db.ReplyReview = ReplyReview;
 db.Reaction = Reaction;
-db.Conversation= Conversation;
+db.Conversation = Conversation;
 db.Message = Message;
 
 // Define associations with cascading deletes
@@ -84,16 +84,16 @@ db.Schedule.belongsTo(db.User, {
 });
 
 // Jobs association
-db.User.hasMany(db.JobPost, {
-  foreignKey: "username",
-  as: "jobPost",
-  onDelete: "CASCADE", // Automatically delete Jobs when User is deleted
-});
-db.JobPost.belongsTo(db.User, {
-  foreignKey: "username",
-  as: "user",
-  onDelete: "CASCADE",
-});
+// db.User.hasMany(db.JobPost, {
+//   foreignKey: "username",
+//   as: "jobPost",
+//   onDelete: "CASCADE", // Automatically delete Jobs when User is deleted
+// });
+// db.JobPost.belongsTo(db.User, {
+//   foreignKey: "username",
+//   as: "user",
+//   onDelete: "CASCADE",
+// });
 
 // Reviews association with User (the creator of the review)
 db.User.hasMany(db.Review, {
@@ -182,10 +182,9 @@ db.Reaction.belongsTo(db.User, {
   onDelete: "CASCADE",
 });
 
-
- // Use userId as the foreign key for associations instead of username
+// Use userId as the foreign key for associations instead of username
 db.User.hasOne(db.Conversation, {
-  foreignKey: "senderUser",  // Assuming this is the correct foreign key in the Conversation model
+  foreignKey: "senderUser", // Assuming this is the correct foreign key in the Conversation model
   as: "sentConversations",
   onDelete: "CASCADE",
 });
@@ -197,29 +196,26 @@ db.User.hasOne(db.Conversation, {
 });
 
 db.Conversation.belongsTo(db.User, {
-  foreignKey: "senderUser",  // Use the same foreign key as above
-  as: "sender",  // Alias for the sender of the conversation
+  foreignKey: "senderUser", // Use the same foreign key as above
+  as: "sender", // Alias for the sender of the conversation
   onDelete: "CASCADE",
 });
 
 db.Conversation.belongsTo(db.User, {
-  foreignKey: "receiverUser",  // Use the same foreign key as above
-  as: "receiver",  // Alias for the receiver of the conversation
+  foreignKey: "receiverUser", // Use the same foreign key as above
+  as: "receiver", // Alias for the receiver of the conversation
   onDelete: "CASCADE",
 });
 
 // Associations for Conversation and Message
 db.Conversation.hasMany(db.Message, {
-  foreignKey: "conversationId",  // Foreign key in the Message model
-  as: "messages",                 // Correct alias for messages
+  foreignKey: "conversationId", // Foreign key in the Message model
+  as: "messages", // Correct alias for messages
 });
 
 db.Message.belongsTo(db.Conversation, {
-  foreignKey: "conversationId",   // Foreign key in the Message model
-  as: "conversation",              // Alias for the associated conversation
+  foreignKey: "conversationId", // Foreign key in the Message model
+  as: "conversation", // Alias for the associated conversation
 });
-
-
-
 
 export default db;

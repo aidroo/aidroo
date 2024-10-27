@@ -36,7 +36,7 @@ export default function SelectComponent({
           {placeholder !== "Subcategory" && (
             <SelectItem value="default"> {placeholder}</SelectItem>
           )}
-          {options.map((option) => (
+          {options?.length>0&&options?.map((option) => (
             <SelectItem key={option.name} value={option.name}>
               {option.name}
             </SelectItem>

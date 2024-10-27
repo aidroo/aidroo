@@ -163,7 +163,7 @@ export default function MobileMenu() {
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
                       </span>
                     </div>
-                    <Link href="/explore-jobs">
+                    <Link href="/latest-jobs">
                       <Heading size="xs">Explore job</Heading>
                     </Link>
                   </Button>
@@ -277,7 +277,7 @@ export default function MobileMenu() {
                   <AccordionContent className="pl-8 transition-all duration-300 ease-in-out ">
                     <ul className="flex flex-col gap-3">
                       <Link href="/signup/business">
-                          <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
+                        <li className="text-[16px]  hover:text-primary_color cursor-pointer transition-all duration-300 ease-in-out">
                           Add Business
                         </li>
                       </Link>

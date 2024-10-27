@@ -15,6 +15,8 @@ import { FaRegPaperPlane } from "react-icons/fa";
 export const works = [1, 2, 3, 4, 5, 6];
 
 export default function BusinessProfileCard({ businessProfile, username }) {
+
+  
   const {
     businessName = "",
 

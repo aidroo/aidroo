@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { font14, font16 } from "@/constant";
 import { locationIcon, moneyBag, profilePic, schedule } from "@/exportImage";
 
+ 
+
 export default function JobsCard({ job }) {
   const {
     title,
