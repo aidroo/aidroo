@@ -21,6 +21,7 @@ export default async function ReviewContent({
   const { reviews, totalRecords, totalPages, currentPage } =
     await getBusinessProfileWithReviewsAndReactions(username, page, limit);
   const rating = Math.floor(parseInt(averageRating));
+  
 
   return (
     <TabsContent value="reviews">
@@ -34,7 +35,7 @@ export default async function ReviewContent({
             <IconImage src={topplacementBadge} size={70} alt="image" />
             <h1 className={`${font18}`}>Overall Rating</h1>
             <div className="flex gap-1">
-              <Rating value={rating} size={18} />
+              <Rating value={Math.floor(averageRating)} size={22} />
             </div>
             <h1 className={`${font14}`}>
               <span>{totalRecords}</span> Reviews

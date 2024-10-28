@@ -22,9 +22,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-import { CiShare2 } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
+import { HiOutlineShare } from "react-icons/hi";
 import ReplayReviewComponent from "./ReplayReviewComponent";
 
 export default function ReviewCard({ review, username }) {
@@ -100,7 +100,7 @@ export default function ReviewCard({ review, username }) {
       setLoading(false);
     }
   };
-  console.log(review?.user);
+ 
   return (
     <Card className="">
       <CardHeader className="flex">
@@ -221,7 +221,7 @@ export default function ReviewCard({ review, username }) {
               {<span>{loves?.length || 0}</span>}
             </button>
             <div className="flex gap-1   items-center border py-[2px] px-1 hover:border-primary_color rounded   hover:shadow-lg">
-              <CiShare2 />
+              <HiOutlineShare  strokeWidth={3}/>
               <span>0</span>
             </div>
           </div>

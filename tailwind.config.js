@@ -21,6 +21,10 @@ module.exports = {
         "3xl": "rgba(0, 0, 0, 0.35) 0px 5px 15px",
       },
       colors: {
+        primary: {
+          DEFAULT: "#0084FF", // Set primary color to primary_color
+          foreground: "hsl(var(--primary-foreground))",
+        },
         primary_color: "#0084FF",
         light: "#ccd9ff",
         dark: "#1e293b",
@@ -29,10 +33,7 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
+        
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

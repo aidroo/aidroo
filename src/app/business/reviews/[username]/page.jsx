@@ -201,7 +201,10 @@ export default async function BusinessLayout({ params, searchParams }) {
                       />
                       <h1 className={`${font18}`}>Overall Rating</h1>
                       <div className="flex gap-1">
-                        <Rating value={profile?.averageRating} size={18} />
+                        <Rating
+                          value={Math.floor(profile?.averageRating)}
+                          size={22}
+                        />
                       </div>
                       <h1 className={`${font14}`}>
                         <span>{profile?.totalReviews}</span> Reviews
@@ -210,15 +213,36 @@ export default async function BusinessLayout({ params, searchParams }) {
 
                     {/* Rating Progress Bars */}
                     <div className="space-y-4">
-                      {[1, 2, 3, 4, 5].reverse().map((index) => (
-                        <div key={index} className="flex gap-8 items-center">
-                          <h1 className={`${font16}`}>{index} Stars</h1>
-                          <Progress
-                            value={(index / 5) * 100}
-                            className="w-[60%]"
-                          />
-                        </div>
-                      ))}
+                      {[1, 2, 3, 4, 5].reverse().map((index) => {
+                        // Define color mapping based on star rating
+                        const getColorVariant = (index) => {
+                          switch (index) {
+                            case 5:
+                              return "primary"; // Highest rating: Green
+                            case 4:
+                              return "success"; // High rating: Blue
+                            case 3:
+                              return "warning"; // Mid rating: Yellow
+                            case 2:
+                              return "secondary"; // Low rating: Gray
+                            case 1:
+                              return "danger"; // Lowest rating: Red
+                            default:
+                              return "primary"; // Default: Primary color
+                          }
+                        };
+
+                        return (
+                          <div key={index} className="flex gap-8 items-center">
+                            <h1 className={`${font16}`}>{index} Stars</h1>
+                            <Progress
+                              value={(index / 5) * 100}
+                              className="w-[60%]"
+                              variant={getColorVariant(index)}
+                            />
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 

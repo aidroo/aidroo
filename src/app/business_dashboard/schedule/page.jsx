@@ -48,17 +48,17 @@ export default function Schedule() {
           {businessOur.map((our) => (
             <div
               key={our.day}
-              className=" grid grid-cols-2 justify-center    h-14 items-center"
+              className=" grid grid-cols-2 justify-center     h-14 items-center"
             >
-              <div className="  flex  items-center gap-8">
-                <h1 className="w-2 text-xs md:text-sm">{our.day}</h1>
-                <div className="flex items-center space-x-2 w-10">
+              <div className=" grid grid-cols-2 gap-8  ">
+                <h1 className="w-fit text-xs md:text-sm">{our.day}</h1>
+                 
                   <Switch
                     id={our.day}
                     checked={openStatus[our.day]}
                     onCheckedChange={() => handleChange(our.day)}
                   />
-                </div>
+                 
               </div>
               <div>
                 {openStatus[our.day] ? (

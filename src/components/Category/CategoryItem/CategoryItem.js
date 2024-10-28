@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function CategoryItem({ category }) {
   return (
     <Link
-      className="slide_card bg-[#d4e5ff] dark:bg-[#0b1120] shadow-md min-w-[80px] h-20  md:h-[120px] before:bg-[#ccd9ff] dark:before:bg-dark dark:border"
+      className="slide_card bg-[#d4e5ff] dark:bg-[#0b1120] shadow-md min-w-[80px] h-24  md:h-[120px] before:bg-[#ccd9ff] dark:before:bg-dark dark:border"
       href="/category"
     >
       <div className="relative flex justify-center">
@@ -66,7 +66,7 @@ export default function CategoryItem({ category }) {
             className="absolute top-4   md:top-[35px] p-1 shrink-0"
           />
           <h1
-            className={`absolute text-xs md:text-[16px]  top-14 md:top-[77px] text-gray-500  font-light ${font14}  `}
+            className={`absolute text-xs md:text-[16px] text-center break-all top-14 md:top-[77px] text-gray-500  font-light ${font14}  `}
           >
             {category.name}
           </h1>
