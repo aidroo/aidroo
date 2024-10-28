@@ -303,13 +303,15 @@ export default function MobileMenu() {
                 {/* category */}
                 <Link
                   href="/category"
-                  className="flex items-center gap-3 border-b ml-2 border-gray-300 pb-4"
+                  className="flex items-center gap-3 border-b  -ml-1 border-gray-300 pb-4"
                 >
-                  <div className="-ml-2 w-3  h-3">
-                    <LottePlayer animationData={more} loop={true} />
-                  </div>
+                   <div className="w-6 " >
+
+                    <LottePlayer animationData={more} loop={true}  />
+                   </div>
+                   
                   <h1
-                    className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out `}
+                    className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out -ml-1 `}
                   >
                     Categories
                   </h1>
@@ -319,11 +321,11 @@ export default function MobileMenu() {
                 <AccordionItem value="item-2">
                   <AccordionTrigger className="flex items-center gap-4  hover:no-underline py-0 pb-2">
                     <div className="flex items-center gap-2 -ml-1  no-underline">
-                      <div className="-ml-2 w-10 h-10">
+                      <div className=" w-7 ">
                         <LottePlayer animationData={paperplan} loop={true} />
                       </div>
                       <h1
-                        className={`${font16}   hover:text-primary_color transition-all duration-300 ease-in-out -ml-2  `}
+                        className={`${font16} -ml-1  hover:text-primary_color transition-all duration-300 ease-in-out   `}
                       >
                         Pages
                       </h1>

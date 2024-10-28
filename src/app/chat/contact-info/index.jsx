@@ -67,20 +67,15 @@ const ContactInfo = ({ handleSetIsOpenSearch, handleShowInfo, contact }) => {
               <span className="text-xs text-default-900">Profile</span>
             </div>
             <MuteNotification />
-            <dutton
+            <button
               className="flex flex-col items-center gap-1"
               onClick={handleSetIsOpenSearch}
             >
-              <Button
-                type="button"
-                color="secondary"
-                size="icon"
-                className="rounded-full"
-              >
+              
                 <Icon icon="zondicons:search" />
-              </Button>
+              
               <span className="text-xs text-default-900">Search</span>
-            </dutton>
+            </button>
           </div>
         </CardHeader>
 

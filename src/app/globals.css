@@ -384,9 +384,9 @@
 
 .card2 .bottom .bottom-bottom {
   position: absolute;
-  bottom: 1rem;
-  left: 1.5rem;
-  right: 1.5rem;
+  bottom: 0.7rem;
+  left: 1rem;
+  right: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

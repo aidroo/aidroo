@@ -35,11 +35,12 @@ import EmptyMessage from "./empty-message";
 import ForwardMessage from "./forward-message";
  
  
-import Loading from "../business/_components/Loading";
+import { useAuth } from "@/hooks/useAuth";
+import Loader from "./loader";
 import MyProfileHeader from "./my-profile-header";
 import PinnedMessages from "./pin-messages";
 const ChatPage = () => {
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
   const [showContactSidebar, setShowContactSidebar] = useState(false);
 
   const [showInfo, setShowInfo] = useState(false);
@@ -56,6 +57,7 @@ const ChatPage = () => {
   const [pinnedMessages, setPinnedMessages] = useState([]);
   // Forward State
   const [isForward, setIsForward] = useState(false);
+  const {currentUser}= useAuth()
 
   const {
     isLoading,
@@ -65,11 +67,10 @@ const ChatPage = () => {
     refetch: refetchContact,
   } = useQuery({
     queryKey: ["contacts"],
-    queryFn: () => getContacts( ),
+    queryFn: () => getContacts( {senderUser:currentUser?.username}),
     keepPreviousData: true,
   });
-
-  console.log(contacts?.data[0]?.receiver?.businessProfile)
+ 
   const {
     isLoading: messageLoading,
     isError: messageIsError,
@@ -77,8 +78,8 @@ const ChatPage = () => {
     error: messageError,
     refetch: refetchMessage,
   } = useQuery({
-    queryKey: ["message", selectedChatId],
-    queryFn: () => getMessagesCallback(selectedChatId),
+    queryKey: ["message", selectedChat?.id],
+    queryFn: () => getMessagesCallback(selectedChat?.id),
     keepPreviousData: true,
   });
   const {
@@ -106,20 +107,21 @@ const ChatPage = () => {
     },
   });
 
-  const onDelete = (selectedChatId, index) => {
-    const obj = { selectedChatId, index };
+  const onDelete = (selectedChat, index) => {
+    const obj = { selectedChat, index };
     deleteMutation.mutate(obj);
 
     // Remove the deleted message from pinnedMessages if it exists
     const updatedPinnedMessages = pinnedMessages.filter(
-      (msg) => msg.selectedChatId !== selectedChatId && msg.index !== index
+      (msg) => msg.selectedChat !== selectedChat && msg.index !== index
     );
 
     setPinnedMessages(updatedPinnedMessages);
   };
 
   const openChat = (chatId) => {
-    setSelectedChatId(chatId);
+    
+    setSelectedChat(chatId);
     setReply(false);
     if (showContactSidebar) {
       setShowContactSidebar(false);
@@ -129,11 +131,11 @@ const ChatPage = () => {
     setShowInfo(!showInfo);
   };
   const handleSendMessage = (message) => {
-    if (!selectedChatId || !message) return;
+    if (!selectedChat || !message) return;
 
     const newMessage = {
       message: message,
-      contact: { id: selectedChatId },
+      contact: { id: selectedChat },
       replayMetadata: isObjectNotEmpty(replayData),
     };
     messageMutation.mutate(newMessage);
@@ -215,9 +217,11 @@ const ChatPage = () => {
   const handleForward = () => {
     setIsForward(!isForward);
   };
+
+ 
   const isLg = useMediaQuery("(max-width: 1024px)");
   return (
-    <div className="flex gap-5  lg:h-[90vh]  relative rtl:space-x-reverse mx-2 ">
+    <div className="flex gap-5 lg:-mt-2  lg:h-[70vh]  mt-10  relative rtl:space-x-reverse mx-2 ">
       {isLg && showContactSidebar && (
         <div
           className=" bg-background/60 backdrop-filter
@@ -247,13 +251,13 @@ const ChatPage = () => {
           <CardContent className="pt-0 px-0   lg:h-[calc(100%-180px)] h-[calc(100%-70px)]   ">
             <ScrollArea className="h-full">
               {isLoading ? (
-                <h1>loading...</h1>
+               <Loader/>
               ) : (
                 contacts?.data?.map((contact) => (
                   <ContactList
                     key={contact.id}
                     contact={contact}
-                    selectedChatId={selectedChatId}
+                    selectedChat={selectedChat}
                     openChat={openChat}
                   />
                 ))
@@ -264,7 +268,7 @@ const ChatPage = () => {
       </div>
       {/* chat sidebar  end*/}
       {/* chat messages start */}
-      {selectedChatId ? (
+      {selectedChat ? (
         <div className="flex-1 ">
           <div className=" flex space-x-5 h-full rtl:space-x-reverse">
             <div className="flex-1">
@@ -273,7 +277,7 @@ const ChatPage = () => {
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
-                    profile={profileData}
+                    profile={selectedChat}
                     mblChatHandler={() =>
                       setShowContactSidebar(!showContactSidebar)
                     }
@@ -291,13 +295,13 @@ const ChatPage = () => {
                     ref={chatHeightRef}
                   >
                     {messageLoading ? (
-                      <Loading />
+                      <Loader />
                     ) : (
                       <>
                         {messageIsError ? (
                           <EmptyMessage />
                         ) : (
-                          chats?.chat?.chat?.map((message, i) => (
+                          chats?.map((message, i) => (
                             <Messages
                               key={`message-list-${i}`}
                               message={message}
@@ -305,7 +309,7 @@ const ChatPage = () => {
                               profile={profileData}
                               onDelete={onDelete}
                               index={i}
-                              selectedChatId={selectedChatId}
+                              selectedChat={selectedChat}
                               handleReply={handleReply}
                               replayData={replayData}
                               handleForward={handleForward}
@@ -338,7 +342,7 @@ const ChatPage = () => {
                 handleSetIsOpenSearch={handleSetIsOpenSearch}
                 handleShowInfo={handleShowInfo}
                 contact={contacts?.contacts?.find(
-                  (contact) => contact.id === selectedChatId
+                  (contact) => contact.id === selectedChat
                 )}
               />
             )}

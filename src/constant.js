@@ -259,7 +259,7 @@ export const businessSidebarOptions = [
   },
 
   {
-    name: "Timeline",
+    name: "Schedule",
     href: "/business_dashboard/schedule",
     roles: ["admin", "business"],
   },
@@ -270,7 +270,7 @@ export const businessSidebarOptions = [
   },
   {
     name: "Messages",
-    href: "#",
+    href: "/business_dashboard/messages",
     roles: ["admin", "business"],
   },
   {

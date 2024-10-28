@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 "use client";
-import messageIconjson from "@/asserts/jsonfile/messageicon4.json";
-import f from "@/asserts/jsonfile/notificationnew.json";
+
 import { font16, font18 } from "@/constant";
 
 import {
@@ -21,11 +20,12 @@ import {
   verifiedIcon,
 } from "@/exportImage";
 import { useAuth } from "@/hooks/useAuth";
-import Lottie from "lottie-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import DynamicSearchInput from "./DynamicSearchInput";
+import Inbox from "./Header/inbox";
+import NotificationMessage from "./Header/Notification";
 import IconImage from "./IconImage/IconImage";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -34,6 +34,9 @@ export default function DesktopMenu() {
   const [isHovered, setIsHovered] = useState(false);
 
   const { currentUser, logout } = useAuth();
+
+ 
+
 
   return (
     <div className=" h-[72px] place-content-center hidden lg:block  z-30 ">
@@ -167,39 +170,30 @@ export default function DesktopMenu() {
 
         <div className="flex gap-8 col-span-1/2 items-center   ">
           {!currentUser ? (
-            <Link
-              href="/login"
-              className="relative inline-flex items-center justify-center h-10 px-4   overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-sm  shadow-md group"
-            >
-              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
-                <Image
-                  src={loginIcon}
-                  className="w-7"
-                  alt="bordercategoriesIcon"
-                />
-              </span>
-              <span className="absolute flex items-center justify-center w-full h-full text-white -all duration-300 transform group-hover:translate-x-full ease">
-                Login
-              </span>
-              <span className="relative invisible text-sm">Login</span>
-            </Link>
+          
+              
+              <Link
+                href="/login"
+                className="relative inline-flex items-center justify-center h-10 px-4   overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-primary_color rounded-sm  shadow-md group"
+              >
+                <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-primary_color  group-hover:translate-x-0 ease">
+                  <Image
+                    src={loginIcon}
+                    className="w-7"
+                    alt="bordercategoriesIcon"
+                  />
+                </span>
+                <span className="absolute flex items-center justify-center w-full h-full text-white -all duration-300 transform group-hover:translate-x-full ease">
+                  Login
+                </span>
+                <span className="relative invisible text-sm">Login</span>
+              </Link>
+           
           ) : (
             <>
-              <div className="hover:bg-[#1e56ad] w-11   rounded-sm cursor-pointer">
-                <Lottie
-                  animationData={messageIconjson}
-                  autoPlay={false} // Do not autoplay, control via ref
-                  // Control loop based on prop
-                  className="w-full"
-                />
-              </div>
-              <div className="hover:bg-[#1e56ad]   rounded-sm cursor-pointer w-12 p-1">
-                <Lottie
-                  animationData={f}
-                  autoPlay={false} // Do not autoplay, control via ref
-                  // Control loop based on prop
-                />
-              </div>
+              <Inbox  />
+              
+             <NotificationMessage/>
               <Popover>
                 <PopoverTrigger>
                   <Avatar>
@@ -245,7 +239,7 @@ export default function DesktopMenu() {
                     </AvatarFallback>
                   </Avatar> */}
                   </div>
-                 
+
                   {currentUser.role === "personal" && (
                     <div className="flex flex-col     space-y-3 p-4 ">
                       <span className="flex items-center gap-6  border-b pb-2  ">
@@ -311,7 +305,9 @@ export default function DesktopMenu() {
                           size={27}
                           alt="notification icon"
                         />
-                        <Link href={`/business/reviews/${currentUser.username}`}>
+                        <Link
+                          href={`/business/reviews/${currentUser.username}`}
+                        >
                           <span
                             className={`${font16} text-gray-700 hover:text-primary_color`}
                           >
@@ -339,7 +335,9 @@ export default function DesktopMenu() {
                           alt="notification icon"
                         />
                         {
-                          <Link href={`/business_dashboard/business_info?username=${currentUser?.username}`}>
+                          <Link
+                            href={`/business_dashboard/business_info?username=${currentUser?.username}`}
+                          >
                             <span
                               className={`${font16} text-gray-700 hover:text-primary_color`}
                             >
@@ -367,6 +365,7 @@ export default function DesktopMenu() {
             </>
           )}
         </div>
+       
       </div>
     </div>
   );

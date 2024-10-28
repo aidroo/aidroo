@@ -13,7 +13,7 @@ export default function SideBarLinks({ options }) {
   const pathname = usePathname();
 
   return (
-    <div className="mt-10 md:mb-0 px-6 col-span-1 border rounded-md">
+    <div className=" h-fit   md:mb-0 px-6 col-span-1 border rounded-md">
       <div className="lg:inset-y-0 lg:flex lg:w-full lg:flex-col">
         <div className="flex grow flex-col gap-5 py-10">
           <div className="w-44 mx-auto">

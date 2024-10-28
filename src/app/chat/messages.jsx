@@ -4,25 +4,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hooks/useAuth";
 import { formatTime } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import { Undo2 } from "lucide-react";
-import Image from "next/image";
-const chatAction = [
-  {
-    label: "Remove",
-    link: "#",
-  },
-  {
-    label: "Forward",
-    link: "#",
-  },
-];
+// const chatAction = [
+//   {
+//     label: "Remove",
+//     link: "#",
+//   },
+//   {
+//     label: "Forward",
+//     link: "#",
+//   },
+// ];
 
 const Messages = ({
   message,
   contact,
-  profile,
+  // profile,
   onDelete,
   index,
   selectedChatId,
@@ -31,10 +31,12 @@ const Messages = ({
   handleForward,
 
   handlePinMessage,
-  pinnedMessages,
+  // pinnedMessages,
 }) => {
-  const { senderId, message: chatMessage, time, replayMetadata } = message;
-  const { avatar } = contact;
+const {currentUser}= useAuth()
+ 
+  const { senderUser, content: chatMessage, time, replyTo } = message;
+  // const { avatar } = contact;
   // State to manage pin status
   // const isMessagePinned = pinnedMessages.some(
   //   (pinnedMessage) => pinnedMessage.index === index
@@ -44,7 +46,7 @@ const Messages = ({
   const handlePinMessageLocal = (note) => {
     const obj = {
       note,
-      avatar,
+      // avatar,
       index,
     };
     handlePinMessage(obj);
@@ -52,9 +54,9 @@ const Messages = ({
   return (
     <>
       <div className="block md:px-6 px-0 ">
-        {senderId === 11 ? (
+        {senderUser === currentUser?.username ? (
           <>
-            {replayMetadata === true && (
+            {replyTo && (
               <div className="w-max ml-auto -mb-2 mr-10">
                 <div className="flex items-center gap-1 mb-1">
                   <Undo2 className="w-4 h-4 text-default-600" />{" "}
@@ -107,7 +109,7 @@ const Messages = ({
                   {formatTime(time)}
                 </span>
               </div>
-              <div className="flex-none self-end -translate-y-5">
+              {/* <div className="flex-none self-end -translate-y-5">
                 <div className="h-8 w-8 rounded-full ">
                   <Image
                     src={profile?.avatar}
@@ -115,12 +117,12 @@ const Messages = ({
                     className="block w-full h-full object-cover rounded-full"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </>
         ) : (
           <div className="flex space-x-2 items-start group rtl:space-x-reverse mb-4">
-            <div className="flex-none self-end -translate-y-5">
+            {/* <div className="flex-none self-end -translate-y-5">
               <div className="h-8 w-8 rounded-full">
                 <Image
                   src={avatar}
@@ -128,7 +130,7 @@ const Messages = ({
                   className="block w-full h-full object-cover rounded-full"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="flex-1 flex flex-col gap-2">
               <div className="flex flex-col   gap-1">
                 <div className="flex items-center gap-1">

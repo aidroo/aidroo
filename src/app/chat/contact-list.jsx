@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 import moment from "moment";
 
 const ContactList = ({ contact, openChat, selectedChatId }) => {
-  console.log(contact);
+ 
   const { avatar, id, fullName, status, about, chat, unreadmessage, date } =
     contact;
 
@@ -18,7 +18,7 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
           "lg:border-primary/70 lg:bg-default-200 ": id === selectedChatId,
         }
       )}
-      onClick={() => openChat(id)}
+      onClick={() => openChat(contact)}
     >
       <div className="flex-1 flex  gap-3 ">
         <div className="relative inline-block ">
@@ -36,10 +36,10 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
             color={status === "online" ? "success" : "secondary"}
           ></Badge>
         </div>
-        <div className="block">
+        <div className="block  ">
           <div className="truncate max-w-[120px]">
-            <span className="text-sm text-default-900 font-medium">
-              {" "}
+            <span className=" text-gray-900 font-medium flex justify-start">
+              
               {contact?.receiver?.businessProfile?.businessName}
             </span>
           </div>

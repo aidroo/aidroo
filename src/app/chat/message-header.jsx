@@ -18,6 +18,7 @@ const MessageHeader = ({
   let active = true;
   const isLg = useMediaQuery("(max-width: 1024px)");
 
+ 
   return (
     <div className="flex  items-center ">
       <div className="flex flex-1 gap-3 items-center">
@@ -29,7 +30,10 @@ const MessageHeader = ({
         )}
         <div className="relative inline-block">
           <Avatar>
-            <AvatarImage src={profile?.avatar?.src} alt="" />
+            <AvatarImage
+              src={profile?.receiver?.businessProfile?.profileThumb}
+              alt=""
+            />
             <AvatarFallback>{profile?.fullName?.slice(0, 2)}</AvatarFallback>
           </Avatar>
           <Badge
@@ -39,7 +43,9 @@ const MessageHeader = ({
         </div>
         <div className="hidden lg:block">
           <div className="text-sm font-medium text-default-900 ">
-            <span className="relative">{profile?.fullName}</span>
+            <span className="relative">
+              {profile?.receiver?.businessProfile?.businessName}
+            </span>
           </div>
           <span className="text-xs text-gray-500">
             {active ? "Active Now" : "Offline"}
@@ -62,7 +68,7 @@ const MessageHeader = ({
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end">
               <p>Start a voice call</p>
-               <TooltipArrow className="fill-primary_color" />
+              <TooltipArrow className="fill-primary_color" />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -82,7 +88,7 @@ const MessageHeader = ({
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end">
               <p>Start a video call</p>
-               <TooltipArrow className="fill-primary_color" />
+              <TooltipArrow className="fill-primary_color" />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

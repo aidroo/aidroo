@@ -1,8 +1,9 @@
 import axiosInstance from "@/lib/axios";
 
-export const getContacts = async () => {
+export const getContacts = async ({senderUser}) => {
+ 
   const response = await axiosInstance.get(
-    "api/chat/conversation?senderUser=google&receiverUser=aidroo"
+    `api/chat/conversation?senderUser=${senderUser}`
   );
   return response.data;
 };
@@ -10,7 +11,7 @@ export const getContacts = async () => {
 export const getMessages = async (id) => {
   try {
     const response = await axiosInstance.get(`/api/chat/messages/${id}`);
-    console.log("Response from getMessages:", response.data);
+    // console.log("Response from getMessages:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching messages:", error);

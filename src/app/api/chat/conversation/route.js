@@ -55,9 +55,9 @@ if (ieExit){
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const senderUser = searchParams.get("senderUser"); // Assuming this is now the ID of the sender
-  const receiverUser = searchParams.get("receiverUser"); // Assuming this is now the ID of the receiver
+  
 
-  if (!senderUser || !receiverUser) {
+  if (!senderUser  ) {
     return NextResponse.json(
       { message: "senderUser and receiverUser are required." },
       { status: 400 }
@@ -67,7 +67,7 @@ export async function GET(req) {
   try {
     const conversations = await db.Conversation.findAll({
       where: {
-        [Op.or]: [{ senderUser }, { receiverUser }],
+        [Op.or]: [{ senderUser }],
       },
       attributes: ["id", "receiverUser", "senderUser"],
       include: [

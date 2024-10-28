@@ -1,23 +1,31 @@
+import Message from "@/config/model/message";
 import { NextResponse } from "next/server";
-import { chats, contacts } from "../../data";
+import { chats } from "../../data";
 
 export async function GET(request, response) {
   const id = response.params.id||1;
+   if(!id){
+    throw new Error("ID is required")
+   }
 
-  // Find the item with the given ID
-  const chat = chats.find((item) => item.id === parseInt(id));
-  const contact = contacts.find((item) => item.id === parseInt(id));
+   const message = await Message.findAll({
+    conversationId: id
+   })
+   if(!message){
+    return NextResponse.json({
+      message: "no conversation message found"
+    },{
+      status: 404,
 
-  const combinedData = { chat, contact };
-
-  if (combinedData.chat && combinedData.contact) {
-    return NextResponse.json(combinedData, { status: 200 });
-  } else {
-    return NextResponse.json({ message: "Item not found" }, { status: 404 });
-  }
+    })
+   }
+ 
+ 
+    return NextResponse.json(message, { status: 200 });
+  
 }
 
-export async function DELETE(request, response) {
+export async function DELETE(request,  ) {
   const { selectedChatId, index } = await request.json();
 
   const chatIndex = chats.findIndex(

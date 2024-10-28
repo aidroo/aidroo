@@ -185,7 +185,7 @@ export const privacyPolicy = [
       },
       {
         title: "Email",
-        content: `privacy@aidroo.com`,
+        content: `CEO@aidroo.com`,
       },
     ],
   },
@@ -298,7 +298,7 @@ export const aboutAidroo = [
       },
       {
         title: "Email",
-        content: `privacy@aidroo.com`,
+        content: `CEO@aidroo.com`,
       },
     ],
   },

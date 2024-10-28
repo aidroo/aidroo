@@ -2,6 +2,7 @@ import { aboutAidroo } from "@/app/terms-service/_components/constants";
 import profile from "@/asserts/jsonfile/ceophoto.jpg";
 import ImageComponent from "@/components/ImageComponent";
 import { facebook, linkedin } from "@/exportImage";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { LuDot } from "react-icons/lu";
  
@@ -56,21 +57,10 @@ const AboutTermsContent = () => {
       <div className="w-full flex flex-col items-center">
         <div className="card2  ">
           <button className="mail">
-            <svg
-              className="lucide lucide-mail"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth={2}
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect rx="2" y="4" x="2" height="16" width="20" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
+            <a href="mailto:ceo@aidroo.com" title="Email the CEO">
+
+           <Mail strokeWidth={.5}/>
+            </a>
           </button>
           <div className="profile-pic">
             <ImageComponent
@@ -89,7 +79,7 @@ const AboutTermsContent = () => {
                 directory company
               </span>
             </div>
-            <div className="bottom-bottom">
+            <div className="bottom-bottom ">
               <div className="social-links-container">
                 <Link
                   href="https://www.facebook.com/SolimulHasanKhan"
