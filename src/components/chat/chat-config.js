@@ -30,8 +30,14 @@ export const deleteMessage = async (obj) => {
   }
 };
 
-export const getProfile = async () => {
-  const response = await axiosInstance.get("api/chat/profile-data");
+export const getProfile = async (searchText) => {
+
+  if(!searchText) return [];
+  const response = await axiosInstance.get("api/user",{
+    params:{
+      searchText
+    }
+  });
 
   return response.data;
 };

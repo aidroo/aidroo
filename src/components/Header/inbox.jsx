@@ -12,13 +12,14 @@ import {
 } from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
 
-import { getContacts } from "@/app/chat/chat-config";
+ 
 import messageIconjson from "@/asserts/jsonfile/messageicon4.json";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
+import { getContacts } from "../chat/chat-config";
 import { Button } from "../ui/button";
 import ChatBox from "./Chatbox";
 

@@ -1,4 +1,6 @@
-import ChatPage from '@/app/chat/chat-page';
+import ChatPage from "@/components/chat/chat-page";
+
+ 
 
 export default function MessagePage() {
   return (

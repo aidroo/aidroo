@@ -43,11 +43,12 @@ const MessageFooter = ({ handleSendMessage, replay, setReply, replayData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+     
     handleSendMessage(message);
     setReply(false);
     setMessage("");
 
-    console.log(replay, message, "ami k");
+   
   };
   return (
     <>

@@ -134,10 +134,14 @@ const ChatPage = () => {
     if (!selectedChat || !message) return;
 
     const newMessage = {
-      message: message,
-      contact: { id: selectedChat },
-      replayMetadata: isObjectNotEmpty(replayData),
+      senderUser: currentUser?.username,
+      receiverUser: selectedChat?.receiverUser,
+      conversationId: selectedChat.id,
+      content: message,
+
+      replayTo: isObjectNotEmpty(replayData),
     };
+     
     messageMutation.mutate(newMessage);
     console.log(message, "ami msg");
   };

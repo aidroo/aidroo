@@ -3,13 +3,10 @@ import { NextResponse } from "next/server";
 import { Op } from "sequelize";
 
 export async function POST(req) {
- 
-
   try {
-
     const body = await req.json();
     const { senderUser, receiverUser } = body;
-    
+
     if (!senderUser || !receiverUser) {
       return NextResponse.json({
         status: 400,
@@ -19,23 +16,21 @@ export async function POST(req) {
 
     const ieExit = await db.Conversation.findOne({
       where: {
-        [Op.or]: [{ senderUser ,   receiverUser }],
+        [Op.or]: [{ senderUser, receiverUser }],
       },
     });
-if (ieExit){
-  return NextResponse.json({
-    status: 400,
-    message: "Conversation already exists.",
-  });
- 
-}
- 
-   const conversation = await db.Conversation.create({
-     senderUser,
-     receiverUser,
-   })
+    if (ieExit) {
+      return NextResponse.json({
+        status: 400,
+        message: "Conversation already exists.",
+      });
+    }
 
-    
+    const conversation = await db.Conversation.create({
+      senderUser,
+      receiverUser,
+    });
+
     return NextResponse.json({
       status: 201,
       conversation,
@@ -50,25 +45,21 @@ if (ieExit){
   }
 }
 
- 
-
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const senderUser = searchParams.get("senderUser"); // Assuming this is now the ID of the sender
-  
 
-  if (!senderUser  ) {
+  if (!senderUser) {
     return NextResponse.json(
-      { message: "senderUser and receiverUser are required." },
+      { message: "senderUser  are required." },
       { status: 400 }
     );
   }
 
   try {
     const conversations = await db.Conversation.findAll({
-      where: {
-        [Op.or]: [{ senderUser }],
-      },
+      where: { senderUser },
+
       attributes: ["id", "receiverUser", "senderUser"],
       include: [
         {
@@ -114,6 +105,7 @@ export async function GET(req) {
           as: "messages", // Ensure this is correctly set
           attributes: ["content", "readStatus", "createdAt"],
           limit: 1,
+           order: [["createdAt", "DESC"]],
 
           where: { readStatus: false },
         },
@@ -133,7 +125,7 @@ export async function GET(req) {
   }
 }
 
-// 
+//
 // // import Conversation from "./models/Conversation"; // Adjust the import based on your file structure
 // import User from "./models/User"; // Adjust the import based on your file structure
 

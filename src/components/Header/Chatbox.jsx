@@ -11,13 +11,14 @@ import {
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ChevronDown, EllipsisVertical, Image, Minus, SendHorizontal, X } from "lucide-react";
 
-import { getMessages } from "@/app/chat/chat-config";
-import Loader from "@/app/chat/loader";
+ 
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getMessages } from "../chat/chat-config";
+import Loading from "../Loading";
 
 const ChatBox = ({conversation ,onClose }) => {
 const {currentUser}=useAuth()
@@ -29,7 +30,7 @@ const scrollRef = useRef();
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
   };
-console.log(conversation)
+ 
   // fetch the messagea
 
   const getMessagesCallback = useCallback((chatId) => getMessages(chatId), []);
@@ -113,7 +114,7 @@ console.log(conversation)
         {/* chat list */}
         <div className="h-[300px] ">
           <ScrollArea ref={scrollRef} className="h-full overflow-y-auto">
-            {messageLoading && <Loader />}
+            {messageLoading && <Loading />}
             {/* left */}
             {chats?.length > 0 &&
               chats.map((chat) =>
