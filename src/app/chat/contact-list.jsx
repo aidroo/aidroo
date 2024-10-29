@@ -7,9 +7,14 @@ import moment from "moment";
 
 const ContactList = ({ contact, openChat, selectedChatId }) => {
  
-  const { avatar, id, fullName, status, about, chat, unreadmessage, date } =
+  const { id, status, unreadmessage,   } =
     contact;
+ 
 
+const fullName =
+  contact?.receiver?.personalProfile?.firstName +
+  " " +
+  contact?.receiver?.personalProfile?.lastName ;
   return (
     <button
       className={cn(
@@ -27,7 +32,8 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
               src={contact?.receiver?.businessProfile?.profileThumb}
             />
             <AvatarFallback className="uppercase">
-              {contact?.receiver?.businessProfile?.businessName.slice(0, 2)}
+              {contact?.receiver?.businessProfile?.businessName.slice(0, 2) ||
+                fullName.slice(0, 2) }
             </AvatarFallback>
           </Avatar>
           <Badge
@@ -39,8 +45,7 @@ const ContactList = ({ contact, openChat, selectedChatId }) => {
         <div className="block  ">
           <div className="truncate max-w-[120px]">
             <span className=" text-gray-900 font-medium flex justify-start">
-              
-              {contact?.receiver?.businessProfile?.businessName}
+              {contact?.receiver?.businessProfile?.businessName||fullName}
             </span>
           </div>
           <div className="truncate  max-w-[120px]">

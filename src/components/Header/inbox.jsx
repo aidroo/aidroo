@@ -1,8 +1,15 @@
-"use client"
+"use client";
 import { cn } from "@/lib/utils";
 import Lottie from "lottie-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
 
 import { getContacts } from "@/app/chat/chat-config";
@@ -14,15 +21,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import ChatBox from "./Chatbox";
+
 const Inbox = () => {
   const { currentUser } = useAuth();
+  const [openChats, setOpenChats] = useState([]);
 
-  const [openChatBox, setOpenChatBox] = useState(false);
-  const [selectedConversation, setSelectedConversation] = useState([]);
- 
   const handleOpenChatBox = (chat) => {
-    setSelectedConversation(chat);
-    setOpenChatBox(true);
+    if (!openChats.find((c) => c.id === chat.id)) {
+      setOpenChats((prevChats) => [...prevChats, chat]);
+    }
+  };
+
+  const handleCloseChatBox = (chatId) => {
+    setOpenChats((prevChats) => prevChats.filter((c) => c.id !== chatId));
   };
 
   const {
@@ -41,23 +52,19 @@ const Inbox = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="hover:bg-[#1e56ad] w-11   rounded-sm cursor-pointer">
+          <div className="hover:bg-[#1e56ad] w-11 rounded-sm cursor-pointer">
             <Lottie
               animationData={messageIconjson}
-              autoPlay={false} // Do not autoplay, control via ref
-              // Control loop based on prop
+              autoPlay={false}
               className="w-full"
             />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className=" z-[999] mx-4 lg:w-[412px] p-0"
+          className="z-[999] mx-4 lg:w-[412px] p-0"
         >
-          <DropdownMenuLabel
-            //   style={{ backgroundImage: `url(${shortImage.src})` }}
-            className="w-full h-full bg-primary_color bg-cover bg-no-repeat p-4 flex items-center"
-          >
+          <DropdownMenuLabel className="w-full h-full bg-primary_color bg-cover bg-no-repeat p-4 flex items-center">
             <span className="text-base font-semibold text-white flex-1">
               Message
             </span>
@@ -66,6 +73,7 @@ const Inbox = () => {
             <ScrollArea className="h-full">
               {contacts?.data?.length > 0 ? (
                 contacts.data.map((contact, index) => {
+                  const fullName = `${contact?.receiver?.personalProfile?.firstName} ${contact?.receiver?.personalProfile?.lastName}`;
                   return (
                     <DropdownMenuItem
                       key={`inbox-${index}`}
@@ -88,12 +96,11 @@ const Inbox = () => {
                         </Avatar>
                         <div>
                           <div className="text-sm font-medium text-default-900 mb-[2px] whitespace-nowrap">
-                            {contact.receiver?.businessProfile?.businessName}
+                            {contact.receiver?.businessProfile?.businessName ||
+                              fullName}
                           </div>
                           <div className="text-xs text-default-900 truncate max-w-[100px] lg:max-w-[185px]">
-                            {contact.messages[0].content
-                              ? contact.messages[0].content
-                              : contact.about}
+                            {contact.messages[0]?.content || contact.about}
                           </div>
                         </div>
                       </div>
@@ -101,18 +108,19 @@ const Inbox = () => {
                         className={cn(
                           "text-xs font-medium text-default-900 whitespace-nowrap",
                           {
-                            "text-gray-500": !contact.messages[0].redreadStatus,
+                            "text-gray-500":
+                              !contact.messages[0]?.redreadStatus,
                           }
                         )}
                       >
                         {contact?.messages[0]?.createdAt
-                          ? moment(contact.messages[0].createdAt).fromNow()
+                          ? moment(contact.messages[0]?.createdAt).fromNow()
                           : "No date available"}
                       </div>
                       <div
                         className={cn("w-2 h-2 rounded-full mr-2", {
                           "bg-primary_color":
-                            !contact.messages[0].redreadStatus,
+                            !contact.messages[0]?.redreadStatus,
                         })}
                       ></div>
                     </DropdownMenuItem>
@@ -133,12 +141,16 @@ const Inbox = () => {
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-      {openChatBox && (
-        <ChatBox
-          conversation={selectedConversation}
-          onClose={() => setOpenChatBox(false)}
-        />
-      )}
+
+      <div className="fixed z-[9999] bottom-4    w-full   max-w-7xl    flex rounded-t-md rounded-b-none   justify-end gap-4   right-0 lg:right-[1%]  ">
+        {openChats.map((chat) => (
+          <ChatBox
+            key={chat.id}
+            conversation={chat}
+            onClose={() => handleCloseChatBox(chat.id)}
+          />
+        ))}
+      </div>
     </>
   );
 };

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { countries, font14 } from "@/constant";
+import { useAuth } from "@/hooks/useAuth";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ export default function BusinessProfileUpdatedForm({
   username
 }) {
   const router = useRouter();
- 
+ const {currentUser}= useAuth()
 
   const [selectedCategory, setSelectedCategory] = useState(
     categories.find((cat) => cat.name === profile?.category) || null
@@ -54,15 +55,15 @@ export default function BusinessProfileUpdatedForm({
     }
 
     // Check if username is provided, and if not, use current user's username
-    if (username) {
-      query.set("username", username);
+    if (currentUser?.username) {
+      query.set("username", currentUser?.username);
       // Push the updated URL only if the username was not already provided
       router.push(`/business_dashboard/business_info?${query.toString()}`, {
         shallow: true,
       });
     }
     // Reset subcategory when category is changed
-  }, [selectedCategory, router, username]);
+  }, [selectedCategory, router, currentUser?.username]);
 
   const handleInputChange = (field, value) => {
     setFormState({

@@ -1,33 +1,51 @@
-"use client"
+ 
 import PushNotificationHandler from "@/components/PushNotificationHandler";
 import { AuthProvider } from "@/context/AuthContext";
 import GoogleAnalytics from "@/lib/GoogleAnalytics";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"; // Import QueryClientProvider and QueryClient
+ // Import QueryClientProvider and QueryClient
 import { Poppins } from "next/font/google";
 import Script from "next/script";
-import { useState } from "react"; // Import useState to manage QueryClient instance
 import "./globals.css";
+import QueryClientProviderO from "./provider/query-client-prodiver";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "700", "600"],
 });
 
-// export const metadata = {
-//   title: "Aidroo: Explore Reviews",
-//   description: "Connect with Reliable Companies",
-// };
+export const metadata = {
+  title: "Aidroo: Explore Reviews",
+  description: "Connect with Reliable Companies",
+  openGraph: {
+    title: "Aidroo: Explore Reviews",
+    description: "Connect with Reliable Companies",
+    images: [
+      {
+        url: "http://res.cloudinary.com/dtwhrzfwy/image/upload/v1724335517/ifjzafpc9nyewdnt6z79.jpg", // Replace with the actual image URL
+        width: 800,
+        height: 600,
+        alt: "Aidroo Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aidroo: Explore Reviews",
+    description: "Connect with Reliable Companies",
+    image:
+      "http://res.cloudinary.com/dtwhrzfwy/image/upload/v1724335517/ifjzafpc9nyewdnt6z79.jpg", // Replace with the actual image URL
+  },
+};
 
 export default function RootLayout({ children }) {
-  // Create a QueryClient instance to be passed to QueryClientProvider
-  const [queryClient] = useState(() => new QueryClient());
+  
 
   return (
     <html lang="en" className="light">
       <body className={poppins.className}>
         <AuthProvider>
           {/* Provide the React Query Client to the entire app */}
-          <QueryClientProvider client={queryClient}>
+          <QueryClientProviderO >
             <main className="w-full">
               {/* Google Analytics Client Component */}
               <GoogleAnalytics trackingId="G-Q0P2KWDT0B" />
@@ -40,9 +58,10 @@ export default function RootLayout({ children }) {
                 strategy="afterInteractive"
               />
             </main>
-          </QueryClientProvider>
+          </QueryClientProviderO>
         </AuthProvider>
       </body>
     </html>
   );
 }
+// http://res.cloudinary.com/dtwhrzfwy/image/upload/v1724335517/ifjzafpc9nyewdnt6z79.jpg;

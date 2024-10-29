@@ -73,6 +73,32 @@ export const categories = [
 
   // { title: "Business", src: categoryIcon13 },
 ];
+export const smallCategories = [
+  { name: "Finance", src: Finance },
+  { name: "Real Estate", src: RealEstate },
+  { name: "Automotive", src: Automotive },
+  { name: "Technology", src: Technology },
+  { name: " Medical", src: Medical },
+  { name: "Appliance", src: Appliance },
+
+  { name: "Beauty", src: Beauty },
+  { name: "Food", src: Food },
+  { name: "Fitness", src: Fitness },
+  { name: "Law", src: Law },
+  { name: "Pet", src: Pet },
+  { name: "Shopping", src: Shopping },
+  { name: "Education", src: Education },
+  { name: "Design", src: Artsanddesign },
+  { name: "Entertain", src: Entertainment },
+  { name: "Insurance", src: insurance },
+  { name: "Jewelry", src: Jewellery },
+
+  { name: "Organization", src: Organisation },
+  { name: "Sports", src: Sports },
+  { name: "Travels  ", src: TravelsandHotels },
+
+  // { title: "Business", src: categoryIcon13 },
+];
 
 export const footerLinks = [
   {
@@ -323,7 +349,7 @@ export const personalSidebarOptions = [
   },
   {
     name: "Messages",
-    href: "#",
+    href: "/personal_dashboard/messages",
     roles: ["admin", "personal"],
   },
   {

@@ -244,8 +244,8 @@ const ChatPage = () => {
           "-left-full": isLg && !showContactSidebar,
         })}
       >
-        <Card className="h-full pb-0">
-          <CardHeader className="border-none pb-0 mb-0  ">
+        <Card className="h-full pb-0 px-2">
+          <CardHeader className="pb-2    border-b mb-4  ">
             <MyProfileHeader profile={profileData} />
           </CardHeader>
           <CardContent className="pt-0 px-0   lg:h-[calc(100%-180px)] h-[calc(100%-70px)]   ">
@@ -273,7 +273,7 @@ const ChatPage = () => {
           <div className=" flex space-x-5 h-full rtl:space-x-reverse">
             <div className="flex-1">
               <Card className="h-full flex flex-col ">
-                <CardHeader className="flex-none mb-0 border-b">
+                <CardHeader className="flex-none mb-0 border-b bg-slate-100">
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
@@ -341,9 +341,7 @@ const ChatPage = () => {
               <ContactInfo
                 handleSetIsOpenSearch={handleSetIsOpenSearch}
                 handleShowInfo={handleShowInfo}
-                contact={contacts?.contacts?.find(
-                  (contact) => contact.id === selectedChat
-                )}
+                contact={selectedChat}
               />
             )}
           </div>

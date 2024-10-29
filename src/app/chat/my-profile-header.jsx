@@ -1,37 +1,35 @@
+"use client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Icon } from "@iconify/react";
+import { useAuth } from "@/hooks/useAuth";
 import { Search } from "lucide-react";
-import { MdOutlineMoreHoriz } from "react-icons/md";
 
-const MyProfileHeader = ({ profile }) => {
+const MyProfileHeader = ( ) => {
+const {currentUser} =useAuth()
+ 
+
   return (
     <>
-      <div className="flex  justify-between mb-4">
+      <div className="flex mx-0 justify-between   pb-2 mb-2 ">
         <div className="flex   gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarImage src={profile?.avatar.src} alt="" />
-            <AvatarFallback>{profile?.fullName.slice(0, 2)}</AvatarFallback>
+            <AvatarImage src={currentUser?.profile?.profileThumb} alt="" />
+            <AvatarFallback>
+              {currentUser?.profile?.businessName?.slice(0, 2) ||
+                currentUser?.profile?.fullName?.slice(0, 2)}
+            </AvatarFallback>
           </Avatar>
           <div className="block">
             <div className="text-sm font-medium text-default-900 ">
               <span className="relative before:h-1.5 before:w-1.5 before:rounded-full before:bg-success before:absolute before:top-1.5 before:-right-3">
-                {profile?.fullName}
+                {currentUser?.profile?.businessName ||
+                 currentUser?.profile?.fullName}
               </span>
             </div>
-            <span className="text-xs text-default-600">{profile?.bio}</span>
+            {/* <span className="text-xs text-default-600">{currentUser?.bio}</span> */}
           </div>
         </div>
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -64,10 +62,10 @@ const MyProfileHeader = ({ profile }) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </div> */}
       </div>
       {/* search */}
-      <div className="hidden lg:flex border border-default-200 lg:items-center px-2 focus-within:border-blue-500 focus-within:text-primary_color">
+      <div className="hidden lg:flex border border-default-200  mb-2 lg:items-center px-2 focus-within:border-blue-500 focus-within:text-primary_color">
         <Search size={16} className="text-slate-400  " />
         <Input
           type="text"
@@ -77,7 +75,7 @@ const MyProfileHeader = ({ profile }) => {
       </div>
 
       {/* actions */}
-      <div className="hidden lg:flex flex-wrap justify-between py-4 border-b border-default-200">
+      {/* <div className="hidden lg:flex flex-wrap justify-between py-4 border-b border-default-200">
         <Button className="flex flex-col items-center px-0 bg-transparent hover:bg-transparent text-slate-400 hover:text-primary_color shadow-none">
           <span className="text-xl mb-1">
             <Icon icon="gala:chat" className="" />
@@ -96,7 +94,7 @@ const MyProfileHeader = ({ profile }) => {
           </span>
           <span className="text-xs text-slate-600">Notification</span>
         </Button>
-      </div>
+      </div> */}
     </>
   );
 };

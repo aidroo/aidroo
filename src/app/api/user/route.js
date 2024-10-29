@@ -47,7 +47,8 @@ export async function POST(req) {
     country,
     city,
     address,
-    profileThumb
+    profileThumb,
+    role
   );
   // Validate required fields
   if (!username || !email || !password) {
@@ -100,7 +101,7 @@ export async function POST(req) {
     if (role === "business") {
       await db.BusinessProfile.create(
         {
-          username: user.username,
+          username: lowercaseUsername,
           businessName,
           businessType,
           phoneNumber,
@@ -116,9 +117,9 @@ export async function POST(req) {
         { transaction }
       );
     } else {
-      await db.PersonalProfile.create(
+     await db.PersonalProfile.create(
         {
-          username: user.username,
+          username: lowercaseUsername,
           firstName,
           lastName,
           dob,
@@ -128,12 +129,13 @@ export async function POST(req) {
         },
         { transaction }
       );
+  
     }
 
     // Create the address
     await db.Address.create(
       {
-        username: user.username,
+        username: lowercaseUsername,
         country,
         city,
         address,

@@ -25,7 +25,7 @@ const AccountVerificationEmail = ({ username, verificationLink }) => {
 
           <Section className="bg-white shadow-md rounded-lg p-6  px-4">
             <Text className="text-2xl font-bold text-gray-900 mb-4 px-2">
-              Welcome to
+              Welcome to Aidroo
             </Text>
             <Text className="text-gray-700 mb-4  px-2">
               Dear {`[${username}]`},

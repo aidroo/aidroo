@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const { content, senderUser, receiverUser, conversationId } =
     await req.json();
-  console.log(content, senderUser, receiverUser, conversationId);
+  // console.log(content, senderUser, receiverUser, conversationId);
 
   if ((!content, !senderUser, !receiverUser)) {
     return NextResponse.json(

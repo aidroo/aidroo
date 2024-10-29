@@ -3,14 +3,15 @@ import { NextResponse } from "next/server";
 import { chats } from "../../data";
 
 export async function GET(request, response) {
-  const id = response.params.id||1;
+  const id = response.params.id||'';
    if(!id){
     throw new Error("ID is required")
    }
 
    const message = await Message.findAll({
-    conversationId: id
-   })
+     where: { conversationId: id },
+    
+   });
    if(!message){
     return NextResponse.json({
       message: "no conversation message found"

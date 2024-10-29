@@ -114,10 +114,11 @@ export async function GET(req) {
           as: "messages", // Ensure this is correctly set
           attributes: ["content", "readStatus", "createdAt"],
           limit: 1,
-          order: [["createdAt", "DESC"]],
+
           where: { readStatus: false },
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
 
     return NextResponse.json({

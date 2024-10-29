@@ -37,7 +37,7 @@ export async function PUT(req) {
       fcmTokenExpire,
     } = body;
 
-    console.log(fcmToken);
+ 
 
     // Validate required fields
     if (!username) {

@@ -66,7 +66,7 @@ export default function CategoryItem({ category }) {
             className="absolute top-4   md:top-[35px] p-1 shrink-0"
           />
           <h1
-            className={`absolute text-xs md:text-[16px] text-center break-all top-14 md:top-[77px] text-gray-500  font-light ${font14}  `}
+            className={`absolute text-xs md:text-[16px] text-center   top-14 md:top-[77px] text-gray-500  font-light ${font14}  `}
           >
             {category.name}
           </h1>

@@ -43,8 +43,8 @@ const ContactInfo = ({ handleSetIsOpenSearch, handleShowInfo, contact }) => {
           </div>
           <div className="flex flex-col items-center">
             <Avatar className="w-16 h-16 lg:h-24 lg:w-24">
-              <AvatarImage src={contact?.avatar.src} alt="" />
-              <AvatarFallback>{contact?.fullName.slice(0, 2)}</AvatarFallback>
+              <AvatarImage src={contact?.avatar?.src ||""} alt="" />
+              <AvatarFallback>{contact?.fullName?.slice(0, 2)}</AvatarFallback>
             </Avatar>
             <div className="mt-3 text-lg lg:text-xl font-semibold text-default-900">
               {contact?.fullName}

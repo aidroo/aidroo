@@ -29,7 +29,7 @@ const scrollRef = useRef();
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
   };
-
+console.log(conversation)
   // fetch the messagea
 
   const getMessagesCallback = useCallback((chatId) => getMessages(chatId), []);
@@ -50,9 +50,9 @@ const scrollRef = useRef();
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
     }, [chats]);
- 
+ const fullName = `${conversation?.receiver?.personalProfile?.firstName} ${conversation?.receiver?.personalProfile?.lastName}`;
   return (
-    <Card className="fixed z-[9999] bottom-4  right-[320px]    w-[200px] md:[250px] lg:w-[360px]  rounded-t-md rounded-b-none dark:border dark:border-default-200 dark:border-t-0">
+    <Card className="     w-[200px] md:[250px] lg:w-[360px]  rounded-t-md rounded-b-none dark:border dark:border-default-200 dark:border-t-0">
       <CardHeader
         className={cn(
           "bg-primary_color  rounded-t-md flex-row items-center py-2",
@@ -65,13 +65,16 @@ const scrollRef = useRef();
           <div className="relative inline-block">
             <Avatar className="h-9 w-9 ring-1 ring-secondary">
               <AvatarImage
-                src={conversation?.receiver?.businessProfile?.profileThumb}
+                src={
+                  conversation?.receiver?.businessProfile?.profileThumb ||
+                  conversation?.receiver?.personalProfile?.profileThumb
+                }
               />
               <AvatarFallback>
                 {conversation.receiver?.businessProfile?.businessName.slice(
                   0,
                   2
-                )}
+                )||fullName.slice(0,2)}
               </AvatarFallback>
             </Avatar>
             <Badge
@@ -80,7 +83,7 @@ const scrollRef = useRef();
             ></Badge>
           </div>
           <div className="text-base font-medium text-primary-foreground relative truncate w-[50px] md:w-fit">
-            {conversation.receiver?.businessProfile?.businessName}
+            {conversation.receiver?.businessProfile?.businessName || fullName}
             <ChevronDown className="h-3.5 w-3.5 text-primary-foreground absolute rtl:-left-4 ltr:-right-4 top-1" />
           </div>
         </div>
@@ -110,7 +113,7 @@ const scrollRef = useRef();
         {/* chat list */}
         <div className="h-[300px] ">
           <ScrollArea ref={scrollRef} className="h-full overflow-y-auto">
-            {messageLoading&&<Loader/>}
+            {messageLoading && <Loader />}
             {/* left */}
             {chats?.length > 0 &&
               chats.map((chat) =>
