@@ -17,10 +17,7 @@ const MessageHeader = ({
 }) => {
   let active = true;
   const isLg = useMediaQuery("(max-width: 1024px)");
-const fullName =
-  profile?.receiver?.personalProfile?.firstName +
-  " " +
-  profile?.receiver?.personalProfile?.lastName; 
+ 
  
   return (
     <div className="flex  items-center ">
@@ -35,8 +32,8 @@ const fullName =
           <Avatar>
             <AvatarImage
               src={
-                profile?.receiver?.businessProfile?.profileThumb ||
-                profile?.receiver?.personalProfile?.profileThumb
+                profile?.profileThumb ||""
+                
               }
               alt=""
             />
@@ -50,7 +47,7 @@ const fullName =
         <div className="hidden lg:block">
           <div className="text-sm font-medium text-default-900 ">
             <span className="relative">
-              {profile?.receiver?.businessProfile?.businessName || fullName}
+              {profile?.name}
             </span>
           </div>
           <span className="text-xs text-gray-500">

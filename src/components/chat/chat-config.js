@@ -8,9 +8,15 @@ export const getContacts = async ({senderUser}) => {
   return response.data;
 };
 
-export const getMessages = async (id) => {
+export const getMessages = async (senderUser,receiverUser) => {
+ 
   try {
-    const response = await axiosInstance.get(`/api/chat/messages/${id}`);
+    const response = await axiosInstance.get(`/api/chat/messages`, {
+      params: {
+        senderUser,
+        receiverUser,
+      },
+    });
     // console.log("Response from getMessages:", response.data);
     return response.data;
   } catch (error) {
@@ -33,10 +39,10 @@ export const deleteMessage = async (obj) => {
 export const getProfile = async (searchText) => {
 
   if(!searchText) return [];
-  const response = await axiosInstance.get("api/user",{
-    params:{
-      searchText
-    }
+  const response = await axiosInstance.get("/api/contacts", {
+    params: {
+      searchText,
+    },
   });
 
   return response.data;

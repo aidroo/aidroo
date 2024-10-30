@@ -60,7 +60,7 @@ export function WriteReview2({ profileId }) {
         setShowAnimation(false);
       }, 700);
       const review = await axiosInstance.post("/api/review", reviewData);
-      console.log(review);
+   
       if (review?.data?.status === 201) {
         setTitle("");
         setComment("");

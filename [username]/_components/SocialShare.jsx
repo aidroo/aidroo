@@ -36,7 +36,7 @@ export default function SocialShare() {
 
     // Add event listener only when the dropdown is open
     if (open) {
-      console.log(open)
+   
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);

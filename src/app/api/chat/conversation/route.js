@@ -1,49 +1,48 @@
 import db from "@/config/model";
 import { NextResponse } from "next/server";
-import { Op } from "sequelize";
 
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const { senderUser, receiverUser } = body;
+// export async function POST(req) {
+//   try {
+//     const body = await req.json();
+//     const { senderUser, receiverUser } = body;
 
-    if (!senderUser || !receiverUser) {
-      return NextResponse.json({
-        status: 400,
-        message: "senderUser and receiverUser are required.",
-      });
-    }
+//     if (!senderUser || !receiverUser) {
+//       return NextResponse.json({
+//         status: 400,
+//         message: "senderUser and receiverUser are required.",
+//       });
+//     }
 
-    const ieExit = await db.Conversation.findOne({
-      where: {
-        [Op.or]: [{ senderUser, receiverUser }],
-      },
-    });
-    if (ieExit) {
-      return NextResponse.json({
-        status: 400,
-        message: "Conversation already exists.",
-      });
-    }
+//     const ieExit = await db.Conversation.findOne({
+//       where: {
+//         [Op.or]: [{ senderUser, receiverUser }],
+//       },
+//     });
+//     if (ieExit) {
+//       return NextResponse.json({
+//         status: 400,
+//         message: "Conversation already exists.",
+//       });
+//     }
 
-    const conversation = await db.Conversation.create({
-      senderUser,
-      receiverUser,
-    });
+//     const conversation = await db.Conversation.create({
+//       senderUser,
+//       receiverUser,
+//     });
 
-    return NextResponse.json({
-      status: 201,
-      conversation,
-      message: " conversation successfully.",
-    });
-  } catch (error) {
-    console.error("Error processing review:", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json({
+//       status: 201,
+//       conversation,
+//       message: " conversation successfully.",
+//     });
+//   } catch (error) {
+//     console.error("Error processing review:", error);
+//     return NextResponse.json(
+//       { message: "Internal Server Error" },
+//       { status: 500 }
+//     );
+//   }
+// }
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);

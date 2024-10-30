@@ -58,8 +58,8 @@ export default function JobsFilterComponents({
   ]);
 
   return (
-    <form className="col-span-3">
-      <div className="border rounded-md p-2 space-y-4">
+    <form className="w-full mx-auto   ">
+      <div className="border rounded-md p-2  ">
         {/* Search Input */}
         <Input
           type="text"
@@ -71,7 +71,7 @@ export default function JobsFilterComponents({
         />
 
         {/* Category Filter */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-4 ">
           {categories?.length>0&&<Combobox
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
@@ -88,7 +88,7 @@ export default function JobsFilterComponents({
           />}
         </div>
 
-        <div className="ms:flex items-center px-1 rounded-lg space-x-4 mx-auto">
+        <div className="ms:flex items-center px-1 rounded-lg lg:space-x-4 mx-auto">
           {/* Country Filter (uncomment and pass countries if needed) */}
           {/* <select
             name="country"

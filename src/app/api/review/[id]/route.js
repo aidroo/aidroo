@@ -50,22 +50,11 @@ export async function PUT(request, { params }) {
     }
 
     // Log the changes before saving
-    console.log("Before save:", {
-      likes: review.likes,
-      loves: review.loves,
-      verified: review.verified,
-      status: review.status,
-    });
+     
 
     await review.save(); // Save the updated review
 
-    // Log the saved state after save
-    console.log("After save:", {
-      likes: review.likes,
-      loves: review.loves,
-      verified: review.verified,
-      status: review.status,
-    });
+   
 
     return NextResponse.json({
       status: 200,

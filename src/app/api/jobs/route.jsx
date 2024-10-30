@@ -27,7 +27,7 @@ export async function POST(request) {
       tags,
       status,
     } = body;
-console.log(profileUsername)
+
     if (!profileUsername || !title) {
       return NextResponse.json(
         { message: "Missing username or title required fields" },

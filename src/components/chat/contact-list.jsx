@@ -33,7 +33,7 @@ const fullName =
             />
             <AvatarFallback className="uppercase">
               {contact?.receiver?.businessProfile?.businessName.slice(0, 2) ||
-                fullName.slice(0, 2) }
+                fullName.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
           <Badge
@@ -44,18 +44,18 @@ const fullName =
         </div>
         <div className="block  ">
           <div className="truncate max-w-[120px]">
-            <span className=" text-gray-900 font-medium flex justify-start">
-              {contact?.receiver?.businessProfile?.businessName||fullName}
+            <span className=" text-gray-900 font-xs flex justify-start tracking-tighter">
+              {contact?.receiver?.businessProfile?.businessName || fullName}
             </span>
           </div>
           <div className="truncate  max-w-[120px]">
-            <span className=" text-xs  text-default-600 ">
+            <span className=" text-xs flex justify-start  text-default-600 ">
               {contact?.messages[0]?.content}
             </span>
           </div>
         </div>
       </div>
-      <div className="flex-none  flex-col items-end  gap-2 hidden lg:flex">
+      <div className="flex-none  flex-col items-end  gap-2  lg:flex">
         <span className="text-xs text-default-600 text-end lowercase">
           {contact?.messages[0]?.createdAt
             ? moment(contact.messages[0].createdAt).fromNow()

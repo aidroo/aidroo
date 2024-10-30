@@ -19,14 +19,14 @@ export default async function ExploreJobsLayout({ children }) {
   const subcategories = (await fetchSubcategories(1)) || [];
   return (
     <Layout>
-      <div className=" w-full max-w-7xl mx-auto grid  grid-cols-6 my-4 gap-8">
+      <div className=" w-full relative max-w-7xl mx-auto grid grid-cols-1 px-2 lg:grid-cols-6 my-4 lg:gap-8 ">
         {/* <div className=" w-full flex  justify-center items-center">
           <h1 className="  text-2xl px-4  bg-primary_color w-fit text-white rounded-md  py-1">
             Explore Jobs
           </h1>
         </div> */}
 
-        <div className="col-span-4 flex flex-col gap-4 ">
+        <div className="col-span-4 flex flex-col gap-4 order-last lg:order-first ">
           <JobsCreatedForm
             categories={categories}
             subcategories={subcategories}
@@ -35,7 +35,7 @@ export default async function ExploreJobsLayout({ children }) {
           <div>{children}</div>
         </div>
 
-        <div className="col-span-2    ">
+        <div className="col-span-2  w-full        ">
           <JobsFilterComponents
             categories={categories}
             subcategories={subcategories || []}

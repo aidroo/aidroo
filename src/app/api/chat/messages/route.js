@@ -1,35 +1,56 @@
 import db from "@/config/model";
 import { NextResponse } from "next/server";
+import { Op } from "sequelize";
 
 export async function POST(req) {
-  const { content, senderUser, receiverUser, conversationId } =
-    await req.json();
-  // console.log(content, senderUser, receiverUser, conversationId);
+  const { content, senderUser, receiverUser } = await req.json();
 
-  if ((!content, !senderUser, !receiverUser)) {
+  if (!content || !senderUser || !receiverUser) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
     );
   }
+
   try {
+    // Check if a conversation between sender and receiver exists
+    let conversation = await db.Conversation.findOne({
+      where: {
+        senderUser,
+        receiverUser,
+      },
+    });
+
+    // If no conversation exists, create a new one
+    if (!conversation) {
+      conversation = await db.Conversation.create({
+        senderUser,
+        receiverUser,
+      });
+    }
+
+    // Create a new message associated with the conversation
     const message = await db.Message.create({
       content,
       senderUser,
       receiverUser,
-      conversationId,
+      conversationId: conversation.id,
     });
 
     if (!message) {
-      NextResponse.json({
-        status: 201,
-        message: "Message  Create  faield.",
-      });
+      return NextResponse.json(
+        { error: "Message creation failed" },
+        { status: 500 }
+      );
     }
-    return NextResponse.json({
-      message: "Message successfully created",
-      status: 201,
-    });
+
+    return NextResponse.json(
+      {
+        message: "Message successfully created",
+        status: 201,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error creating message:", error);
     return NextResponse.json(
@@ -39,36 +60,46 @@ export async function POST(req) {
   }
 }
 
-// export async function POST(request, response) {
-//   const obj = await request.json();
 
-//   let activeChat = chats.find((item) => item.id === parseInt(obj.contact.id));
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const senderUser = searchParams.get("senderUser");
+  const receiverUser = searchParams.get("receiverUser");
 
-//   const newMessageData = {
-//     message: obj.message,
-//     time: new Date(),
-//     senderId: 11,
-//     replayMetadata: obj.replayMetadata,
-//   };
-//   if (!activeChat) {
-//     activeChat = {
-//       id: obj.contact.id,
-//       userId: obj.contact.id,
-//       unseenMsgs: 0,
-//       chat: [newMessageData],
-//     };
-//     chats.push(activeChat);
-//   } else {
-//     activeChat.chat.push(newMessageData);
-//   }
+  if (!senderUser || !receiverUser) {
+    return NextResponse.json(
+      { error: "Both senderUser and receiverUser are required" },
+      { status: 400 }
+    );
+  }
 
-//   return NextResponse.json(
-//     {
-//       chat: activeChat,
-//       contact: obj.contact,
-//       newMessageData,
-//       id: obj.contact.id,
-//     },
-//     { status: 201 }
-//   );
-// }
+
+
+  try {
+    const messages = await db.Message.findAll({
+      where: {
+        [Op.or]: [
+          { senderUser, receiverUser },
+          { senderUser: receiverUser, receiverUser: senderUser },
+        ],
+      },
+      order: [["createdAt", "ASC"]], // Optional: Orders messages by creation time
+    });
+
+    if (!messages || messages.length === 0) {
+      return NextResponse.json(
+        { message: "No conversation messages found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(messages, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch messages" },
+      { status: 500 }
+    );
+  }
+
+}

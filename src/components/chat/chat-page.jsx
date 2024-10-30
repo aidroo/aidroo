@@ -33,20 +33,23 @@ import ContactInfo from "./contact-info";
 import SearchMessages from "./contact-info/search-messages";
 import EmptyMessage from "./empty-message";
 import ForwardMessage from "./forward-message";
- 
- 
+
 import { useAuth } from "@/hooks/useAuth";
 import Loader from "./loader";
 import MyProfileHeader from "./my-profile-header";
 import PinnedMessages from "./pin-messages";
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
+
   const [showContactSidebar, setShowContactSidebar] = useState(false);
 
   const [showInfo, setShowInfo] = useState(false);
   const queryClient = useQueryClient();
   // Memoize getMessages using useCallback
-  const getMessagesCallback = useCallback((chatId) => getMessages(chatId), []);
+  const getMessagesCallback = useCallback(
+    (senderUser, receiverUser) => getMessages(senderUser, receiverUser),
+    []
+  );
   // reply state
   const [replay, setReply] = useState(false);
   const [replayData, setReplyData] = useState({});
@@ -57,37 +60,58 @@ const ChatPage = () => {
   const [pinnedMessages, setPinnedMessages] = useState([]);
   // Forward State
   const [isForward, setIsForward] = useState(false);
-  const {currentUser}= useAuth()
+  const { currentUser } = useAuth();
+ const fullName2 =
+   selectedChat?.receiver?.personalProfile?.firstName +
+   " " +
+   selectedChat?.receiver?.personalProfile?.lastName;
+
+   const messageHeaderProfileData = {
+     name:
+       selectedChat?.bussinessName ||
+       selectedChat?.firstName + selectedChat?.lastName ||
+       selectedChat?.receiver?.businessProfile?.businessName ||
+       fullName2,
+
+     profileThumb:
+       selectedChat?.profileThumb ||
+       selectedChat?.receiver?.businessProfile?.profileThumb ||
+       selectedChat?.receiver?.personalProfile?.profileThumb,
+     reciverUsername: selectedChat?.username || selectedChat?.receiverUser,
+   };
 
   const {
     isLoading,
-    isError,
+    // isError,
     data: contacts,
-    error,
-    refetch: refetchContact,
+    // error,
+    // refetch: refetchContact,
   } = useQuery({
     queryKey: ["contacts"],
-    queryFn: () => getContacts( {senderUser:currentUser?.username}),
+    queryFn: () => getContacts({ senderUser: currentUser?.username }),
     keepPreviousData: true,
   });
- 
+
   const {
     isLoading: messageLoading,
     isError: messageIsError,
     data: chats,
-    error: messageError,
-    refetch: refetchMessage,
+    // error: messageError,
+    // refetch: refetchMessage,
   } = useQuery({
     queryKey: ["message", selectedChat?.id],
-    queryFn: () => getMessagesCallback(selectedChat?.id),
+    queryFn: () =>
+      getMessagesCallback(currentUser?.username, messageHeaderProfileData?.reciverUsername),
     keepPreviousData: true,
   });
+
+ 
   const {
-    isLoading: profileLoading,
-    isError: profileIsError,
+    // isLoading: profileLoading,
+    // isError: profileIsError,
     data: profileData,
-    error: profileError,
-    refetch: refetchProfile,
+    // error: profileError,
+    // refetch: refetchProfile,
   } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getProfile(),
@@ -108,6 +132,8 @@ const ChatPage = () => {
   });
 
   const onDelete = (selectedChat, index) => {
+
+    console.log("selectedChat",selectedChat);
     const obj = { selectedChat, index };
     deleteMutation.mutate(obj);
 
@@ -120,7 +146,6 @@ const ChatPage = () => {
   };
 
   const openChat = (chatId) => {
-    
     setSelectedChat(chatId);
     setReply(false);
     if (showContactSidebar) {
@@ -135,13 +160,13 @@ const ChatPage = () => {
 
     const newMessage = {
       senderUser: currentUser?.username,
-      receiverUser: selectedChat?.receiverUser,
+      receiverUser: messageHeaderProfileData?.reciverUsername,
       conversationId: selectedChat.id,
       content: message,
 
       replayTo: isObjectNotEmpty(replayData),
     };
-     
+
     messageMutation.mutate(newMessage);
     console.log(message, "ami msg");
   };
@@ -221,11 +246,17 @@ const ChatPage = () => {
   const handleForward = () => {
     setIsForward(!isForward);
   };
-
  
+ 
+  // console.log(
+  //   "selectedChat",
+  //   selectedChat 
+  // );
+ 
+
   const isLg = useMediaQuery("(max-width: 1024px)");
   return (
-    <div className="flex gap-5 lg:-mt-2  lg:h-[70vh]  mt-10  relative rtl:space-x-reverse mx-2 ">
+    <div className="flex gap-5 lg:-mt-2  h-[70vh]  mt-10  relative rtl:space-x-reverse mx-2 ">
       {isLg && showContactSidebar && (
         <div
           className=" bg-background/60 backdrop-filter
@@ -242,7 +273,7 @@ const ChatPage = () => {
       )}
       <div
         className={cn("transition-all duration-150 flex-none  ", {
-          "absolute h-full top-0 md:w-[260px] w-[200px] z-[999]": isLg,
+          "absolute h-full top-0 md:w-[260px] w-[330px] z-[999]": isLg,
           "flex-none min-w-[260px]": !isLg,
           "left-0": isLg && showContactSidebar,
           "-left-full": isLg && !showContactSidebar,
@@ -250,12 +281,16 @@ const ChatPage = () => {
       >
         <Card className="h-full pb-0 px-2">
           <CardHeader className="pb-2    border-b mb-4  ">
-            <MyProfileHeader profile={profileData} />
+            <MyProfileHeader
+              profile={profileData}
+              setSelectedChat={setSelectedChat}
+              setShowContactSidebar={setShowContactSidebar}
+            />
           </CardHeader>
           <CardContent className="pt-0 px-0   lg:h-[calc(100%-180px)] h-[calc(100%-70px)]   ">
             <ScrollArea className="h-full">
               {isLoading ? (
-               <Loader/>
+                <Loader />
               ) : (
                 contacts?.data?.map((contact) => (
                   <ContactList
@@ -281,7 +316,7 @@ const ChatPage = () => {
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
-                    profile={selectedChat}
+                    profile={messageHeaderProfileData}
                     mblChatHandler={() =>
                       setShowContactSidebar(!showContactSidebar)
                     }
