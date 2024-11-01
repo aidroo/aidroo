@@ -25,13 +25,13 @@ export async function fetchProfiles({
 
   // Base condition for fetching approved profiles only
   const whereConditions = {
-    ...(!all && { status: "approved" }),
+       status: "approved" ,
     ...(searchQuery && { businessName: { [Op.like]: `%${searchQuery}%` } }),
     ...(categoryFilter && { category: categoryFilter }),
     ...(subcategoryFilter && { subcategory: subcategoryFilter }),
-    ...(verifiedStatus !== null && { verified: verifiedStatus === "true" }),
+    // ...(verifiedStatus !== null && { verified: verifiedStatus === "true" }),
 
-    ...(openNow && { open: openNow }), // Assuming you have an 'open' field
+    // ...(openNow && { open: openNow }), // Assuming you have an 'open' field
   };
 
   // Address-related conditions
