@@ -131,7 +131,7 @@ export default function DynamicSearchInput() {
         results.length > 0 &&
         results.map((profile) => {
           const roundedRating = Math.floor(profile.averageRating * 10) / 10;
-          console.log(roundedRating);
+          
           return (
             <div className=" text-sm border-b" key={profile.username}>
               <Link

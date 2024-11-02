@@ -40,6 +40,7 @@ const MyProfileHeader = ({ setSelectedChat, setShowContactSidebar }) => {
     enabled: !!searchText, // Only fetch when there is search text
     keepPreviousData: true,
   });
+ 
   const handleSelectedChatItem = (contact) => {
     setSelectedChat(contact);
     setIsOpen(false);

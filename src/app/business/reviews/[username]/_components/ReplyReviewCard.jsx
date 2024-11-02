@@ -5,7 +5,7 @@ import replayIcon from "@/public/icons/replyreview.svg";
 
 export default function ReplyReviewCard({ reply }) {
 
-  console.log(reply);
+  
   const fulName =
     reply?.user?.personalProfile?.firstName +
     " " +

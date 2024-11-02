@@ -25,7 +25,7 @@ const Messages = ({
   // profile,
   onDelete,
   index,
-  selectedChatId,
+ 
   handleReply,
   replayData,
   handleForward,
@@ -92,9 +92,7 @@ const {currentUser}= useAuth()
                         align="center"
                         side="top"
                       >
-                        <DropdownMenuItem
-                          onClick={() => onDelete(selectedChatId, index)}
-                        >
+                        <DropdownMenuItem onClick={() => onDelete(message.id)}>
                           Delete
                         </DropdownMenuItem>
                         <DropdownMenuItem>Forward</DropdownMenuItem>
@@ -163,9 +161,7 @@ const {currentUser}= useAuth()
                         align="center"
                         side="top"
                       >
-                        <DropdownMenuItem
-                          onClick={() => onDelete(selectedChatId, index)}
-                        >
+                        <DropdownMenuItem onClick={() => onDelete(message.id)}>
                           Remove
                         </DropdownMenuItem>
                         <DropdownMenuItem

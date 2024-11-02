@@ -1,5 +1,6 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
+import { sendVerificationEmail } from "@/utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
@@ -36,18 +37,7 @@ export async function POST(req) {
     fcmTokenExpire,
   } = body;
 
-  console.log(
-    firstName,
-    lastName,
-    email,
-    username,
-    password,
-    country,
-    city,
-    address,
-    profileThumb,
-    role
-  );
+   
 
   if (!username || !email || !password) {
     return NextResponse.json({
@@ -126,7 +116,7 @@ export async function POST(req) {
       city,
       address,
     });
-    // await sendVerificationEmail(email, username, role);
+    await sendVerificationEmail(email, username, role);
     return NextResponse.json({
       status: 201,
       user,

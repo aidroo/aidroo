@@ -7,7 +7,6 @@ import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ReactQueryProvider from "./provider/query-client-prodiver";
-import { SocketProvider } from "./provider/SocketProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -46,7 +45,7 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <AuthProvider>
           {/* Provide the React Query Client to the entire app */}
-          <SocketProvider>
+          {/* <SocketProvider> */}
             <ReactQueryProvider>
               <main className="w-full">
                 {/* Google Analytics Client Component */}
@@ -61,7 +60,7 @@ export default function RootLayout({ children }) {
                 />
               </main>
             </ReactQueryProvider>
-          </SocketProvider>
+          {/* </SocketProvider> */}
         </AuthProvider>
       </body>
     </html>

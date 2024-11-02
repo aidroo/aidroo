@@ -100,7 +100,7 @@ export default function ReviewCard({ review, username }) {
       setLoading(false);
     }
   };
-  console.log(review?.user);
+ 
   return (
     <Card className="">
       <CardHeader className="flex">

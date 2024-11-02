@@ -34,13 +34,16 @@ import SearchMessages from "./contact-info/search-messages";
 import EmptyMessage from "./empty-message";
 import ForwardMessage from "./forward-message";
 
+
+
 import { useAuth } from "@/hooks/useAuth";
+import Pusher from "pusher-js";
 import Loader from "./loader";
 import MyProfileHeader from "./my-profile-header";
 import PinnedMessages from "./pin-messages";
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
-
+const [messages, setMessages] = useState([]);
   const [showContactSidebar, setShowContactSidebar] = useState(false);
 
   const [showInfo, setShowInfo] = useState(false);
@@ -61,24 +64,24 @@ const ChatPage = () => {
   // Forward State
   const [isForward, setIsForward] = useState(false);
   const { currentUser } = useAuth();
- const fullName2 =
-   selectedChat?.receiver?.personalProfile?.firstName +
-   " " +
-   selectedChat?.receiver?.personalProfile?.lastName;
+  const fullName2 =
+    selectedChat?.receiver?.personalProfile?.firstName +
+    " " +
+    selectedChat?.receiver?.personalProfile?.lastName;
 
-   const messageHeaderProfileData = {
-     name:
-       selectedChat?.bussinessName ||
-       selectedChat?.firstName + selectedChat?.lastName ||
-       selectedChat?.receiver?.businessProfile?.businessName ||
-       fullName2,
+  const messageHeaderProfileData = {
+    name:
+      selectedChat?.bussinessName ||
+      selectedChat?.firstName + selectedChat?.lastName ||
+      selectedChat?.receiver?.businessProfile?.businessName ||
+      fullName2,
 
-     profileThumb:
-       selectedChat?.profileThumb ||
-       selectedChat?.receiver?.businessProfile?.profileThumb ||
-       selectedChat?.receiver?.personalProfile?.profileThumb,
-     reciverUsername: selectedChat?.username || selectedChat?.receiverUser,
-   };
+    profileThumb:
+      selectedChat?.profileThumb ||
+      selectedChat?.receiver?.businessProfile?.profileThumb ||
+      selectedChat?.receiver?.personalProfile?.profileThumb,
+    reciverUsername: selectedChat?.username || selectedChat?.receiverUser,
+  };
 
   const {
     isLoading,
@@ -88,7 +91,11 @@ const ChatPage = () => {
     // refetch: refetchContact,
   } = useQuery({
     queryKey: ["contacts"],
-    queryFn: () => getContacts({ senderUser: currentUser?.username }),
+    queryFn: () =>
+      getContacts({
+        senderUser: currentUser?.username,
+        receiverUser: selectedChat?.username || selectedChat?.receiverUser,
+      }),
     keepPreviousData: true,
   });
 
@@ -101,11 +108,13 @@ const ChatPage = () => {
   } = useQuery({
     queryKey: ["message", selectedChat?.id],
     queryFn: () =>
-      getMessagesCallback(currentUser?.username, messageHeaderProfileData?.reciverUsername),
+      getMessagesCallback(
+        currentUser?.username,
+        messageHeaderProfileData?.reciverUsername
+      ),
     keepPreviousData: true,
   });
 
- 
   const {
     // isLoading: profileLoading,
     // isError: profileIsError,
@@ -132,8 +141,7 @@ const ChatPage = () => {
   });
 
   const onDelete = (selectedChat, index) => {
-
-    console.log("selectedChat",selectedChat);
+    console.log("selectedId",selectedChat)
     const obj = { selectedChat, index };
     deleteMutation.mutate(obj);
 
@@ -182,6 +190,38 @@ const ChatPage = () => {
     setReplyData(newObj);
   };
 
+  // Initialize Pusher
+  useEffect(() => {
+    // if (!currentUser?.username || !selectedChat?.username) return;
+
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "ap2",
+    });
+
+    const channel = pusher.subscribe(`chat`);
+    const messageHandler = (data) => {
+ 
+     
+      if (data.senderUser === currentUser.username) return; // Ignore own messages
+      setMessages((prevMessages) => [...prevMessages, data]);
+    };
+
+    channel.bind("message-received", messageHandler);
+
+    return () => {
+      channel.unbind("message-received", messageHandler);
+      channel.unsubscribe();
+      pusher.disconnect();
+    };
+  }, [selectedChat, currentUser]);
+ 
+  // Update local messages state when chats data is fetched
+  useEffect(() => {
+    if (chats) {
+      setMessages(chats);
+    }
+  }, [chats]);
+
   useEffect(() => {
     if (chatHeightRef.current) {
       chatHeightRef.current.scrollTo({
@@ -200,7 +240,7 @@ const ChatPage = () => {
   }, [pinnedMessages]);
 
   // handle search bar
-
+ 
   const handleSetIsOpenSearch = () => {
     setIsOpenSearch(!isOpenSearch);
   };
@@ -246,13 +286,11 @@ const ChatPage = () => {
   const handleForward = () => {
     setIsForward(!isForward);
   };
- 
- 
+
   // console.log(
   //   "selectedChat",
-  //   selectedChat 
+  //   selectedChat
   // );
- 
 
   const isLg = useMediaQuery("(max-width: 1024px)");
   return (
@@ -340,7 +378,7 @@ const ChatPage = () => {
                         {messageIsError ? (
                           <EmptyMessage />
                         ) : (
-                          chats?.map((message, i) => (
+                          messages?.map((message, i) => (
                             <Messages
                               key={`message-list-${i}`}
                               message={message}

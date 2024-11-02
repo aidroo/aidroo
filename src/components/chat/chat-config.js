@@ -27,7 +27,7 @@ export const getMessages = async (senderUser,receiverUser) => {
 export const deleteMessage = async (obj) => {
   console.log("Object to be sent:", obj); // Add this log statement
   try {
-    await axiosInstance.delete(`api/chat/messages/${obj.selectedChatId}`, {
+    await axiosInstance.delete(`api/chat/messages/${obj.selectedChat}`, {
       data: obj,
     });
   } catch (error) {

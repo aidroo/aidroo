@@ -3,7 +3,6 @@ import {
   fetchProfiles,
   fetchSingleProfile,
 } from "@/queries/admin-dashboard-getProfiles";
-import { getBusinessProfileWithReviewsAndReactions } from "@/queries/reviews";
 import Script from "next/script";
 import BusinessProfileHeader from "../../_components/BusinessProfileHeader";
 import BusinessProfileSidebar from "../../_components/BusinessProfileSidebar";
@@ -107,12 +106,12 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function BusinessLayout({ params, searchParams }) {
+export default async function BusinessLayout({ params }) {
   const { username } = params;
-  const page = parseInt(searchParams?.page) || 1;
-  const limit = parseInt(searchParams?.limit) || 10;
-  const { reviews, totalRecords, totalPages, currentPage } =
-    await getBusinessProfileWithReviewsAndReactions(username, page, limit);
+  // const page = parseInt(searchParams?.page) || 1;
+  // const limit = parseInt(searchParams?.limit) || 10;
+  // const { reviews, totalRecords, totalPages, currentPage } =
+  //   await getBusinessProfileWithReviewsAndReactions(username, page, limit);
 
   
 
@@ -130,6 +129,7 @@ export default async function BusinessLayout({ params, searchParams }) {
   if (!profile) {
     return null;
   }
+  
 
   const schemaData = {
     "@context": "https://schema.org",

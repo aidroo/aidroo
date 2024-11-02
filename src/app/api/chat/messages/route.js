@@ -1,9 +1,12 @@
 import db from "@/config/model";
+import { pusher } from "@/lib/pusher";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
 
 export async function POST(req) {
   const { content, senderUser, receiverUser } = await req.json();
+
+  console.log(receiverUser)
 
   if (!content || !senderUser || !receiverUser) {
     return NextResponse.json(
@@ -43,7 +46,7 @@ export async function POST(req) {
         { status: 500 }
       );
     }
-
+ await pusher.trigger(`chat`, "message-received", message);
     return NextResponse.json(
       {
         message: "Message successfully created",

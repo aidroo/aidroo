@@ -78,7 +78,7 @@ export default function SignupForm({ categories, subcategories, isExit }) {
         category: selectedCategory?.name,
         subcategory: selectedSubcategory?.name,
       });
-      console.log(response);
+      
       if (response.data.status === 201) {
         setSuccess(response.data.message);
 
