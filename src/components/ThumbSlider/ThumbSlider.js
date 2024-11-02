@@ -25,9 +25,9 @@ export default function ThumbSlider({gallery}) {
         spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2"
+        className="mySwiper2 border border-primary rounded-md"
       >
-        {gallery.map((img,index) => (
+        {gallery.map((img, index) => (
           <SwiperSlide key={index}>
             <div className="w-full lg:h-96">
               <ResponsiveImage
@@ -48,11 +48,11 @@ export default function ThumbSlider({gallery}) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper mt-6"
+        className="mySwiper mt-6 border border-primary "
       >
-        {gallery.map((img,index) => (
+        {gallery.map((img, index) => (
           <SwiperSlide key={index}>
-            <div className="h-24">
+            <div className="h-24 border-r ">
               <ResponsiveImage
                 src={img}
                 width={500}

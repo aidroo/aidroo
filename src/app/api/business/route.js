@@ -53,7 +53,7 @@ export async function GET(req) {
     // Fetch business profiles
     const { rows: users, count: totalRecords } = await db.User.findAndCountAll({
       // Select only email and username from User
-      // attributes: ["id", "email", "username"],
+      attributes: [ "email", "username"],
       include: [
         {
           model: db.BusinessProfile,

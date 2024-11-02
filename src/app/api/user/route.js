@@ -1,15 +1,13 @@
 import connectToDatabase from "@/config/db/db";
 import db from "@/config/model";
-import sequelize from "@/config/sequalize";
-import { sendVerificationEmail } from "@/utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
 
+ 
 export async function POST(req) {
   await connectToDatabase();
 
-  // Parse the request body
   const body = await req.json();
   const {
     username,
@@ -18,12 +16,12 @@ export async function POST(req) {
     role,
     firstName,
     lastName,
-    dob,
+    
     funds,
     employees,
     status,
     description,
-    gender,
+    
     businessName,
     businessType,
     phoneNumber,
@@ -50,7 +48,7 @@ export async function POST(req) {
     profileThumb,
     role
   );
-  // Validate required fields
+
   if (!username || !email || !password) {
     return NextResponse.json({
       status: 400,
@@ -58,11 +56,7 @@ export async function POST(req) {
     });
   }
 
-  // Start a transaction
-  const transaction = await sequelize.transaction();
-
   try {
-    // Hash the password
     const hashPassword = await bcrypt.hash(password, 10);
 
     // Check if the user already exists
@@ -70,11 +64,9 @@ export async function POST(req) {
       where: {
         [Op.or]: [{ email }, { username }],
       },
-      transaction,
     });
 
     if (existingUser) {
-      await transaction.rollback();
       return NextResponse.json({
         status: 400,
         message: "User already exists.",
@@ -82,72 +74,59 @@ export async function POST(req) {
     }
 
     const lowercaseUsername = username.toLowerCase().replace(/[^a-z0-9@]/g, "");
-    await sendVerificationEmail(email, username, role);
+
 
     // Create the new user
-    const user = await db.User.create(
-      {
-        username: lowercaseUsername,
-        email,
-        password: hashPassword,
-        role,
-        fcmToekn,
-        fcmTokenExpire,
-      },
-      { transaction }
-    );
+    const user = await db.User.create({
+      username: lowercaseUsername,
+      email,
+      password: hashPassword,
+      role,
+      fcmToekn,
+      fcmTokenExpire,
+    });
 
-    // Handle role-based profile creation
-    if (role === "business") {
-      await db.BusinessProfile.create(
-        {
-          username: lowercaseUsername,
-          businessName,
-          businessType,
-          phoneNumber,
-          category,
-          profileThumb,
-          funds,
-          employees,
-          description,
-          subcategory,
-          status,
-          verified,
-        },
-        { transaction }
-      );
-    } else {
-     await db.PersonalProfile.create(
-        {
-          username: lowercaseUsername,
-          firstName,
-          lastName,
-          dob,
-          verified,
-          profileThumb,
-          gender,
-        },
-        { transaction }
-      );
-  
-    }
+   if (role === "business") {
+     await db.BusinessProfile.create({
+       username: lowercaseUsername,
+       businessName,
+       businessType,
+       phoneNumber,
+       category,
+       profileThumb,
+       funds,
+       employees,
+       description,
+       subcategory,
+       status,
+       verified,
+     });
+   } else {
+     console.log(role);
+     try {
+       const personal = await db.PersonalProfile.create({
+         username: lowercaseUsername,
+         firstName,
+         lastName,
+         verified,
+         profileThumb,
+         phoneNumber,
+         description,
+       });
+       console.log("Personal profile created:", personal);
+     } catch (personalError) {
+       console.error("Error creating personal profile:", personalError);
+     }
+   }
 
     // Create the address
-    await db.Address.create(
-      {
-        username: lowercaseUsername,
-        country,
-        city,
-        address,
-      },
-      { transaction }
-    );
-
-    // Commit the transaction
-    await transaction.commit();
-
-    // Send verification email
-
+    await db.Address.create({
+      username: lowercaseUsername,
+      country,
+      city,
+      address,
+    });
+    // await sendVerificationEmail(email, username, role);
     return NextResponse.json({
       status: 201,
       user,
@@ -155,8 +134,6 @@ export async function POST(req) {
         "Please confirm your email address to activate your registration.",
     });
   } catch (error) {
-    // Rollback the transaction if any error occurs
-    await transaction.rollback();
     console.error("Error registering user:", error);
     return NextResponse.json(
       { status: 500, message: "Internal Server Error" },
@@ -164,6 +141,7 @@ export async function POST(req) {
     );
   }
 }
+
 
 export async function GET(request) {
   // Extract the search query from the request's URL

@@ -24,7 +24,7 @@ export default function BusinessProfileCard({ businessProfile, username }) {
     profileThumb = "",
     category,
   } = businessProfile.businessProfile;
-  const { country = "", city = "" } = businessProfile.addresses;
+
 
   let averageRating = Math.floor(businessProfile.averageRating);
   
@@ -67,7 +67,8 @@ export default function BusinessProfileCard({ businessProfile, username }) {
             </div>
             <div className="flex gap-1 items-start flex-wrap text-sm  text-gray-600">
               <FaRegPaperPlane size={12} className="mt-[4px]" />
-              <span>{city} </span>,<span>{country}</span>
+              <span>{businessProfile?.addresses?.city} </span>,
+              <span>{businessProfile?.addresses?.country}</span>
             </div>
             {/* 
       category
@@ -101,10 +102,7 @@ export default function BusinessProfileCard({ businessProfile, username }) {
             alt="bordercategoriesIcon"
             priority={true}
           />
-          <Link
-            href={`/business/reviews/${username}`}
-            className="text-sm"
-          >
+          <Link href={`/business/reviews/${username}`} className="text-sm">
             Reviews
           </Link>
         </div>

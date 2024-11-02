@@ -2,8 +2,6 @@
 
 import { Combobox } from "@/components/Combobox";
 import IconImage from "@/components/IconImage/IconImage";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { countries, font14, font16, font18bold } from "@/constant";
 import axiosInstance from "@/lib/axios";
@@ -12,7 +10,6 @@ import greenStr from "@/public/images/star/green.svg";
 import yellowStr from "@/public/images/star/yellow.svg";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AiOutlineClockCircle } from "react-icons/ai";
 
 export default function BusinessProfileFiltering({
   categories,
@@ -20,9 +17,9 @@ export default function BusinessProfileFiltering({
   categoryFilter,
   countryFilter,
   subcategoryFilter,
-  verifiedStatus,
+  // verifiedStatus,
   searchCity,
-  openNowFilter,
+  // openNowFilter,
 }) {
   const router = useRouter();
 
@@ -38,8 +35,7 @@ export default function BusinessProfileFiltering({
     subcategoryFilter || null
   );
   const [selectedCountry, setSelectedCountry] = useState(countryFilter || null);
-  const [verified, setVerified] = useState(verifiedStatus || false);
-  const [openNow, setOpenNow] = useState(openNowFilter || false);
+ 
 
   // Fetch subcategories when category is selected
   useEffect(() => {
@@ -70,8 +66,8 @@ export default function BusinessProfileFiltering({
     if (selectedCountry?.name) query.set("country", selectedCountry?.name);
     if (rating) query.set("rating", rating);
     if (city) query.set("city", city);
-    if (verified) query.set("verified", verified);
-    if (openNow) query.set("openNow", openNow);
+    // if (verified) query.set("verified", verified);
+    // if (openNow) query.set("openNow", openNow);
 
     router.push(`/business?${query.toString()}`, {
       shallow: true,
@@ -83,8 +79,8 @@ export default function BusinessProfileFiltering({
     selectedCountry,
     rating,
     city,
-    verified,
-    openNow,
+    // verified,
+    // openNow,
   ]);
 
   return (
@@ -196,8 +192,8 @@ export default function BusinessProfileFiltering({
       </div>
 
       {/* Profile Status Filter */}
-      <div className="  gap-4 justify-between hidden lg:block">
-        <div className="space-y-2">
+      {/* <div className="  gap-4 justify-between hidden lg:block"> */}
+        {/* <div className="space-y-2">
           <h1 className={`${font16} font-medium`}>Profile Status</h1>
           <div className="flex items-center justify-between space-x-2 w-44">
             <label htmlFor="claimed" className="text-sm font-medium">
@@ -211,10 +207,10 @@ export default function BusinessProfileFiltering({
               disabled // Disable the checkbox
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Open Now Filter */}
-        <div className="space-y-2  ">
+        {/* <div className="space-y-2  ">
           <h1 className={`${font16} font-medium`}>Open Now</h1>
           <Button
             className={`flex items-center gap-1 ${
@@ -231,8 +227,8 @@ export default function BusinessProfileFiltering({
             <AiOutlineClockCircle className="text-sm md:text-lg" />
             <span className="text-xs md:text-[16px] font-bold">Open Now</span>
           </Button>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </form>
   );
 }

@@ -6,7 +6,8 @@ import GoogleAnalytics from "@/lib/GoogleAnalytics";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import QueryClientProviderO from "./provider/query-client-prodiver";
+import ReactQueryProvider from "./provider/query-client-prodiver";
+import { SocketProvider } from "./provider/SocketProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -45,20 +46,22 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <AuthProvider>
           {/* Provide the React Query Client to the entire app */}
-          <QueryClientProviderO >
-            <main className="w-full">
-              {/* Google Analytics Client Component */}
-              <GoogleAnalytics trackingId="G-Q0P2KWDT0B" />
-              {children}
-              {/* Inject the client-side push notification handler */}
-              <PushNotificationHandler />
-              {/* Tidio script */}
-              <Script
-                src="//code.tidio.co/nypfvkwgb7jxvqyd73rwal3ay4bbp5g9.js"
-                strategy="afterInteractive"
-              />
-            </main>
-          </QueryClientProviderO>
+          <SocketProvider>
+            <ReactQueryProvider>
+              <main className="w-full">
+                {/* Google Analytics Client Component */}
+                <GoogleAnalytics trackingId="G-Q0P2KWDT0B" />
+                {children}
+                {/* Inject the client-side push notification handler */}
+                <PushNotificationHandler />
+                {/* Tidio script */}
+                <Script
+                  src="//code.tidio.co/nypfvkwgb7jxvqyd73rwal3ay4bbp5g9.js"
+                  strategy="afterInteractive"
+                />
+              </main>
+            </ReactQueryProvider>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>
