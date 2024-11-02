@@ -15,13 +15,19 @@ export default function TitleNameAndVerified({
   isShown = false,
   personalVerified = false,
   className = "",
+  sort=false,
 }) {
+   const displayTitle = sort
+     ? title.length > 15
+       ? `${title.slice(0, 15)}...`
+       : title
+     :title;
   return (
     <div
       className={`text-gray-600 ${font18} font-semibold block`}
       style={{ width: "100%" }}
     >
-      <span className={`text-justify ${className}`}>{title}</span>
+      <span className={`text-justify ${className}`}>{displayTitle}</span>
       {verified && (
         <TooltipProvider>
           <Tooltip>

@@ -1,11 +1,11 @@
-import { businessProfilePic, myReview } from "@/exportImage";
+import { brifcaseIcon, businessProfilePic, myReview } from "@/exportImage";
 import { fetchProfiles } from "@/queries/admin-dashboard-getProfiles";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegPaperPlane } from "react-icons/fa";
 import Rating from "../Rating/Rating";
 import TitleNameAndVerified from "../TitleNameAndVerified";
-import { Card, CardContent, CardFooter } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 
 const BusinessProfileSlider = async ( ) => {
   
@@ -29,19 +29,19 @@ const BusinessProfileSlider = async ( ) => {
 
               verified = false,
               profileThumb = "",
-              
+              category = "",
             } = businessProfile.businessProfile;
 
             let averageRating = Math.floor(businessProfile.averageRating);
             return (
               <Card
-                className=" cursor-pointer p-4    hover:shadow-xl transform   transition duration-500 "
+                className=" cursor-pointer p-4  pb-0   hover:shadow-xl transform   transition duration-500 "
                 key={index}
               >
                 <Link href={`/business/reviews/${businessProfile?.username}`}>
-                  <CardContent className=" min-w-64 px-0  ">
+                  <CardContent className=" min-w-64 px-0   ">
                     {/* image */}
-                    <div className=" w-full   ">
+                    <div className=" w-full flex gap-4 items-start  ">
                       <div className="rounded-md ring-1 p-2 w-16 h-16 overflow-hidden">
                         <Image
                           src={profileThumb || businessProfilePic}
@@ -51,46 +51,40 @@ const BusinessProfileSlider = async ( ) => {
                           className="w-full h-full object-cover rounded-sm"
                         />
                       </div>
-
-                      <div className="flex gap-2 items-center"></div>
-
                       {/* details */}
-                    </div>
+                      <div className="flex flex-col gap-1 -mt-1 ">
+                        {businessName && (
+                          <TitleNameAndVerified
+                            title={businessName}
+                            verified={verified}
+                          />
+                        )}
 
-                    <div className="flex flex-col gap-1 mt-6  ">
-                      {businessName && (
-                        <TitleNameAndVerified
-                          title={businessName}
-                          verified={verified}
-                        />
-                      )}
-
-                      {/*rating */}
-                      <div className="flex gap-x-2  items-center  space-y-2 md:space-y-0 ">
-                        <div className="flex gap-1 ">
-                          <Rating value={averageRating} size={18} />
+                        {/*rating */}
+                        <div className="flex gap-x-2  items-center  space-y-2 md:space-y-0 ">
+                          <div className="flex gap-1 ">
+                            <Rating value={averageRating} size={18} />
+                          </div>
+                          <h1 className="text-gray-600   ">
+                            <span>{businessProfile?.averageRating} </span>
+                          </h1>
+                          <p className="text-sm">
+                            {" "}
+                            ({businessProfile?.totalReviews || 0})
+                          </p>
                         </div>
-                        <h1 className="text-gray-600   ">
-                          <span>{businessProfile?.averageRating} </span>
-                        </h1>
-                        <p className="text-sm">
-                          {" "}
-                          ({businessProfile?.totalReviews || 0})
-                        </p>
-                      </div>
 
-                      {/*  adderess   */}
-                      <div className="flex gap-1 items-start flex-wrap text-sm -mt-1  text-gray-600 ">
-                        <FaRegPaperPlane size={12} className="mt-[4px]" />
-                        <span>{businessProfile?.addresses?.city} </span>,
-                        <span>{businessProfile?.addresses?.country}</span>
+                        {/*  adderess   */}
+                        <div className="flex gap-1 items-start flex-wrap text-sm -mt-1  text-gray-600 ">
+                          <FaRegPaperPlane size={12} className="mt-[4px]" />
+                          <span>{businessProfile?.addresses?.country}</span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
                   <hr className="-mt-2" />
-                  <CardFooter className=" p-0 flex items-center mt-2">
-                   
-                    <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
+                  <div className=" p-0 flex items-center  my-[2px]   justify-between h-8 ">
+                    <div className="flex gap-2 items-center cursor-pointer text-primary_color  ">
                       <Image
                         src={myReview}
                         className="w-4"
@@ -104,7 +98,16 @@ const BusinessProfileSlider = async ( ) => {
                         Reviews
                       </Link>
                     </div>
-                  </CardFooter>
+                   {category&& <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
+                      <Image
+                        src={brifcaseIcon}
+                        className="w-8"
+                        alt="bordercategoriesIcon"
+                        priority={true}
+                      />
+                      {category}
+                    </div>}
+                  </div>
                 </Link>
               </Card>
             );
@@ -116,19 +119,19 @@ const BusinessProfileSlider = async ( ) => {
 
               verified = false,
               profileThumb = "",
-             
+             category = ""
             } = businessProfile.businessProfile;
 
             let averageRating = Math.floor(businessProfile.averageRating);
             return (
               <Card
-                className=" cursor-pointer p-4    hover:shadow-xl transform   transition duration-500 "
+                className=" cursor-pointer p-4  pb-0   hover:shadow-xl transform   transition duration-500 "
                 key={index}
               >
                 <Link href={`/business/reviews/${businessProfile?.username}`}>
-                  <CardContent className=" min-w-64 px-0  ">
+                  <CardContent className=" min-w-64 px-0   ">
                     {/* image */}
-                    <div className=" w-full   ">
+                    <div className=" w-full flex gap-4 items-start  ">
                       <div className="rounded-md ring-1 p-2 w-16 h-16 overflow-hidden">
                         <Image
                           src={profileThumb || businessProfilePic}
@@ -138,45 +141,40 @@ const BusinessProfileSlider = async ( ) => {
                           className="w-full h-full object-cover rounded-sm"
                         />
                       </div>
-
-                      <div className="flex gap-2 items-center"></div>
-
                       {/* details */}
-                    </div>
+                      <div className="flex flex-col gap-1 -mt-1 ">
+                        {businessName && (
+                          <TitleNameAndVerified
+                            title={businessName}
+                            verified={verified}
+                          />
+                        )}
 
-                    <div className="flex flex-col gap-1 mt-6  ">
-                      {businessName && (
-                        <TitleNameAndVerified
-                          title={businessName}
-                          verified={verified}
-                        />
-                      )}
-
-                      {/*rating */}
-                      <div className="flex gap-x-2  items-center  space-y-2 md:space-y-0 ">
-                        <div className="flex gap-1 ">
-                          <Rating value={averageRating} size={18} />
+                        {/*rating */}
+                        <div className="flex gap-x-2  items-center  space-y-2 md:space-y-0 ">
+                          <div className="flex gap-1 ">
+                            <Rating value={averageRating} size={18} />
+                          </div>
+                          <h1 className="text-gray-600   ">
+                            <span>{businessProfile?.averageRating} </span>
+                          </h1>
+                          <p className="text-sm">
+                            {" "}
+                            ({businessProfile?.totalReviews || 0})
+                          </p>
                         </div>
-                        <h1 className="text-gray-600   ">
-                          <span>{businessProfile?.averageRating} </span>
-                        </h1>
-                        <p className="text-sm">
-                          {" "}
-                          ({businessProfile?.totalReviews || 0})
-                        </p>
-                      </div>
 
-                      {/*  adderess   */}
-                      <div className="flex gap-1 items-start flex-wrap text-sm -mt-1  text-gray-600 ">
-                        <FaRegPaperPlane size={12} className="mt-[4px]" />
-                        <span>{businessProfile?.addresses?.city} </span>,
-                        <span>{businessProfile?.addresses?.country}</span>
+                        {/*  adderess   */}
+                        <div className="flex gap-1 items-start flex-wrap text-sm -mt-1  text-gray-600 ">
+                          <FaRegPaperPlane size={12} className="mt-[4px]" />
+                          <span>{businessProfile?.addresses?.country}</span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
                   <hr className="-mt-2" />
-                  <CardFooter className=" p-0 flex items-center mt-2">
-                    <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
+                  <div className=" p-0 flex items-center     justify-between h-8 ">
+                    <div className="flex gap-2 items-center cursor-pointer text-primary_color  ">
                       <Image
                         src={myReview}
                         className="w-4"
@@ -190,7 +188,18 @@ const BusinessProfileSlider = async ( ) => {
                         Reviews
                       </Link>
                     </div>
-                  </CardFooter>
+                    {category && (
+                      <div className="flex gap-2 items-center cursor-pointer text-primary_color   ">
+                        <Image
+                          src={brifcaseIcon}
+                          className="w-8"
+                          alt="bordercategoriesIcon"
+                          priority={true}
+                        />
+                        {category}
+                      </div>
+                    )}
+                  </div>
                 </Link>
               </Card>
             );
